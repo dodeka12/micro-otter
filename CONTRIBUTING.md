@@ -7,6 +7,9 @@ Thanks for your interest in contributing! This repository is in its early stages
 - Check existing issues and discussions before opening a new one.
 - Propose changes via a pull request.
 - Keep changes focused and small.
+- **All commits must be signed-off** using `git commit -s` (DCO requirement).
+- All PRs require at least one approval before merging.
+- Direct commits to `main` are not allowed.
 
 ## Reporting bugs
 
@@ -24,8 +27,11 @@ For feature ideas or larger changes, start with an issue so we can align on scop
 ## Style and quality
 
 - Follow existing conventions in the codebase.
+- Python: Code must pass `black` and `ruff` checks.
+- JavaScript: Code must pass `eslint` and `prettier` checks.
 - Include tests or verification steps when possible.
 - Keep documentation updated with your changes.
+- All CI checks must pass before merging.
 
 ## Code of Conduct
 

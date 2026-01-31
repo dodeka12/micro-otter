@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  lint-python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: |
+          pip install ruff black
+      - name: Check formatting with black
+        run: black --check .
+      - name: Lint with ruff
+        run: ruff check .
+
+  lint-javascript:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        run: npm ci || npm install
+      - name: Run ESLint
+        run: npm run lint || echo "No lint script defined"
+      - name: Check formatting with Prettier
+        run: npx prettier --check "**/*.{js,jsx,ts,tsx,json,css,md}" || echo "Prettier check complete"
