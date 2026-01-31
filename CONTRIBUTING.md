@@ -1,0 +1,33 @@
+# Contributing
+
+Thanks for your interest in contributing! This repository is in its early stages, so the guidelines are intentionally simple.
+
+## How to contribute
+
+- Check existing issues and discussions before opening a new one.
+- Propose changes via a pull request.
+- Keep changes focused and small.
+
+## Reporting bugs
+
+Please open an issue with:
+
+- Steps to reproduce
+- Expected behavior
+- Actual behavior
+- Environment details (OS, version, etc.)
+
+## Proposing changes
+
+For feature ideas or larger changes, start with an issue so we can align on scope.
+
+## Style and quality
+
+- Follow existing conventions in the codebase.
+- Include tests or verification steps when possible.
+- Keep documentation updated with your changes.
+
+## Code of Conduct
+
+By participating, you agree to follow the Code of Conduct in
+[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
