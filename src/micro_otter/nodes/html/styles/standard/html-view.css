@@ -1,0 +1,26 @@
+/* Copyright (c) 2025 Christian Perwass; SPDX-License-Identifier: GPL-3.0-only */
+
+/**
+ * HtmlView - Styles for HTML content view
+ */
+
+.view-html {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.view-html--scrollable {
+    overflow-y: auto;
+}
+
+/* Optional: Add default styling for common HTML elements inside HtmlView */
+.view-html h1,
+.view-html h2,
+.view-html h3 {
+    margin: 0;
+}
+
+.view-html p {
+    margin: 0;
+}

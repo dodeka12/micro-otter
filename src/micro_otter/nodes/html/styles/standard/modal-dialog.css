@@ -1,0 +1,487 @@
+:root {
+    --mo-modal-bg: linear-gradient(160deg, rgba(10, 14, 26, 0.96), rgba(15, 20, 34, 0.98));
+    --mo-modal-border: rgba(255, 255, 255, 0.08);
+    --mo-modal-glow: 0 18px 38px rgba(0, 0, 0, 0.38), inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+    --mo-modal-text: var(--mo-text, #e5eaf3);
+    --mo-modal-muted: var(--mo-muted, rgba(229, 234, 243, 0.75));
+    --mo-modal-accent: linear-gradient(120deg, #63b5ff, #2f86e5);
+    --mo-modal-accent-border: rgba(118, 188, 255, 0.6);
+    --mo-modal-danger: linear-gradient(120deg, #ff7e7e, #ff5252);
+    --mo-modal-danger-border: rgba(255, 126, 126, 0.75);
+}
+
+.modal-dialog {
+    pointer-events: auto;
+    width: min(460px, calc(100vw - 32px));
+    max-width: 560px;
+    color: var(--mo-modal-text);
+    font-size: 12px;
+}
+
+.modal-dialog.db-restore-dialog-root {
+    width: min(700px, calc(100vw - 32px));
+    max-width: 800px;
+}
+
+.modal-dialog__surface {
+    background: var(--mo-modal-bg);
+    border: 1px solid var(--mo-modal-border);
+    border-radius: 10px;
+    box-shadow: var(--mo-modal-glow);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px 14px 12px;
+    box-sizing: border-box;
+}
+
+.modal-dialog__header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.modal-dialog__icon {
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    opacity: 0.9;
+}
+
+/* An inlined `IconProvider` SVG or a served path renders as an image; 16px is the optical
+   match for the 12px emoji glyph the other dialogs pass. */
+.modal-dialog__icon-img {
+    width: 16px;
+    height: 16px;
+    display: block;
+    object-fit: contain;
+}
+
+.modal-dialog__title {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.modal-dialog__body {
+    color: var(--mo-modal-muted);
+    line-height: 1.45;
+    font-size: 12px;
+    padding: 2px 0 4px 0;
+}
+
+.modal-dialog__message {
+    margin: 0 0 6px 0;
+}
+
+.confirmation-dialog__option {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    margin-top: 8px;
+    cursor: pointer;
+    font-size: 11px;
+}
+
+.confirmation-dialog__table {
+    margin-top: 10px;
+}
+
+.confirmation-dialog__checkbox {
+    margin-top: 1px;
+    cursor: pointer;
+    accent-color: #63b5ff;
+}
+
+.modal-dialog__footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding-top: 2px;
+}
+
+.modal-dialog__btn {
+    height: 30px;
+    padding: 0 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--mo-modal-text);
+    cursor: pointer;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    transition:
+        background 140ms ease,
+        border-color 140ms ease,
+        transform 140ms ease,
+        box-shadow 140ms ease;
+}
+
+.modal-dialog__btn:hover,
+.modal-dialog__btn:focus-visible {
+    background: rgba(99, 181, 255, 0.16);
+    border-color: var(--mo-modal-accent-border);
+    outline: none;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 14px rgba(0, 0, 0, 0.18);
+}
+
+.modal-dialog__btn--primary {
+    background: var(--mo-modal-accent);
+    border-color: var(--mo-modal-accent-border);
+    color: #0a1122;
+    box-shadow: 0 8px 22px rgba(62, 160, 255, 0.28);
+}
+
+.modal-dialog__btn--primary.is-destructive {
+    background: var(--mo-modal-danger);
+    border-color: var(--mo-modal-danger-border);
+    color: #230808;
+    box-shadow: 0 8px 22px rgba(255, 102, 102, 0.3);
+}
+
+.modal-dialog__btn--ghost {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.modal-dialog__btn--icon {
+    width: 28px;
+    min-width: 28px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+.modal-dialog__btn--ghost.modal-dialog__btn--icon:hover,
+.modal-dialog__btn--ghost.modal-dialog__btn--icon:focus-visible {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Form Dialog Styles */
+.form-dialog__message {
+    margin: 0 0 12px 0;
+    color: var(--mo-modal-muted);
+}
+
+.form-dialog__form {
+    display: flex;
+    flex-direction: column;
+    gap: 0; /* No gap here - we use margin on fields instead */
+}
+
+.form-dialog__field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 14px; /* Space between fields */
+}
+
+.form-dialog__field:last-child {
+    margin-bottom: 0; /* No margin after last field */
+}
+
+.form-dialog__label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--mo-modal-text);
+    letter-spacing: 0.01em;
+}
+
+.form-dialog__label--checkbox {
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.form-dialog__input,
+.form-dialog__select {
+    height: 32px;
+    padding: 0 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--mo-modal-text);
+    font-size: 12px;
+    font-family: inherit;
+    transition:
+        border-color 140ms ease,
+        background 140ms ease;
+}
+
+.form-dialog__input:focus,
+.form-dialog__select:focus {
+    outline: none;
+    border-color: var(--mo-modal-accent-border);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+/* Textarea styling */
+.form-dialog__input[rows] {
+    height: auto;
+    padding: 8px 10px;
+    resize: vertical;
+    min-height: 60px;
+    line-height: 1.4;
+}
+
+/* Readonly input styling */
+.form-dialog__input--readonly {
+    background: rgba(255, 255, 255, 0.01);
+    border-color: rgba(255, 255, 255, 0.08);
+    color: rgba(229, 234, 243, 0.6);
+    cursor: default;
+}
+
+.form-dialog__input--readonly:focus {
+    border-color: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.01);
+}
+
+.form-dialog__select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e5eaf3' opacity='0.7' d='M6 8L2 4h8z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    padding-right: 28px;
+}
+
+.form-dialog__checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form-dialog__checkbox {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #63b5ff;
+    flex-shrink: 0;
+}
+
+.form-dialog__field-hint {
+    font-size: 11px;
+    line-height: 1.45;
+    color: var(--mo-modal-muted);
+    margin: 0;
+}
+
+.form-dialog__field-hint--checkbox {
+    margin-left: 26px; /* Align with the checkbox label: 18px box + 8px gap */
+}
+
+.form-dialog__error {
+    font-size: 11px;
+    color: #ff7e7e;
+    padding-left: 2px;
+    margin-top: -4px; /* Reduce gap between input and error */
+}
+
+/* DB Restore Dialog Styles */
+.db-restore-dialog {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.db-restore-dialog__info {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    color: var(--mo-modal-text);
+    line-height: 1.5;
+}
+
+.db-restore-dialog__options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.db-restore-dialog__option {
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 12px;
+    cursor: pointer;
+    transition:
+        border-color 140ms ease,
+        background 140ms ease;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.db-restore-dialog__option:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.db-restore-dialog__option--selected {
+    border-color: rgba(94, 154, 255, 0.8);
+    background: rgba(94, 154, 255, 0.1);
+}
+
+.db-restore-dialog__option--destructive {
+    border-color: rgba(255, 99, 71, 0.6);
+}
+
+.db-restore-dialog__option input[type='radio'] {
+    margin-top: 2px;
+    cursor: pointer;
+    accent-color: #63b5ff;
+}
+
+.db-restore-dialog__merge-strategies {
+    font-size: 11px;
+}
+
+.db-restore-dialog__merge-strategies label {
+    cursor: pointer;
+}
+
+.db-restore-dialog__merge-strategies input[type='radio'] {
+    margin-right: 6px;
+    cursor: pointer;
+    accent-color: #63b5ff;
+}
+
+.db-restore-dialog__table-container {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.db-restore-dialog__table {
+    width: 100%;
+}
+
+.db-restore-dialog__table-row {
+    display: grid;
+    grid-template-columns: 40px 2fr 1fr 1fr 80px;
+    gap: 8px;
+    padding: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    align-items: center;
+    font-size: 11px;
+}
+
+.db-restore-dialog__table-row:last-child {
+    border-bottom: none;
+}
+
+.db-restore-dialog__table-row:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.db-restore-dialog__table-header {
+    background: rgba(255, 255, 255, 0.05);
+    font-weight: 600;
+    color: var(--mo-modal-text);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.db-restore-dialog__table-row input[type='checkbox'] {
+    cursor: pointer;
+    accent-color: #63b5ff;
+}
+
+.db-restore-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+}
+
+.db-restore-status--new {
+    color: #4ade80;
+}
+
+.db-restore-status--newer {
+    color: #60a5fa;
+}
+
+.db-restore-status--older {
+    color: #fbbf24;
+}
+
+.db-restore-status--conflict {
+    color: #fb923c;
+}
+
+/* Manual Collection Selection Dialog */
+.modal-dialog.manual-selection-dialog-root {
+    width: min(700px, calc(100vw - 32px));
+    max-width: 800px;
+}
+
+.manual-selection-dialog {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.manual-selection-dialog__info {
+    margin-bottom: 12px;
+    padding: 12px;
+    background: rgba(99, 181, 255, 0.08);
+    border-left: 3px solid #63b5ff;
+    border-radius: 4px;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.manual-selection-dialog__table-container {
+    max-height: 500px;
+    overflow-y: auto;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.manual-selection-dialog__table {
+    width: 100%;
+}
+
+.manual-selection-dialog__table-row {
+    display: grid;
+    grid-template-columns: 40px 2fr 1fr 1fr 80px;
+    gap: 8px;
+    padding: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    align-items: center;
+    font-size: 11px;
+}
+
+.manual-selection-dialog__table-row:last-child {
+    border-bottom: none;
+}
+
+.manual-selection-dialog__table-row:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.manual-selection-dialog__table-header {
+    background: rgba(255, 255, 255, 0.05);
+    font-weight: 600;
+    color: var(--mo-modal-text);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.manual-selection-dialog__table-row input[type='checkbox'] {
+    cursor: pointer;
+    accent-color: #63b5ff;
+}

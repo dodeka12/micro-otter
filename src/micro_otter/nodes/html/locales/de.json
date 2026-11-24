@@ -1,0 +1,1480 @@
+{
+    "app": {
+        "documentTitle": "Knoten-Editor"
+    },
+    "loading": {
+        "overlayAria": "Knoten-Editor wird geladen",
+        "productName": "Micro Otter Node Studio",
+        "status": "Arbeitsbereich wird initialisiert …",
+        "storageNote": "Speichert Editor-Einstellungen lokal (keine Cookies).",
+        "statusLocale": "Übersetzungen werden geladen …",
+        "statusConfig": "Editor-Konfiguration wird geladen …",
+        "statusGenerators": "Code-Generatoren werden geladen …",
+        "statusNodes": "Knotenbibliothek wird aufgebaut …",
+        "statusReady": "Arbeitsbereich wird gestartet …"
+    },
+    "dialog": {
+        "defaultPrimary": "Weiter",
+        "defaultSecondary": "Abbrechen",
+        "closeAria": "Dialog schließen",
+        "about": {
+            "title": "Micro-Otter",
+            "subtitle": "Visueller Knoten-Editor für Mikroprozessoren",
+            "versionLabel": "Version: {{version}}",
+            "summary": "Micro-Otter hilft dir, Firmware visuell zu entwerfen und eine wachsende Auswahl an Mikroprozessor-Plattformen anzusteuern.",
+            "openSourceTitle": "Open-Source-Pakete",
+            "openSourceLicenseLabel": "Lizenz: {{license}}",
+            "copyright": "© 2025-2026 Christian Perwass",
+            "license": "Lizenz: GPL-3.0-only",
+            "closeButton": "Schließen",
+            "links": {
+                "docs": "Dokumentation",
+                "github": "GitHub-Repository",
+                "issues": "Problem melden",
+                "privacyNotice": "Datenschutzhinweis"
+            }
+        },
+        "confirm": "Bestätigen",
+        "cancel": "Abbrechen",
+        "ok": "OK",
+        "submit": "Absenden",
+        "showDetails": "Details anzeigen",
+        "hideDetails": "Details ausblenden",
+        "import": "Importieren",
+        "export": "Exportieren",
+        "create": "Erstellen",
+        "delete": "Löschen",
+        "save": "Speichern",
+        "close": "Schließen"
+    },
+    "palette": {
+        "windowTitle": "Knotenbibliothek",
+        "minimizeAria": "Knotenbibliothek minimieren",
+        "description": "Ziehe ein Symbol auf die Fläche, um einen Knoten hinzuzufügen.",
+        "ioSummary": "{{inputs}} Ein / {{outputs}} Aus",
+        "infoIconLabel": "Info zu {{name}}",
+        "nodePackage": {
+            "addonBadge": "Erweiterung",
+            "addonTooltip": "Aus einem Erweiterungspaket installiert"
+        }
+    },
+    "nodePalette": {
+        "search": "Knoten suchen",
+        "favorites": "Favoriten",
+        "recent": "Kürzlich verwendet",
+        "infoTooltipFallback": "Keine Beschreibung verfügbar.",
+        "functionPackage": "Funktionen",
+        "organizeMode": {
+            "alphabetical": "Alphabetisch",
+            "package": "Nach Paket",
+            "category": "Nach Kategorie"
+        },
+        "viewSize": {
+            "small": "Klein",
+            "large": "Groß"
+        },
+        "organizational": "Organisatorisch",
+        "graphItems": {
+            "documentationArea": {
+                "title": "Dokumentationsbereich",
+                "info": "Farbiger, skalierbarer Kasten für Notizen und Formeln."
+            }
+        }
+    },
+    "functionGraph": {
+        "node": {
+            "input": {
+                "title": "Funktionseingang",
+                "info": "Spiegelt die deklarierten Funktionseingänge als Ausgangsanschlüsse."
+            },
+            "output": {
+                "title": "Funktionsausgang",
+                "info": "Spiegelt die deklarierten Funktionsausgänge als Eingangsanschlüsse."
+            }
+        }
+    },
+    "menu": {
+        "navAria": "Arbeitsbereichsmenü",
+        "toggleLabel": "Menü",
+        "toggleAria": "Menü ein- oder ausklappen",
+        "upload": "Hochladen",
+        "uploadAria": "Konfiguration hochladen",
+        "generate": "Generieren",
+        "generateAria": "Code generieren",
+        "download": "Herunterladen",
+        "downloadAria": "Projekt herunterladen",
+        "group": {
+            "collection": "Sammlung",
+            "database": "Datenbank",
+            "targetConfig": "Zielkonfiguration",
+            "info": "Info"
+        },
+        "item": {
+            "createCollection": "Neue Sammlung erstellen",
+            "uploadToDevice": "Auf Gerät hochladen",
+            "deleteCollection": "Sammlung löschen",
+            "deleteGraph": "Graph löschen",
+            "downloadJSON": "Sammlung als JSON exportieren",
+            "uploadJSON": "Sammlung-JSON importieren",
+            "uploadTargetConfig": "Target-Konfiguration hochladen",
+            "downloadTargetConfigTemplate": "Target-Konfigurationsvorlage herunterladen",
+            "downloadCurrentTargetConfig": "Aktuelle Target-Konfiguration herunterladen",
+            "backupDB": "gesamte Datenbank sichern",
+            "restoreDB": "Datenbank aus Backup wiederherstellen",
+            "selectLanguage": "Sprache auswählen",
+            "about": "Über",
+            "privacyNotice": "Datenschutzhinweis"
+        }
+    },
+    "brand": {
+        "srAbout": "Über Micro Otter"
+    },
+    "properties": {
+        "windowTitle": "Knoteneigenschaften",
+        "minimizeAria": "Eigenschaftenfenster minimieren",
+        "closeAria": "Eigenschaftenfenster schließen",
+        "titleLabel": "Titel",
+        "titlePlaceholder": "Knotentitel",
+        "typeLabel": "Typ",
+        "inputsHeading": "Eingänge",
+        "outputsHeading": "Ausgänge",
+        "controlsHeading": "Steuerungen",
+        "deleteButton": "Knoten löschen",
+        "checkboxEnabled": "Aktiv",
+        "defaultLabelFallback": "Standard"
+    },
+    "transpiler": {
+        "title": "Transpiler",
+        "windowTitle": "Generierter Code",
+        "minimizeAria": "Codefenster minimieren",
+        "label": "Sprache",
+        "button": "Generieren",
+        "placeholder": "Zum Erzeugen von Code auf Generieren klicken ...",
+        "language": {
+            "python": "Python",
+            "javascript": "JavaScript"
+        },
+        "errorPrefix": "Fehler",
+        "buttons": {
+            "transpile": "Transpilieren",
+            "copy": "Kopieren",
+            "clear": "Löschen",
+            "dumpGenerated": "Generiertes speichern"
+        },
+        "versionIndicator": {
+            "current": "Code ist aktuell",
+            "needed": "Transpilierung erforderlich (Version geändert)"
+        },
+        "buttonStates": {
+            "current": "Transpilieren (Code ist aktuell)",
+            "needed": "Transpilieren (erforderlich - Version geändert)"
+        },
+        "progress": {
+            "starting": "Transpilierung wird gestartet...",
+            "validating": "Graphstruktur wird validiert...",
+            "processing": "Graph {{graphName}} wird verarbeitet...",
+            "assembling": "Finaler Code wird zusammengestellt...",
+            "complete": "Transpilierung abgeschlossen"
+        },
+        "errors": {
+            "title": "Transpilierungsfehler",
+            "cycleDetected": "Zyklus im Graph erkannt: {{graphName}}",
+            "missingDefinition": "Fehlende Knotendefinition für Typ: {{nodeType}}",
+            "missingImplementation": "Knotentyp {{nodeType}} hat keine {{language}}-Implementierung",
+            "invalidConnection": "Ungültige Verbindung: {{message}}",
+            "noCollection": "Keine Sammlung ausgewählt",
+            "noGraphs": "Sammlung enthält keine Graphen zum Transpilieren"
+        },
+        "footer": {
+            "lastTranspiled": "Zuletzt: {{time}}",
+            "version": "v{{version}}",
+            "lineCount": "{{count}} Zeilen"
+        },
+        "clipboard": {
+            "copySuccess": "Code in Zwischenablage kopiert",
+            "copyFailed": "Kopieren fehlgeschlagen"
+        },
+        "debug": {
+            "dumpUnavailable": "Transpiliere zuerst die aktive Sammlung, bevor du generierte Artefakte speicherst",
+            "dumpFailed": "Transpile-Debug-Dump konnte nicht geschrieben werden"
+        }
+    },
+    "webserial": {
+        "connect": "MicroPython verbinden",
+        "disconnect": "Trennen",
+        "sync": "Gerätedateien synchronisieren",
+        "deploy": "Geräteprofil neu installieren",
+        "restart": "Gerät neu starten",
+        "reset": "Gerätedateien zurücksetzen",
+        "resetConfirm": "Dadurch werden alle Dateien auf dem Gerät gelöscht und durch Standard-boot.py- und main.py-Dateien ersetzt. Fortfahren?",
+        "wifi": "WLAN konfigurieren",
+        "wifiPromptSsid": "WLAN-SSID eingeben",
+        "wifiPromptPassword": "WLAN-Passwort eingeben (für offenen AP leer lassen)",
+        "wifiPromptMode": "WLAN-Modus eingeben (\"sta\" für Station, \"ap\" für Access Point)",
+        "wifiStatusLabel": "WLAN",
+        "wifiIpUnavailable": "Keine WLAN-IP verfügbar",
+        "wifiIpLinkTitle": "Geräte-Weboberfläche öffnen (neuer Tab)",
+        "wifiDisabledLabel": "WLAN deaktiviert",
+        "wifiModeLabel": "Modus",
+        "wifiNetworkLabel": "Netzwerk",
+        "wifiStatusDetailLabel": "Status",
+        "wifiNetworkUnavailable": "Nicht festgelegt",
+        "wifiModeNames": {
+            "sta": "Station",
+            "ap": "Access Point",
+            "unknown": "Unbekannt"
+        },
+        "wifiStatusDetail": {
+            "disabled": "WLAN deaktiviert.",
+            "waitingIp": "Warte auf IP-Adresse …",
+            "disconnected": "Nicht verbunden.",
+            "connected": "Verbunden.",
+            "apActive": "Access Point sendet.",
+            "apInactive": "Access Point inaktiv.",
+            "searching": "Suche nach Netzwerk …",
+            "statusLabelPrefix": "Stationsstatus",
+            "unknown": "Status nicht verfügbar.",
+            "errorPrefix": "WLAN-Fehler"
+        },
+        "wifiStationStatus": {
+            "idle": "Leerlauf",
+            "connecting": "Verbindungsaufbau",
+            "got-ip": "IP erhalten",
+            "no-ap-found": "Netzwerk nicht gefunden",
+            "connect-fail": "Verbindung fehlgeschlagen",
+            "wrong-password": "Falsches Passwort",
+            "link-down": "Verbindung getrennt",
+            "unknown": "Unbekannt"
+        },
+        "wifiState": {
+            "enabled": "Aktiv",
+            "disabled": "Deaktiviert",
+            "unknown": "Unbekannt"
+        },
+        "wifiDialog": {
+            "title": "Board-WLAN konfigurieren",
+            "description": "Aktiviere oder deaktiviere das Board-WLAN und passe Zugangsdaten an.",
+            "enabledLabel": "WLAN aktivieren",
+            "enabledDescription": "Wenn deaktiviert, arbeitet das Gerät offline und der integrierte Webserver bleibt aus.",
+            "modeLabel": "Modus",
+            "modeStation": "Station (mit Netzwerk verbinden)",
+            "modeAccessPoint": "Access Point (eigenes Netzwerk bereitstellen)",
+            "modeHint": "Station verbindet sich mit einem bestehenden Netzwerk, Access Point erstellt einen Hotspot auf dem Board.",
+            "ssidLabel": "SSID",
+            "passwordLabel": "Passwort",
+            "passwordHint": "Für offene Netzwerke leer lassen.",
+            "primary": "Einstellungen speichern",
+            "secondary": "Abbrechen"
+        },
+        "status": {
+            "idle": "Serielle Schnittstelle bereit.",
+            "connecting": "Serielle Verbindung wird aufgebaut …",
+            "connected": "Gerät verbunden.",
+            "deploying": "Main-Loop wird hochgeladen …",
+            "success": "Übertragung abgeschlossen. Neustart angefordert.",
+            "error": "Übertragung fehlgeschlagen. Details in der Konsole.",
+            "unsupported": "WebSerial wird von diesem Browser nicht unterstützt.",
+            "connectingPort": "Seriellen Port öffnen…",
+            "interruptingFriendly": "Laufenden Code anhalten…",
+            "waitingFriendlyPrompt": "Warte auf freundliches REPL-Prompt…",
+            "friendlyPromptReady": "Freundliches REPL-Prompt erkannt.",
+            "waitingRawPrompt": "Warte auf Raw-REPL-Prompt…",
+            "rawPromptReady": "Raw-REPL-Prompt erkannt.",
+            "softResetting": "Soft-Reboot wird angefordert…",
+            "waitingSoftReboot": "Warte auf Soft-Reboot-Ausgabe…",
+            "probingRuntime": "MicroPython-Laufzeit wird geprüft…",
+            "waitingRuntimeInfo": "Warte auf MicroPython-Versionsausgabe…",
+            "runtimeProbeResult": "MicroPython-Version erkannt.",
+            "syncingFilesystem": "Gerätedateisystem wird geprüft…",
+            "installingDevice": "Micro-Otter-Laufzeit wird installiert…",
+            "missingDeviceDescriptor": "device.json fehlt auf dem Board.",
+            "missingMicropython": "MicroPython-Firmware nicht gefunden. Von micropython.org installieren.",
+            "refreshingDevice": "Geräteprofil wird neu installiert…",
+            "refreshComplete": "Geräteprofil neu installiert.",
+            "refreshCanceled": "Neuinstallation abgebrochen.",
+            "deviceRefreshFailed": "Neuinstallation fehlgeschlagen.",
+            "restartingDevice": "MicroPython wird neu gestartet…",
+            "restartComplete": "Gerät neu gestartet.",
+            "restartFailed": "Gerät konnte nicht neu gestartet werden.",
+            "resettingDevice": "Gerätedateien werden gelöscht …",
+            "resetComplete": "Gerätedateien zurückgesetzt.",
+            "resetCanceled": "Zurücksetzen abgebrochen.",
+            "resetFailed": "Zurücksetzen fehlgeschlagen.",
+            "settingWifi": "WLAN-Zugangsdaten werden übertragen …",
+            "wifiSaved": "WLAN-Zugangsdaten gespeichert.",
+            "wifiCanceled": "WLAN-Aktualisierung abgebrochen.",
+            "wifiFailed": "WLAN-Aktualisierung fehlgeschlagen.",
+            "wifiStatusProbe": "WLAN-Verbindung wird geprüft …",
+            "wifiStatusListening": "Warte auf WLAN-Protokolle des Geräts …",
+            "wifiStatusConnected": "WLAN-Verbindung erkannt.",
+            "wifiStatusDisconnected": "WLAN ist nicht verbunden.",
+            "wifiStatusWaitingIp": "Warte auf WLAN-IP-Adresse …",
+            "wifiStatusSearching": "Suche nach WLAN-Netzwerk …",
+            "wifiStatusStationError": "WLAN-Verbindungsfehler.",
+            "wifiStatusFailed": "WLAN-Status konnte nicht gelesen werden.",
+            "wifiDisabled": "WLAN ist in den Geräteeinstellungen deaktiviert.",
+            "wifiModeInvalid": "WLAN-Modus muss \"sta\" oder \"ap\" sein.",
+            "wifiApPasswordInvalid": "AP-Passwörter müssen mindestens 8 Zeichen lang sein oder leer bleiben.",
+            "wifiStationCredentialsMissing": "Stationsmodus benötigt SSID und Passwort.",
+            "syncPreparing": "Dateisynchronisierung wird vorbereitet …",
+            "syncUploading": "Geänderte Dateien werden übertragen …",
+            "syncComplete": "Gerätedateien synchronisiert.",
+            "syncUpToDate": "Gerätedateien sind bereits aktuell.",
+            "syncFailed": "Gerätedateien konnten nicht synchronisiert werden.",
+            "runtimeReady": "Laufzeitstart abgeschlossen.",
+            "connectionLost": "Serielle Verbindung wurde getrennt. Bitte erneut verbinden.",
+            "healthCheckPending": "Gerät wird angepingt …",
+            "healthCheckOk": "Geräte-Heartbeat empfangen.",
+            "healthCheckFailed": "Geräte-Heartbeat fehlgeschlagen.",
+            "heartbeatUnsupported": "Gerätelaufzeit unterstützt Heartbeat nicht. Micro-Otter-Dateien neu installieren.",
+            "heartbeatToggleFailed": "Heartbeat konnte nicht umgeschaltet werden."
+        },
+        "overlay": {
+            "menuLabel": "Serielle Konsole",
+            "menuAria": "WebSerial-Konsole öffnen",
+            "ariaLabel": "WebSerial-Konsole",
+            "closeAria": "WebSerial-Konsole schließen",
+            "minimizeAria": "WebSerial-Konsole minimieren",
+            "eyebrow": "Deployment",
+            "title": "MicroPython WebSerial-Konsole",
+            "description": "Stelle per WebSerial eine Verbindung zu deinem MicroPython-Board her, installiere die Micro-Otter-Laufzeit und konfiguriere das Geräte-WLAN direkt im Editor.",
+            "tipsAria": "WebSerial-Tipps anzeigen",
+            "actionGroup": "Serielle Aktionen",
+            "consoleHeading": "Serielle Konsole",
+            "consolePlaceholder": "Serielle Ausgaben erscheinen hier, sobald du eine Verbindung herstellst.",
+            "consoleAria": "Serielle Konsolenprotokolle",
+            "consoleShowIo": "RX/TX anzeigen",
+            "consolePause": "Serielle Ausgabe pausieren",
+            "consoleResume": "Serielle Ausgabe fortsetzen",
+            "consoleUserLabel": "Benutzer-Code",
+            "heartbeatToggle": "Heartbeat",
+            "heartbeatStateDisconnected": "Heartbeat getrennt",
+            "heartbeatStateIdle": "Heartbeat bereit",
+            "heartbeatStateRunning": "Heartbeat aktiv",
+            "heartbeatStateError": "Heartbeat-Fehler",
+            "hostHeading": "Host-System",
+            "hostHint": "Steuert die Hinweise für COM-/tty-Bezeichnungen.",
+            "hostWindows": "Windows",
+            "hostLinux": "Linux",
+            "portHeading": "Serieller Port",
+            "refresh": "Aktualisieren",
+            "portLabel": "Autorisierte Ports",
+            "portPlaceholder": "Browser-Auswahldialog verwenden",
+            "portManualLabel": "Manueller Portname",
+            "portManualHint": "Wird lokal gespeichert, damit du dir den richtigen COM- bzw. tty-Port merken kannst.",
+            "statusHeading": "Brückenstatus",
+            "manualPlaceholder": {
+                "windows": "Beispiel: COM4",
+                "linux": "Beispiel: /dev/ttyUSB0"
+            },
+            "selectionHint": "Host: {{host}} · Port-Hinweis: {{port}}",
+            "portUnavailable": "Browser kann Ports derzeit nicht auflisten.",
+            "portEmpty": "Noch keine Ports autorisiert.",
+            "portWithVidPid": "Port {{index}} (VID {{vendor}} / PID {{product}})",
+            "portGeneric": "Autorisierter Port {{index}}",
+            "notesHeading": "WebSerial-Tipps",
+            "tipChromium": "Chromium-basierte Browser (Chrome, Edge, Opera, Arc) zeigen bei jeder Verbindungsanforderung einen Auswahldialog.",
+            "tipPermissions": "Nach der Freigabe bleibt derselbe Port für diesen Tab verfügbar, bis du ihn trennst oder den Tab schließt.",
+            "tipSupport": "Firefox und Safari unterstützen die WebSerial-API derzeit nicht. Für Firefox kann das WebSerial-Add-on über addons.mozilla.org installiert werden."
+        },
+        "deviceDialog": {
+            "title": "Geräteprofil installieren",
+            "description": "Wähle aus, welches Micro-Otter-Laufzeitprofil auf das verbundene Board installiert werden soll.",
+            "selectLabel": "Profil auswählen",
+            "optionLabel": "{{name}} ({{version}})",
+            "optionLabelNoVersion": "{{name}}",
+            "detail": "{{name}} · {{version}}",
+            "detailWithDescription": "{{name}} · {{version}} — {{description}}",
+            "versionUnknown": "Version unbekannt",
+            "caution": "Die Installation setzt das MicroPython-Dateisystem zurück (WLAN-Zugangsdaten bleiben erhalten).",
+            "primary": "Installieren",
+            "secondary": "Abbrechen",
+            "promptTitle": "Auf dem Board wurde kein Micro-Otter-Laufzeitprofil gefunden. Bitte wähle ein Geräteprofil zur Installation:",
+            "invalidSelection": "Ungültige Auswahl. Bitte erneut versuchen.",
+            "empty": "Es sind keine Geräteprofile zur Installation verfügbar.",
+            "unnamed": "Unbenanntes Gerät"
+        },
+        "updateDialog": {
+            "title": "Gerätelaufzeit aktualisieren",
+            "description": "Eine neuere Laufzeit (v{{version}}) ist für {{name}} verfügbar.",
+            "installLabel": "Alles neu installieren",
+            "syncLabel": "Geänderte Dateien synchronisieren",
+            "detail": "Die Neuinstallation überschreibt alle Laufzeitdateien, während die Synchronisierung nur neuere Dateien überträgt.",
+            "remoteInfo": "Aktuelle Board-Version: v{{remoteVersion}}"
+        }
+    },
+    "graphPanels": {
+        "collectionSelectLabel": "Graph-Sammlung",
+        "collectionTargetLabel": "Geräte-Ziel",
+        "uploadCollectionAria": "Arbeitsbereich auf Gerät hochladen",
+        "addCollectionAria": "Graph-Sammlung hinzufügen",
+        "renameCollectionAria": "Graph-Sammlung umbenennen",
+        "renameCollectionTitle": "Graph-Sammlung umbenennen",
+        "renameCollectionDescription": "Gib einen neuen Namen für die ausgewählte Sammlung ein.",
+        "renameCollectionPrimary": "Namen speichern",
+        "renameCollectionSecondary": "Abbrechen",
+        "renameCollectionPlaceholder": "Neuer Sammlungsname",
+        "renameCollectionFailed": "Graph-Sammlung konnte nicht umbenannt werden.",
+        "addPanel": "Graph-Panel hinzufügen",
+        "regionAria": "Graph-Panels",
+        "deleteCollectionAria": "Graph-Sammlung löschen",
+        "deleteCollectionConfirmTitle": "Graph-Sammlung löschen?",
+        "deleteCollectionConfirmDescription": "Dadurch werden alle Graphen in dieser Sammlung gelöscht und eine neue leere Sammlung erstellt. Dies kann nicht rückgängig gemacht werden.",
+        "deleteCollectionConfirmPrimary": "Sammlung löschen",
+        "deleteCollectionConfirmSecondary": "Abbrechen",
+        "deleteCollectionFailed": "Graph-Sammlung konnte nicht gelöscht werden.",
+        "deleteLastError": "Mindestens ein Graph muss erhalten bleiben.",
+        "deleteConfirmTitle": "Graph-Panel löschen?",
+        "deleteConfirmDescription": "Dadurch wird \"{{name}}\" gelöscht und das zugehörige Panel entfernt. Dies kann nicht rückgängig gemacht werden.",
+        "deleteConfirmPrimary": "Löschen",
+        "deleteConfirmSecondary": "Abbrechen",
+        "deleteFailed": "Graph konnte nicht gelöscht werden."
+    },
+    "about": {
+        "toggleAria": "Info-Dialog öffnen",
+        "overlayAria": "Über Micro Otter",
+        "closeAria": "Info-Dialog schließen",
+        "title": "Micro Otter Node Studio",
+        "tagline": "Modulare Robotik visuell erlebbar.",
+        "description": "Der Micro-Otter-Knoten-Editor ermöglicht das Entwerfen und Bereitstellen von Verhaltensgraphen für eingebettete Controller und verbindet intuitive Workflows mit einsatzbereiter Firmware.",
+        "highlight1": "Drag-and-Drop-Knotenaufbau mit Validierung in Echtzeit.",
+        "highlight2": "Sprachabhängiger Transpiler für Python- und JavaScript-Ziele.",
+        "highlight3": "Integrierte Tools für ESP32-Deployments und Sensor-Orchestrierung.",
+        "storageNote": "Editor-Einstellungen werden in localStorage gespeichert (keine Cookies).",
+        "link": "Dokumentation ansehen (öffnet neuen Tab)"
+    },
+    "controls": {
+        "booleanOn": "An",
+        "booleanOff": "Aus",
+        "iconPicker": {
+            "hint": "Tippen zum Filtern, z. B. thermometer oder user (Alias)",
+            "loading": "Symbole werden geladen…",
+            "unavailable": "Symbolliste nicht verfügbar – Namen eintippen",
+            "noMatches": "Keine Symbole passen zu \"{{query}}\"",
+            "count": "{{shown}} von {{total}} Symbolen",
+            "clear": "Leeren",
+            "showMore": "{{count}} weitere anzeigen",
+            "unknown": "Nicht im mitgelieferten MDI {{version}} – eventuell neuer oder ein eigenes Symbolset"
+        },
+        "markdownEditor": {
+            "edit": "Bearbeiten",
+            "done": "Fertig",
+            "empty": "Noch keine Beschreibung."
+        }
+    },
+    "contextMenu": {
+        "settings": "Knoteneinstellungen",
+        "delete": "Knoten löschen"
+    },
+    "graph": {
+        "nodeCopied": "Knoten in Zwischenablage kopiert",
+        "nodeCut": "Knoten in Zwischenablage ausgeschnitten",
+        "nodesPasted": "{{count}} Knoten eingefügt",
+        "nodeDuplicated": "Knoten dupliziert",
+        "nodeDeleted": "Knoten gelöscht",
+        "nodesCopied": "{{count}} Knoten in Zwischenablage kopiert",
+        "nodesCut": "{{count}} Knoten in Zwischenablage ausgeschnitten",
+        "nodesDuplicated": "{{count}} Knoten dupliziert",
+        "nodesDeleted": "{{count}} Knoten gelöscht",
+        "nodesSelected": "{{count}} Knoten ausgewählt",
+        "nodeTypeMissing": "Unbekannter Knotentyp \"{{type}}\". Das Knotenpaket \"{{package}}\" ist nicht installiert oder stellt diesen Typ nicht bereit. Installiere das Add-on und lade den Arbeitsbereich neu.",
+        "contextMenu": {
+            "copy": "Kopieren",
+            "cut": "Ausschneiden",
+            "paste": "Einfügen",
+            "duplicate": "Duplizieren",
+            "delete": "Löschen",
+            "changeColor": "Farbe ändern",
+            "showInfo": "Information anzeigen",
+            "gridSnap": "Am Raster ausrichten",
+            "showGrid": "Raster anzeigen",
+            "zoomToFit": "An Ansicht anpassen",
+            "resetZoom": "Zoom zurücksetzen",
+            "selectAll": "Alles auswählen",
+            "copyMultiple": "{{count}} Knoten kopieren",
+            "cutMultiple": "{{count}} Knoten ausschneiden",
+            "duplicateMultiple": "{{count}} Knoten duplizieren",
+            "deleteMultiple": "{{count}} Knoten löschen"
+        },
+        "info": {
+            "title": "Knoteninformation",
+            "viewDocs": "Dokumentation anzeigen",
+            "inputs": "Eingänge",
+            "outputs": "Ausgänge",
+            "controls": "Steuerelemente",
+            "columns": {
+                "name": "Name",
+                "type": "Typ",
+                "description": "Beschreibung"
+            }
+        },
+        "colorPicker": {
+            "title": "Knotenfarbe ändern",
+            "customColor": "Benutzerdefinierte Farbe"
+        },
+        "toolbar": {
+            "alignToGrid": "Knoten am Raster ausrichten",
+            "alignToGridUndo": "Knoten am Raster ausrichten",
+            "executionType": {
+                "label": "Ausführungstyp",
+                "startup": "Start",
+                "loop": "Schleife",
+                "irq": "Interrupt",
+                "event": "Ereignis",
+                "function": "Funktion"
+            },
+            "sleepDuration": {
+                "label": "Intervall (ms)"
+            },
+            "triggerName": {
+                "label": "Interrupt"
+            },
+            "signalNames": {
+                "label": "Signale",
+                "placeholder": "Signale"
+            },
+            "signalMode": {
+                "label": "Auslösemodus",
+                "any": "Beliebig",
+                "all": "Alle"
+            }
+        }
+    },
+    "console": {
+        "empty": "Keine Nachrichten vorhanden",
+        "emptyFiltered": "Keine {type}-Nachrichten",
+        "emptyFilteredSummary": "Keine Nachrichten entsprechen dem aktuellen Filter. Verfügbar: {{summary}}",
+        "filter": {
+            "all": "Alle Nachrichten",
+            "label": "Nach Typ filtern",
+            "placeholder": "Filter auswählen",
+            "selectAll": "Alle auswählen",
+            "selectNone": "Keine auswählen"
+        },
+        "actions": {
+            "clear": "Löschen",
+            "copy": "Kopieren",
+            "copied": "Kopiert!",
+            "copyFailed": "Kopieren fehlgeschlagen",
+            "autoScroll": "Automatisch scrollen"
+        },
+        "types": {
+            "info": "Info",
+            "error": "Fehler",
+            "warning": "Warnung",
+            "success": "Erfolg",
+            "user": "Benutzer",
+            "system": "System",
+            "data": "Daten",
+            "otter": "Otter",
+            "raw": "Roh"
+        }
+    },
+    "locale": {
+        "switcherAria": "Sprache wechseln",
+        "switcherLabel": "Sprache",
+        "flagButtonAria": "Sprache wechseln",
+        "flagButtonSr": "Sprache auswählen",
+        "windowTitle": "Sprache wählen",
+        "windowDescription": "Wähle eine Sprache für die Oberfläche.",
+        "windowClose": "Sprachfenster schließen",
+        "gridAria": "Verfügbare Sprachen"
+    },
+    "workspace": {
+        "changeLanguage": "Sprache wechseln",
+        "server": {
+            "offline": "Offline",
+            "offlineTitle": "Der Micro-Otter-Server ist nicht erreichbar — zum Neuverbinden klicken",
+            "reconnecting": "Verbinde neu…",
+            "reconnectingTitle": "Der Micro-Otter-Server wird kontaktiert…",
+            "dialogTitle": "Serververbindung unterbrochen",
+            "dialogMessage": "Micro-Otter erreicht seinen lokalen Server nicht; Firmware bauen und installieren ist deshalb nicht verfügbar.",
+            "dialogDetail": "Deine Graphen liegen in diesem Browser und funktionieren weiter. Verbinde neu, um die Firmware-Werkzeuge zu nutzen.",
+            "retry": "Neu verbinden",
+            "continue": "Ohne Server fortfahren"
+        },
+        "device": {
+            "title": "Geräteverbindung",
+            "connect": "Verbinden",
+            "connecting": "Verbinde…",
+            "loading": "Lade {{percent}} %",
+            "connected": "Verbunden",
+            "disconnecting": "Trenne…",
+            "error": "Fehlgeschlagen",
+            "connectTitle": "Gerät verbinden — klicken, um Anbieter und Port zu wählen",
+            "connectingTitle": "Verbindung zum Gerät wird hergestellt…",
+            "loadingTitle": "Geräteinformationen werden gelesen ({{percent}} %)",
+            "connectedTitle": "Gerät verbunden — klicken, um die Verbindung zu verwalten",
+            "disconnectingTitle": "Verbindung zum Gerät wird getrennt…",
+            "errorTitle": "Der letzte Verbindungsversuch ist fehlgeschlagen"
+        },
+        "selectLanguage": "Sprache wählen",
+        "title": "Arbeitsbereich",
+        "collectionLabel": "Sammlung:",
+        "targetLabel": "Ziel:",
+        "selectPlaceholder": "-- Auswählen --",
+        "createCollection": "Neue Sammlung erstellen",
+        "deleteCollection": "Aktuelle Sammlung löschen",
+        "exportCollection": "Aktuelle Sammlung exportieren",
+        "importCollection": "Sammlung importieren",
+        "createCollectionTitle": "Sammlung erstellen",
+        "createCollectionNameLabel": "Sammlungsname",
+        "createCollectionNamePlaceholder": "Sammlungsname eingeben...",
+        "createCollectionNameRequired": "Sammlungsname erforderlich",
+        "createCollectionRuntimeLabel": "Geräte-Laufzeit",
+        "createCollectionTargetLabel": "Zielgerät",
+        "createCollectionConfirm": "Erstellen",
+        "createCollectionCancel": "Abbrechen",
+        "deleteCollectionTitle": "Sammlung löschen",
+        "deleteCollectionConfirm": "Löschen",
+        "deleteCollectionCancel": "Abbrechen",
+        "deleteCollectionMessage": "Möchtest du \"{{title}}\" wirklich löschen?",
+        "deleteCollectionDetail": "Diese Aktion kann nicht rückgängig gemacht werden. Alle Knoten und Verbindungen in dieser Sammlung werden dauerhaft gelöscht.",
+        "deleteLastCollectionTitle": "Löschen nicht möglich",
+        "deleteLastCollectionMessage": "Die letzte Sammlung kann nicht gelöscht werden.",
+        "deleteLastCollectionDetail": "Mindestens eine Sammlung muss im Arbeitsbereich vorhanden sein.",
+        "deleteLastCollectionConfirm": "OK",
+        "importCollectionTitle": "Sammlung importieren",
+        "importCollectionMessage": "Wähle eine Sammlungs-JSON-Datei zum Importieren aus.",
+        "importCollectionConfirm": "Importieren",
+        "importCollectionCancel": "Abbrechen",
+        "importInvalidTitle": "Ungültige Sammlung",
+        "importInvalidMessage": "Die importierte Sammlung enthält keine Geräte-Laufzeit-Angabe.",
+        "importInvalidDetail": "Diese Sammlung kann nicht importiert werden. Geräte-Laufzeit-Informationen sind erforderlich.",
+        "importIncompatibleRuntimeTitle": "Inkompatible Laufzeit",
+        "importIncompatibleRuntimeMessage": "Die Sammlung benötigt die Geräte-Laufzeit \"{{runtimeId}}\", die nicht verfügbar ist.",
+        "importIncompatibleRuntimeDetail": "Verfügbare Laufzeiten: {{runtimeList}}",
+        "importIncompatibleTargetTitle": "Inkompatibles Ziel",
+        "importIncompatibleTargetMessage": "Die Sammlung benötigt das Ziel \"{{targetId}}\", das für die Laufzeit \"{{runtimeId}}\" nicht verfügbar ist.",
+        "importIncompatibleTargetDetail": "Verfügbare Ziele: {{targetList}}",
+        "importFailedTitle": "Import fehlgeschlagen",
+        "importFailedMessage": "Die Sammlung konnte nicht importiert werden.",
+        "importCollisionTitle": "Sammlung existiert bereits",
+        "importCollisionMessage": "Eine Sammlung mit der ID \"{{id}}\" existiert bereits.",
+        "importCollisionDetail": "Vorhandene Version: {{existingVersion}}\nImportierte Version: {{importedVersion}}\n\nMöchtest du die vorhandene Sammlung überschreiben?",
+        "importCollisionConfirm": "Überschreiben",
+        "importCollisionCancel": "Abbrechen",
+        "collectionRepairTitle": "Sammlungsdaten repariert",
+        "collectionRepairMessageSingle": "Eine gespeicherte Sammlung enthielt inkonsistente Daten und wurde automatisch repariert.",
+        "collectionRepairMessageMultiple": "{{count}} gespeicherte Sammlungen enthielten inkonsistente Daten und wurden automatisch repariert.",
+        "repairDetailActiveGraphIdx": "activeGraphIdx {{previousValue}} → {{nextValue}}",
+        "repairDetailUnknown": "{{field}} repariert",
+        "targetConfig": {
+            "uploadSuccess": {
+                "title": "Zielkonfiguration hochgeladen",
+                "message": "\"{{displayName}}\" wurde erfolgreich hochgeladen.",
+                "detail": "Ziel-ID: {{targetId}}. Sie ist jetzt in der Zielauswahl verfügbar."
+            },
+            "conflict": {
+                "title": "Konflikt bei Zielkonfiguration",
+                "message": "Eine Zielkonfiguration mit derselben {{conflictType}} existiert bereits.",
+                "detail": "Eingehend: {{incomingDisplayName}} (id: {{incomingId}}, version: {{incomingVersion}})\nVorhanden: {{existingDisplayName}} (id: {{existingId}}, version: {{existingVersion}})\n\nMöchtest du die vorhandene Zielkonfiguration überschreiben?",
+                "confirm": "Überschreiben",
+                "cancel": "Abbrechen",
+                "conflictTypeDisplayName": "Anzeigename",
+                "conflictTypeId": "ID"
+            }
+        },
+        "menu": {
+            "targetConfigDb": {
+                "backup": "Benutzer-Zielkonfig-DB sichern",
+                "restore": "Benutzer-Zielkonfig-DB wiederherstellen"
+            }
+        }
+    },
+    "settings": {
+        "all": {
+            "title": "Einstellungen"
+        },
+        "section": {
+            "general": "Allgemeine Einstellungen",
+            "collection": "Sammlungseinstellungen",
+            "graph": "Grapheinstellungen"
+        },
+        "collapse": {
+            "tooltip": "Bereich einklappen"
+        },
+        "expand": {
+            "tooltip": "Bereich ausklappen"
+        },
+        "general": {
+            "title": "Allgemeine Einstellungen",
+            "theme": {
+                "label": "Theme",
+                "description": "Editor-Theme auswählen."
+            },
+            "language": {
+                "label": "Sprache",
+                "description": "Anzeigesprache auswählen."
+            }
+        },
+        "collection": {
+            "title": "Sammlungseinstellungen",
+            "name": {
+                "label": "Sammlungsname"
+            },
+            "runtime": {
+                "label": "Laufzeit",
+                "description": "Laufzeitprofil für diese Sammlung auswählen."
+            },
+            "target": {
+                "label": "Zielgerät",
+                "description": "Geräteziel für diese Sammlung auswählen."
+            },
+            "webAssetGenerationMode": {
+                "label": "Web-Asset-Format",
+                "compressed": "Komprimiert (.gz)",
+                "plain": "Klartext"
+            },
+            "version": {
+                "label": "Sammlungsversion"
+            }
+        },
+        "graph": {
+            "title": "Grapheinstellungen",
+            "name": {
+                "label": "Graphname"
+            },
+            "enabled": {
+                "label": "Aktiviert"
+            },
+            "executionType": {
+                "label": "Ausführungsart",
+                "startup": "Einmal beim Start ausführen",
+                "continuous": "Kontinuierlich in Schleife ausführen",
+                "irq": "Einmal pro Interrupt ausführen",
+                "event": "Auf Signal reagieren",
+                "function": "Als aufrufbare Funktion bereitstellen"
+            },
+            "sleepDuration": {
+                "label": "Intervall (ms)",
+                "description": "Zeit zwischen dem Start aufeinanderfolgender Schleifendurchläufe. 0 gibt ohne Wartezeit an andere Aufgaben ab."
+            },
+            "triggerName": {
+                "label": "Interrupt",
+                "description": "Interrupt-Eingang, dessen Flanken diesen Graphen ausführen."
+            },
+            "signals": {
+                "label": "Signale",
+                "listLabel": "Beobachtete Signale",
+                "description": "Signale wählen, die diesen Graphen ausführen. Beliebig = ein gewähltes Signal führt ihn aus; Alle = jedes gewählte Signal muss seit dem letzten Lauf gefeuert haben.",
+                "mode": {
+                    "label": "Auslösemodus",
+                    "any": "Beliebig",
+                    "all": "Alle"
+                },
+                "runOnStart": {
+                    "label": "Einmal beim Start ausführen",
+                    "description": "Den Graphen beim Gerätestart zusätzlich einmal ausführen."
+                },
+                "emptyError": "Mindestens ein Signal für diesen Ereignisgraphen wählen.",
+                "unknownProducer": "Kein Signal-senden-Knoten erzeugt \"{{name}}\"."
+            },
+            "function": {
+                "category": {
+                    "label": "Kategorie"
+                },
+                "icon": {
+                    "label": "Symbol",
+                    "hint": "Tippen zum Filtern, z. B. thermometer oder user (Alias)"
+                },
+                "description": {
+                    "label": "Beschreibung",
+                    "placeholder": "Beschreibe, was diese Funktion macht…"
+                },
+                "inputs": {
+                    "title": "Eingaben",
+                    "add": "Eingang hinzufügen",
+                    "empty": "Keine Eingaben deklariert. Die Funktion erhält keine Argumente."
+                },
+                "outputs": {
+                    "title": "Ausgaben",
+                    "add": "Ausgang hinzufügen",
+                    "empty": "Keine Ausgaben deklariert. Die Funktion gibt nichts zurück."
+                },
+                "port": {
+                    "name": {
+                        "label": "Name",
+                        "required": "Ein Port-Name ist erforderlich.",
+                        "duplicate": "Ein anderer Port verwendet diesen Namen bereits."
+                    },
+                    "types": {
+                        "label": "Datentypen",
+                        "placeholder": "Datentypen wählen",
+                        "anyHint": "\"Beliebig\" akzeptiert jeden Datentyp."
+                    },
+                    "documentation": {
+                        "label": "Dokumentation",
+                        "placeholder": "Diesen Port beschreiben…"
+                    },
+                    "default": {
+                        "typeLabel": "Standardtyp",
+                        "valueLabel": "Standardwert",
+                        "min": "Min",
+                        "max": "Max",
+                        "step": "Schritt (UI)",
+                        "invalidNumber": "Bitte eine Zahl eingeben.",
+                        "invalidStep": "Die Schrittweite muss größer als 0 sein.",
+                        "invalidBounds": "Min darf Max nicht überschreiten."
+                    },
+                    "moveUp": "Nach oben",
+                    "moveDown": "Nach unten",
+                    "remove": "Port löschen",
+                    "untitled": "Unbenannter Port",
+                    "limit": "Eine Liste fasst höchstens {{max}} Ports."
+                }
+            }
+        }
+    },
+    "collection": {
+        "defaultGraphName": "Graph",
+        "addGraph": "Graph hinzufügen",
+        "undo": "Rückgängig",
+        "redo": "Wiederholen",
+        "closeGraphTitle": "Graph entfernen",
+        "closeGraphMessage": "Möchtest du \"{{name}}\" wirklich entfernen?",
+        "closeGraphDetail": "Diese Aktion entfernt den Graphen aus dieser Sammlung.",
+        "closeGraphConfirm": "Entfernen",
+        "tabContextMenu": {
+            "rename": "Graph umbenennen",
+            "enabled": "Aktiviert",
+            "copy": "Graph kopieren",
+            "paste": "Graph einfügen"
+        },
+        "error": {
+            "renameTitle": "Umbenennen fehlgeschlagen",
+            "duplicateName": "Ein Graph mit dem Namen \"{{name}}\" existiert bereits."
+        }
+    },
+    "deviceConnection": {
+        "connectionToolbar": "Verbindungen",
+        "deviceLog": "Geräteprotokoll",
+        "dialogTitle": "Gerät verbinden",
+        "progressTitle": "Gerät wird verbunden",
+        "hint": "Beim Verbinden werden die Geräteinformationen gelesen. Bei der ersten Verbindung wird eventuell gefragt, welches Zielgerät vorliegt.",
+        "portsLoading": "Geräte werden geladen...",
+        "portsEmpty": "Keine Geräte gefunden",
+        "portsFailed": "Die Geräteliste konnte nicht gelesen werden",
+        "provider": "Anbieter",
+        "providerTooltip": "Verbindungstyp auswählen",
+        "endpoint": "Gerät",
+        "endpointTooltip": "Serieller Gerätepfad für die WebSocket-Brücke",
+        "endpointLoading": "Geräte werden geladen...",
+        "refreshEndpoints": "Geräteliste aktualisieren",
+        "connect": "Verbinden",
+        "connectTooltip": "Mit Gerät verbinden",
+        "connecting": "Verbinde...",
+        "cancelConnecting": "Verbinden abbrechen",
+        "disconnect": "Trennen",
+        "disconnectTooltip": "Vom Gerät trennen",
+        "disconnecting": "Trenne...",
+        "play": "Abspielen",
+        "playTooltip": "Code-Ausführung auf Gerät starten",
+        "stop": "Stoppen",
+        "stopTooltip": "Code-Ausführung auf Gerät stoppen",
+        "softReset": "Soft-Reset",
+        "softResetTooltip": "Gerät soft zurücksetzen (Strg+D)",
+        "hardReset": "Hard-Reset",
+        "hardResetTooltip": "Gerät hard zurücksetzen (machine.reset())",
+        "customView": "Benutzerdefinierte Ansicht",
+        "clear": "Löschen",
+        "clearTooltip": "Konsolenprotokoll löschen",
+        "settings": "Einstellungen",
+        "settingsTooltip": "Verbindungseinstellungen",
+        "loadingDeviceInfo": "Geräteinformationen werden geladen...",
+        "initialized": "Geräteverbindungsansicht initialisiert",
+        "connected": "Verbunden über {{provider}}",
+        "disconnected": "Vom Gerät getrennt",
+        "providerChanged": "Anbieter geändert zu {{provider}}",
+        "connectFailed": "Verbindung fehlgeschlagen: {{error}}",
+        "disconnectFailed": "Trennen fehlgeschlagen: {{error}}",
+        "executionStarted": "Code-Ausführung gestartet",
+        "executionStopped": "Code-Ausführung gestoppt",
+        "playFailed": "Ausführung starten fehlgeschlagen: {{error}}",
+        "stopFailed": "Ausführung stoppen fehlgeschlagen: {{error}}",
+        "softResetComplete": "Gerät soft zurückgesetzt",
+        "softResetFailed": "Soft-Reset fehlgeschlagen: {{error}}",
+        "hardResetComplete": "Gerät hard zurückgesetzt",
+        "hardResetReconnectRequired": "Nach Hard-Reset ist eine erneute Verbindung erforderlich",
+        "hardResetFailed": "Hard-Reset fehlgeschlagen: {{error}}",
+        "logCleared": "Konsolenprotokoll gelöscht",
+        "transferProgress": "{{operation}} {{filename}}: {{percent}}% ({{transferred}}/{{total}})",
+        "transferComplete": "{{operation}} {{filename}} abgeschlossen: {{transferred}} in {{seconds}}s",
+        "error": "Gerätefehler: {{error}}",
+        "errorWithContext": "{{context}}: {{error}}",
+        "confirmHardReset": {
+            "title": "Hard-Reset bestätigen",
+            "message": "Hard-Reset startet den MicroPython-Interpreter neu und setzt den Gerätezustand zurück. Fortfahren?",
+            "confirm": "Hard-Reset",
+            "cancel": "Abbrechen"
+        },
+        "errors": {
+            "changeWhileConnected": "Anbieter kann nicht geändert werden, während verbunden. Erst trennen.",
+            "connectFailed": "Verbindung fehlgeschlagen",
+            "notConnected": "Gerät nicht verbunden",
+            "playFailed": "Ausführung starten fehlgeschlagen",
+            "stopFailed": "Ausführung stoppen fehlgeschlagen",
+            "softResetFailed": "Soft-Reset fehlgeschlagen",
+            "hardResetFailed": "Hard-Reset fehlgeschlagen",
+            "critical": "Kritischer Gerätefehler",
+            "notImplemented": "Diese Funktion ist noch nicht implementiert."
+        }
+    },
+    "customRuntimeView": {
+        "noViewAvailable": "Keine benutzerdefinierten Laufzeiteinstellungen verfügbar",
+        "setup": {
+            "loading": "Laufzeiteinstellungen vom Gerät werden geladen...",
+            "error": "Laufzeiteinstellungen konnten nicht geladen werden"
+        }
+    },
+    "view": {
+        "untitled": "Unbenannte Ansicht",
+        "loading": "Wird geladen...",
+        "error": "Fehler",
+        "splitView": "Geteilte Ansicht",
+        "tabbedView": "Ansicht mit Registerkarten",
+        "textView": "Textansicht"
+    },
+    "fileImport": {
+        "title": "Datei importieren",
+        "uploadPlaceholder": "Klicken zum Auswählen oder Datei hier ablegen",
+        "confirmLabel": "Importieren",
+        "cancelLabel": "Abbrechen"
+    },
+    "firmwareBuild": {
+        "title": "Firmware",
+        "help": {
+            "title": "Hilfe",
+            "body": "## Was dieser Tab macht\n\nMicro-Otter-Graphen laufen auf reinem MicroPython: Der Deploy-Tab lädt den deployten Graphen und seine Node-Bibliotheken als `.py`-Quelltext hoch, daher ist kein Firmware-Build nötig, um einen Graphen auszuführen.\n\nDas Vorkompilieren der Node-Bibliotheken zu `.mpy` und das Einfrieren in die MicroPython-Firmware verbraucht weniger Speicher im Nutzerbereich und startet schneller. Dieser Tab baut und deployt solche Firmware.\n\nZum Deployen einer Graph-Collection genügt eine kompatible Firmware: Für jede Graph-Änderung musst du keine neue Firmware kompilieren."
+        },
+        "doctor": {
+            "hint": "Führe `micro-otter doctor` aus, um zu sehen, warum die Firmware-Toolchain nicht verfügbar ist.",
+            "backend": "{{backend}}: {{reason}}",
+            "noReason": "kein Grund gemeldet",
+            "noBackend": "Der Server meldet für diese Funktion kein Firmware-Backend."
+        },
+        "target": {
+            "label": "Ziel",
+            "board": "Board",
+            "port": "Port",
+            "chip": "Chip",
+            "mcuFamily": "MCU-Familie",
+            "flashOffset": "Flash-Offset",
+            "noMapping": "Kein Kompilierungs-Mapping für dieses Ziel",
+            "unknownBoard": "Unbekanntes Board",
+            "noTarget": "Kein Ziel ausgewählt",
+            "noRuntime": "Keine aktive Laufzeit"
+        },
+        "packages": {
+            "title": "Firmware bauen",
+            "addon": "Add-on",
+            "optional": "Optional",
+            "localNotStaged": "Laufzeit-lokale Pakete werden nicht gestaged",
+            "missingCapabilities": "Fehlende Fähigkeiten: {{capabilities}}",
+            "selectAll": "Alle auswählen",
+            "clear": "Zurücksetzen",
+            "refresh": "Aktualisieren",
+            "count": "{{selected}} von {{total}} ausgewählt",
+            "noneSelected": "Wähle mindestens ein Paket zum Bauen aus.",
+            "empty": "Keine Pakete",
+            "scanFailed": "Lokaler Paket-Scan fehlgeschlagen",
+            "minimal": "Minimal",
+            "minimalHint": "Einige Pakete der Collection konnten nicht ausgewählt werden.",
+            "selectCollectionEmpty": "Die Collection verwendet keine Pakete.",
+            "selectNothingSelected": "Kein auswählbares Paket passt zur Collection."
+        },
+        "log": {
+            "title": "Build-Protokoll",
+            "empty": "Noch keine Ausgabe",
+            "droppedOutput": "Ältere Ausgabe verworfen"
+        },
+        "inventory": {
+            "title": "Lokale Firmware",
+            "refresh": "Aktualisieren",
+            "delete": "Löschen",
+            "cancel": "Abbrechen",
+            "deleteConfirmTitle": "Firmware-Image löschen",
+            "deleteConfirm": "{{name}} löschen? Dies kann nicht rückgängig gemacht werden.",
+            "import": "Importieren",
+            "export": "Exportieren",
+            "importConfirmTitle": "Firmware-Image ersetzen",
+            "importConfirm": "{{name}} durch das importierte Image ersetzen?",
+            "firmwareVersion": "Firmware-Version",
+            "hash": "Hash",
+            "micropython": "MicroPython",
+            "runtime": "Laufzeit",
+            "target": "Ziel",
+            "notAvailable": "k. A.",
+            "count": "{{count}} Image(s)",
+            "empty": "Keine Firmware-Images für dieses Ziel.",
+            "refreshFailed": "Die Firmware-Liste konnte nicht geladen werden.",
+            "latest": "neueste",
+            "badgeNew": "neu",
+            "badgeAddons": "Add-ons enthalten",
+            "badgeRelease": "Release",
+            "badgeDev": "Dev",
+            "versionSource": "Versionsquelle",
+            "channel": "Kanal",
+            "latestInChannel": "neuestes {{channel}}-Image",
+            "detailsAddons": "Add-ons",
+            "complete": "vollständig",
+            "partial": "teilweise",
+            "noImage": "Noch kein Image in diesem Kanal veröffentlicht.",
+            "missingPackages": "Das neueste Image in diesem Kanal enthält nicht, was diese Sammlung benötigt: {{ids}}",
+            "unknownContents": "Das neueste Image in diesem Kanal hat kein Manifest; sein Inhalt ist unbekannt.",
+            "compatible": "kompatibel",
+            "incomplete": "unvollständig",
+            "unknown": "unbekannt",
+            "otherTarget": "anderes Ziel",
+            "detailsTitle": "Image-Details",
+            "detailsImage": "Image",
+            "detailsOriginalFile": "Originaldatei",
+            "detailsImportTarget": "Importiert für",
+            "detailsPackage": "Paket",
+            "detailsVersionLabel": "Version",
+            "detailsVariant": "Variante",
+            "detailsVersion": "Laufzeit-Firmware",
+            "detailsSize": "Größe",
+            "detailsModified": "Geändert",
+            "detailsPackages": "Pakete",
+            "detailsNotEmbedded": "Nicht eingebettet",
+            "detailsNoneSelected": "Wählen Sie ein Image aus, um Details zu sehen.",
+            "detailsDeployHint": "Dieses Image wird bereitgestellt.",
+            "log": "Protokoll der lokalen Firmware",
+            "importFromUrl": "Aus URL importieren…",
+            "importFromUrlTitle": "Aus einer URL importieren",
+            "importFromUrlMessage": "Der Server lädt die URL selbst; es werden keine Bytes aus dem Browser hochgeladen. Ein `.firmware.zip` oder ein `.bin`-Image wird akzeptiert.",
+            "imported": "Importiert",
+            "importedHint": "Dieses Image flashen, dann die Micro-Otter-Runtime im Geräte-Tab installieren und die Collection deployen.",
+            "importTargetTitle": "Firmware-Image importieren",
+            "importTargetMessage": "Die Plattform bestimmt, wie das Image geflasht wird (Chip, Flash-Offset). Das Image enthält keine Runtime — diese danach installieren.",
+            "importTargetLabel": "Plattform",
+            "importedNotice": "{{status}}: {{filename}} ({{target}})",
+            "urlLabel": "URL",
+            "urlInvalid": "Verwende eine https://-URL, oder http:// nur zu dieser Maschine.",
+            "exportConfirmTitle": "Firmware-Paket überschreiben",
+            "exportConfirm": "{{path}} enthält dieses Paket bereits. Überschreiben?"
+        },
+        "progress": {
+            "building": "Firmware wird gebaut…",
+            "deploying": "Firmware wird übertragen…",
+            "elapsed": "{{seconds}}s verstrichen",
+            "cancel": "Abbrechen"
+        },
+        "buildFirmware": {
+            "packages": "Pakete",
+            "addons": "Installierte Add-ons",
+            "buildLog": "Build-Protokoll"
+        },
+        "build": {
+            "start": "Bauen",
+            "cancel": "Abbrechen",
+            "cancelling": "Wird abgebrochen…",
+            "cleanBuild": "Sauberer Build",
+            "cleanBuildHint": "Das Build-Verzeichnis vor dem Kompilieren leeren.",
+            "running": "Baue…",
+            "artifact": "Artefakt",
+            "artifactUnpublished": "Nicht veröffentlicht",
+            "publishStatus": "Veröffentlichungsstatus",
+            "runtimeVersion": "Laufzeit-Version",
+            "packages": "Pakete",
+            "artifactSize": "Größe",
+            "warnings": "Warnungen",
+            "copyPath": "Pfad kopieren",
+            "copied": "Kopiert",
+            "matchingFirmware": "Eine Firmware für genau diese Auswahl existiert bereits: {{version}}",
+            "matchingFirmwareHint": "Dieses Image enthält genau die ausgewählten Pakete; ein neuer Build bringt nichts Neues.",
+            "matchingFirmwareSuperset": "Eine Firmware, die diese Auswahl enthält, existiert bereits: {{version}}",
+            "matchingFirmwareHintSuperset": "Dieses Image enthält alle ausgewählten Pakete und mindestens ein weiteres; ein Deploy deckt sie ab, ein Neubau macht das Image nur schlanker.",
+            "noMatchingFirmware": "Für diese Auswahl existiert noch keine Firmware.",
+            "noMatchingFirmwareHint": "Ein Build erzeugt ein neues Image, das genau diese Pakete enthält."
+        },
+        "deploy": {
+            "title": "Deploy",
+            "start": "Deployen",
+            "port": "Port",
+            "device": "Gerät",
+            "noPorts": "Keine seriellen Ports gefunden",
+            "portsLoading": "Serielle Ports werden gesucht…",
+            "portsUnavailable": "Serielle Ports konnten nicht aufgelistet werden",
+            "refreshPorts": "Serielle Ports neu suchen",
+            "noPort": "Gib einen Port zum Deployen ein.",
+            "wipe": "Dateisystem löschen",
+            "wipeHint": "Das Gerätedateisystem vor dem Flashen löschen. Löscht Benutzerdaten.",
+            "portBusy": "Die App ist mit diesem Port verbunden — Deploy trennt sie zuerst.",
+            "portFreeNote": "Deploy gibt die Verbindung der App zum Port frei und flasht dann. Danach verbindest du dich über das Kabel-Symbol in der Titelleiste erneut.",
+            "portReleased": "Die Verbindung der App zum seriellen Port wurde freigegeben.",
+            "portReleaseFailed": "Der serielle Port konnte nicht freigegeben werden: {{error}}",
+            "firmwarePathFromBuild": "Verwendet die Firmware des letzten erfolgreichen Builds.",
+            "firmwarePathSelected": "Verwendet das ausgewählte Firmware-Image: {{name}}",
+            "firmwarePathNewest": "Verwendet das neueste verfügbare Firmware-Image.",
+            "summaryBoard": "Board",
+            "summaryChip": "Chip",
+            "summaryPort": "Port",
+            "summaryImage": "Image",
+            "summarySize": "Größe",
+            "summarySha256": "SHA-256",
+            "log": "Deploy-Protokoll"
+        },
+        "result": {
+            "failed": "Fehlgeschlagen",
+            "cancelled": "Abgebrochen",
+            "timeout": "Zeitüberschreitung"
+        },
+        "errors": {
+            "invalid-frame": "Der Anfrage-Frame war ungültig.",
+            "unknown-frame-type": "Der Anfrage-Typ ist unbekannt.",
+            "job-busy": "Es läuft bereits ein Job.",
+            "compile-disabled": "Firmware-Kompilierung ist auf diesem Server deaktiviert.",
+            "deploy-disabled": "Firmware-Deployment ist auf diesem Server deaktiviert.",
+            "runtime-not-found": "Die Laufzeit wurde nicht gefunden.",
+            "board-unknown": "Das Board ist unbekannt.",
+            "target-unknown": "Das ausgewählte Ziel hat kein baubares Board.",
+            "build-timeout": "Der Build hat das Zeitlimit überschritten.",
+            "internal-error": "Ein interner Fehler ist aufgetreten.",
+            "unknown-package-id": "Eine unbekannte Paket-ID wurde angefordert.",
+            "package-not-staged": "Ein laufzeit-lokales Paket kann nicht gestaged werden.",
+            "firmware-image-unavailable": "Kein Firmware-Image verfügbar.",
+            "firmware-image-invalid": "Das Firmware-Image ist ungültig.",
+            "firmware-not-found": "Das Firmware-Image wurde nicht gefunden.",
+            "firmware-path-invalid": "Der Firmware-Pfad liegt außerhalb des Veröffentlichungsordners.",
+            "firmware-package-invalid": "Das Firmware-Paket ist ungültig.",
+            "firmware-package-identity-mismatch": "Paket und Sidecar stimmen nicht überein.",
+            "firmware-package-checksum-mismatch": "Die Paket-Prüfsumme stimmt nicht.",
+            "firmware-package-too-large": "Das Firmware-Paket ist zu groß.",
+            "firmware-import-exists": "Ein Image mit diesem Namen existiert bereits.",
+            "firmware-import-denied": "Der Firmware-Ordner ist nicht beschreibbar.",
+            "firmware-import-invalid": "Das Image ist keine gültige .bin-Datei.",
+            "board-not-flashable": "Dieses Board kann nicht geflasht werden.",
+            "runtime-manifest-invalid": "Das Laufzeit-Manifest ist ungültig.",
+            "flash-backend": "Das Flash-Backend ist fehlgeschlagen.",
+            "flash-error": "Flashen fehlgeschlagen.",
+            "flash-firmware-image-not-found": "Das Firmware-Image wurde nicht gefunden.",
+            "flash-tool-missing": "Das Flash-Werkzeug ist nicht installiert.",
+            "flash-monitor-not-supported": "Der Flash-Monitor wird nicht unterstützt.",
+            "flash-command": "Der Flash-Befehl ist fehlgeschlagen.",
+            "flash-backend-unavailable": "Das Flash-Backend ist nicht verfügbar.",
+            "flash-unsupported-chip": "Das Flash-Backend unterstützt diesen Chip nicht.",
+            "flash-no-available-backend": "Kein Flash-Backend verfügbar.",
+            "flash-unknown-backend": "Die Flash-Backend-ID ist unbekannt.",
+            "capabilities-unavailable": "Die Server-Fähigkeiten sind nicht verfügbar.",
+            "socket-error": "Der Firmware-Socket ist fehlgeschlagen.",
+            "disconnected": "Der Server hat getrennt; der Job wurde abgebrochen.",
+            "noTarget": "Für diese Runtime ist keine baubare Plattform verfügbar.",
+            "addon-already-installed": "Dieses Add-on ist bereits installiert.",
+            "addon-archive-invalid": "Die Datei ist kein lesbares .zip-Archiv.",
+            "addon-archive-no-manifest": "Das Archiv enthält keinen Paketordner mit einer manifest.json.",
+            "addon-archive-not-found": "Das Archiv wurde nicht gefunden.",
+            "addon-archive-symlink": "Das Archiv enthält einen symbolischen Link, was nicht erlaubt ist.",
+            "addon-archive-too-large": "Das Archiv ist größer als das Limit von 64 MiB.",
+            "addon-archive-too-many-entries": "Das Archiv enthält mehr als 2000 Einträge.",
+            "addon-archive-unpacked-too-large": "Das entpackte Add-on würde 128 MiB überschreiten.",
+            "addon-archive-unsafe-path": "Das Archiv enthält einen unsicheren Pfad.",
+            "addon-id-conflicts-builtin": "Das Add-on verwendet die ID eines eingebauten Pakets.",
+            "addon-id-invalid": "Die Paket-ID ist ungültig.",
+            "addon-id-mismatch": "Die Paket-ID stimmt nicht mit der angeforderten ID überein.",
+            "addon-manifest-forbidden-asset": "Das Manifest deklariert eine Datei, die das Werkzeug verwaltet.",
+            "addon-manifest-invalid": "Das Manifest ist ungültig.",
+            "addon-manifest-missing-asset": "Das Manifest deklariert eine Datei, die das Archiv nicht enthält.",
+            "addon-manifest-missing-version": "Das Manifest deklariert keine Version.",
+            "addon-module-root-invalid": "Ein Gerätemodul liegt nicht im reservierten moa_-Namensraum.",
+            "addon-not-installed": "Dieses Add-on ist nicht installiert.",
+            "addon-variant-capabilities-missing": "Ein Variantenmanifest deklariert keine requiredCapabilities.",
+            "addon-variant-hardware-missing": "Ein Variantenmanifest deklariert keine Hardware-Beschreibung.",
+            "addon-variant-manifest-invalid": "Ein Variantenmanifest ist ungültig.",
+            "addon-variant-precedence-duplicate": "Zwei Variantenmanifeste deklarieren dieselbe Priorität.",
+            "archive-path-invalid": "Der Archivpfad ist keine vorhandene .zip-Datei.",
+            "archive-too-large": "Das Archiv überschreitet das Größenlimit.",
+            "archive-url-invalid": "Die Archiv-URL ist keine unterstützte https://-Adresse.",
+            "archive-url-blocked": "Einfaches http ist nur zu dieser Maschine erlaubt.",
+            "archive-url-redirect": "Die Archiv-URL leitet zu oft um.",
+            "archive-url-unreachable": "Die Archiv-URL konnte nicht geladen werden.",
+            "archive-url-too-large": "Die Archiv-URL überschreitet das Größenlimit.",
+            "fs-not-allowed": "Der lokale Dateizugriff ist auf diesem Server deaktiviert.",
+            "fs-path-invalid": "Der Pfad muss ein absolutes Verzeichnis sein.",
+            "fs-not-found": "Der Pfad existiert nicht.",
+            "fs-not-a-directory": "Der Pfad ist kein Verzeichnis.",
+            "fs-permission-denied": "Der Server kann dieses Verzeichnis nicht lesen.",
+            "fs-too-many-entries": "Das Verzeichnis hat zu viele Einträge zum Auflisten.",
+            "fs-not-writable": "Der Ordner ist für den Server nicht beschreibbar.",
+            "fs-destination-not-absolute": "Das Ziel muss ein absoluter Ordner sein.",
+            "firmware-export-exists": "Im Exportziel liegt dieses Paket bereits."
+        },
+        "addons": {
+            "title": "Installierte Add-ons",
+            "count": "{{selected}} von {{total}} ausgewählt",
+            "selectAll": "Alle auswählen",
+            "clear": "Leeren",
+            "refresh": "Aktualisieren",
+            "empty": "Keine Add-ons installiert",
+            "install": "Add-on installieren",
+            "remove": "Entfernen",
+            "cancel": "Abbrechen",
+            "installConfirmTitle": "Add-on ersetzen",
+            "installConfirm": "Das installierte Add-on {{name}} durch dieses Archiv ersetzen?",
+            "removeConfirmTitle": "Add-ons entfernen",
+            "removeConfirm": "{{names}} entfernen? Das kann nicht rückgängig gemacht werden.",
+            "archiveInvalid": "Es können nur .zip-Add-on-Archive installiert werden.",
+            "archiveTooLarge": "Das Archiv ist größer als {{size}} MiB.",
+            "installSummary": "{{name}} installiert ({{version}})",
+            "removeSummary": "{{name}} entfernt",
+            "installFromUrl": "Aus URL installieren…",
+            "installFromUrlTitle": "Aus einer URL installieren",
+            "installFromUrlMessage": "Der Server lädt die URL selbst; es werden keine Bytes aus dem Browser hochgeladen."
+        },
+        "filePicker": {
+            "title": "Server-Dateien durchsuchen",
+            "hint": "Du durchsuchst den Computer, auf dem der Micro-Otter-Server läuft. Der gewählte Pfad wird an den Server gesendet; es verlassen keine Dateiinhalte die Auswahl.",
+            "hintDirectory": "Wähle einen Ordner auf dem Computer, auf dem der Micro-Otter-Server läuft.",
+            "loading": "Lade…",
+            "empty": "Keine passenden Einträge.",
+            "listFailed": "Das Verzeichnis konnte nicht geladen werden",
+            "noSelection": "Wähle zuerst einen Eintrag.",
+            "symlinkNotSelectable": "Symbolische Links können nicht gewählt werden.",
+            "parentDirectory": "..",
+            "roots": {
+                "home": "Home",
+                "workspace": "Arbeitsbereich",
+                "root": "Wurzel"
+            }
+        },
+        "offline": {
+            "body": "## Firmware-Server nicht erreichbar\n\nDer Firmware-Tab benötigt den lokalen Micro-Otter-Server, der gerade nicht erreichbar ist.\n\n### Was der Server ermöglicht\n\n- Firmware-Images bauen und flashen\n- Ein Paket per Pfad oder URL importieren\n- Ein Paket in einen gewählten Ordner exportieren\n- Add-on-Pakete installieren\n\n### Server starten\n\n```bash\nuv run micro-otter serve\n```\n\nDie übrigen Tabs des Editors funktionieren weiter, solange der Server nicht läuft.\n"
+        }
+    },
+    "form": {
+        "title": "Formular",
+        "required": "Erforderlich",
+        "selectPlaceholder": "-- Auswählen --"
+    },
+    "collapsibleView": {
+        "collapse": "Bereich einklappen",
+        "expand": "Bereich ausklappen",
+        "solo": "Diesen Bereich ausklappen und die anderen einklappen"
+    },
+    "customView": {
+        "executionError": "Funktionsausführung fehlgeschlagen",
+        "functionFailed": "Funktion konnte nicht ausgeführt werden",
+        "validationFailed": "Validierung fehlgeschlagen"
+    },
+    "deployment": {
+        "title": "Bereitstellung",
+        "toolbarTitle": "Bereitstellungsaktionen",
+        "deviceInfo": "Geräteinformationen",
+        "runtimeInfo": "Laufzeitinformationen",
+        "collectionInfo": "Sammlung auf dem Gerät",
+        "compatibility": "Kompatibilitätsprüfung",
+        "connection": "Verbindung",
+        "microPythonStatus": "MicroPython",
+        "microPythonVersion": "MicroPython-Version",
+        "target": "Ziel",
+        "userDescription": "Beschreibung",
+        "installed": "Installiert",
+        "runtimeId": "Runtime-ID",
+        "runtimeMode": "Runtime-Modus",
+        "runtimeModeDynamic": "Dynamisch",
+        "runtimeModeEmbedded": "Eingebettet",
+        "embeddedPackagesSummary": "Eingebettete Pakete",
+        "dynamicLibrariesOnDevice": "Bibliotheken auf dem Gerät",
+        "fileCountOnDevice": "{{count}} Datei(en)",
+        "noneOnDevice": "keine",
+        "firmwareFullVersion": "Firmware-Vollversion",
+        "runtimeFirmwareVersion": "Runtime-Firmware-Version",
+        "firmwareConstituentVersions": "Bestandteil-Versionen",
+        "runtimeSourceVersion": "Runtime-Quelle",
+        "deviceToolsVersion": "Geräte-Tools",
+        "nodePackages": "Node-Pakete",
+        "version": "Version",
+        "name": "Name",
+        "deployed": "Bereitgestellt",
+        "yes": "Ja",
+        "no": "Nein",
+        "unknown": "Unbekannt",
+        "connected": "Verbunden",
+        "disconnected": "Getrennt",
+        "noDeviceConnected": "Kein Gerät verbunden",
+        "connectViaTitleBar": "Verbinde ein Gerät über das Kabel-Symbol in der Titelleiste, um die Bereitstellung zu aktivieren.",
+        "helpTitle": "Bereitstellungshilfe",
+        "noConnectionAvailable": "Keine Geräteverbindung verfügbar",
+        "installRuntime": "Runtime installieren",
+        "upgradeRuntime": "Runtime aktualisieren",
+        "refreshRuntime": "Runtime auffrischen",
+        "removeRuntime": "Runtime entfernen",
+        "refreshDeviceInfo": "Geräteinformationen aktualisieren",
+        "editDeviceTarget": "Geräteziel bearbeiten",
+        "deployCollection": "Sammlung bereitstellen",
+        "syncCollection": "Sammlung synchronisieren",
+        "deployOrSyncCollection": "Sammlung bereitstellen / synchronisieren",
+        "removeCollection": "Sammlung entfernen",
+        "selectRuntime": "Runtime auswählen",
+        "runtimeLabel": "Runtime",
+        "install": "Installieren",
+        "upgrade": "Aktualisieren",
+        "refresh": "Auffrischen",
+        "remove": "Entfernen",
+        "deploy": "Bereitstellen",
+        "sync": "Synchronisieren",
+        "confirmUpgrade": "Aktualisierung bestätigen",
+        "confirmUpgradeMessage": "Runtime {{runtime}} von Version {{currentVersion}} aktualisieren?",
+        "confirmRefresh": "Auffrischung bestätigen",
+        "confirmRefreshMessage": "Runtime {{runtime}} auffrischen?",
+        "confirmRemoveRuntime": "Runtime-Entfernung bestätigen",
+        "confirmRemoveRuntimeMessage": "Runtime vom Gerät entfernen? Dadurch werden Runtime-Dateien gelöscht.",
+        "confirmRemoveCollection": "Sammlungsentfernung bestätigen",
+        "confirmRemoveCollectionMessage": "Sammlung vom Gerät entfernen? Dadurch werden Code und Metadaten gelöscht.",
+        "deploymentOptions": "Bereitstellungsoptionen",
+        "syncOptions": "Synchronisierungsoptionen",
+        "includeFullDefinition": "Vollständige Sammlungsdefinition einschließen",
+        "includeFullDefinitionHint": "Speichert zusätzlich die vollständige Graphstruktur in den Metadaten der Sammlung auf dem Gerät, sodass die Sammlung später wieder gelesen werden kann.",
+        "forceUpload": "Upload erzwingen (alle bereitgestellten Dateien neu schreiben)",
+        "forceUploadHint": "Schreibt jede Datei dieses Deploys erneut, auch wenn das Gerät bereits denselben Inhalt hat: den generierten Sammlungscode, seine Metadaten und alle Bibliotheksquellen, die als Quellcode hochgeladen werden. Von der Firmware bereitgestellte Pakete bleiben unberührt — dafür ist die Option 'Quellcode der Firmware-Pakete hochladen' gedacht. Verwenden Sie dies, wenn das Gerät nach einem Deploy ohne Änderungen weiterhin alten Code ausführt.",
+        "overrideFirmwarePackages": "Quellcode der Firmware-Pakete hochladen",
+        "overrideFirmwarePackagesHint": "Die Node-Pakete in der Firmware des Geräts sind nicht mehr aktuell, sodass das Gerät alten Paketcode ausführt. Der Upload ihres Quellcodes ersetzt die Kopien der Firmware; das verbraucht zusätzlichen RAM und kann den Lauf der Sammlung bei zu wenig Speicher scheitern lassen. Die betroffenen Pakete werden vorher bestätigt.",
+        "preserveCollection": "Sammlungsdaten beibehalten",
+        "deletePreservedFiles": "Beibehaltene Dateien löschen",
+        "deleteFileSystem": "Gesamtes Dateisystem löschen",
+        "noRuntimeTitle": "Keine Runtime erkannt",
+        "noRuntimeMessage": "Auf diesem Gerät ist keine Micro-Otter-Runtime installiert. Installieren Sie eine Runtime, um mit dem Bereitstellen von Sammlungen zu beginnen.",
+        "runtimeNotInstalled": "Keine Runtime auf dem Gerät installiert.",
+        "runtimeUnavailable": "Keine Runtimes zur Installation verfügbar.",
+        "runtimeActionDisabledEmbedded": "Runtime-Neuinstallationsaktionen sind deaktiviert, da diese Runtime in der Firmware eingebettet ist.",
+        "noActiveCollection": "Keine aktive Sammlung ausgewählt.",
+        "incompatible": "Inkompatible Konfiguration",
+        "loadingDeviceInfo": "Geräteinformationen werden geladen...",
+        "errorLoadingDeviceInfo": "Fehler beim Laden der Geräteinformationen: {{error}}",
+        "errorRefreshDeviceInfo": "Fehler beim Aktualisieren der Geräteinformationen",
+        "compatibilityWaitingForInfo": "Warten auf Geräteinformationen...",
+        "compatibilityChecking": "Kompatibilität wird geprüft...",
+        "compatibilityDisconnected": "Verbinden Sie ein Gerät, um die Kompatibilität zu prüfen.",
+        "compatibilityOk": "Aktuelle Sammlung kompatibel mit Gerät",
+        "compatibilityError": "Kompatibilitätsprüfung fehlgeschlagen: {{error}}",
+        "errorListHeading": "Fehler",
+        "progressOverall": "Gesamtfortschritt",
+        "progressCurrentFile": "Aktuelle Datei",
+        "progressIdle": "Kein aktiver Vorgang",
+        "progressFileIdle": "Kein aktiver Dateitransfer",
+        "microPythonNotDetected": "MicroPython nicht erkannt",
+        "microPythonNotDetectedMessage": "MicroPython-Firmware wurde auf diesem Gerät nicht erkannt. Bitte installieren Sie MicroPython, bevor Sie fortfahren.",
+        "microPythonInstallStep1": "Laden Sie die aktuelle MicroPython-Firmware für Ihr Gerät herunter.",
+        "microPythonInstallStep2": "Flashen Sie die Firmware mit esptool.py oder einem Flash-Tool.",
+        "microPythonInstallStep3": "Verbinden Sie sich erneut und versuchen Sie es noch einmal.",
+        "errorTitle": "Deployment-Fehler",
+        "errorGeneric": "Unerwarteter Bereitstellungsfehler.",
+        "packageVersionWarningHeading": "Paketversionswarnungen",
+        "packageVersionOutdated": "{{packageId}}: Firmware hat v{{deviceVersion}}, Host hat v{{hostVersion}} — Firmware-Update empfohlen",
+        "packageVersionUnknown": "{{packageId}}: Die Firmware meldet keine Paketversion — Host v{{hostVersion}} wird als Quellcode hochgeladen",
+        "embeddedOverrideTitle": "Firmware-Pakete werden durch Quellcode überschrieben",
+        "embeddedOverrideMessage": "Die Firmware kann diese Pakete nicht auf dem aktuellen Stand bereitstellen. Beim Fortfahren wird der vollständige Quellcode jedes Pakets ({{fileCount}} Dateien) hochgeladen, der Vorrang vor den Kopien der Firmware hat. Dies erhöht den RAM-Verbrauch und die Sammlung kann möglicherweise nicht ausgeführt werden, wenn der Speicher nicht ausreicht.\n\nAktualisieren Sie nach Möglichkeit stattdessen die Firmware.",
+        "embeddedOverridePackageLine": "{{packageId}}: Firmware v{{deviceVersion}} → Host v{{hostVersion}}",
+        "embeddedOverridePackageLineUnknown": "{{packageId}}: Firmware-Version unbekannt → Host v{{hostVersion}}",
+        "embeddedOverridePackageLineIncomplete": "{{packageId}}: Firmware v{{deviceVersion}} stellt nicht jede benötigte Datei bereit → Host v{{hostVersion}} wird hochgeladen",
+        "embeddedOverridePackageLineContent": "{{packageId}}: Firmware v{{deviceVersion}} enthält anderen Dateiinhalt → Host v{{hostVersion}} wird hochgeladen",
+        "embeddedOverridePackageLineForced": "{{packageId}}: Quellcode-Upload angefordert, obwohl die Firmware v{{deviceVersion}} meldet → Host v{{hostVersion}} wird hochgeladen",
+        "embeddedOverrideConfirm": "Quellcode trotzdem hochladen",
+        "embeddedOverrideRemember": "Für diese Version merken",
+        "embeddedOverrideTablePackage": "Paket",
+        "embeddedOverrideTableFirmwareVersion": "Firmware-Version",
+        "embeddedOverrideTableHostVersion": "Host-Version",
+        "embeddedOverrideVersionUnknown": "unbekannt",
+        "undeterminedRuntimeTitle": "Laufzeitmodus unbekannt",
+        "undeterminedRuntimeMessage": "Die Firmware-Metadaten des Geräts konnten nicht gelesen werden, sodass unklar ist, ob es sich um eine Firmware- (eingebettete) oder hochgeladene (dynamische) Laufzeit handelt. Geräteinformationen erneut lesen?",
+        "undeterminedRuntimeRetry": "Erkennung erneut versuchen",
+        "undeterminedRuntimeFailed": "Der Laufzeitmodus des Geräts konnte nach mehreren Versuchen nicht ermittelt werden. Bitte verbinden Sie das Gerät erneut oder setzen Sie es zurück und versuchen Sie es erneut.",
+        "packageIncomplete": "{{packageId}}: Die Firmware stellt nicht jede benötigte Datei bereit — Host v{{hostVersion}} wird als Quellcode hochgeladen",
+        "packageContentMismatch": "{{packageId}}: Die Firmware-Dateien von v{{deviceVersion}} unterscheiden sich von der Host-Kopie v{{hostVersion}} — der Host-Quellcode wird hochgeladen",
+        "packageFileMissingFromHost": "{{path}}: Erforderliche Datei ist auf dem Host nicht verfügbar — Paket installieren oder Firmware aktualisieren",
+        "packageNotInFirmware": "{{packageId}}: nicht in der Firmware enthalten — der Quellcode wird auf das Gerät hochgeladen, was mehr RAM verbraucht und bei zu wenig Speicher zum Abbruch führen kann",
+        "targetDialog": {
+            "title": "Geräteziel auswählen",
+            "message": "Wählen Sie die Hardwarekonfiguration für dieses Gerät. Dies bestimmt, welche Pins und Funktionen verfügbar sind. Das 'Benutzerdefiniert'-Ziel deaktiviert die Fähigkeitsvalidierung für nicht standardisierte Hardware.",
+            "targetLabel": "Geräteziel",
+            "targetDescriptionLabel": "Zielgerätbeschreibung",
+            "userDescriptionLabel": "Ihre Beschreibung (Optional)",
+            "userDescriptionPlaceholder": "Fügen Sie eine benutzerdefinierte Beschreibung für dieses Gerät hinzu (z. B. 'Werkstattgerät - Pin 5 defekt')...",
+            "confirm": "Fortfahren",
+            "cancel": "Abbrechen",
+            "customWarning": "Benutzerdefiniertes Ziel ausgewählt. Die Fähigkeitsvalidierung wird deaktiviert. Nur für nicht standardisierte Hardware verwenden."
+        },
+        "errors": {
+            "title": "Deployment-Fehler",
+            "noTargets": "Keine Geräteziele zur Auswahl verfügbar",
+            "targetMismatch": "Sammlungsziel '{{collectionTarget}}' stimmt nicht mit Geräteziel '{{deviceTarget}}' überein",
+            "targetNotCompatible": "Das Ziel '{{targetId}}' kann nicht mit der Firmware des verbundenen Geräts ausgeführt werden. Wählen Sie ein Ziel aus derselben Board-Familie oder flashen Sie Firmware für dieses Ziel.",
+            "targetIncomplete": "Das Ziel '{{targetId}}' enthält keine Pin-Konfiguration und kann nicht verwendet werden. Wählen Sie ein anderes Ziel.",
+            "deviceTargetNotConfigured": "Dieses Gerät hat keine nutzbare Zielkonfiguration. Verbinden Sie das Gerät erneut und wählen Sie sein Ziel noch einmal aus.",
+            "deviceTargetIncompatible": "Das auf diesem Gerät gespeicherte Ziel passt nicht zu seiner Firmware. Wählen Sie ein Ziel aus derselben Board-Familie.",
+            "targetSelectionCancelled": "Zielauswahl wurde abgebrochen. Laufzeitinstallation abgebrochen."
+        }
+    },
+    "deviceCollection": {
+        "comparison": {
+            "title": "Sammlungsvergleich"
+        },
+        "local": {
+            "title": "Aktuelle Sammlung (Lokal)",
+            "name": "Name",
+            "version": "Version",
+            "runtime": "Runtime",
+            "target": "Ziel"
+        },
+        "device": {
+            "title": "Sammlung auf Gerät",
+            "none": "Keine Sammlung bereitgestellt",
+            "name": "Name",
+            "version": "Version",
+            "runtime": "Runtime",
+            "target": "Ziel",
+            "graphIncluded": "Vollständiger Graph enthalten",
+            "graphMetadataOnly": "Nur Metadaten"
+        },
+        "status": {
+            "title": "Status",
+            "compatible": "Kompatibel",
+            "incompatible": "Inkompatibel",
+            "overrideWarning": "Upload ersetzt \"{{collectionName}}\""
+        },
+        "download": {
+            "button": "Sammlung vom Gerät herunterladen",
+            "success": {
+                "title": "Erfolg",
+                "message": "Sammlung erfolgreich heruntergeladen"
+            },
+            "confirmOverwrite": {
+                "title": "Sammlung existiert bereits",
+                "message": "Eine Sammlung mit dieser ID existiert bereits:\n\nLokal: {{localName}} (v{{localVersion}})\nGerät: {{deviceName}} (v{{deviceVersion}})\n\nLokale Sammlung überschreiben?",
+                "overwrite": "Lokal überschreiben",
+                "cancel": "Abbrechen"
+            },
+            "error": {
+                "title": "Download fehlgeschlagen",
+                "noData": "Keine Sammlungsdaten auf dem Gerät verfügbar",
+                "noFullDefinition": "Sammlung enthält keine vollständigen Graphdaten",
+                "failed": "Download der Sammlung fehlgeschlagen: {{error}}"
+            }
+        }
+    },
+    "documentationArea": {
+        "untitled": "Unbenannter Bereich",
+        "menuButton": "Menü für Dokumentationsbereich",
+        "placeholder": "Markdown schreiben…  ($…$ für Formeln)",
+        "duplicateTitle": "{title} Kopie",
+        "menu": {
+            "edit": "Bearbeiten",
+            "done": "Fertig",
+            "color": "Farbe ändern…",
+            "rename": "Umbenennen…",
+            "alignTop": "Text oben ausrichten",
+            "alignBottom": "Text unten ausrichten",
+            "fontSize": "Schriftgröße",
+            "fontSizeSmall": "Klein",
+            "fontSizeNormal": "Normal",
+            "fontSizeLarge": "Groß",
+            "cut": "Ausschneiden",
+            "copy": "Kopieren",
+            "paste": "Einfügen",
+            "duplicate": "Duplizieren",
+            "fitToSelection": "An Auswahl anpassen",
+            "delete": "Löschen"
+        }
+    }
+}

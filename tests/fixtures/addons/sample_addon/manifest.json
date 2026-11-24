@@ -1,0 +1,19 @@
+{
+  "id": "sample_addon",
+  "name": "Sample Add-on",
+  "description": "Minimal third-party node package used by the add-on tests.",
+  "version": "1.0.0",
+  "author": "Micro-Otter",
+  "assetsRoot": "./",
+  "manifestVersion": 2,
+  "variants": {
+    "py": {
+      "mpAssets": {
+        "*": [
+          "moa_sample_addon/__init__.py",
+          "moa_sample_addon/generator.py"
+        ]
+      }
+    }
+  }
+}

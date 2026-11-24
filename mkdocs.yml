@@ -1,0 +1,192 @@
+# Copyright (c) 2025 Christian Perwass; SPDX-License-Identifier: GPL-3.0-only
+#
+# User documentation site. Only `user-docs/` is rendered: the developer markdown
+# under `docs/` stays raw and is pointed at from `user-docs/developer-docs.md`.
+# Build gate: `uv run mkdocs build --strict` (npm run check:docs).
+site_name: Micro-Otter
+site_description: Node-based MicroPython firmware design for ESP32-class boards
+docs_dir: user-docs
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.instant
+    # No `navigation.sections`: it renders the top-level groups (Setup, App, Nodes,
+    # Addons) as fixed bold headers that cannot be folded. Without it each group is a
+    # collapsible item that starts folded, so the sidebar opens on the section list.
+    - navigation.tracking
+    - navigation.top
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+    - toc.follow
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+
+extra:
+  version:
+    provider: mike
+
+nav:
+  - Home: index.md
+  - Setup:
+      - Install Micro-Otter: setup/index.md
+      - Targets: setup/targets.md
+      - Connect a device: setup/connect.md
+  - App:
+      - The app: app/index.md
+      - Collection view: app/collection-view.md
+      - Graph panel: app/graph-panel.md
+      - Console and output: app/console-view.md
+      - Device view: app/device-view.md
+      - Deploy view: app/deploy-view.md
+      - Firmware view: app/firmware-view.md
+      - Settings view: app/settings-view.md
+  - Nodes:
+      - Node reference: nodes/index.md
+      - Core:
+          - Core package: nodes/core/index.md
+          - Constant: nodes/core/const.md
+          - Print: nodes/core/print.md
+          - Math: nodes/core/math.md
+          - Range Adapt: nodes/core/range-adapt.md
+          - Range Convert: nodes/core/range-convert.md
+          - Compare: nodes/core/compare.md
+          - Logic: nodes/core/logic.md
+          - Time: nodes/core/time.md
+          - Memory Info: nodes/core/memoryInfo.md
+          - ADC Input: nodes/core/adc-input.md
+          - ADC Block: nodes/core/adc-array.md
+          - DAC Output: nodes/core/dac-output.md
+          - Digital Input: nodes/core/digital-input.md
+          - Digital Output: nodes/core/digital-output.md
+          - Voltage Divider: nodes/core/voltage-divider.md
+          - Select: nodes/core/select.md
+          - Select by Index: nodes/core/select-index.md
+          - Compose: nodes/core/compose.md
+          - Decompose: nodes/core/decompose.md
+          - Tuple Select: nodes/core/tuple-select.md
+      - Audio:
+          - Audio package: nodes/audio/index.md
+          - I2S Input: nodes/audio/i2s-input.md
+          - I2S Output: nodes/audio/i2s-output.md
+          - Overdrive: nodes/audio/overdrive.md
+          - Bitcrusher: nodes/audio/bitcrusher.md
+          - Square Fuzz: nodes/audio/square-fuzz.md
+          - Downsampler: nodes/audio/downsampler.md
+          - Gain: nodes/audio/gain.md
+          - Pitch Shifter: nodes/audio/pitch-shifter.md
+          - Filter: nodes/audio/filter.md
+          - Ring Modulator: nodes/audio/ring-mod.md
+          - Noise: nodes/audio/noise.md
+          - Oscillator: nodes/audio/oscillator.md
+      - Interrupts:
+          - Interrupts package: nodes/irq/index.md
+          - Interrupt Input: nodes/irq/interrupt-input.md
+          - Interrupt Enable: nodes/irq/interrupt-enable.md
+      - LED:
+          - LED package: nodes/led/index.md
+          - LED Strip (NeoPixel): nodes/led/led-neopixel-output.md
+          - LED RGB Strip (PWM): nodes/led/led-pwm-strip-output.md
+          - Single LED: nodes/led/led-single-output.md
+      - Power:
+          - Power package: nodes/power/index.md
+          - Battery Monitor: nodes/power/battery-monitor.md
+      - Servo:
+          - Servo package: nodes/stdmo/index.md
+          - Servo: nodes/stdmo/servo.md
+      - Time:
+          - Time package: nodes/time/index.md
+          - Time Service: nodes/time/time-service.md
+          - Time Status: nodes/time/time-status.md
+          - Clock Parts: nodes/time/time-clock-parts.md
+          - Date Parts: nodes/time/time-date-parts.md
+          - Time Between: nodes/time/time-between.md
+          - Format Time: nodes/time/time-format.md
+      - Variables:
+          - Variables package: nodes/vars/index.md
+          - Variable Read: nodes/vars/var-read.md
+          - Variable Write: nodes/vars/var-write.md
+          - Store Save: nodes/vars/var-store-save.md
+          - Store Load: nodes/vars/var-store-load.md
+          - Array Generate: nodes/vars/array-generate.md
+          - Array Select: nodes/vars/array-select.md
+          - Array Set: nodes/vars/array-set.md
+          - Array Modify: nodes/vars/array-modify.md
+          - Array Math: nodes/vars/array-math.md
+          - Random Value: nodes/vars/random-value.md
+          - Random Seed: nodes/vars/random-seed.md
+          - Post Signal: nodes/vars/signal-post.md
+      - Web view:
+          - Web view package: nodes/webview/index.md
+          - Web Root: nodes/webview/web-root.md
+          - Web Page: nodes/webview/web-page.md
+          - Row: nodes/webview/row.md
+          - Column: nodes/webview/column.md
+          - Tile: nodes/webview/web-view-tile.md
+          - Title Content: nodes/webview/title-content.md
+          - Content: nodes/webview/content.md
+          - Value Table: nodes/webview/value-table.md
+          - Radar Display: nodes/webview/radar-display.md
+          - Joystick Display: nodes/webview/joystick-display.md
+          - Line Graph: nodes/webview/graph-display.md
+          - Value Input: nodes/webview/web-view-number-input.md
+          - Text Input: nodes/webview/web-view-string-input.md
+          - Slider: nodes/webview/web-view-slider.md
+          - Checkbox: nodes/webview/web-view-checkbox.md
+          - Select: nodes/webview/web-view-select.md
+          - Button: nodes/webview/web-view-button.md
+          - Web Value Read: nodes/webview/web-store-read.md
+          - Web Value Write: nodes/webview/web-store-write.md
+          - Web Value Store Save: nodes/webview/web-store-save.md
+          - Web Value Store Load: nodes/webview/web-store-load.md
+      - MQTT:
+          - MQTT package: nodes/mqtt/index.md
+          - MQTT Read: nodes/mqtt/mqtt-read.md
+          - MQTT Write: nodes/mqtt/mqtt-write.md
+          - MQTT Status: nodes/mqtt/mqtt-status.md
+          - MQTT Will: nodes/mqtt/mqtt-will.md
+          - MQTT Announce: nodes/mqtt/mqtt-announce.md
+      - Home Assistant:
+          - Home Assistant package: nodes/hass/index.md
+          - HA Bridge: nodes/hass/hass-bridge.md
+          - HA Availability: nodes/hass/hass-availability.md
+          - HA Sensor: nodes/hass/hass-sensor.md
+          - HA Binary Sensor: nodes/hass/hass-binary-sensor.md
+          - HA Number: nodes/hass/hass-number.md
+          - HA Switch: nodes/hass/hass-switch.md
+          - HA Select: nodes/hass/hass-select.md
+          - HA Text: nodes/hass/hass-text.md
+          - HA Button: nodes/hass/hass-button.md
+  - Addons:
+      - Add-ons: addons/index.md
+      - Create a package: addons/create-package.md
+  - Developer docs: developer-docs.md

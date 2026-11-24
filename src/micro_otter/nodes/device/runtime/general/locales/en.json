@@ -1,0 +1,81 @@
+{
+  "generalRuntime": {
+    "customView": {
+      "title": "General Runtime Configuration",
+      "description": "Configure WiFi and webserver settings for your device",
+      "upload": "Upload Changes",
+      "download": "Reload from Device",
+      "status": "Status",
+      "uploadSuccess": "WiFi settings saved. Hard reset required to apply.",
+      "downloadSuccess": "WiFi settings loaded.",
+      "uploadError": "Failed to save runtime settings",
+      "downloadError": "Failed to load runtime settings",
+      "disabledSectionTitle": "Saved, But Not Enabled",
+      "wifiStaDisabledWarning": "The station SSID and password were saved, but \"Enable Station (STA)\" is off, so the device will not join that network. Tick the checkbox in WiFi Settings and upload again.",
+      "wifiApDisabledWarning": "The access-point password was saved, but \"Enable Access Point (AP)\" is off, so the access point will not start. Tick the checkbox in WiFi Settings and upload again.",
+      "mqttDisabledWarning": "The MQTT settings were saved, but \"Enable MQTT\" is off, so nothing is published or subscribed and Home Assistant stays empty. Expand the MQTT Settings section, tick \"Enable MQTT\" and upload again."
+    },
+    "wifiSettings": {
+      "title": "WiFi Settings",
+      "status": "Connection Status",
+      "statusUnknown": "Click 'Check Status' to query device",
+      "checkButton": "Check Status",
+      "checkSuccess": "WiFi status updated",
+      "checkError": "Failed to check WiFi status",
+      "staEnabled": "Enable Station (STA)",
+      "staSsid": "Station Network Name (SSID)",
+      "staSsidPlaceholder": "Enter the station network name",
+      "staSsidError": "SSID must be 1-32 printable ASCII characters",
+      "staPassword": "Station Password",
+      "staPasswordPlaceholder": "Enter the station password (8-63 characters)",
+      "staPasswordError": "Password must be 8-63 characters",
+      "apEnabled": "Enable Access Point (AP)",
+      "apSsid": "Access Point Name (SSID)",
+      "apSsidPlaceholder": "Enter the access point name",
+      "apSsidError": "Access point name must be 1-32 printable ASCII characters",
+      "apPassword": "Access Point Password",
+      "apPasswordPlaceholder": "Enter the access point password (8-63 characters, empty for an open access point)",
+      "apPasswordError": "Access point password must be 8-63 characters or empty (open access point)",
+      "apChannel": "Access Point Channel",
+      "apMaxClients": "Maximum Clients",
+      "reconnectInterval": "Station Reconnect Interval (s)",
+      "loadButton": "Load from Device",
+      "saveButton": "Save to Device",
+      "loadSuccess": "WiFi settings loaded successfully",
+      "loadError": "Failed to load WiFi settings from device",
+      "saveSuccess": "WiFi settings saved successfully",
+      "saveError": "Failed to save WiFi settings to device",
+      "restartRequiredTitle": "Restart Required",
+      "restartRequiredMessage": "WiFi settings were saved. Please run a hard reset and reconnect to apply the changes.",
+      "notConfigured": "WiFi is not configured or fully disabled. Enter the station SSID and password and/or the access-point details, then click \"Upload Changes\" and hard-reset the device."
+    },
+    "webserverSettings": {
+      "title": "Webserver Settings",
+      "enable": "Enable Webserver",
+      "port": "HTTP Port",
+      "loadButton": "Load from Device",
+      "saveButton": "Save to Device",
+      "saveSuccess": "Webserver settings saved successfully"
+    },
+    "mqttSettings": {
+      "title": "MQTT Settings",
+      "enabled": "Enable MQTT",
+      "host": "Broker Host",
+      "hostPlaceholder": "e.g. broker.local",
+      "port": "Port",
+      "keepalive": "Keepalive (s)",
+      "pumpDelayMs": "Pump Delay (ms)",
+      "resyncInterval": "Resync Interval (s)",
+      "clientId": "Client ID",
+      "clientIdPlaceholder": "Auto-generated when empty",
+      "user": "Username",
+      "password": "Password"
+    }
+  },
+  "customView": {
+    "validationFailed": "Please correct validation errors before saving",
+    "functionError": "Operation failed: {error}",
+    "operationSuccess": "Operation completed successfully",
+    "operationError": "Operation failed: {error}"
+  }
+}

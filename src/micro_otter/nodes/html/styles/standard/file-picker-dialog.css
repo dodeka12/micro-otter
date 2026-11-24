@@ -1,0 +1,88 @@
+.file-picker-dialog__message {
+    margin: 0 0 4px;
+    color: var(--mo-modal-muted);
+    line-height: 1.5;
+}
+
+.file-picker-dialog__location {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.file-picker-dialog__location-path {
+    font-family: var(--mo-mono, monospace);
+    color: var(--mo-modal-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
+.file-picker-dialog__list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    max-height: 260px;
+    overflow-y: auto;
+    border: 1px solid var(--mo-modal-border);
+    border-radius: 6px;
+    padding: 4px;
+}
+
+.file-picker-dialog__entry {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 8px;
+    border-radius: 4px;
+    background: transparent;
+    border: none;
+    color: var(--mo-modal-text);
+    font-size: 12px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.file-picker-dialog__entry:hover:not(:disabled) {
+    background: var(--mo-modal-border);
+}
+
+.file-picker-dialog__entry.is-selected {
+    background: var(--mo-modal-accent);
+}
+
+.file-picker-dialog__entry:disabled {
+    opacity: 0.55;
+    cursor: default;
+}
+
+.file-picker-dialog__entry--text {
+    cursor: default;
+    color: var(--mo-modal-muted);
+}
+
+.file-picker-dialog__entry-icon {
+    flex: none;
+}
+
+.file-picker-dialog__entry-name {
+    flex: 1 1 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.file-picker-dialog__entry-size {
+    flex: none;
+    color: var(--mo-modal-muted);
+    font-family: var(--mo-mono, monospace);
+}
+
+.file-picker-dialog__error {
+    margin-top: 8px;
+    color: var(--mo-modal-danger, #ff7e7e);
+    line-height: 1.4;
+}

@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 2,
+  "targets": {
+    "esp32-general": {
+      "boardId": "esp32",
+      "channels": {
+        "dev": {
+          "contentHash": null,
+          "fullVersion": "1.29.0-esp32-general-0.22.0",
+          "micropythonVersion": "1.29.0",
+          "updatedAtUtc": "2026-11-01T13:04:11.182839Z",
+          "version": "0.22.0",
+          "versionSource": "legacy-lineage"
+        },
+        "release": {
+          "contentHash": null,
+          "fullVersion": "1.29.0-esp32-general-0.22.0",
+          "micropythonVersion": "1.29.0",
+          "updatedAtUtc": "2026-11-01T13:04:11.183856Z",
+          "version": "0.22.0",
+          "versionSource": "legacy-lineage"
+        }
+      },
+      "runtimeId": "general"
+    },
+    "esp32_generic_s3-general": {
+      "boardId": "esp32_generic_s3",
+      "channels": {
+        "dev": {
+          "contentHash": "da58bfa25810",
+          "fullVersion": "1.29.0-esp32_generic_s3-general-0.40.0-da58bfa25810",
+          "micropythonVersion": "1.29.0",
+          "updatedAtUtc": "2026-11-09T08:57:50.761226Z",
+          "version": "0.40.0",
+          "versionSource": "legacy-lineage"
+        },
+        "release": {
+          "contentHash": "da58bfa25810",
+          "fullVersion": "1.29.0-esp32_generic_s3-general-0.40.0-da58bfa25810",
+          "micropythonVersion": "1.29.0",
+          "updatedAtUtc": "2026-11-09T08:57:50.762625Z",
+          "version": "0.40.0",
+          "versionSource": "legacy-lineage"
+        }
+      },
+      "runtimeId": "general"
+    }
+  }
+}

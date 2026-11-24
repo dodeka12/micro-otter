@@ -1,0 +1,331 @@
+/* Copyright (c) 2025 Christian Perwass; SPDX-License-Identifier: GPL-3.0-only */
+
+/**
+ * NodePaletteView Styles: Layout and appearance for the node palette view.
+ * 
+ * Features:
+ * - Toolbar with organization mode selector and view size toggle
+ * - Search bar
+ * - Favorites and recently used sections
+ * - Auto-responsive grid layout (small tiles keep the 24px icon size and never grow
+ *   beyond 36px, so wider panels fit more icons per row instead of inflating the icons)
+ * - Integration with NodeTypeUi styles
+ */
+
+/* Main container */
+.node-palette-view {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    --mo-node-palette-large-card-width: 168px;
+    --mo-node-palette-small-card-min-width: 32px;
+    --mo-node-palette-small-card-max-width: 36px;
+    /*
+     * Width of a small (icon only) palette tile.
+     *
+     * The tile is just the 24px icon plus its 4px padding and may only flex between the
+     * min and max width. Any additional panel width therefore becomes an extra column
+     * instead of a bigger icon, so a wide palette shows many icons per row (about 4
+     * columns at the 200px minimum and 9 at the 420px maximum, 6 already at 300px)
+     * rather than a handful of oversized ones.
+     * Declared once here so the flat grid, the collapsible sections and the
+     * favorites/recent grids cannot drift apart.
+     */
+    --mo-node-palette-small-card-width: clamp(
+        var(--mo-node-palette-small-card-min-width),
+        calc(20% - 6.4px),
+        var(--mo-node-palette-small-card-max-width)
+    );
+    container-type: inline-size;
+    background: var(--mo-surface-0, #0f141f);
+    color: var(--mo-text, #e5eaf3);
+    font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+    overflow: hidden;
+}
+
+/* Toolbar (includes search and buttons) */
+.node-palette-view__toolbar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap; /* Allow toolbar to wrap into multiple rows */
+    gap: 8px;
+    padding: 8px;
+    border-bottom: 1px solid var(--mo-border, rgba(255, 255, 255, 0.08));
+    background: var(--mo-surface-1, #121927);
+    flex-shrink: 0;
+    min-width: 0; /* Allow toolbar to shrink */
+}
+
+.node-palette-view__organization {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0; /* Buttons don't shrink */
+}
+
+.node-palette-view__org-button,
+.node-palette-view__size-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    background: transparent;
+    border: 1px solid var(--mo-border, rgba(255, 255, 255, 0.08));
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.node-palette-view__org-button:hover,
+.node-palette-view__size-toggle:hover {
+    background: var(--mo-surface-2, #172133);
+    border-color: var(--mo-border-strong, rgba(118, 188, 255, 0.4));
+}
+
+.node-palette-view__org-button.is-active {
+    background: var(--mo-accent, #63b5ff);
+    border-color: var(--mo-accent, #63b5ff);
+}
+
+.node-palette-view__button-icon {
+    width: 20px;
+    height: 20px;
+    display: block;
+    opacity: 0.85;
+}
+
+.node-palette-view__org-button.is-active .node-palette-view__button-icon {
+    opacity: 1;
+    filter: brightness(0); /* Make icon black on active blue background */
+}
+
+.node-palette-view__org-button:hover .node-palette-view__button-icon,
+.node-palette-view__size-toggle:hover .node-palette-view__button-icon {
+    opacity: 1;
+}
+
+/* Search input in toolbar */
+.node-palette-view__search-input {
+    flex: 1;
+    min-width: 60px; /* Allow toolbar to shrink further */
+    padding: 6px 8px; /* Reduced horizontal padding */
+    font-size: 11px; /* Slightly smaller font */
+    background: var(--mo-surface-0, #0f141f);
+    color: var(--mo-text, #e5eaf3);
+    border: 1px solid var(--mo-border, rgba(255, 255, 255, 0.08));
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.15s ease;
+}
+
+.node-palette-view__search-input::placeholder {
+    color: var(--mo-muted, rgba(229, 234, 243, 0.35));
+}
+
+.node-palette-view__search-input:focus {
+    border-color: var(--mo-accent, #63b5ff);
+}
+
+/* Sections (Favorites, Recently Used) */
+.node-palette-view__section {
+    padding: 8px;
+    border-bottom: 1px solid var(--mo-border, rgba(255, 255, 255, 0.08));
+    flex-shrink: 0;
+}
+
+.node-palette-view__section-heading {
+    margin: 0 0 8px 0;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+}
+
+.node-palette-view__section-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.node-palette-view__section-grid > * {
+    flex: 0 0 auto;
+    width: var(--mo-node-palette-small-card-width);
+}
+
+/* Main grid container */
+.node-palette-view__grid {
+    flex: 1;
+    min-height: 0;
+    min-width: 0; /* Allow container to shrink below content size */
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 8px;
+    display: grid;
+    gap: 8px;
+    align-content: start;
+}
+
+/* Small view mode */
+.node-palette-view__grid[data-view-size="small"] {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.node-palette-view__grid[data-view-size="small"] > * {
+    flex: 0 0 auto;
+    min-width: 0;
+    width: var(--mo-node-palette-small-card-width);
+}
+
+/* Large view mode */
+.node-palette-view__grid[data-view-size="large"] {
+    grid-template-columns: minmax(0, 1fr);
+    justify-content: start;
+}
+
+/* Scrollbar styling for main grid */
+.node-palette-view__grid::-webkit-scrollbar {
+    width: 8px;
+}
+
+.node-palette-view__grid::-webkit-scrollbar-track {
+    background: var(--mo-surface-0, #0f141f);
+}
+
+.node-palette-view__grid::-webkit-scrollbar-thumb {
+    background: var(--mo-surface-2, #172133);
+    border-radius: 4px;
+}
+
+.node-palette-view__grid::-webkit-scrollbar-thumb:hover {
+    background: var(--mo-border-strong, rgba(118, 188, 255, 0.6));
+}
+
+/* Empty state */
+.node-palette-view__empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    text-align: center;
+    color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+    font-size: 12px;
+}
+
+/* Collapsible sections container (used for package/category modes) */
+.node-palette-view__sections {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Collapsible section styling */
+.collapsible-section {
+    margin-bottom: 4px;
+}
+
+.collapsible-section__header {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 8px 0;
+    position: relative;
+    user-select: none;
+    list-style-position: outside;
+}
+
+/* Thin separator line after group name */
+.collapsible-section__header::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--mo-border, rgba(255, 255, 255, 0.08));
+    margin-left: 12px;
+}
+
+.collapsible-section__name {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+    white-space: nowrap;
+}
+
+/* Marks a section whose package was installed from the add-ons folder. */
+.collapsible-section__badge {
+    margin-left: 8px;
+    padding: 1px 6px;
+    border: 1px solid var(--mo-border, rgba(255, 255, 255, 0.18));
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--mo-accent, #5b7fc7);
+    white-space: nowrap;
+}
+
+/* Style the disclosure triangle */
+.collapsible-section summary::marker {
+    color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+}
+
+/* Section grid (same responsive behavior as main grid) */
+.collapsible-section__grid {
+    display: grid;
+    gap: 8px;
+    padding: 8px 0;
+}
+
+/* Small view mode */
+.collapsible-section__grid[data-view-size="small"] {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/*
+ * Same tile width as the other small grids. The fixed tile width (instead of a
+ * percentage flex basis) makes the row wrap into more columns once the tiles reach
+ * their max width.
+ */
+.collapsible-section__grid[data-view-size="small"] > * {
+    flex: 0 0 auto;
+    min-width: 0;
+    width: var(--mo-node-palette-small-card-width);
+}
+
+/* Large view mode */
+.collapsible-section__grid[data-view-size="large"] {
+    grid-template-columns: minmax(0, 1fr);
+    justify-content: start;
+}
+
+@container (min-width: 360px) {
+    .node-palette-view__grid[data-view-size="large"],
+    .collapsible-section__grid[data-view-size="large"] {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .node-palette-view__toolbar {
+        flex-wrap: wrap;
+    }
+    
+    .node-palette-view__organization {
+        flex: 1 0 100%;
+        justify-content: center;
+    }
+    
+    .node-palette-view__size-toggle {
+        flex: 1;
+    }
+}

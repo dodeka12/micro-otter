@@ -1,0 +1,528 @@
+{
+  "$schema": "https://micro-otter.dev/schemas/custom-view-v1.json",
+  "version": "1.0.0",
+  "title": "generalRuntime.customView.title",
+  "description": "generalRuntime.customView.description",
+  "toolbar": {
+    "controls": [
+      {
+        "id": "runtime_upload",
+        "type": "button",
+        "label": "generalRuntime.customView.upload",
+        "icon": "upload",
+        "style": "primary",
+        "enableOnDirty": [
+          "wifi_sta_enabled",
+          "wifi_sta_ssid",
+          "wifi_sta_password",
+          "wifi_ap_enabled",
+          "wifi_ap_ssid",
+          "wifi_ap_password",
+          "wifi_ap_channel",
+          "wifi_ap_max_clients",
+          "wifi_reconnect_interval_s",
+          "webserver_enable",
+          "webserver_port",
+          "mqtt_enabled",
+          "mqtt_host",
+          "mqtt_port",
+          "mqtt_client_id",
+          "mqtt_user",
+          "mqtt_password",
+          "mqtt_keepalive",
+          "mqtt_pump_delay_ms",
+          "mqtt_resync_interval_s"
+        ],
+        "clearDirty": [
+          "wifi_sta_enabled",
+          "wifi_sta_ssid",
+          "wifi_sta_password",
+          "wifi_ap_enabled",
+          "wifi_ap_ssid",
+          "wifi_ap_password",
+          "wifi_ap_channel",
+          "wifi_ap_max_clients",
+          "wifi_reconnect_interval_s",
+          "webserver_enable",
+          "webserver_port",
+          "mqtt_enabled",
+          "mqtt_host",
+          "mqtt_port",
+          "mqtt_client_id",
+          "mqtt_user",
+          "mqtt_password",
+          "mqtt_keepalive",
+          "mqtt_pump_delay_ms",
+          "mqtt_resync_interval_s"
+        ],
+        "function": {
+          "name": "create_runtime_settings",
+          "runtimeImpact": "none",
+          "parameters": [
+            "${wifi_sta_enabled}",
+            "${wifi_sta_ssid}",
+            "${wifi_sta_password}",
+            "${wifi_ap_enabled}",
+            "${wifi_ap_ssid}",
+            "${wifi_ap_password}",
+            "${wifi_ap_channel}",
+            "${wifi_ap_max_clients}",
+            "${wifi_reconnect_interval_s}",
+            "${webserver_enable}",
+            "${webserver_port}",
+            "${mqtt_enabled}",
+            "${mqtt_host}",
+            "${mqtt_port}",
+            "${mqtt_client_id}",
+            "${mqtt_user}",
+            "${mqtt_password}",
+            "${mqtt_keepalive}",
+            "${mqtt_pump_delay_ms}",
+            "${mqtt_resync_interval_s}"
+          ],
+          "onSuccess": {
+            "action": "updateControls",
+            "mapping": {
+              "message": {
+                "controlId": "runtime_status",
+                "translate": true
+              }
+            }
+          },
+          "onError": {
+            "action": "updateControls",
+            "mapping": {
+              "error": "runtime_status"
+            }
+          }
+        },
+        "validate": [
+          "wifi_sta_ssid",
+          "wifi_sta_password",
+          "wifi_ap_ssid",
+          "wifi_ap_password"
+        ]
+      },
+      {
+        "id": "runtime_download",
+        "type": "button",
+        "label": "generalRuntime.customView.download",
+        "icon": "download",
+        "style": "secondary",
+        "clearDirty": [
+          "wifi_sta_enabled",
+          "wifi_sta_ssid",
+          "wifi_sta_password",
+          "wifi_ap_enabled",
+          "wifi_ap_ssid",
+          "wifi_ap_password",
+          "wifi_ap_channel",
+          "wifi_ap_max_clients",
+          "wifi_reconnect_interval_s",
+          "webserver_enable",
+          "webserver_port",
+          "mqtt_enabled",
+          "mqtt_host",
+          "mqtt_port",
+          "mqtt_client_id",
+          "mqtt_user",
+          "mqtt_password",
+          "mqtt_keepalive",
+          "mqtt_pump_delay_ms",
+          "mqtt_resync_interval_s"
+        ],
+        "function": {
+          "name": "read_runtime_settings",
+          "executionIntent": "refresh",
+          "runtimeImpact": "none",
+          "parameters": [],
+          "onSuccess": {
+            "action": "updateControls",
+            "mapping": {
+              "wifi_sta_enabled": "wifi_sta_enabled",
+              "wifi_sta_ssid": "wifi_sta_ssid",
+              "wifi_sta_password": "wifi_sta_password",
+              "wifi_ap_enabled": "wifi_ap_enabled",
+              "wifi_ap_ssid": "wifi_ap_ssid",
+              "wifi_ap_password": "wifi_ap_password",
+              "wifi_ap_channel": "wifi_ap_channel",
+              "wifi_ap_max_clients": "wifi_ap_max_clients",
+              "wifi_reconnect_interval_s": "wifi_reconnect_interval_s",
+              "webserver_enable": "webserver_enable",
+              "webserver_port": "webserver_port",
+              "mqtt_enabled": "mqtt_enabled",
+              "mqtt_host": "mqtt_host",
+              "mqtt_port": "mqtt_port",
+              "mqtt_client_id": "mqtt_client_id",
+              "mqtt_user": "mqtt_user",
+              "mqtt_password": "mqtt_password",
+              "mqtt_keepalive": "mqtt_keepalive",
+              "mqtt_pump_delay_ms": "mqtt_pump_delay_ms",
+              "mqtt_resync_interval_s": "mqtt_resync_interval_s",
+              "status": {
+                "controlId": "runtime_status",
+                "translate": true
+              }
+            }
+          },
+          "onError": {
+            "action": "updateControls",
+            "mapping": {
+              "error": "runtime_status"
+            }
+          }
+        }
+      }
+    ]
+  },
+  "setup": {
+    "onError": {
+      "message": "customRuntimeView.setup.error"
+    },
+    "calls": [
+      {
+        "name": "read_runtime_settings",
+        "executionIntent": "refresh",
+        "runtimeImpact": "none",
+        "parameters": [],
+        "mapping": {
+          "wifi_sta_enabled": "wifi_sta_enabled",
+          "wifi_sta_ssid": "wifi_sta_ssid",
+          "wifi_sta_password": "wifi_sta_password",
+          "wifi_ap_enabled": "wifi_ap_enabled",
+          "wifi_ap_ssid": "wifi_ap_ssid",
+          "wifi_ap_password": "wifi_ap_password",
+          "wifi_ap_channel": "wifi_ap_channel",
+          "wifi_ap_max_clients": "wifi_ap_max_clients",
+          "wifi_reconnect_interval_s": "wifi_reconnect_interval_s",
+          "webserver_enable": "webserver_enable",
+          "webserver_port": "webserver_port",
+          "mqtt_enabled": "mqtt_enabled",
+          "mqtt_host": "mqtt_host",
+          "mqtt_port": "mqtt_port",
+          "mqtt_client_id": "mqtt_client_id",
+          "mqtt_user": "mqtt_user",
+          "mqtt_password": "mqtt_password",
+          "mqtt_keepalive": "mqtt_keepalive",
+          "mqtt_pump_delay_ms": "mqtt_pump_delay_ms",
+          "mqtt_resync_interval_s": "mqtt_resync_interval_s",
+          "status": {
+            "controlId": "runtime_status",
+            "translate": true
+          }
+        }
+      },
+      {
+        "name": "check_wifi_status",
+        "executionIntent": "refresh",
+        "runtimeImpact": "stop",
+        "parameters": [],
+        "mapping": {
+          "status": "wifi_status"
+        }
+      }
+    ]
+  },
+  "sections": [
+    {
+      "id": "wifi_settings",
+      "title": "generalRuntime.wifiSettings.title",
+      "collapsible": true,
+      "collapsed": false,
+      "controls": [
+        {
+          "id": "runtime_status",
+          "type": "text",
+          "label": "generalRuntime.customView.status",
+          "defaultValue": "",
+          "readonly": true,
+          "grow": true
+        },
+        {
+          "type": "row",
+          "controls": [
+            {
+              "id": "wifi_status",
+              "type": "text",
+              "label": "generalRuntime.wifiSettings.status",
+              "defaultValue": "generalRuntime.wifiSettings.statusUnknown",
+              "readonly": true,
+              "linkifyIpAddress": true,
+              "grow": true
+            },
+            {
+              "id": "wifi_check_btn",
+              "type": "button",
+              "label": "generalRuntime.wifiSettings.checkButton",
+              "icon": "sync",
+              "iconOnly": true,
+              "style": "secondary",
+              "width": 28,
+              "function": {
+                "name": "check_wifi_status",
+                "executionIntent": "refresh",
+                "runtimeImpact": "stop",
+                "parameters": [],
+                "onSuccess": {
+                  "action": "updateControls",
+                  "mapping": {
+                    "status": "wifi_status"
+                  }
+                },
+                "onError": {
+                  "action": "showMessage",
+                  "messageType": "error",
+                  "message": "generalRuntime.wifiSettings.checkError"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "wifi_sta_enabled",
+          "type": "checkbox",
+          "label": "generalRuntime.wifiSettings.staEnabled",
+          "defaultValue": true
+        },
+        {
+          "id": "wifi_sta_ssid",
+          "type": "text",
+          "label": "generalRuntime.wifiSettings.staSsid",
+          "placeholder": "generalRuntime.wifiSettings.staSsidPlaceholder",
+          "defaultValue": "",
+          "visibleWhen": {
+            "controlId": "wifi_sta_enabled",
+            "equals": true
+          },
+          "validation": {
+            "maxLength": 32,
+            "pattern": "^[\\x20-\\x7E]+$",
+            "errorMessage": "generalRuntime.wifiSettings.staSsidError"
+          }
+        },
+        {
+          "id": "wifi_sta_password",
+          "type": "text",
+          "label": "generalRuntime.wifiSettings.staPassword",
+          "placeholder": "generalRuntime.wifiSettings.staPasswordPlaceholder",
+          "defaultValue": "",
+          "password": true,
+          "visibleWhen": {
+            "controlId": "wifi_sta_enabled",
+            "equals": true
+          },
+          "validation": {
+            "minLength": 8,
+            "maxLength": 63,
+            "errorMessage": "generalRuntime.wifiSettings.staPasswordError"
+          }
+        },
+        {
+          "id": "wifi_ap_enabled",
+          "type": "checkbox",
+          "label": "generalRuntime.wifiSettings.apEnabled",
+          "defaultValue": false
+        },
+        {
+          "id": "wifi_ap_ssid",
+          "type": "text",
+          "label": "generalRuntime.wifiSettings.apSsid",
+          "placeholder": "generalRuntime.wifiSettings.apSsidPlaceholder",
+          "defaultValue": "MicroOtter-AP",
+          "visibleWhen": {
+            "controlId": "wifi_ap_enabled",
+            "equals": true
+          },
+          "validation": {
+            "maxLength": 32,
+            "pattern": "^[\\x20-\\x7E]+$",
+            "errorMessage": "generalRuntime.wifiSettings.apSsidError"
+          }
+        },
+        {
+          "id": "wifi_ap_password",
+          "type": "text",
+          "label": "generalRuntime.wifiSettings.apPassword",
+          "placeholder": "generalRuntime.wifiSettings.apPasswordPlaceholder",
+          "defaultValue": "",
+          "password": true,
+          "visibleWhen": {
+            "controlId": "wifi_ap_enabled",
+            "equals": true
+          },
+          "validation": {
+            "allowEmpty": true,
+            "pattern": "^[\\x20-\\x7E]{8,63}$",
+            "errorMessage": "generalRuntime.wifiSettings.apPasswordError"
+          }
+        },
+        {
+          "id": "wifi_ap_channel",
+          "type": "number",
+          "label": "generalRuntime.wifiSettings.apChannel",
+          "defaultValue": 6,
+          "min": 1,
+          "max": 13,
+          "step": 1,
+          "visibleWhen": {
+            "controlId": "wifi_ap_enabled",
+            "equals": true
+          }
+        },
+        {
+          "id": "wifi_ap_max_clients",
+          "type": "number",
+          "label": "generalRuntime.wifiSettings.apMaxClients",
+          "defaultValue": 4,
+          "min": 1,
+          "max": 8,
+          "step": 1,
+          "visibleWhen": {
+            "controlId": "wifi_ap_enabled",
+            "equals": true
+          }
+        },
+        {
+          "id": "wifi_reconnect_interval_s",
+          "type": "number",
+          "label": "generalRuntime.wifiSettings.reconnectInterval",
+          "defaultValue": 30,
+          "min": 1,
+          "max": 600,
+          "step": 1,
+          "visibleWhen": {
+            "controlId": "wifi_sta_enabled",
+            "equals": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "webserver_settings",
+      "title": "generalRuntime.webserverSettings.title",
+      "collapsible": true,
+      "collapsed": true,
+      "controls": [
+        {
+          "type": "stack",
+          "direction": "horizontal",
+          "wrap": true,
+          "gap": "8px",
+          "controls": [
+            {
+              "id": "webserver_enable",
+              "type": "checkbox",
+              "label": "generalRuntime.webserverSettings.enable",
+              "defaultValue": true,
+              "width": 180
+            },
+            {
+              "id": "webserver_port",
+              "type": "number",
+              "label": "generalRuntime.webserverSettings.port",
+              "defaultValue": 80,
+              "min": 1,
+              "max": 65535,
+              "step": 1,
+              "width": 130
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mqtt_settings",
+      "title": "generalRuntime.mqttSettings.title",
+      "collapsible": true,
+      "collapsed": true,
+      "controls": [
+        {
+          "id": "mqtt_enabled",
+          "type": "checkbox",
+          "label": "generalRuntime.mqttSettings.enabled",
+          "defaultValue": false,
+          "width": 180
+        },
+        {
+          "type": "stack",
+          "direction": "horizontal",
+          "wrap": true,
+          "gap": "8px",
+          "controls": [
+            {
+              "id": "mqtt_host",
+              "type": "text",
+              "label": "generalRuntime.mqttSettings.host",
+              "placeholder": "generalRuntime.mqttSettings.hostPlaceholder",
+              "defaultValue": "",
+              "grow": true
+            },
+            {
+              "id": "mqtt_port",
+              "type": "number",
+              "label": "generalRuntime.mqttSettings.port",
+              "defaultValue": 1883,
+              "min": 1,
+              "max": 65535,
+              "step": 1,
+              "width": 130
+            },
+            {
+              "id": "mqtt_keepalive",
+              "type": "number",
+              "label": "generalRuntime.mqttSettings.keepalive",
+              "defaultValue": 60,
+              "min": 0,
+              "max": 65535,
+              "step": 1,
+              "width": 130
+            },
+            {
+              "id": "mqtt_pump_delay_ms",
+              "type": "number",
+              "label": "generalRuntime.mqttSettings.pumpDelayMs",
+              "defaultValue": 50,
+              "min": 1,
+              "max": 60000,
+              "step": 1,
+              "width": 150
+            },
+            {
+              "id": "mqtt_resync_interval_s",
+              "type": "number",
+              "label": "generalRuntime.mqttSettings.resyncInterval",
+              "defaultValue": 30,
+              "min": 1,
+              "max": 600,
+              "step": 1,
+              "width": 150
+            },
+            {
+              "id": "mqtt_client_id",
+              "type": "text",
+              "label": "generalRuntime.mqttSettings.clientId",
+              "placeholder": "generalRuntime.mqttSettings.clientIdPlaceholder",
+              "defaultValue": "",
+              "width": 260
+            },
+            {
+              "id": "mqtt_user",
+              "type": "text",
+              "label": "generalRuntime.mqttSettings.user",
+              "defaultValue": "",
+              "width": 200
+            },
+            {
+              "id": "mqtt_password",
+              "type": "text",
+              "label": "generalRuntime.mqttSettings.password",
+              "defaultValue": "",
+              "password": true,
+              "width": 200
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

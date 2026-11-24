@@ -1,0 +1,104 @@
+{
+  "id": "webview",
+  "name": "Web View",
+  "description": "Web view structure nodes",
+  "version": "1.43.4",
+  "author": "Micro-Otter",
+  "requiredCapabilities": [
+    [
+      "wifi",
+      "ethernet"
+    ]
+  ],
+  "requiredPackages": [
+    "vars"
+  ],
+  "assetsRoot": "./",
+  "nodeDefs": "node_definitions.json",
+  "generators": [
+    "generator_webview_shared.js",
+    "generator_web_root.js",
+    "generator_web_page.js",
+    "generator_row.js",
+    "generator_column.js",
+    "generator_content.js",
+    "generator_value_table.js",
+    "generator_radar_display.js",
+    "generator_joystick_display.js",
+    "generator_graph_display.js",
+    "generator_title_content.js",
+    "generator_tile.js",
+    "generator_number_input.js",
+    "generator_string_input.js",
+    "generator_slider.js",
+    "generator_checkbox.js",
+    "generator_select.js",
+    "generator_button.js",
+    "generator_value_store.js"
+  ],
+  "capabilityChecks": "node_capabilities.js",
+  "dataTypes": "data_types.json",
+  "mpModuleRoots": [
+    ""
+  ],
+  "mpyCompileProfiles": {
+    "052d85852e60": {
+      "mpyCrossVersion": "MicroPython v1.27.0-dirty on 2026-04-08; mpy-cross emitting mpy v6.3",
+      "emit": "bytecode",
+      "smallIntBits": 31,
+      "march": null,
+      "marchFlags": null
+    },
+    "7d963b547334": {
+      "mpyCrossVersion": "MicroPython v1.27.0 on 2026-04-25; mpy-cross emitting mpy v6.3",
+      "emit": "bytecode",
+      "smallIntBits": 31,
+      "march": null,
+      "marchFlags": null
+    }
+  },
+  "manifestVersion": 2,
+  "variants": {
+    "py": {
+      "mpAssets": {
+        "*": [
+          "otter_webview/__init__.py",
+          "otter_webview/data_registry.py",
+          "otter_webview/element_context.py",
+          "otter_webview/refresh_hook.py",
+          "otter_webview/web_data_store.py"
+        ],
+        "radar-display": [
+          "otter_webview/utils.py",
+          "otter_webview/radar.py"
+        ],
+        "joystick-display": [
+          "otter_webview/utils.py",
+          "otter_webview/joystick.py"
+        ],
+        "graph-display": [
+          "otter_webview/utils.py",
+          "otter_webview/graph.py"
+        ],
+        "web-view-number-input": [
+          "otter_webview/input_control.py"
+        ],
+        "web-view-string-input": [
+          "otter_webview/input_control.py"
+        ],
+        "web-view-slider": [
+          "otter_webview/input_control.py"
+        ],
+        "web-view-checkbox": [
+          "otter_webview/input_control.py"
+        ],
+        "web-view-select": [
+          "otter_webview/input_control.py"
+        ],
+        "web-view-button": [
+          "otter_webview/input_control.py"
+        ]
+      }
+    }
+  }
+}

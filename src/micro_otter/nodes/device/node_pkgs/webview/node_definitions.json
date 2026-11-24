@@ -1,0 +1,4649 @@
+{
+    "nodeTypes": {
+        "web-root": {
+            "title": {
+                "en": "Web Root",
+                "de": "Web-Wurzel"
+            },
+            "info": {
+                "en": "Defines the root of a web view tree and creates the default root page.",
+                "de": "Definiert die Wurzel eines Web-View-Baums und erstellt die Standard-Root-Seite."
+            },
+            "category": "webview",
+            "executionPhase": "init",
+            "color": "#8f5f86",
+            "shape": "square",
+            "icon": "icons/web_root_24dp.svg",
+            "inputs": [],
+            "outputs": [
+                {
+                    "id": "root",
+                    "name": {
+                        "en": "Root",
+                        "de": "Wurzel"
+                    },
+                    "outputType": "web.element",
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "init",
+                    "description": {
+                        "en": "The root web element of the page.",
+                        "de": "Das Wurzel-Web-Element der Seite."
+                    }
+                }
+            ],
+            "controls": [
+                {
+                    "type": "text",
+                    "id": "title",
+                    "layout": "stacked",
+                    "label": {
+                        "en": "Page Title",
+                        "de": "Seitentitel"
+                    },
+                    "default": "Micro Otter",
+                    "description": {
+                        "en": "Title shown in the browser tab.",
+                        "de": "Im Browser-Tab angezeigter Titel."
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "refreshIntervalMs",
+                    "label": {
+                        "en": "Refresh (ms)",
+                        "de": "Aktual. (ms)"
+                    },
+                    "default": 1000,
+                    "min": 100,
+                    "max": 60000,
+                    "step": 100,
+                    "description": {
+                        "en": "How often the page pulls fresh values from the device, in milliseconds.",
+                        "de": "Wie oft die Seite neue Werte vom Gerät abruft, in Millisekunden."
+                    }
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.webviewRoot"
+                }
+            },
+            "helperImplementations": {
+                "python": {
+                    "type": "helper-generator",
+                    "value": "NodeHelperGenerators.webviewRoot",
+                    "helperGroup": "web-runtime"
+                }
+            },
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.webviewRoot"
+                }
+            },
+            "initFunction": "init_webview"
+        },
+        "web-page": {
+            "title": {
+                "en": "Web Page",
+                "de": "Web-Seite"
+            },
+            "info": {
+                "en": "Defines an explicit page under the root page.",
+                "de": "Definiert eine explizite Seite unter der Root-Seite."
+            },
+            "category": "webview",
+            "executionPhase": "init",
+            "color": "#9a6a92",
+            "shape": "square",
+            "icon": "icons/web_page_24dp.svg",
+            "inputs": [],
+            "outputs": [
+                {
+                    "id": "element",
+                    "name": {
+                        "en": "Element",
+                        "de": "Element"
+                    },
+                    "outputType": "web.element",
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "init",
+                    "description": {
+                        "en": "The rendered web element.",
+                        "de": "Das gerenderte Web-Element."
+                    }
+                }
+            ],
+            "controls": [
+                {
+                    "type": "text",
+                    "id": "pageName",
+                    "layout": "stacked",
+                    "label": {
+                        "en": "Page Name",
+                        "de": "Seitenname"
+                    },
+                    "default": "",
+                    "description": {
+                        "en": "Unique page path shown in the URL.",
+                        "de": "Eindeutiger Seitenpfad in der URL."
+                    }
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.webviewPage"
+                }
+            },
+            "helperImplementations": {
+                "python": {
+                    "type": "helper-generator",
+                    "value": "NodeHelperGenerators.webviewPage",
+                    "helperGroup": "web-runtime"
+                }
+            },
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.webviewPage"
+                }
+            },
+            "initFunction": "init_webview"
+        },
+        "row": {
+            "title": {
+                "en": "Row",
+                "de": "Zeile"
+            },
+            "info": {
+                "en": "Defines a row layout element.",
+                "de": "Definiert ein Zeilen-Layout-Element."
+            },
+            "category": "webview",
+            "executionPhase": "init",
+            "color": "#a5769f",
+            "shape": "square",
+            "icon": "icons/row_24dp.svg",
+            "inputs": [
+                {
+                    "id": "parent",
+                    "name": {
+                        "en": "Parent",
+                        "de": "Eltern"
+                    },
+                    "allowedTypes": [
+                        "web.element"
+                    ],
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "init",
+                    "description": {
+                        "en": "Parent element to place this element into.",
+                        "de": "Übergeordnetes Element, in das dieses Element eingefügt wird."
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "column_1",
+                    "name": {
+                        "en": "Column 1",
+                        "de": "Spalte 1"
+                    },
+                    "outputType": "web.element",
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "init",
+                    "description": {
+                        "en": "Column 1 layout slot.",
+                        "de": "1. Spalten-Layoutplatz."
+                    }
+                },
+                {
+                    "id": "column_2",
+                    "name": {
+                        "en": "Column 2",
+                        "de": "Spalte 2"
+                    },
+                    "outputType": "web.element",
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "init",
+                    "description": {
+                        "en": "Column 2 layout slot.",
+                        "de": "2. Spalten-Layoutplatz."
+                    }
+                },
+                {
+                    "id": "column_3",
+                    "name": {
+                        "en": "Column 3",
+                        "de": "Spalte 3"
+                    },
+                    "outputType": "web.element",
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "init",
+                    "description": {
+                        "en": "Column 3 layout slot.",
+                        "de": "3. Spalten-Layoutplatz."
+                    }
+                },
+                {
+                    "id": "column_4",
+                    "name": {
+                        "en": "Column 4",
+                        "de": "Spalte 4"
+                    },
+                    "outputType": "web.element",
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "init",
+                    "description": {
+                        "en": "Column 4 layout slot.",
+                        "de": "4. Spalten-Layoutplatz."
+                    }
+                }
+            ],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "columnCount",
+                    "label": {
+                        "en": "Columns",
+                        "de": "Spalten"
+                    },
+                    "default": 1,
+                    "affectsOutputs": true,
+                    "options": [
+                        {
+                            "value": 1,
+                            "label": {
+                                "en": "1",
+                                "de": "1"
+                            },
+                            "activeOutputs": [
+                                "column_1"
+                            ]
+                        },
+                        {
+                            "value": 2,
+                            "label": {
+                                "en": "2",
+                                "de": "2"
+                            },
+                            "activeOutputs": [
+                                "column_1",
+                                "column_2"
+                            ]
+                        },
+                        {
+                            "value": 3,
+                            "label": {
+                                "en": "3",
+                                "de": "3"
+                            },
+                            "activeOutputs": [
+                                "column_1",
+                                "column_2",
+                                "column_3"
+                            ]
+                        },
+                        {
+                            "value": 4,
+                            "label": {
+                                "en": "4",
+                                "de": "4"
+                            },
+                            "activeOutputs": [
+                                "column_1",
+                                "column_2",
+                                "column_3",
+                                "column_4"
+                            ]
+                        }
+                    ],
+                    "description": {
+                        "en": "Number of visible columns.",
+                        "de": "Anzahl der sichtbaren Spalten."
+                    }
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.webviewRow"
+                }
+            },
+            "helperImplementations": {
+                "python": {
+                    "type": "helper-generator",
+                    "value": "NodeHelperGenerators.webviewRow",
+                    "helperGroup": "web-runtime"
+                }
+            },
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.webviewRow"
+                }
+            },
+            "initFunction": "init_webview"
+        },
+        "column": {
+            "title": {
+                "en": "Column",
+                "de": "Spalte"
+            },
+            "info": {
+                "en": "Defines a column layout element.",
+                "de": "Definiert ein Spalten-Layout-Element."
+            },
+            "category": "webview",
+            "executionPhase": "init",
+            "color": "#b183ac",
+            "shape": "square",
+            "icon": "icons/column_24dp.svg",
+            "inputs": [
+                {
+                    "id": "parent",
+                    "name": {
+                        "en": "Parent",
+                        "de": "Eltern"
+                    },
+                    "allowedTypes": [
+                        "web.element"
+                    ],
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "init",
+                    "description": {
+                        "en": "Parent element to place this element into.",
+                        "de": "Übergeordnetes Element, in das dieses Element eingefügt wird."
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "row_1",
+                    "name": {
+                        "en": "Row 1",
+                        "de": "Zeile 1"
+                    },
+                    "outputType": "web.element",
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "init",
+                    "description": {
+                        "en": "Row 1 layout slot.",
+                        "de": "1. Zeilen-Layoutplatz."
+                    }
+                },
+                {
+                    "id": "row_2",
+                    "name": {
+                        "en": "Row 2",
+                        "de": "Zeile 2"
+                    },
+                    "outputType": "web.element",
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "init",
+                    "description": {
+                        "en": "Row 2 layout slot.",
+                        "de": "2. Zeilen-Layoutplatz."
+                    }
+                },
+                {
+                    "id": "row_3",
+                    "name": {
+                        "en": "Row 3",
+                        "de": "Zeile 3"
+                    },
+                    "outputType": "web.element",
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "init",
+                    "description": {
+                        "en": "Row 3 layout slot.",
+                        "de": "3. Zeilen-Layoutplatz."
+                    }
+                },
+                {
+                    "id": "row_4",
+                    "name": {
+                        "en": "Row 4",
+                        "de": "Zeile 4"
+                    },
+                    "outputType": "web.element",
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "init",
+                    "description": {
+                        "en": "Row 4 layout slot.",
+                        "de": "4. Zeilen-Layoutplatz."
+                    }
+                },
+                {
+                    "id": "row_5",
+                    "name": {
+                        "en": "Row 5",
+                        "de": "Zeile 5"
+                    },
+                    "outputType": "web.element",
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "init",
+                    "description": {
+                        "en": "Row 5 layout slot.",
+                        "de": "5. Zeilen-Layoutplatz."
+                    }
+                },
+                {
+                    "id": "row_6",
+                    "name": {
+                        "en": "Row 6",
+                        "de": "Zeile 6"
+                    },
+                    "outputType": "web.element",
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "init",
+                    "description": {
+                        "en": "Row 6 layout slot.",
+                        "de": "6. Zeilen-Layoutplatz."
+                    }
+                },
+                {
+                    "id": "row_7",
+                    "name": {
+                        "en": "Row 7",
+                        "de": "Zeile 7"
+                    },
+                    "outputType": "web.element",
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "init",
+                    "description": {
+                        "en": "Row 7 layout slot.",
+                        "de": "7. Zeilen-Layoutplatz."
+                    }
+                },
+                {
+                    "id": "row_8",
+                    "name": {
+                        "en": "Row 8",
+                        "de": "Zeile 8"
+                    },
+                    "outputType": "web.element",
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "init",
+                    "description": {
+                        "en": "Row 8 layout slot.",
+                        "de": "8. Zeilen-Layoutplatz."
+                    }
+                },
+                {
+                    "id": "row_9",
+                    "name": {
+                        "en": "Row 9",
+                        "de": "Zeile 9"
+                    },
+                    "outputType": "web.element",
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "init",
+                    "description": {
+                        "en": "Row 9 layout slot.",
+                        "de": "9. Zeilen-Layoutplatz."
+                    }
+                },
+                {
+                    "id": "row_10",
+                    "name": {
+                        "en": "Row 10",
+                        "de": "Zeile 10"
+                    },
+                    "outputType": "web.element",
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "init",
+                    "description": {
+                        "en": "Row 10 layout slot.",
+                        "de": "10. Zeilen-Layoutplatz."
+                    }
+                }
+            ],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "rowCount",
+                    "label": {
+                        "en": "Rows",
+                        "de": "Zeilen"
+                    },
+                    "default": 1,
+                    "affectsOutputs": true,
+                    "options": [
+                        {
+                            "value": 1,
+                            "label": {
+                                "en": "1",
+                                "de": "1"
+                            },
+                            "activeOutputs": [
+                                "row_1"
+                            ]
+                        },
+                        {
+                            "value": 2,
+                            "label": {
+                                "en": "2",
+                                "de": "2"
+                            },
+                            "activeOutputs": [
+                                "row_1",
+                                "row_2"
+                            ]
+                        },
+                        {
+                            "value": 3,
+                            "label": {
+                                "en": "3",
+                                "de": "3"
+                            },
+                            "activeOutputs": [
+                                "row_1",
+                                "row_2",
+                                "row_3"
+                            ]
+                        },
+                        {
+                            "value": 4,
+                            "label": {
+                                "en": "4",
+                                "de": "4"
+                            },
+                            "activeOutputs": [
+                                "row_1",
+                                "row_2",
+                                "row_3",
+                                "row_4"
+                            ]
+                        },
+                        {
+                            "value": 5,
+                            "label": {
+                                "en": "5",
+                                "de": "5"
+                            },
+                            "activeOutputs": [
+                                "row_1",
+                                "row_2",
+                                "row_3",
+                                "row_4",
+                                "row_5"
+                            ]
+                        },
+                        {
+                            "value": 6,
+                            "label": {
+                                "en": "6",
+                                "de": "6"
+                            },
+                            "activeOutputs": [
+                                "row_1",
+                                "row_2",
+                                "row_3",
+                                "row_4",
+                                "row_5",
+                                "row_6"
+                            ]
+                        },
+                        {
+                            "value": 7,
+                            "label": {
+                                "en": "7",
+                                "de": "7"
+                            },
+                            "activeOutputs": [
+                                "row_1",
+                                "row_2",
+                                "row_3",
+                                "row_4",
+                                "row_5",
+                                "row_6",
+                                "row_7"
+                            ]
+                        },
+                        {
+                            "value": 8,
+                            "label": {
+                                "en": "8",
+                                "de": "8"
+                            },
+                            "activeOutputs": [
+                                "row_1",
+                                "row_2",
+                                "row_3",
+                                "row_4",
+                                "row_5",
+                                "row_6",
+                                "row_7",
+                                "row_8"
+                            ]
+                        },
+                        {
+                            "value": 9,
+                            "label": {
+                                "en": "9",
+                                "de": "9"
+                            },
+                            "activeOutputs": [
+                                "row_1",
+                                "row_2",
+                                "row_3",
+                                "row_4",
+                                "row_5",
+                                "row_6",
+                                "row_7",
+                                "row_8",
+                                "row_9"
+                            ]
+                        },
+                        {
+                            "value": 10,
+                            "label": {
+                                "en": "10",
+                                "de": "10"
+                            },
+                            "activeOutputs": [
+                                "row_1",
+                                "row_2",
+                                "row_3",
+                                "row_4",
+                                "row_5",
+                                "row_6",
+                                "row_7",
+                                "row_8",
+                                "row_9",
+                                "row_10"
+                            ]
+                        }
+                    ],
+                    "description": {
+                        "en": "Number of visible rows.",
+                        "de": "Anzahl der sichtbaren Zeilen."
+                    }
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.webviewColumn"
+                }
+            },
+            "helperImplementations": {
+                "python": {
+                    "type": "helper-generator",
+                    "value": "NodeHelperGenerators.webviewColumn",
+                    "helperGroup": "web-runtime"
+                }
+            },
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.webviewColumn"
+                }
+            },
+            "initFunction": "init_webview"
+        },
+        "content": {
+            "title": {
+                "en": "Content",
+                "de": "Inhalt"
+            },
+            "info": {
+                "en": "Defines content within a web element.",
+                "de": "Definiert Inhalt innerhalb eines Web-Elements."
+            },
+            "category": "webview",
+            "executionPhase": "both",
+            "color": "#bc8fb9",
+            "shape": "square",
+            "icon": "icons/content_24dp.svg",
+            "inputs": [
+                {
+                    "id": "parent",
+                    "name": {
+                        "en": "Parent",
+                        "de": "Eltern"
+                    },
+                    "allowedTypes": [
+                        "web.element"
+                    ],
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "Parent element to place this element into.",
+                        "de": "Übergeordnetes Element, in das dieses Element eingefügt wird."
+                    }
+                },
+                {
+                    "id": "title",
+                    "name": {
+                        "en": "Title",
+                        "de": "Titel"
+                    },
+                    "allowedTypes": [
+                        "string"
+                    ],
+                    "initialTypes": [
+                        "string"
+                    ],
+                    "defaultControl": {
+                        "id": "title",
+                        "type": "text",
+                        "label": {
+                            "en": "Title",
+                            "de": "Titel"
+                        },
+                        "default": ""
+                    },
+                    "phase": "both",
+                    "description": {
+                        "en": "Text displayed for the content.",
+                        "de": "Für den Inhalt angezeigter Text."
+                    }
+                },
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "allowedTypes": [
+                        "float"
+                    ],
+                    "initialTypes": [
+                        "float"
+                    ],
+                    "defaultControl": {
+                        "id": "value",
+                        "type": "number",
+                        "label": {
+                            "en": "Value",
+                            "de": "Wert"
+                        },
+                        "default": 0,
+                        "step": 1
+                    },
+                    "phase": "both",
+                    "description": {
+                        "en": "Numeric value displayed for the content.",
+                        "de": "Für den Inhalt angezeigter numerischer Wert."
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "element",
+                    "name": {
+                        "en": "Element",
+                        "de": "Element"
+                    },
+                    "outputType": "web.element",
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "The rendered web element.",
+                        "de": "Das gerenderte Web-Element."
+                    }
+                }
+            ],
+            "controls": [],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.webviewContent"
+                }
+            },
+            "helperImplementations": {
+                "python": {
+                    "type": "helper-generator",
+                    "value": "NodeHelperGenerators.webviewContent",
+                    "helperGroup": "web-runtime"
+                }
+            },
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.webviewContent"
+                }
+            },
+            "initFunction": "init_webview"
+        },
+        "value-table": {
+            "title": {
+                "en": "Value Table",
+                "de": "Wertetabelle"
+            },
+            "info": {
+                "en": "Displays up to five label/value rows with dynamic row visibility.",
+                "de": "Zeigt bis zu fünf Label/Wert-Zeilen mit dynamischer Sichtbarkeit an."
+            },
+            "category": "webview",
+            "executionPhase": "both",
+            "color": "#c38ec2",
+            "shape": "square",
+            "icon": "icons/table_rows_24dp.svg",
+            "inputs": [
+                {
+                    "id": "parent",
+                    "name": {
+                        "en": "Parent",
+                        "de": "Eltern"
+                    },
+                    "allowedTypes": [
+                        "web.element"
+                    ],
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "Parent element to place this element into.",
+                        "de": "Übergeordnetes Element, in das dieses Element eingefügt wird."
+                    }
+                },
+                {
+                    "id": "label_1",
+                    "name": {
+                        "en": "Label 1",
+                        "de": "Label 1"
+                    },
+                    "allowedTypes": [
+                        "string"
+                    ],
+                    "initialTypes": [
+                        "string"
+                    ],
+                    "defaultControl": {
+                        "id": "defaultLabel1",
+                        "type": "text",
+                        "label": {
+                            "en": "Label 1",
+                            "de": "Label 1"
+                        },
+                        "default": ""
+                    },
+                    "phase": "both",
+                    "description": {
+                        "en": "Label for row 1.",
+                        "de": "Beschriftung für Zeile 1."
+                    }
+                },
+                {
+                    "id": "value_1",
+                    "name": {
+                        "en": "Value 1",
+                        "de": "Wert 1"
+                    },
+                    "allowedTypes": [
+                        "float"
+                    ],
+                    "initialTypes": [
+                        "float"
+                    ],
+                    "defaultControl": {
+                        "id": "defaultValue1",
+                        "type": "number",
+                        "label": {
+                            "en": "Value 1",
+                            "de": "Wert 1"
+                        },
+                        "default": 0,
+                        "step": 1
+                    },
+                    "phase": "both",
+                    "description": {
+                        "en": "Value for row 1.",
+                        "de": "Wert für Zeile 1."
+                    }
+                },
+                {
+                    "id": "label_2",
+                    "name": {
+                        "en": "Label 2",
+                        "de": "Label 2"
+                    },
+                    "allowedTypes": [
+                        "string"
+                    ],
+                    "initialTypes": [
+                        "string"
+                    ],
+                    "defaultControl": {
+                        "id": "defaultLabel2",
+                        "type": "text",
+                        "label": {
+                            "en": "Label 2",
+                            "de": "Label 2"
+                        },
+                        "default": ""
+                    },
+                    "phase": "both",
+                    "description": {
+                        "en": "Label for row 2.",
+                        "de": "Beschriftung für Zeile 2."
+                    }
+                },
+                {
+                    "id": "value_2",
+                    "name": {
+                        "en": "Value 2",
+                        "de": "Wert 2"
+                    },
+                    "allowedTypes": [
+                        "float"
+                    ],
+                    "initialTypes": [
+                        "float"
+                    ],
+                    "defaultControl": {
+                        "id": "defaultValue2",
+                        "type": "number",
+                        "label": {
+                            "en": "Value 2",
+                            "de": "Wert 2"
+                        },
+                        "default": 0,
+                        "step": 1
+                    },
+                    "phase": "both",
+                    "description": {
+                        "en": "Value for row 2.",
+                        "de": "Wert für Zeile 2."
+                    }
+                },
+                {
+                    "id": "label_3",
+                    "name": {
+                        "en": "Label 3",
+                        "de": "Label 3"
+                    },
+                    "allowedTypes": [
+                        "string"
+                    ],
+                    "initialTypes": [
+                        "string"
+                    ],
+                    "defaultControl": {
+                        "id": "defaultLabel3",
+                        "type": "text",
+                        "label": {
+                            "en": "Label 3",
+                            "de": "Label 3"
+                        },
+                        "default": ""
+                    },
+                    "phase": "both",
+                    "description": {
+                        "en": "Label for row 3.",
+                        "de": "Beschriftung für Zeile 3."
+                    }
+                },
+                {
+                    "id": "value_3",
+                    "name": {
+                        "en": "Value 3",
+                        "de": "Wert 3"
+                    },
+                    "allowedTypes": [
+                        "float"
+                    ],
+                    "initialTypes": [
+                        "float"
+                    ],
+                    "defaultControl": {
+                        "id": "defaultValue3",
+                        "type": "number",
+                        "label": {
+                            "en": "Value 3",
+                            "de": "Wert 3"
+                        },
+                        "default": 0,
+                        "step": 1
+                    },
+                    "phase": "both",
+                    "description": {
+                        "en": "Value for row 3.",
+                        "de": "Wert für Zeile 3."
+                    }
+                },
+                {
+                    "id": "label_4",
+                    "name": {
+                        "en": "Label 4",
+                        "de": "Label 4"
+                    },
+                    "allowedTypes": [
+                        "string"
+                    ],
+                    "initialTypes": [
+                        "string"
+                    ],
+                    "defaultControl": {
+                        "id": "defaultLabel4",
+                        "type": "text",
+                        "label": {
+                            "en": "Label 4",
+                            "de": "Label 4"
+                        },
+                        "default": ""
+                    },
+                    "phase": "both",
+                    "description": {
+                        "en": "Label for row 4.",
+                        "de": "Beschriftung für Zeile 4."
+                    }
+                },
+                {
+                    "id": "value_4",
+                    "name": {
+                        "en": "Value 4",
+                        "de": "Wert 4"
+                    },
+                    "allowedTypes": [
+                        "float"
+                    ],
+                    "initialTypes": [
+                        "float"
+                    ],
+                    "defaultControl": {
+                        "id": "defaultValue4",
+                        "type": "number",
+                        "label": {
+                            "en": "Value 4",
+                            "de": "Wert 4"
+                        },
+                        "default": 0,
+                        "step": 1
+                    },
+                    "phase": "both",
+                    "description": {
+                        "en": "Value for row 4.",
+                        "de": "Wert für Zeile 4."
+                    }
+                },
+                {
+                    "id": "label_5",
+                    "name": {
+                        "en": "Label 5",
+                        "de": "Label 5"
+                    },
+                    "allowedTypes": [
+                        "string"
+                    ],
+                    "initialTypes": [
+                        "string"
+                    ],
+                    "defaultControl": {
+                        "id": "defaultLabel5",
+                        "type": "text",
+                        "label": {
+                            "en": "Label 5",
+                            "de": "Label 5"
+                        },
+                        "default": ""
+                    },
+                    "phase": "both",
+                    "description": {
+                        "en": "Label for row 5.",
+                        "de": "Beschriftung für Zeile 5."
+                    }
+                },
+                {
+                    "id": "value_5",
+                    "name": {
+                        "en": "Value 5",
+                        "de": "Wert 5"
+                    },
+                    "allowedTypes": [
+                        "float"
+                    ],
+                    "initialTypes": [
+                        "float"
+                    ],
+                    "defaultControl": {
+                        "id": "defaultValue5",
+                        "type": "number",
+                        "label": {
+                            "en": "Value 5",
+                            "de": "Wert 5"
+                        },
+                        "default": 0,
+                        "step": 1
+                    },
+                    "phase": "both",
+                    "description": {
+                        "en": "Value for row 5.",
+                        "de": "Wert für Zeile 5."
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "element",
+                    "name": {
+                        "en": "Element",
+                        "de": "Element"
+                    },
+                    "outputType": "web.element",
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "The rendered web element.",
+                        "de": "Das gerenderte Web-Element."
+                    }
+                }
+            ],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "rowCount",
+                    "label": {
+                        "en": "Rows",
+                        "de": "Zeilen"
+                    },
+                    "default": 1,
+                    "affectsInputs": true,
+                    "options": [
+                        {
+                            "value": 1,
+                            "label": {
+                                "en": "1",
+                                "de": "1"
+                            },
+                            "activeInputs": [
+                                "parent",
+                                "label_1",
+                                "value_1"
+                            ]
+                        },
+                        {
+                            "value": 2,
+                            "label": {
+                                "en": "2",
+                                "de": "2"
+                            },
+                            "activeInputs": [
+                                "parent",
+                                "label_1",
+                                "value_1",
+                                "label_2",
+                                "value_2"
+                            ]
+                        },
+                        {
+                            "value": 3,
+                            "label": {
+                                "en": "3",
+                                "de": "3"
+                            },
+                            "activeInputs": [
+                                "parent",
+                                "label_1",
+                                "value_1",
+                                "label_2",
+                                "value_2",
+                                "label_3",
+                                "value_3"
+                            ]
+                        },
+                        {
+                            "value": 4,
+                            "label": {
+                                "en": "4",
+                                "de": "4"
+                            },
+                            "activeInputs": [
+                                "parent",
+                                "label_1",
+                                "value_1",
+                                "label_2",
+                                "value_2",
+                                "label_3",
+                                "value_3",
+                                "label_4",
+                                "value_4"
+                            ]
+                        },
+                        {
+                            "value": 5,
+                            "label": {
+                                "en": "5",
+                                "de": "5"
+                            },
+                            "activeInputs": [
+                                "parent",
+                                "label_1",
+                                "value_1",
+                                "label_2",
+                                "value_2",
+                                "label_3",
+                                "value_3",
+                                "label_4",
+                                "value_4",
+                                "label_5",
+                                "value_5"
+                            ]
+                        }
+                    ],
+                    "description": {
+                        "en": "Number of visible rows.",
+                        "de": "Anzahl der sichtbaren Zeilen."
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "decimalPlaces",
+                    "label": {
+                        "en": "Decimal Places",
+                        "de": "Dezimalstellen"
+                    },
+                    "default": 2,
+                    "min": 0,
+                    "max": 6,
+                    "step": 1,
+                    "description": {
+                        "en": "Number of decimal places shown for values.",
+                        "de": "Anzahl der angezeigten Nachkommastellen."
+                    }
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.webviewValueTable"
+                }
+            },
+            "helperImplementations": {
+                "python": {
+                    "type": "helper-generator",
+                    "value": "NodeHelperGenerators.webviewValueTable",
+                    "helperGroup": "web-runtime"
+                }
+            },
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.webviewValueTable"
+                }
+            },
+            "initFunction": "init_webview"
+        },
+        "radar-display": {
+            "title": {
+                "en": "Radar Display",
+                "de": "Radar-Anzeige"
+            },
+            "info": {
+                "en": "Displays a configurable partial-disk radar visualization with up to 360 slices.",
+                "de": "Zeigt eine konfigurierbare partielle Radar-Visualisierung mit bis zu 360 Segmenten an."
+            },
+            "category": "webview",
+            "executionPhase": "both",
+            "color": "#c892b8",
+            "shape": "square",
+            "icon": "icons/radar_24dp.svg",
+            "inputs": [
+                {
+                    "id": "parent",
+                    "name": {
+                        "en": "Parent",
+                        "de": "Eltern"
+                    },
+                    "allowedTypes": [
+                        "web.element"
+                    ],
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "Parent element to place this element into.",
+                        "de": "Übergeordnetes Element, in das dieses Element eingefügt wird."
+                    }
+                },
+                {
+                    "id": "pieceIndex",
+                    "name": {
+                        "en": "Piece Index",
+                        "de": "Segment-Index"
+                    },
+                    "allowedTypes": [
+                        "int",
+                        "float"
+                    ],
+                    "initialTypes": [
+                        "int",
+                        "float"
+                    ],
+                    "defaultControl": {
+                        "id": "pieceIndex",
+                        "type": "number",
+                        "label": {
+                            "en": "Piece Index",
+                            "de": "Segment-Index"
+                        },
+                        "default": 0,
+                        "step": 1
+                    },
+                    "phase": "both",
+                    "description": {
+                        "en": "Index of the radar piece to highlight.",
+                        "de": "Index des hervorzuhebenden Radar-Segments."
+                    }
+                },
+                {
+                    "id": "pieceRadiusNormalized",
+                    "name": {
+                        "en": "Piece Radius",
+                        "de": "Segment-Radius"
+                    },
+                    "allowedTypes": [
+                        "int",
+                        "float"
+                    ],
+                    "initialTypes": [
+                        "int",
+                        "float"
+                    ],
+                    "defaultControl": {
+                        "id": "pieceRadiusNormalized",
+                        "type": "number",
+                        "label": {
+                            "en": "Piece Radius",
+                            "de": "Segment-Radius"
+                        },
+                        "default": 0,
+                        "min": 0,
+                        "max": 1,
+                        "step": 0.01
+                    },
+                    "phase": "both",
+                    "description": {
+                        "en": "Normalized radius (0..1) of the radar piece.",
+                        "de": "Normalisierter Radius (0..1) des Radar-Segments."
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "element",
+                    "name": {
+                        "en": "Element",
+                        "de": "Element"
+                    },
+                    "outputType": "web.element",
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "The rendered web element.",
+                        "de": "Das gerenderte Web-Element."
+                    }
+                }
+            ],
+            "controls": [
+                {
+                    "type": "number",
+                    "id": "maxRadiusPx",
+                    "label": {
+                        "en": "Max Radius (px)",
+                        "de": "Maximalradius (px)"
+                    },
+                    "default": 64,
+                    "min": 1,
+                    "step": 1,
+                    "description": {
+                        "en": "Maximum radius of the radar disk in pixels.",
+                        "de": "Maximaler Radius der Radar-Scheibe in Pixeln."
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "startAngleDeg",
+                    "label": {
+                        "en": "Start Angle (deg)",
+                        "de": "Startwinkel (Grad)"
+                    },
+                    "default": -90,
+                    "step": 1,
+                    "description": {
+                        "en": "Start angle of the visible arc in degrees.",
+                        "de": "Startwinkel des sichtbaren Bogens in Grad."
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "endAngleDeg",
+                    "label": {
+                        "en": "End Angle (deg)",
+                        "de": "Endwinkel (Grad)"
+                    },
+                    "default": 90,
+                    "step": 1,
+                    "description": {
+                        "en": "End angle of the visible arc in degrees.",
+                        "de": "Endwinkel des sichtbaren Bogens in Grad."
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "pieceCount",
+                    "label": {
+                        "en": "Pieces",
+                        "de": "Segmente"
+                    },
+                    "default": 24,
+                    "min": 1,
+                    "max": 360,
+                    "step": 1,
+                    "description": {
+                        "en": "Number of segments in the radar disk.",
+                        "de": "Anzahl der Segmente in der Radar-Scheibe."
+                    }
+                },
+                {
+                    "type": "color",
+                    "id": "fillColor",
+                    "label": {
+                        "en": "Fill Color",
+                        "de": "Fuellfarbe"
+                    },
+                    "default": "#70d6ff",
+                    "description": {
+                        "en": "Fill color of the segments.",
+                        "de": "Füllfarbe der Segmente."
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "initialRadiusNormalized",
+                    "label": {
+                        "en": "Initial Radius",
+                        "de": "Initialradius"
+                    },
+                    "default": 0,
+                    "min": 0,
+                    "max": 1,
+                    "step": 0.01,
+                    "description": {
+                        "en": "Initial normalized radius (0..1) of the displayed pieces.",
+                        "de": "Anfänglicher normalisierter Radius (0..1) der angezeigten Segmente."
+                    }
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.webviewRadarDisplay"
+                }
+            },
+            "helperImplementations": {
+                "python": {
+                    "type": "helper-generator",
+                    "value": "NodeHelperGenerators.webviewRadarDisplay",
+                    "helperGroup": "web-runtime"
+                }
+            },
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.webviewRadarDisplay"
+                }
+            },
+            "initFunction": "init_webview"
+        },
+        "joystick-display": {
+            "title": {
+                "en": "Joystick Display",
+                "de": "Joystick-Anzeige"
+            },
+            "info": {
+                "en": "Displays joystick direction and magnitude with configurable outer and inner disk styling.",
+                "de": "Zeigt Joystick-Richtung und -Stärke mit konfigurierbarer Außen- und Innenscheiben-Darstellung an."
+            },
+            "category": "webview",
+            "executionPhase": "both",
+            "color": "#c892b8",
+            "shape": "square",
+            "icon": "icons/joystick_24dp.svg",
+            "defaultWidth": 200,
+            "inputs": [
+                {
+                    "id": "parent",
+                    "name": {
+                        "en": "Parent",
+                        "de": "Eltern"
+                    },
+                    "allowedTypes": [
+                        "web.element"
+                    ],
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "Parent element to place this element into.",
+                        "de": "Übergeordnetes Element, in das dieses Element eingefügt wird."
+                    }
+                },
+                {
+                    "id": "useUserInput",
+                    "name": {
+                        "en": "Use User Input",
+                        "de": "Benutzereingabe verwenden"
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "defaultControl": {
+                        "id": "useUserInput",
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Use User Input",
+                            "de": "Benutzereingabe verwenden"
+                        },
+                        "default": false
+                    },
+                    "phase": "both",
+                    "description": {
+                        "en": "When true, user input updates the joystick; otherwise only the axis inputs drive it.",
+                        "de": "Wenn aktiv, aktualisiert Benutzereingabe den Joystick; sonst steuern nur die Achseneingänge."
+                    }
+                },
+                {
+                    "id": "axis1",
+                    "name": {
+                        "en": "Axis 1",
+                        "de": "Achse 1"
+                    },
+                    "allowedTypes": [
+                        "int",
+                        "float"
+                    ],
+                    "initialTypes": [
+                        "int",
+                        "float"
+                    ],
+                    "defaultControl": {
+                        "id": "axis1",
+                        "type": "number",
+                        "label": {
+                            "en": "Axis 1",
+                            "de": "Achse 1"
+                        },
+                        "default": 0,
+                        "min": -1,
+                        "max": 1,
+                        "step": 0.01
+                    },
+                    "phase": "both",
+                    "description": {
+                        "en": "Horizontal axis value in the -1..1 range.",
+                        "de": "Wert der horizontalen Achse im Bereich -1..1."
+                    }
+                },
+                {
+                    "id": "axis2",
+                    "name": {
+                        "en": "Axis 2",
+                        "de": "Achse 2"
+                    },
+                    "allowedTypes": [
+                        "int",
+                        "float"
+                    ],
+                    "initialTypes": [
+                        "int",
+                        "float"
+                    ],
+                    "defaultControl": {
+                        "id": "axis2",
+                        "type": "number",
+                        "label": {
+                            "en": "Axis 2",
+                            "de": "Achse 2"
+                        },
+                        "default": 0,
+                        "min": -1,
+                        "max": 1,
+                        "step": 0.01
+                    },
+                    "phase": "both",
+                    "description": {
+                        "en": "Vertical axis value in the -1..1 range.",
+                        "de": "Wert der vertikalen Achse im Bereich -1..1."
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "element",
+                    "name": {
+                        "en": "Element",
+                        "de": "Element"
+                    },
+                    "outputType": "web.element",
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "The rendered web element.",
+                        "de": "Das gerenderte Web-Element."
+                    }
+                },
+                {
+                    "id": "axis1",
+                    "name": {
+                        "en": "Axis 1",
+                        "de": "Achse 1"
+                    },
+                    "outputType": "float",
+                    "initialTypes": [
+                        "float"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "Current horizontal axis value.",
+                        "de": "Aktueller Wert der horizontalen Achse."
+                    }
+                },
+                {
+                    "id": "axis2",
+                    "name": {
+                        "en": "Axis 2",
+                        "de": "Achse 2"
+                    },
+                    "outputType": "float",
+                    "initialTypes": [
+                        "float"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "Current vertical axis value.",
+                        "de": "Aktueller Wert der vertikalen Achse."
+                    }
+                },
+                {
+                    "id": "changed",
+                    "name": {
+                        "en": "Changed",
+                        "de": "Geändert"
+                    },
+                    "outputType": "bool",
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "True for one tick when the resolved value changes.",
+                        "de": "Für einen Tick wahr, wenn sich der aufgelöste Wert ändert."
+                    }
+                }
+            ],
+            "controls": [
+                {
+                    "type": "number",
+                    "id": "outerRadiusPx",
+                    "label": {
+                        "en": "Outer Radius (px)",
+                        "de": "Außenradius (px)"
+                    },
+                    "default": 64,
+                    "min": 1,
+                    "step": 1,
+                    "description": {
+                        "en": "Outer disk radius in pixels.",
+                        "de": "Außenradius der Scheibe in Pixeln."
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "outerStrokeWidthPx",
+                    "label": {
+                        "en": "Outer Stroke Width (px)",
+                        "de": "Außenlinienbreite (px)"
+                    },
+                    "default": 2,
+                    "min": 0,
+                    "step": 0.5,
+                    "description": {
+                        "en": "Outer ring stroke width in pixels.",
+                        "de": "Strichbreite des Außenrings in Pixeln."
+                    }
+                },
+                {
+                    "type": "color",
+                    "id": "outerStrokeColor",
+                    "label": {
+                        "en": "Outer Stroke Color",
+                        "de": "Außenlinienfarbe"
+                    },
+                    "default": "#8db5ff",
+                    "description": {
+                        "en": "Outer ring stroke color.",
+                        "de": "Strichfarbe des Außenrings."
+                    }
+                },
+                {
+                    "type": "color",
+                    "id": "outerFillColor",
+                    "label": {
+                        "en": "Outer Fill Color",
+                        "de": "Außenfüllfarbe"
+                    },
+                    "default": "#0f1526",
+                    "description": {
+                        "en": "Outer ring fill color.",
+                        "de": "Füllfarbe des Außenrings."
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "innerRadiusPx",
+                    "label": {
+                        "en": "Inner Radius (px)",
+                        "de": "Innenradius (px)"
+                    },
+                    "default": 10,
+                    "min": 1,
+                    "step": 1,
+                    "description": {
+                        "en": "Inner disk radius in pixels.",
+                        "de": "Innenradius der Scheibe in Pixeln."
+                    }
+                },
+                {
+                    "type": "color",
+                    "id": "innerFillColor",
+                    "label": {
+                        "en": "Inner Fill Color",
+                        "de": "Innenfüllfarbe"
+                    },
+                    "default": "#70d6ff",
+                    "description": {
+                        "en": "Inner disk fill color.",
+                        "de": "Füllfarbe der inneren Scheibe."
+                    }
+                },
+                {
+                    "type": "checkbox",
+                    "id": "showDegreeMarks",
+                    "label": {
+                        "en": "Show Degree Marks",
+                        "de": "Gradmarkierungen anzeigen"
+                    },
+                    "default": true,
+                    "description": {
+                        "en": "Show degree tick marks around the outer ring.",
+                        "de": "Grad-Markierungen um den Außenring anzeigen."
+                    }
+                },
+                {
+                    "type": "dropdown",
+                    "id": "degreeMarkIntervalDeg",
+                    "label": {
+                        "en": "Degree Mark Interval",
+                        "de": "Gradmarkierungsintervall"
+                    },
+                    "default": 30,
+                    "options": [
+                        {
+                            "value": 15,
+                            "label": {
+                                "en": "15°",
+                                "de": "15°"
+                            }
+                        },
+                        {
+                            "value": 30,
+                            "label": {
+                                "en": "30°",
+                                "de": "30°"
+                            }
+                        },
+                        {
+                            "value": 45,
+                            "label": {
+                                "en": "45°",
+                                "de": "45°"
+                            }
+                        },
+                        {
+                            "value": 90,
+                            "label": {
+                                "en": "90°",
+                                "de": "90°"
+                            }
+                        }
+                    ],
+                    "description": {
+                        "en": "Spacing between degree marks in degrees.",
+                        "de": "Abstand zwischen Grad-Markierungen in Grad."
+                    }
+                },
+                {
+                    "type": "color",
+                    "id": "degreeMarkColor",
+                    "label": {
+                        "en": "Degree Mark Color",
+                        "de": "Gradmarkierungsfarbe"
+                    },
+                    "default": "#7fa1d6",
+                    "description": {
+                        "en": "Color of the degree marks.",
+                        "de": "Farbe der Grad-Markierungen."
+                    }
+                },
+                {
+                    "type": "checkbox",
+                    "id": "recenterOnRelease",
+                    "label": {
+                        "en": "Recenter On Release",
+                        "de": "Beim Loslassen zentrieren"
+                    },
+                    "default": true,
+                    "description": {
+                        "en": "Return the joystick to center when released.",
+                        "de": "Joystick beim Loslassen zur Mitte zurückführen."
+                    }
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.webviewJoystickDisplay"
+                }
+            },
+            "helperImplementations": {
+                "python": {
+                    "type": "helper-generator",
+                    "value": "NodeHelperGenerators.webviewJoystickDisplay",
+                    "helperGroup": "web-runtime"
+                }
+            },
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.webviewJoystickDisplay"
+                }
+            },
+            "initFunction": "init_webview"
+        },
+        "graph-display": {
+            "title": {
+                "en": "Line Graph",
+                "de": "Liniendiagramm"
+            },
+            "info": {
+                "en": "Plots a single-series line graph from a y array or an x/y array pair, with a title input, automatic or manual axis ranges, labels, and a configurable height.",
+                "de": "Zeichnet ein Liniendiagramm einer einzelnen Reihe aus einem y-Array oder einem x/y-Array-Paar, mit Titel-Eingang, automatischen oder manuellen Achsenbereichen, Beschriftungen und konfigurierbarer Höhe."
+            },
+            "category": "webview",
+            "executionPhase": "both",
+            "color": "#c892b8",
+            "shape": "square",
+            "icon": "icons/show_chart_24dp.svg",
+            "defaultWidth": 360,
+            "inputs": [
+                {
+                    "id": "parent",
+                    "name": {
+                        "en": "Parent",
+                        "de": "Eltern"
+                    },
+                    "allowedTypes": [
+                        "web.element"
+                    ],
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "Parent element to place this element into.",
+                        "de": "Übergeordnetes Element, in das dieses Element eingefügt wird."
+                    }
+                },
+                {
+                    "id": "title",
+                    "name": {
+                        "en": "Title",
+                        "de": "Titel"
+                    },
+                    "allowedTypes": [
+                        "string"
+                    ],
+                    "initialTypes": [
+                        "string"
+                    ],
+                    "defaultControl": {
+                        "id": "title",
+                        "type": "text",
+                        "label": {
+                            "en": "Title",
+                            "de": "Titel"
+                        },
+                        "default": "Line Graph"
+                    },
+                    "phase": "both",
+                    "description": {
+                        "en": "Graph title; the control value is used while the input is unconnected.",
+                        "de": "Diagrammtitel; solange der Eingang nicht verbunden ist, wird der Steuerungswert verwendet."
+                    }
+                },
+                {
+                    "id": "x",
+                    "name": {
+                        "en": "X Values",
+                        "de": "X-Werte"
+                    },
+                    "allowedTypes": [
+                        "vars.array"
+                    ],
+                    "initialTypes": [
+                        "vars.array"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "Optional x values; unconnected falls back to the original y indices.",
+                        "de": "Optionale X-Werte; ohne Verbindung werden die ursprünglichen Y-Indizes verwendet."
+                    }
+                },
+                {
+                    "id": "y",
+                    "name": {
+                        "en": "Y Values",
+                        "de": "Y-Werte"
+                    },
+                    "allowedTypes": [
+                        "vars.array"
+                    ],
+                    "initialTypes": [
+                        "vars.array"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "Values to plot; an empty or unconnected array draws an empty graph instead of failing.",
+                        "de": "Zu zeichnende Werte; ein leeres oder nicht verbundenes Array zeichnet ein leeres Diagramm statt zu scheitern."
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "element",
+                    "name": {
+                        "en": "Element",
+                        "de": "Element"
+                    },
+                    "outputType": "web.element",
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "The rendered web element.",
+                        "de": "Das gerenderte Web-Element."
+                    }
+                }
+            ],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "yRangeMode",
+                    "label": {
+                        "en": "Y Range Mode",
+                        "de": "Y-Bereichsmodus"
+                    },
+                    "default": "auto",
+                    "affectsControls": true,
+                    "options": [
+                        {
+                            "value": "auto",
+                            "label": {
+                                "en": "Automatic",
+                                "de": "Automatisch"
+                            },
+                            "activeControls": []
+                        },
+                        {
+                            "value": "manual",
+                            "label": {
+                                "en": "Manual",
+                                "de": "Manuell"
+                            },
+                            "activeControls": [
+                                "minY",
+                                "maxY"
+                            ]
+                        }
+                    ],
+                    "description": {
+                        "en": "Derive the y axis range from the data or use the manual bounds below.",
+                        "de": "Y-Achsenbereich aus den Daten ableiten oder die manuellen Grenzen unten verwenden."
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "minY",
+                    "label": {
+                        "en": "Minimum Y",
+                        "de": "Minimum Y"
+                    },
+                    "default": -1,
+                    "min": -100000,
+                    "max": 100000,
+                    "step": 0.1,
+                    "description": {
+                        "en": "Lower y axis bound; only used when the y range mode is manual.",
+                        "de": "Untere Y-Achsengrenze; wird nur im manuellen Y-Bereichsmodus verwendet."
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "maxY",
+                    "label": {
+                        "en": "Maximum Y",
+                        "de": "Maximum Y"
+                    },
+                    "default": 1,
+                    "min": -100000,
+                    "max": 100000,
+                    "step": 0.1,
+                    "description": {
+                        "en": "Upper y axis bound; only used when the y range mode is manual.",
+                        "de": "Obere Y-Achsengrenze; wird nur im manuellen Y-Bereichsmodus verwendet."
+                    }
+                },
+                {
+                    "type": "dropdown",
+                    "id": "xRangeMode",
+                    "label": {
+                        "en": "X Range Mode",
+                        "de": "X-Bereichsmodus"
+                    },
+                    "default": "auto",
+                    "affectsControls": true,
+                    "options": [
+                        {
+                            "value": "auto",
+                            "label": {
+                                "en": "Automatic",
+                                "de": "Automatisch"
+                            },
+                            "activeControls": []
+                        },
+                        {
+                            "value": "manual",
+                            "label": {
+                                "en": "Manual",
+                                "de": "Manuell"
+                            },
+                            "activeControls": [
+                                "minX",
+                                "maxX"
+                            ]
+                        }
+                    ],
+                    "description": {
+                        "en": "Derive the x axis range from the data or use the manual bounds below.",
+                        "de": "X-Achsenbereich aus den Daten ableiten oder die manuellen Grenzen unten verwenden."
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "minX",
+                    "label": {
+                        "en": "Minimum X",
+                        "de": "Minimum X"
+                    },
+                    "default": 0,
+                    "min": -100000,
+                    "max": 100000,
+                    "step": 0.1,
+                    "description": {
+                        "en": "Lower x axis bound; only used when the x range mode is manual.",
+                        "de": "Untere X-Achsengrenze; wird nur im manuellen X-Bereichsmodus verwendet."
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "maxX",
+                    "label": {
+                        "en": "Maximum X",
+                        "de": "Maximum X"
+                    },
+                    "default": 1,
+                    "min": -100000,
+                    "max": 100000,
+                    "step": 0.1,
+                    "description": {
+                        "en": "Upper x axis bound; only used when the x range mode is manual.",
+                        "de": "Obere X-Achsengrenze; wird nur im manuellen X-Bereichsmodus verwendet."
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "heightPx",
+                    "label": {
+                        "en": "Height (px)",
+                        "de": "Höhe (px)"
+                    },
+                    "default": 240,
+                    "min": 80,
+                    "max": 1200,
+                    "step": 10,
+                    "description": {
+                        "en": "Canvas height in CSS pixels.",
+                        "de": "Canvas-Höhe in CSS-Pixeln."
+                    }
+                },
+                {
+                    "type": "text",
+                    "id": "xLabel",
+                    "label": {
+                        "en": "X Label",
+                        "de": "X-Beschriftung"
+                    },
+                    "default": "",
+                    "description": {
+                        "en": "X axis caption; put units in the text.",
+                        "de": "Beschriftung der X-Achse; Einheiten gehören in den Text."
+                    }
+                },
+                {
+                    "type": "text",
+                    "id": "yLabel",
+                    "label": {
+                        "en": "Y Label",
+                        "de": "Y-Beschriftung"
+                    },
+                    "default": "",
+                    "description": {
+                        "en": "Y axis caption; put units in the text.",
+                        "de": "Beschriftung der Y-Achse; Einheiten gehören in den Text."
+                    }
+                },
+                {
+                    "type": "color",
+                    "id": "lineColor",
+                    "label": {
+                        "en": "Line Color",
+                        "de": "Linienfarbe"
+                    },
+                    "default": "#70d6ff",
+                    "description": {
+                        "en": "Colour of the plotted line and points.",
+                        "de": "Farbe der gezeichneten Linie und Punkte."
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "tickCount",
+                    "label": {
+                        "en": "Tick Count",
+                        "de": "Teilstrichanzahl"
+                    },
+                    "default": 5,
+                    "min": 2,
+                    "max": 12,
+                    "step": 1,
+                    "description": {
+                        "en": "Target tick count per axis.",
+                        "de": "Angestrebte Anzahl Teilstriche pro Achse."
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "maxPoints",
+                    "label": {
+                        "en": "Max Points",
+                        "de": "Maximale Punkte"
+                    },
+                    "default": 256,
+                    "min": 2,
+                    "max": 2048,
+                    "step": 1,
+                    "description": {
+                        "en": "Number of newest points kept per series; older points are dropped on the device.",
+                        "de": "Anzahl der neuesten Punkte pro Reihe; ältere Punkte werden auf dem Gerät verworfen."
+                    }
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.webviewGraphDisplay"
+                }
+            },
+            "helperImplementations": {
+                "python": {
+                    "type": "helper-generator",
+                    "value": "NodeHelperGenerators.webviewGraphDisplay",
+                    "helperGroup": "web-runtime"
+                }
+            },
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.webviewGraphDisplay"
+                }
+            },
+            "initFunction": "init_webview"
+        },
+        "title-content": {
+            "title": {
+                "en": "Title Content",
+                "de": "Titel-Inhalt"
+            },
+            "info": {
+                "en": "Displays a centered title with selectable heading level.",
+                "de": "Zeigt einen zentrierten Titel mit wählbarer Überschriftenebene an."
+            },
+            "category": "webview",
+            "executionPhase": "both",
+            "color": "#c999c3",
+            "shape": "square",
+            "icon": "icons/title_24dp.svg",
+            "inputs": [
+                {
+                    "id": "parent",
+                    "name": {
+                        "en": "Parent",
+                        "de": "Eltern"
+                    },
+                    "allowedTypes": [
+                        "web.element"
+                    ],
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "Parent element to place this element into.",
+                        "de": "Übergeordnetes Element, in das dieses Element eingefügt wird."
+                    }
+                },
+                {
+                    "id": "title",
+                    "name": {
+                        "en": "Title",
+                        "de": "Titel"
+                    },
+                    "allowedTypes": [
+                        "string"
+                    ],
+                    "initialTypes": [
+                        "string"
+                    ],
+                    "defaultControl": {
+                        "id": "title",
+                        "type": "text",
+                        "label": {
+                            "en": "Title",
+                            "de": "Titel"
+                        },
+                        "default": ""
+                    },
+                    "phase": "both",
+                    "description": {
+                        "en": "Title text to display.",
+                        "de": "Anzuzeigender Titeltext."
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "element",
+                    "name": {
+                        "en": "Element",
+                        "de": "Element"
+                    },
+                    "outputType": "web.element",
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "The rendered web element.",
+                        "de": "Das gerenderte Web-Element."
+                    }
+                }
+            ],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "headingLevel",
+                    "label": {
+                        "en": "Heading Level",
+                        "de": "Überschriftenebene"
+                    },
+                    "default": 2,
+                    "options": [
+                        {
+                            "value": 1,
+                            "label": {
+                                "en": "H1",
+                                "de": "H1"
+                            }
+                        },
+                        {
+                            "value": 2,
+                            "label": {
+                                "en": "H2",
+                                "de": "H2"
+                            }
+                        },
+                        {
+                            "value": 3,
+                            "label": {
+                                "en": "H3",
+                                "de": "H3"
+                            }
+                        },
+                        {
+                            "value": 4,
+                            "label": {
+                                "en": "H4",
+                                "de": "H4"
+                            }
+                        },
+                        {
+                            "value": 5,
+                            "label": {
+                                "en": "H5",
+                                "de": "H5"
+                            }
+                        },
+                        {
+                            "value": 6,
+                            "label": {
+                                "en": "H6",
+                                "de": "H6"
+                            }
+                        }
+                    ],
+                    "description": {
+                        "en": "HTML heading level (H1–H6).",
+                        "de": "HTML-Überschriftenebene (H1–H6)."
+                    }
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.webviewTitleContent"
+                }
+            },
+            "helperImplementations": {
+                "python": {
+                    "type": "helper-generator",
+                    "value": "NodeHelperGenerators.webviewTitleContent",
+                    "helperGroup": "web-runtime"
+                }
+            },
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.webviewTitleContent"
+                }
+            },
+            "initFunction": "init_webview"
+        },
+        "web-view-tile": {
+            "title": {
+                "en": "Tile",
+                "de": "Kachel"
+            },
+            "info": {
+                "en": "Structural tile container with a bordered card layout.",
+                "de": "Struktureller Kachel-Container mit umrandetem Karten-Layout."
+            },
+            "category": "webview",
+            "executionPhase": "init",
+            "color": "#bc8fb9",
+            "shape": "square",
+            "icon": "icons/tile_small_24dp.svg",
+            "inputs": [
+                {
+                    "id": "parent",
+                    "name": {
+                        "en": "Parent",
+                        "de": "Eltern"
+                    },
+                    "allowedTypes": [
+                        "web.element"
+                    ],
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "init",
+                    "description": {
+                        "en": "Parent element to place this element into.",
+                        "de": "Übergeordnetes Element, in das dieses Element eingefügt wird."
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "element",
+                    "name": {
+                        "en": "Element",
+                        "de": "Element"
+                    },
+                    "outputType": "web.element",
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "init",
+                    "description": {
+                        "en": "The rendered web element.",
+                        "de": "Das gerenderte Web-Element."
+                    }
+                }
+            ],
+            "controls": [
+                {
+                    "type": "text",
+                    "id": "title",
+                    "label": {
+                        "en": "Title",
+                        "de": "Titel"
+                    },
+                    "default": "",
+                    "description": {
+                        "en": "Title shown at the top of the tile.",
+                        "de": "Oben in der Kachel angezeigter Titel."
+                    }
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.webviewTile"
+                }
+            },
+            "helperImplementations": {
+                "python": {
+                    "type": "helper-generator",
+                    "value": "NodeHelperGenerators.webviewTile",
+                    "helperGroup": "web-runtime"
+                }
+            },
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.webviewTile"
+                }
+            },
+            "initFunction": "init_webview"
+        },
+        "web-view-number-input": {
+            "title": {
+                "en": "Value Input",
+                "de": "Wert-Eingabe"
+            },
+            "info": {
+                "en": "Numeric input field. The backend drives the value; user edits are reported back through the `value` output.\n\n**Persistence (`persist`):** The value lives in the in-memory `_webcontrol` store, so it survives page reloads and control re-creation. To survive a reboot, trigger **Web Value Store Save** after changes and place **Web Value Store Load** in a separate **Init** graph (execution type *Run once on startup*) with `Load` enabled, so the store is restored before the loop graph starts. A Load node in the same loop graph can run after the controls have already written their defaults back.",
+                "de": "Numerisches Eingabefeld. Das Backend gibt den Wert vor; Benutzereingaben werden über den Ausgang `value` zurückgemeldet.\n\n**Persistenz (`persist`):** Der Wert liegt im Arbeitsspeicher-Store `_webcontrol` und überlebt daher Seiten-Neuladen und Neuerstellen des Steuerelements. Um einen Neustart zu überleben, nach Änderungen **Web-Wertespeicher speichern** auslösen und **Web-Wertespeicher laden** in einem separaten **Init**-Graph (Ausführungsart *Einmal beim Start ausführen*) mit aktiviertem `Laden` platzieren, damit der Store vor dem Start des Schleifen-Graphen wiederhergestellt wird. Ein Laden-Knoten im selben Schleifen-Graph kann erst laufen, nachdem die Steuerelemente ihre Standardwerte bereits zurückgeschrieben haben."
+            },
+            "category": "webview",
+            "executionPhase": "both",
+            "color": "#bc8fb9",
+            "shape": "square",
+            "icon": "icons/123_24dp.svg",
+            "inputs": [
+                {
+                    "id": "parent",
+                    "name": {
+                        "en": "Parent",
+                        "de": "Eltern"
+                    },
+                    "allowedTypes": [
+                        "web.element"
+                    ],
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "Parent element to place this element into.",
+                        "de": "Übergeordnetes Element, in das dieses Element eingefügt wird."
+                    }
+                },
+                {
+                    "id": "title",
+                    "name": {
+                        "en": "Title",
+                        "de": "Titel"
+                    },
+                    "allowedTypes": [
+                        "string"
+                    ],
+                    "initialTypes": [
+                        "string"
+                    ],
+                    "phase": "both",
+                    "defaultControl": {
+                        "id": "title",
+                        "type": "text",
+                        "label": {
+                            "en": "Title",
+                            "de": "Titel"
+                        },
+                        "default": ""
+                    },
+                    "description": {
+                        "en": "Text shown next to the control.",
+                        "de": "Neben dem Steuerelement angezeigter Text."
+                    }
+                },
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "allowedTypes": [
+                        "float"
+                    ],
+                    "initialTypes": [
+                        "float"
+                    ],
+                    "phase": "both",
+                    "defaultControl": {
+                        "id": "value",
+                        "type": "number",
+                        "label": {
+                            "en": "Value",
+                            "de": "Wert"
+                        },
+                        "default": 0,
+                        "step": 1
+                    },
+                    "description": {
+                        "en": "Value shown when the control is created.",
+                        "de": "Wert, der beim Erstellen des Steuerelements angezeigt wird."
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "element",
+                    "name": {
+                        "en": "Element",
+                        "de": "Element"
+                    },
+                    "outputType": "web.element",
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "The rendered web element.",
+                        "de": "Das gerenderte Web-Element."
+                    }
+                },
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "outputType": "float",
+                    "initialTypes": [
+                        "float"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "Current value of the control.",
+                        "de": "Aktueller Wert des Steuerelements."
+                    }
+                },
+                {
+                    "id": "changed",
+                    "name": {
+                        "en": "Changed",
+                        "de": "Geändert"
+                    },
+                    "outputType": "bool",
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "True for one tick when the resolved value changes.",
+                        "de": "Für einen Tick wahr, wenn sich der aufgelöste Wert ändert."
+                    }
+                }
+            ],
+            "controls": [
+                {
+                    "type": "number",
+                    "id": "minValue",
+                    "label": {
+                        "en": "Min Value",
+                        "de": "Minimalwert"
+                    },
+                    "default": 0,
+                    "description": {
+                        "en": "Minimum number value. Smaller values are clamped to this bound.",
+                        "de": "Minimaler Zahlenwert. Kleinere Werte werden auf diese Grenze begrenzt."
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "maxValue",
+                    "label": {
+                        "en": "Max Value",
+                        "de": "Maximalwert"
+                    },
+                    "default": 100,
+                    "description": {
+                        "en": "Maximum number value. Larger values are clamped to this bound.",
+                        "de": "Maximaler Zahlenwert. Größere Werte werden auf diese Grenze begrenzt."
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "step",
+                    "label": {
+                        "en": "Step",
+                        "de": "Schritt"
+                    },
+                    "default": 1,
+                    "min": 0.001,
+                    "description": {
+                        "en": "Increment between number-input steps. Typed values are not snapped.",
+                        "de": "Schrittweite zwischen Zahlen-Eingabeschritten. Eingetippte Werte werden nicht gerundet."
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "maxDigits",
+                    "label": {
+                        "en": "Max Digits",
+                        "de": "Maximale Stellen"
+                    },
+                    "default": 6,
+                    "min": 1,
+                    "description": {
+                        "en": "Maximum number of digits the user can enter.",
+                        "de": "Maximale Anzahl der vom Benutzer eingebbaren Stellen."
+                    }
+                },
+                {
+                    "type": "checkbox",
+                    "id": "persist",
+                    "label": {
+                        "en": "Persist",
+                        "de": "Dauerhaft speichern"
+                    },
+                    "description": {
+                        "en": "Keeps the value in the in-memory web control store. Survives page reloads and control re-creation; a reboot additionally needs Web Value Store Save + Load (Load in a separate Init graph).",
+                        "de": "Hält den Wert im Web-Steuerelement-Speicher (RAM). Überlebt Seiten-Neuladen und Neuerstellen des Steuerelements; für einen Neustart werden zusätzlich Web-Wertespeicher speichern + laden benötigt (Laden in einem separaten Init-Graph)."
+                    },
+                    "default": false
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.webviewNumberInput"
+                }
+            },
+            "helperImplementations": {
+                "python": {
+                    "type": "helper-generator",
+                    "value": "NodeHelperGenerators.webviewNumberInput",
+                    "helperGroup": "web-runtime"
+                }
+            },
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.webviewNumberInput"
+                }
+            },
+            "initFunction": "init_webview"
+        },
+        "web-view-string-input": {
+            "title": {
+                "en": "Text Input",
+                "de": "Text-Eingabe"
+            },
+            "info": {
+                "en": "Text input field. The backend drives the value; user edits are reported back through the `value` output.\n\n**Persistence (`persist`):** The value lives in the in-memory `_webcontrol` store, so it survives page reloads and control re-creation. To survive a reboot, trigger **Web Value Store Save** after changes and place **Web Value Store Load** in a separate **Init** graph (execution type *Run once on startup*) with `Load` enabled, so the store is restored before the loop graph starts. A Load node in the same loop graph can run after the controls have already written their defaults back.",
+                "de": "Text-Eingabefeld. Das Backend gibt den Wert vor; Benutzereingaben werden über den Ausgang `value` zurückgemeldet.\n\n**Persistenz (`persist`):** Der Wert liegt im Arbeitsspeicher-Store `_webcontrol` und überlebt daher Seiten-Neuladen und Neuerstellen des Steuerelements. Um einen Neustart zu überleben, nach Änderungen **Web-Wertespeicher speichern** auslösen und **Web-Wertespeicher laden** in einem separaten **Init**-Graph (Ausführungsart *Einmal beim Start ausführen*) mit aktiviertem `Laden` platzieren, damit der Store vor dem Start des Schleifen-Graphen wiederhergestellt wird. Ein Laden-Knoten im selben Schleifen-Graph kann erst laufen, nachdem die Steuerelemente ihre Standardwerte bereits zurückgeschrieben haben."
+            },
+            "category": "webview",
+            "executionPhase": "both",
+            "color": "#bc8fb9",
+            "shape": "square",
+            "icon": "icons/text_fields_24dp.svg",
+            "inputs": [
+                {
+                    "id": "parent",
+                    "name": {
+                        "en": "Parent",
+                        "de": "Eltern"
+                    },
+                    "allowedTypes": [
+                        "web.element"
+                    ],
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "Parent element to place this element into.",
+                        "de": "Übergeordnetes Element, in das dieses Element eingefügt wird."
+                    }
+                },
+                {
+                    "id": "title",
+                    "name": {
+                        "en": "Title",
+                        "de": "Titel"
+                    },
+                    "allowedTypes": [
+                        "string"
+                    ],
+                    "initialTypes": [
+                        "string"
+                    ],
+                    "phase": "both",
+                    "defaultControl": {
+                        "id": "title",
+                        "type": "text",
+                        "label": {
+                            "en": "Title",
+                            "de": "Titel"
+                        },
+                        "default": ""
+                    },
+                    "description": {
+                        "en": "Text shown next to the control.",
+                        "de": "Neben dem Steuerelement angezeigter Text."
+                    }
+                },
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "allowedTypes": [
+                        "string"
+                    ],
+                    "initialTypes": [
+                        "string"
+                    ],
+                    "phase": "both",
+                    "defaultControl": {
+                        "id": "value",
+                        "type": "text",
+                        "label": {
+                            "en": "Value",
+                            "de": "Wert"
+                        },
+                        "default": ""
+                    },
+                    "description": {
+                        "en": "Value shown when the control is created.",
+                        "de": "Wert, der beim Erstellen des Steuerelements angezeigt wird."
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "element",
+                    "name": {
+                        "en": "Element",
+                        "de": "Element"
+                    },
+                    "outputType": "web.element",
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "The rendered web element.",
+                        "de": "Das gerenderte Web-Element."
+                    }
+                },
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "outputType": "string",
+                    "initialTypes": [
+                        "string"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "Current value of the control.",
+                        "de": "Aktueller Wert des Steuerelements."
+                    }
+                },
+                {
+                    "id": "changed",
+                    "name": {
+                        "en": "Changed",
+                        "de": "Geändert"
+                    },
+                    "outputType": "bool",
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "True for one tick when the resolved value changes.",
+                        "de": "Für einen Tick wahr, wenn sich der aufgelöste Wert ändert."
+                    }
+                }
+            ],
+            "controls": [
+                {
+                    "type": "number",
+                    "id": "maxLength",
+                    "label": {
+                        "en": "Max Length",
+                        "de": "Maximale Länge"
+                    },
+                    "default": 20,
+                    "min": 1,
+                    "description": {
+                        "en": "Maximum number of characters the user can enter.",
+                        "de": "Maximale Anzahl der vom Benutzer eingebbaren Zeichen."
+                    }
+                },
+                {
+                    "type": "checkbox",
+                    "id": "persist",
+                    "label": {
+                        "en": "Persist",
+                        "de": "Dauerhaft speichern"
+                    },
+                    "description": {
+                        "en": "Keeps the value in the in-memory web control store. Survives page reloads and control re-creation; a reboot additionally needs Web Value Store Save + Load (Load in a separate Init graph).",
+                        "de": "Hält den Wert im Web-Steuerelement-Speicher (RAM). Überlebt Seiten-Neuladen und Neuerstellen des Steuerelements; für einen Neustart werden zusätzlich Web-Wertespeicher speichern + laden benötigt (Laden in einem separaten Init-Graph)."
+                    },
+                    "default": false
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.webviewStringInput"
+                }
+            },
+            "helperImplementations": {
+                "python": {
+                    "type": "helper-generator",
+                    "value": "NodeHelperGenerators.webviewStringInput",
+                    "helperGroup": "web-runtime"
+                }
+            },
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.webviewStringInput"
+                }
+            },
+            "initFunction": "init_webview"
+        },
+        "web-view-slider": {
+            "title": {
+                "en": "Slider",
+                "de": "Schieberegler"
+            },
+            "info": {
+                "en": "Horizontal slider. The backend drives the value; user drags are reported back through the `value` output.\n\n**Persistence (`persist`):** The value lives in the in-memory `_webcontrol` store, so it survives page reloads and control re-creation. To survive a reboot, trigger **Web Value Store Save** after changes and place **Web Value Store Load** in a separate **Init** graph (execution type *Run once on startup*) with `Load` enabled, so the store is restored before the loop graph starts. A Load node in the same loop graph can run after the controls have already written their defaults back.",
+                "de": "Horizontaler Schieberegler. Das Backend gibt den Wert vor; Benutzerziehen wird über den Ausgang `value` zurückgemeldet.\n\n**Persistenz (`persist`):** Der Wert liegt im Arbeitsspeicher-Store `_webcontrol` und überlebt daher Seiten-Neuladen und Neuerstellen des Steuerelements. Um einen Neustart zu überleben, nach Änderungen **Web-Wertespeicher speichern** auslösen und **Web-Wertespeicher laden** in einem separaten **Init**-Graph (Ausführungsart *Einmal beim Start ausführen*) mit aktiviertem `Laden` platzieren, damit der Store vor dem Start des Schleifen-Graphen wiederhergestellt wird. Ein Laden-Knoten im selben Schleifen-Graph kann erst laufen, nachdem die Steuerelemente ihre Standardwerte bereits zurückgeschrieben haben."
+            },
+            "category": "webview",
+            "executionPhase": "both",
+            "color": "#bc8fb9",
+            "shape": "square",
+            "icon": "icons/tune_24dp.svg",
+            "inputs": [
+                {
+                    "id": "parent",
+                    "name": {
+                        "en": "Parent",
+                        "de": "Eltern"
+                    },
+                    "allowedTypes": [
+                        "web.element"
+                    ],
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "Parent element to place this element into.",
+                        "de": "Übergeordnetes Element, in das dieses Element eingefügt wird."
+                    }
+                },
+                {
+                    "id": "title",
+                    "name": {
+                        "en": "Title",
+                        "de": "Titel"
+                    },
+                    "allowedTypes": [
+                        "string"
+                    ],
+                    "initialTypes": [
+                        "string"
+                    ],
+                    "phase": "both",
+                    "defaultControl": {
+                        "id": "title",
+                        "type": "text",
+                        "label": {
+                            "en": "Title",
+                            "de": "Titel"
+                        },
+                        "default": ""
+                    },
+                    "description": {
+                        "en": "Text shown next to the control.",
+                        "de": "Neben dem Steuerelement angezeigter Text."
+                    }
+                },
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "allowedTypes": [
+                        "float"
+                    ],
+                    "initialTypes": [
+                        "float"
+                    ],
+                    "phase": "both",
+                    "defaultControl": {
+                        "id": "value",
+                        "type": "number",
+                        "label": {
+                            "en": "Value",
+                            "de": "Wert"
+                        },
+                        "default": 0,
+                        "step": 1
+                    },
+                    "description": {
+                        "en": "Value shown when the control is created.",
+                        "de": "Wert, der beim Erstellen des Steuerelements angezeigt wird."
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "element",
+                    "name": {
+                        "en": "Element",
+                        "de": "Element"
+                    },
+                    "outputType": "web.element",
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "The rendered web element.",
+                        "de": "Das gerenderte Web-Element."
+                    }
+                },
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "outputType": "float",
+                    "initialTypes": [
+                        "float"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "Current value of the control.",
+                        "de": "Aktueller Wert des Steuerelements."
+                    }
+                },
+                {
+                    "id": "changed",
+                    "name": {
+                        "en": "Changed",
+                        "de": "Geändert"
+                    },
+                    "outputType": "bool",
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "True for one tick when the resolved value changes.",
+                        "de": "Für einen Tick wahr, wenn sich der aufgelöste Wert ändert."
+                    }
+                }
+            ],
+            "controls": [
+                {
+                    "type": "number",
+                    "id": "minValue",
+                    "label": {
+                        "en": "Min Value",
+                        "de": "Minimalwert"
+                    },
+                    "default": 0,
+                    "description": {
+                        "en": "Minimum slider value.",
+                        "de": "Minimalwert des Schiebereglers."
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "maxValue",
+                    "label": {
+                        "en": "Max Value",
+                        "de": "Maximalwert"
+                    },
+                    "default": 100,
+                    "description": {
+                        "en": "Maximum slider value.",
+                        "de": "Maximalwert des Schiebereglers."
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "step",
+                    "label": {
+                        "en": "Step",
+                        "de": "Schritt"
+                    },
+                    "default": 1,
+                    "min": 0.001,
+                    "description": {
+                        "en": "Increment between slider steps.",
+                        "de": "Schrittweite des Schiebereglers."
+                    }
+                },
+                {
+                    "type": "checkbox",
+                    "id": "persist",
+                    "label": {
+                        "en": "Persist",
+                        "de": "Dauerhaft speichern"
+                    },
+                    "description": {
+                        "en": "Keeps the value in the in-memory web control store. Survives page reloads and control re-creation; a reboot additionally needs Web Value Store Save + Load (Load in a separate Init graph).",
+                        "de": "Hält den Wert im Web-Steuerelement-Speicher (RAM). Überlebt Seiten-Neuladen und Neuerstellen des Steuerelements; für einen Neustart werden zusätzlich Web-Wertespeicher speichern + laden benötigt (Laden in einem separaten Init-Graph)."
+                    },
+                    "default": false
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.webviewSlider"
+                }
+            },
+            "helperImplementations": {
+                "python": {
+                    "type": "helper-generator",
+                    "value": "NodeHelperGenerators.webviewSlider",
+                    "helperGroup": "web-runtime"
+                }
+            },
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.webviewSlider"
+                }
+            },
+            "initFunction": "init_webview"
+        },
+        "web-view-checkbox": {
+            "title": {
+                "en": "Checkbox",
+                "de": "Kontrollkästchen"
+            },
+            "info": {
+                "en": "Boolean checkbox. The backend drives the checked state; user toggles are reported back through the `value` output.\n\n**Persistence (`persist`):** The value lives in the in-memory `_webcontrol` store, so it survives page reloads and control re-creation. To survive a reboot, trigger **Web Value Store Save** after changes and place **Web Value Store Load** in a separate **Init** graph (execution type *Run once on startup*) with `Load` enabled, so the store is restored before the loop graph starts. A Load node in the same loop graph can run after the controls have already written their defaults back.",
+                "de": "Boolesches Kontrollkästchen. Das Backend gibt den Zustand vor; Benutzerumschaltungen werden über den Ausgang `value` zurückgemeldet.\n\n**Persistenz (`persist`):** Der Wert liegt im Arbeitsspeicher-Store `_webcontrol` und überlebt daher Seiten-Neuladen und Neuerstellen des Steuerelements. Um einen Neustart zu überleben, nach Änderungen **Web-Wertespeicher speichern** auslösen und **Web-Wertespeicher laden** in einem separaten **Init**-Graph (Ausführungsart *Einmal beim Start ausführen*) mit aktiviertem `Laden` platzieren, damit der Store vor dem Start des Schleifen-Graphen wiederhergestellt wird. Ein Laden-Knoten im selben Schleifen-Graph kann erst laufen, nachdem die Steuerelemente ihre Standardwerte bereits zurückgeschrieben haben."
+            },
+            "category": "webview",
+            "executionPhase": "both",
+            "color": "#bc8fb9",
+            "shape": "square",
+            "icon": "icons/check_box_24dp.svg",
+            "inputs": [
+                {
+                    "id": "parent",
+                    "name": {
+                        "en": "Parent",
+                        "de": "Eltern"
+                    },
+                    "allowedTypes": [
+                        "web.element"
+                    ],
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "Parent element to place this element into.",
+                        "de": "Übergeordnetes Element, in das dieses Element eingefügt wird."
+                    }
+                },
+                {
+                    "id": "title",
+                    "name": {
+                        "en": "Title",
+                        "de": "Titel"
+                    },
+                    "allowedTypes": [
+                        "string"
+                    ],
+                    "initialTypes": [
+                        "string"
+                    ],
+                    "phase": "both",
+                    "defaultControl": {
+                        "id": "title",
+                        "type": "text",
+                        "label": {
+                            "en": "Title",
+                            "de": "Titel"
+                        },
+                        "default": ""
+                    },
+                    "description": {
+                        "en": "Text shown next to the control.",
+                        "de": "Neben dem Steuerelement angezeigter Text."
+                    }
+                },
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "both",
+                    "defaultControl": {
+                        "id": "value",
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Value",
+                            "de": "Wert"
+                        },
+                        "default": false
+                    },
+                    "description": {
+                        "en": "Value shown when the control is created.",
+                        "de": "Wert, der beim Erstellen des Steuerelements angezeigt wird."
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "element",
+                    "name": {
+                        "en": "Element",
+                        "de": "Element"
+                    },
+                    "outputType": "web.element",
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "The rendered web element.",
+                        "de": "Das gerenderte Web-Element."
+                    }
+                },
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "outputType": "bool",
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "Current value of the control.",
+                        "de": "Aktueller Wert des Steuerelements."
+                    }
+                },
+                {
+                    "id": "changed",
+                    "name": {
+                        "en": "Changed",
+                        "de": "Geändert"
+                    },
+                    "outputType": "bool",
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "True for one tick when the resolved value changes.",
+                        "de": "Für einen Tick wahr, wenn sich der aufgelöste Wert ändert."
+                    }
+                }
+            ],
+            "controls": [
+                {
+                    "type": "checkbox",
+                    "id": "persist",
+                    "label": {
+                        "en": "Persist",
+                        "de": "Dauerhaft speichern"
+                    },
+                    "description": {
+                        "en": "Keeps the value in the in-memory web control store. Survives page reloads and control re-creation; a reboot additionally needs Web Value Store Save + Load (Load in a separate Init graph).",
+                        "de": "Hält den Wert im Web-Steuerelement-Speicher (RAM). Überlebt Seiten-Neuladen und Neuerstellen des Steuerelements; für einen Neustart werden zusätzlich Web-Wertespeicher speichern + laden benötigt (Laden in einem separaten Init-Graph)."
+                    },
+                    "default": false
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.webviewCheckbox"
+                }
+            },
+            "helperImplementations": {
+                "python": {
+                    "type": "helper-generator",
+                    "value": "NodeHelperGenerators.webviewCheckbox",
+                    "helperGroup": "web-runtime"
+                }
+            },
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.webviewCheckbox"
+                }
+            },
+            "initFunction": "init_webview"
+        },
+        "web-view-select": {
+            "title": {
+                "en": "Select",
+                "de": "Auswahl"
+            },
+            "info": {
+                "en": "Dropdown select with up to 8 configurable options, each with a label and a typed value.\n\n**Persistence (`persist`):** The value lives in the in-memory `_webcontrol` store, so it survives page reloads and control re-creation. To survive a reboot, trigger **Web Value Store Save** after changes and place **Web Value Store Load** in a separate **Init** graph (execution type *Run once on startup*) with `Load` enabled, so the store is restored before the loop graph starts. A Load node in the same loop graph can run after the controls have already written their defaults back.",
+                "de": "Auswahl-Dropdown mit bis zu 8 konfigurierbaren Optionen, jeweils mit Beschriftung und typisiertem Wert.\n\n**Persistenz (`persist`):** Der Wert liegt im Arbeitsspeicher-Store `_webcontrol` und überlebt daher Seiten-Neuladen und Neuerstellen des Steuerelements. Um einen Neustart zu überleben, nach Änderungen **Web-Wertespeicher speichern** auslösen und **Web-Wertespeicher laden** in einem separaten **Init**-Graph (Ausführungsart *Einmal beim Start ausführen*) mit aktiviertem `Laden` platzieren, damit der Store vor dem Start des Schleifen-Graphen wiederhergestellt wird. Ein Laden-Knoten im selben Schleifen-Graph kann erst laufen, nachdem die Steuerelemente ihre Standardwerte bereits zurückgeschrieben haben."
+            },
+            "category": "webview",
+            "executionPhase": "both",
+            "color": "#bc8fb9",
+            "shape": "square",
+            "icon": "icons/lists_24dp.svg",
+            "inputs": [
+                {
+                    "id": "parent",
+                    "name": {
+                        "en": "Parent",
+                        "de": "Eltern"
+                    },
+                    "allowedTypes": [
+                        "web.element"
+                    ],
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "Parent element to place this element into.",
+                        "de": "Übergeordnetes Element, in das dieses Element eingefügt wird."
+                    }
+                },
+                {
+                    "id": "title",
+                    "name": {
+                        "en": "Title",
+                        "de": "Titel"
+                    },
+                    "allowedTypes": [
+                        "string"
+                    ],
+                    "initialTypes": [
+                        "string"
+                    ],
+                    "phase": "both",
+                    "defaultControl": {
+                        "id": "title",
+                        "type": "text",
+                        "label": {
+                            "en": "Title",
+                            "de": "Titel"
+                        },
+                        "default": ""
+                    },
+                    "description": {
+                        "en": "Text shown next to the control.",
+                        "de": "Neben dem Steuerelement angezeigter Text."
+                    }
+                },
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "allowedTypes": [
+                        "string",
+                        "int",
+                        "float",
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "string",
+                        "int",
+                        "float",
+                        "bool"
+                    ],
+                    "phase": "both",
+                    "defaultControl": {
+                        "id": "value",
+                        "type": "text",
+                        "label": {
+                            "en": "Value",
+                            "de": "Wert"
+                        },
+                        "default": ""
+                    },
+                    "description": {
+                        "en": "Value shown when the control is created.",
+                        "de": "Wert, der beim Erstellen des Steuerelements angezeigt wird."
+                    }
+                },
+                {
+                    "id": "label_1",
+                    "name": {
+                        "en": "Label 1",
+                        "de": "Beschriftung 1"
+                    },
+                    "allowedTypes": [
+                        "string"
+                    ],
+                    "initialTypes": [
+                        "string"
+                    ],
+                    "phase": "both",
+                    "defaultControl": {
+                        "id": "label_1",
+                        "type": "text",
+                        "label": {
+                            "en": "Label 1",
+                            "de": "Beschriftung 1"
+                        },
+                        "default": "Option 1"
+                    },
+                    "description": {
+                        "en": "Label of option 1.",
+                        "de": "Beschriftung von Option 1."
+                    }
+                },
+                {
+                    "id": "value_1",
+                    "name": {
+                        "en": "Value 1",
+                        "de": "Wert 1"
+                    },
+                    "allowedTypes": [
+                        "string",
+                        "int",
+                        "float",
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "string",
+                        "int",
+                        "float",
+                        "bool"
+                    ],
+                    "phase": "both",
+                    "defaultControl": {
+                        "id": "value_1",
+                        "type": "text",
+                        "label": {
+                            "en": "Value 1",
+                            "de": "Wert 1"
+                        },
+                        "default": ""
+                    },
+                    "description": {
+                        "en": "Value of option 1.",
+                        "de": "Wert von Option 1."
+                    }
+                },
+                {
+                    "id": "label_2",
+                    "name": {
+                        "en": "Label 2",
+                        "de": "Beschriftung 2"
+                    },
+                    "allowedTypes": [
+                        "string"
+                    ],
+                    "initialTypes": [
+                        "string"
+                    ],
+                    "phase": "both",
+                    "defaultControl": {
+                        "id": "label_2",
+                        "type": "text",
+                        "label": {
+                            "en": "Label 2",
+                            "de": "Beschriftung 2"
+                        },
+                        "default": "Option 2"
+                    },
+                    "description": {
+                        "en": "Label of option 2.",
+                        "de": "Beschriftung von Option 2."
+                    }
+                },
+                {
+                    "id": "value_2",
+                    "name": {
+                        "en": "Value 2",
+                        "de": "Wert 2"
+                    },
+                    "allowedTypes": [
+                        "string",
+                        "int",
+                        "float",
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "string",
+                        "int",
+                        "float",
+                        "bool"
+                    ],
+                    "phase": "both",
+                    "defaultControl": {
+                        "id": "value_2",
+                        "type": "text",
+                        "label": {
+                            "en": "Value 2",
+                            "de": "Wert 2"
+                        },
+                        "default": ""
+                    },
+                    "description": {
+                        "en": "Value of option 2.",
+                        "de": "Wert von Option 2."
+                    }
+                },
+                {
+                    "id": "label_3",
+                    "name": {
+                        "en": "Label 3",
+                        "de": "Beschriftung 3"
+                    },
+                    "allowedTypes": [
+                        "string"
+                    ],
+                    "initialTypes": [
+                        "string"
+                    ],
+                    "phase": "both",
+                    "defaultControl": {
+                        "id": "label_3",
+                        "type": "text",
+                        "label": {
+                            "en": "Label 3",
+                            "de": "Beschriftung 3"
+                        },
+                        "default": "Option 3"
+                    },
+                    "description": {
+                        "en": "Label of option 3.",
+                        "de": "Beschriftung von Option 3."
+                    }
+                },
+                {
+                    "id": "value_3",
+                    "name": {
+                        "en": "Value 3",
+                        "de": "Wert 3"
+                    },
+                    "allowedTypes": [
+                        "string",
+                        "int",
+                        "float",
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "string",
+                        "int",
+                        "float",
+                        "bool"
+                    ],
+                    "phase": "both",
+                    "defaultControl": {
+                        "id": "value_3",
+                        "type": "text",
+                        "label": {
+                            "en": "Value 3",
+                            "de": "Wert 3"
+                        },
+                        "default": ""
+                    },
+                    "description": {
+                        "en": "Value of option 3.",
+                        "de": "Wert von Option 3."
+                    }
+                },
+                {
+                    "id": "label_4",
+                    "name": {
+                        "en": "Label 4",
+                        "de": "Beschriftung 4"
+                    },
+                    "allowedTypes": [
+                        "string"
+                    ],
+                    "initialTypes": [
+                        "string"
+                    ],
+                    "phase": "both",
+                    "defaultControl": {
+                        "id": "label_4",
+                        "type": "text",
+                        "label": {
+                            "en": "Label 4",
+                            "de": "Beschriftung 4"
+                        },
+                        "default": "Option 4"
+                    },
+                    "description": {
+                        "en": "Label of option 4.",
+                        "de": "Beschriftung von Option 4."
+                    }
+                },
+                {
+                    "id": "value_4",
+                    "name": {
+                        "en": "Value 4",
+                        "de": "Wert 4"
+                    },
+                    "allowedTypes": [
+                        "string",
+                        "int",
+                        "float",
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "string",
+                        "int",
+                        "float",
+                        "bool"
+                    ],
+                    "phase": "both",
+                    "defaultControl": {
+                        "id": "value_4",
+                        "type": "text",
+                        "label": {
+                            "en": "Value 4",
+                            "de": "Wert 4"
+                        },
+                        "default": ""
+                    },
+                    "description": {
+                        "en": "Value of option 4.",
+                        "de": "Wert von Option 4."
+                    }
+                },
+                {
+                    "id": "label_5",
+                    "name": {
+                        "en": "Label 5",
+                        "de": "Beschriftung 5"
+                    },
+                    "allowedTypes": [
+                        "string"
+                    ],
+                    "initialTypes": [
+                        "string"
+                    ],
+                    "phase": "both",
+                    "defaultControl": {
+                        "id": "label_5",
+                        "type": "text",
+                        "label": {
+                            "en": "Label 5",
+                            "de": "Beschriftung 5"
+                        },
+                        "default": "Option 5"
+                    },
+                    "description": {
+                        "en": "Label of option 5.",
+                        "de": "Beschriftung von Option 5."
+                    }
+                },
+                {
+                    "id": "value_5",
+                    "name": {
+                        "en": "Value 5",
+                        "de": "Wert 5"
+                    },
+                    "allowedTypes": [
+                        "string",
+                        "int",
+                        "float",
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "string",
+                        "int",
+                        "float",
+                        "bool"
+                    ],
+                    "phase": "both",
+                    "defaultControl": {
+                        "id": "value_5",
+                        "type": "text",
+                        "label": {
+                            "en": "Value 5",
+                            "de": "Wert 5"
+                        },
+                        "default": ""
+                    },
+                    "description": {
+                        "en": "Value of option 5.",
+                        "de": "Wert von Option 5."
+                    }
+                },
+                {
+                    "id": "label_6",
+                    "name": {
+                        "en": "Label 6",
+                        "de": "Beschriftung 6"
+                    },
+                    "allowedTypes": [
+                        "string"
+                    ],
+                    "initialTypes": [
+                        "string"
+                    ],
+                    "phase": "both",
+                    "defaultControl": {
+                        "id": "label_6",
+                        "type": "text",
+                        "label": {
+                            "en": "Label 6",
+                            "de": "Beschriftung 6"
+                        },
+                        "default": "Option 6"
+                    },
+                    "description": {
+                        "en": "Label of option 6.",
+                        "de": "Beschriftung von Option 6."
+                    }
+                },
+                {
+                    "id": "value_6",
+                    "name": {
+                        "en": "Value 6",
+                        "de": "Wert 6"
+                    },
+                    "allowedTypes": [
+                        "string",
+                        "int",
+                        "float",
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "string",
+                        "int",
+                        "float",
+                        "bool"
+                    ],
+                    "phase": "both",
+                    "defaultControl": {
+                        "id": "value_6",
+                        "type": "text",
+                        "label": {
+                            "en": "Value 6",
+                            "de": "Wert 6"
+                        },
+                        "default": ""
+                    },
+                    "description": {
+                        "en": "Value of option 6.",
+                        "de": "Wert von Option 6."
+                    }
+                },
+                {
+                    "id": "label_7",
+                    "name": {
+                        "en": "Label 7",
+                        "de": "Beschriftung 7"
+                    },
+                    "allowedTypes": [
+                        "string"
+                    ],
+                    "initialTypes": [
+                        "string"
+                    ],
+                    "phase": "both",
+                    "defaultControl": {
+                        "id": "label_7",
+                        "type": "text",
+                        "label": {
+                            "en": "Label 7",
+                            "de": "Beschriftung 7"
+                        },
+                        "default": "Option 7"
+                    },
+                    "description": {
+                        "en": "Label of option 7.",
+                        "de": "Beschriftung von Option 7."
+                    }
+                },
+                {
+                    "id": "value_7",
+                    "name": {
+                        "en": "Value 7",
+                        "de": "Wert 7"
+                    },
+                    "allowedTypes": [
+                        "string",
+                        "int",
+                        "float",
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "string",
+                        "int",
+                        "float",
+                        "bool"
+                    ],
+                    "phase": "both",
+                    "defaultControl": {
+                        "id": "value_7",
+                        "type": "text",
+                        "label": {
+                            "en": "Value 7",
+                            "de": "Wert 7"
+                        },
+                        "default": ""
+                    },
+                    "description": {
+                        "en": "Value of option 7.",
+                        "de": "Wert von Option 7."
+                    }
+                },
+                {
+                    "id": "label_8",
+                    "name": {
+                        "en": "Label 8",
+                        "de": "Beschriftung 8"
+                    },
+                    "allowedTypes": [
+                        "string"
+                    ],
+                    "initialTypes": [
+                        "string"
+                    ],
+                    "phase": "both",
+                    "defaultControl": {
+                        "id": "label_8",
+                        "type": "text",
+                        "label": {
+                            "en": "Label 8",
+                            "de": "Beschriftung 8"
+                        },
+                        "default": "Option 8"
+                    },
+                    "description": {
+                        "en": "Label of option 8.",
+                        "de": "Beschriftung von Option 8."
+                    }
+                },
+                {
+                    "id": "value_8",
+                    "name": {
+                        "en": "Value 8",
+                        "de": "Wert 8"
+                    },
+                    "allowedTypes": [
+                        "string",
+                        "int",
+                        "float",
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "string",
+                        "int",
+                        "float",
+                        "bool"
+                    ],
+                    "phase": "both",
+                    "defaultControl": {
+                        "id": "value_8",
+                        "type": "text",
+                        "label": {
+                            "en": "Value 8",
+                            "de": "Wert 8"
+                        },
+                        "default": ""
+                    },
+                    "description": {
+                        "en": "Value of option 8.",
+                        "de": "Wert von Option 8."
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "element",
+                    "name": {
+                        "en": "Element",
+                        "de": "Element"
+                    },
+                    "outputType": "web.element",
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "The rendered web element.",
+                        "de": "Das gerenderte Web-Element."
+                    }
+                },
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "outputType": "any",
+                    "initialTypes": [
+                        "any"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "Current value of the selected option.",
+                        "de": "Aktueller Wert der gewählten Option."
+                    }
+                },
+                {
+                    "id": "label",
+                    "name": {
+                        "en": "Label",
+                        "de": "Beschriftung"
+                    },
+                    "outputType": "string",
+                    "initialTypes": [
+                        "string"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "Label of the selected option.",
+                        "de": "Beschriftung der gewählten Option."
+                    }
+                },
+                {
+                    "id": "changed",
+                    "name": {
+                        "en": "Changed",
+                        "de": "Geändert"
+                    },
+                    "outputType": "bool",
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "True for one tick when the resolved value changes.",
+                        "de": "Für einen Tick wahr, wenn sich der aufgelöste Wert ändert."
+                    }
+                }
+            ],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "optionCount",
+                    "label": {
+                        "en": "Options",
+                        "de": "Optionen"
+                    },
+                    "default": 1,
+                    "affectsInputs": true,
+                    "options": [
+                        {
+                            "value": 0,
+                            "label": {
+                                "en": "0",
+                                "de": "0"
+                            },
+                            "activeInputs": [
+                                "parent",
+                                "title",
+                                "value"
+                            ]
+                        },
+                        {
+                            "value": 1,
+                            "label": {
+                                "en": "1",
+                                "de": "1"
+                            },
+                            "activeInputs": [
+                                "parent",
+                                "title",
+                                "value",
+                                "label_1",
+                                "value_1"
+                            ]
+                        },
+                        {
+                            "value": 2,
+                            "label": {
+                                "en": "2",
+                                "de": "2"
+                            },
+                            "activeInputs": [
+                                "parent",
+                                "title",
+                                "value",
+                                "label_1",
+                                "value_1",
+                                "label_2",
+                                "value_2"
+                            ]
+                        },
+                        {
+                            "value": 3,
+                            "label": {
+                                "en": "3",
+                                "de": "3"
+                            },
+                            "activeInputs": [
+                                "parent",
+                                "title",
+                                "value",
+                                "label_1",
+                                "value_1",
+                                "label_2",
+                                "value_2",
+                                "label_3",
+                                "value_3"
+                            ]
+                        },
+                        {
+                            "value": 4,
+                            "label": {
+                                "en": "4",
+                                "de": "4"
+                            },
+                            "activeInputs": [
+                                "parent",
+                                "title",
+                                "value",
+                                "label_1",
+                                "value_1",
+                                "label_2",
+                                "value_2",
+                                "label_3",
+                                "value_3",
+                                "label_4",
+                                "value_4"
+                            ]
+                        },
+                        {
+                            "value": 5,
+                            "label": {
+                                "en": "5",
+                                "de": "5"
+                            },
+                            "activeInputs": [
+                                "parent",
+                                "title",
+                                "value",
+                                "label_1",
+                                "value_1",
+                                "label_2",
+                                "value_2",
+                                "label_3",
+                                "value_3",
+                                "label_4",
+                                "value_4",
+                                "label_5",
+                                "value_5"
+                            ]
+                        },
+                        {
+                            "value": 6,
+                            "label": {
+                                "en": "6",
+                                "de": "6"
+                            },
+                            "activeInputs": [
+                                "parent",
+                                "title",
+                                "value",
+                                "label_1",
+                                "value_1",
+                                "label_2",
+                                "value_2",
+                                "label_3",
+                                "value_3",
+                                "label_4",
+                                "value_4",
+                                "label_5",
+                                "value_5",
+                                "label_6",
+                                "value_6"
+                            ]
+                        },
+                        {
+                            "value": 7,
+                            "label": {
+                                "en": "7",
+                                "de": "7"
+                            },
+                            "activeInputs": [
+                                "parent",
+                                "title",
+                                "value",
+                                "label_1",
+                                "value_1",
+                                "label_2",
+                                "value_2",
+                                "label_3",
+                                "value_3",
+                                "label_4",
+                                "value_4",
+                                "label_5",
+                                "value_5",
+                                "label_6",
+                                "value_6",
+                                "label_7",
+                                "value_7"
+                            ]
+                        },
+                        {
+                            "value": 8,
+                            "label": {
+                                "en": "8",
+                                "de": "8"
+                            },
+                            "activeInputs": [
+                                "parent",
+                                "title",
+                                "value",
+                                "label_1",
+                                "value_1",
+                                "label_2",
+                                "value_2",
+                                "label_3",
+                                "value_3",
+                                "label_4",
+                                "value_4",
+                                "label_5",
+                                "value_5",
+                                "label_6",
+                                "value_6",
+                                "label_7",
+                                "value_7",
+                                "label_8",
+                                "value_8"
+                            ]
+                        }
+                    ],
+                    "description": {
+                        "en": "Number of options.",
+                        "de": "Anzahl der Optionen."
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "defaultIndex",
+                    "label": {
+                        "en": "Default Index",
+                        "de": "Standardindex"
+                    },
+                    "default": 0,
+                    "min": 0,
+                    "max": 7,
+                    "description": {
+                        "en": "Index of the initially selected option.",
+                        "de": "Index der anfänglich ausgewählten Option."
+                    }
+                },
+                {
+                    "type": "checkbox",
+                    "id": "persist",
+                    "label": {
+                        "en": "Persist",
+                        "de": "Dauerhaft speichern"
+                    },
+                    "description": {
+                        "en": "Keeps the selected option in the in-memory web control store. Survives page reloads and control re-creation; a reboot additionally needs Web Value Store Save + Load (Load in a separate Init graph).",
+                        "de": "Hält die gewählte Option im Web-Steuerelement-Speicher (RAM). Überlebt Seiten-Neuladen und Neuerstellen des Steuerelements; für einen Neustart werden zusätzlich Web-Wertespeicher speichern + laden benötigt (Laden in einem separaten Init-Graph)."
+                    },
+                    "default": false
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.webviewSelect"
+                }
+            },
+            "helperImplementations": {
+                "python": {
+                    "type": "helper-generator",
+                    "value": "NodeHelperGenerators.webviewSelect",
+                    "helperGroup": "web-runtime"
+                }
+            },
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.webviewSelect"
+                }
+            },
+            "initFunction": "init_webview"
+        },
+        "web-view-button": {
+            "title": {
+                "en": "Button",
+                "de": "Schaltfläche"
+            },
+            "info": {
+                "en": "Button that outputs true for one cycle when pressed, then resets to false.",
+                "de": "Schaltfläche, die beim Drücken für einen Zyklus true ausgibt und danach auf false zurückfällt."
+            },
+            "category": "webview",
+            "executionPhase": "both",
+            "color": "#bc8fb9",
+            "shape": "square",
+            "icon": "icons/dialogs_24dp.svg",
+            "inputs": [
+                {
+                    "id": "parent",
+                    "name": {
+                        "en": "Parent",
+                        "de": "Eltern"
+                    },
+                    "allowedTypes": [
+                        "web.element"
+                    ],
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "Parent element to place this element into.",
+                        "de": "Übergeordnetes Element, in das dieses Element eingefügt wird."
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "element",
+                    "name": {
+                        "en": "Element",
+                        "de": "Element"
+                    },
+                    "outputType": "web.element",
+                    "initialTypes": [
+                        "web.element"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "The rendered web element.",
+                        "de": "Das gerenderte Web-Element."
+                    }
+                },
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "outputType": "bool",
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "both",
+                    "description": {
+                        "en": "True for one cycle when pressed.",
+                        "de": "Für einen Zyklus true, wenn gedrückt."
+                    }
+                }
+            ],
+            "controls": [
+                {
+                    "type": "text",
+                    "id": "label",
+                    "label": {
+                        "en": "Label",
+                        "de": "Beschriftung"
+                    },
+                    "default": "Press",
+                    "description": {
+                        "en": "Text shown on the button.",
+                        "de": "Auf der Schaltfläche angezeigter Text."
+                    }
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.webviewButton"
+                }
+            },
+            "helperImplementations": {
+                "python": {
+                    "type": "helper-generator",
+                    "value": "NodeHelperGenerators.webviewButton",
+                    "helperGroup": "web-runtime"
+                }
+            },
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.webviewButton"
+                }
+            },
+            "initFunction": "init_webview"
+        },
+        "web-store-read": {
+            "title": {
+                "en": "Web Value Read",
+                "de": "Web-Wert lesen"
+            },
+            "info": {
+                "en": "Reads an entry from the web control value store, or the fallback input when missing.",
+                "de": "Liest einen Eintrag aus dem Web-Steuerelement-Store oder, wenn er fehlt, den Fallback-Eingang."
+            },
+            "category": "data",
+            "color": "#837faf",
+            "shape": "square",
+            "icon": "icons/login_24dp.svg",
+            "inputs": [
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Default",
+                        "de": "Standardwert"
+                    },
+                    "description": {
+                        "en": "Value used when the store entry does not exist.",
+                        "de": "Wert, der verwendet wird, wenn der Store-Eintrag nicht existiert."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int",
+                        "bool",
+                        "string",
+                        "vars.array"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int",
+                        "bool",
+                        "string",
+                        "vars.array"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Default",
+                            "de": "Standardwert"
+                        },
+                        "min": -100000,
+                        "max": 100000,
+                        "step": 0.01,
+                        "default": 0
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "description": {
+                        "en": "Current value of the store entry.",
+                        "de": "Aktueller Wert des Store-Eintrags."
+                    },
+                    "outputType": "any",
+                    "initialTypes": [
+                        "any"
+                    ],
+                    "phase": "loop"
+                }
+            ],
+            "controls": [
+                {
+                    "type": "text",
+                    "id": "name",
+                    "label": {
+                        "en": "Name",
+                        "de": "Name"
+                    },
+                    "description": {
+                        "en": "Name of the store entry to read.",
+                        "de": "Name des zu lesenden Store-Eintrags."
+                    },
+                    "required": true,
+                    "default": ""
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.webStoreRead"
+                }
+            }
+        },
+        "web-store-write": {
+            "title": {
+                "en": "Web Value Write",
+                "de": "Web-Wert schreiben"
+            },
+            "info": {
+                "en": "Writes an entry in the web control value store.",
+                "de": "Schreibt einen Eintrag in den Web-Steuerelement-Store."
+            },
+            "category": "data",
+            "color": "#837faf",
+            "shape": "square",
+            "icon": "icons/logout_24dp.svg",
+            "inputs": [
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    },
+                    "description": {
+                        "en": "When off, the web value is not updated.",
+                        "de": "Wenn deaktiviert, wird der Webwert nicht aktualisiert."
+                    }
+                },
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "description": {
+                        "en": "Value to store.",
+                        "de": "Zu speichernder Wert."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int",
+                        "bool",
+                        "string",
+                        "vars.array"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int",
+                        "bool",
+                        "string",
+                        "vars.array"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Value",
+                            "de": "Wert"
+                        },
+                        "min": -100000,
+                        "max": 100000,
+                        "step": 0.01,
+                        "default": 0
+                    }
+                }
+            ],
+            "outputs": [],
+            "controls": [
+                {
+                    "type": "text",
+                    "id": "name",
+                    "label": {
+                        "en": "Name",
+                        "de": "Name"
+                    },
+                    "description": {
+                        "en": "Name of the store entry to write.",
+                        "de": "Name des zu schreibenden Store-Eintrags."
+                    },
+                    "required": true,
+                    "default": ""
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.webStoreWrite"
+                }
+            }
+        },
+        "web-store-save": {
+            "title": {
+                "en": "Web Value Store Save",
+                "de": "Web-Wertespeicher speichern"
+            },
+            "info": {
+                "en": "Writes the reserved `_webcontrol` value store to flash on a rising edge of the Save input. Pair it with **Web Value Store Load** in a separate **Init** graph (execution type *Run once on startup*) so persisted control values are restored before the loop graph starts. Trigger Save after the values change.",
+                "de": "Schreibt den reservierten `_webcontrol`-Wertespeicher bei einer steigenden Flanke des Eingangs Speichern auf Flash. Zusammen mit **Web-Wertespeicher laden** in einem separaten **Init**-Graph (Ausführungsart *Einmal beim Start ausführen*) werden gespeicherte Steuerwerte vor dem Start des Schleifen-Graphen wiederhergestellt. Speichern erst auslösen, nachdem sich die Werte geändert haben."
+            },
+            "category": "data",
+            "color": "#837faf",
+            "shape": "square",
+            "icon": "icons/upload_24dp.svg",
+            "executionPhase": "loop",
+            "inputs": [
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    },
+                    "description": {
+                        "en": "When off, the web value is not updated.",
+                        "de": "Wenn deaktiviert, wird der Webwert nicht aktualisiert."
+                    }
+                },
+                {
+                    "id": "save",
+                    "name": {
+                        "en": "Save",
+                        "de": "Speichern"
+                    },
+                    "description": {
+                        "en": "Trigger saving on a rising edge.",
+                        "de": "Löst das Speichern bei einer steigenden Flanke aus."
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "id": "save",
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Save",
+                            "de": "Speichern"
+                        },
+                        "default": false
+                    }
+                }
+            ],
+            "outputs": [],
+            "controls": [],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.webStoreSave"
+                }
+            }
+        },
+        "web-store-load": {
+            "title": {
+                "en": "Web Value Store Load",
+                "de": "Web-Wertespeicher laden"
+            },
+            "info": {
+                "en": "Restores the reserved `_webcontrol` value store from flash on a rising edge of the Load input. Place it in a separate **Init** graph (execution type *Run once on startup*); the Load input defaults to `true`, so the node fires on the first tick. It must run before the loop graph, otherwise the controls overwrite the persisted values with their defaults.",
+                "de": "Stellt den reservierten `_webcontrol`-Wertespeicher bei einer steigenden Flanke des Eingangs Laden aus dem Flash wieder her. In einem separaten **Init**-Graph (Ausführungsart *Einmal beim Start ausführen*) platzieren; der Eingang Laden ist standardmäßig `true`, damit der Knoten beim ersten Durchlauf auslöst. Er muss vor dem Schleifen-Graph laufen, sonst überschreiben die Steuerelemente die gespeicherten Werte mit ihren Standardwerten."
+            },
+            "category": "data",
+            "color": "#837faf",
+            "shape": "square",
+            "icon": "icons/download_24dp.svg",
+            "executionPhase": "loop",
+            "inputs": [
+                {
+                    "id": "load",
+                    "name": {
+                        "en": "Load",
+                        "de": "Laden"
+                    },
+                    "description": {
+                        "en": "Trigger loading on a rising edge.",
+                        "de": "Löst das Laden bei einer steigenden Flanke aus."
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "id": "load",
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Load",
+                            "de": "Laden"
+                        },
+                        "default": true
+                    }
+                }
+            ],
+            "outputs": [],
+            "controls": [],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.webStoreLoad"
+                }
+            }
+        }
+    }
+}

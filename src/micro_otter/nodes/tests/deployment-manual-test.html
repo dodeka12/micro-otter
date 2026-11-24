@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deployment System Manual Test (Phase 1 & 2)</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--mo-bg, #0c0f16);
+            color: var(--mo-text, #e5eaf3);
+        }
+
+        #app {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .test-panel {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            padding: 12px;
+            gap: 16px;
+            overflow-y: auto;
+        }
+
+        .test-section {
+            background: var(--mo-surface-1, #121927);
+            border: 1px solid var(--mo-border, rgba(255, 255, 255, 0.08));
+            border-radius: 8px;
+            padding: 12px;
+        }
+
+        .test-section h3 {
+            margin: 0 0 12px 0;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--mo-accent-boost, #8bf0d2);
+        }
+
+        .test-section p {
+            margin: 0 0 8px 0;
+            font-size: 12px;
+            color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+        }
+
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .test-button {
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 500;
+            background: var(--mo-surface-2, #172133);
+            border: 1px solid var(--mo-border, rgba(255, 255, 255, 0.12));
+            border-radius: 6px;
+            color: var(--mo-text, #e5eaf3);
+            cursor: pointer;
+            transition: all 120ms ease;
+        }
+
+        .test-button:hover {
+            background: var(--mo-accent, #63b5ff);
+            border-color: var(--mo-accent, #63b5ff);
+        }
+
+        .test-button:active {
+            transform: translateY(1px);
+        }
+
+        .test-button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .test-button-primary {
+            background: var(--mo-accent, #63b5ff);
+            border-color: var(--mo-accent, #63b5ff);
+            color: #0c0f16;
+        }
+
+        .test-button-primary:hover {
+            background: var(--mo-accent-boost, #8bf0d2);
+            border-color: var(--mo-accent-boost, #8bf0d2);
+        }
+
+        .test-input {
+            width: 100%;
+            padding: 6px 10px;
+            font-size: 12px;
+            background: var(--mo-surface-0, #0f141f);
+            border: 1px solid var(--mo-border, rgba(255, 255, 255, 0.08));
+            border-radius: 6px;
+            color: var(--mo-text, #e5eaf3);
+            margin-bottom: 8px;
+        }
+
+        .test-select {
+            width: 100%;
+            padding: 6px 10px;
+            font-size: 12px;
+            background: var(--mo-surface-0, #0f141f);
+            border: 1px solid var(--mo-border, rgba(255, 255, 255, 0.08));
+            border-radius: 6px;
+            color: var(--mo-text, #e5eaf3);
+            margin-bottom: 8px;
+        }
+
+        .status-display {
+            background: var(--mo-surface-0, #0f141f);
+            border: 1px solid var(--mo-border, rgba(255, 255, 255, 0.08));
+            border-radius: 6px;
+            padding: 8px;
+            font-size: 11px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        
+        .progress-bar-wrapper {
+            width: 100%;
+            height: 24px;
+            background: var(--mo-bg, #0c0f16);
+            border: 1px solid var(--mo-border, rgba(255, 255, 255, 0.12));
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 6px;
+            position: relative;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--mo-accent, #63b5ff), var(--mo-accent-boost, #8bf0d2));
+            transition: width 200ms ease;
+            width: 0%;
+        }
+        
+        .progress-text {
+            font-size: 11px;
+            color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+            padding: 4px 0;
+        }
+        
+        .progress-label {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--mo-accent, #63b5ff);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+        
+        .progress-section-divider {
+            height: 1px;
+            background: var(--mo-border, rgba(255, 255, 255, 0.08));
+            margin: 12px 0;
+        }
+
+        .success {
+            color: var(--mo-accent-boost, #8bf0d2);
+        }
+
+        .error {
+            color: #ff6b6b;
+        }
+
+        .warning {
+            color: #ffd93d;
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+
+    <script type="module">
+        // Import logging system FIRST to ensure globalThis.__microOtterLog is available
+        import '/html/js/core/log.js';
+        
+        // Import core modules
+        import { SplitView } from '/html/js/views/split-view.js';
+        import { ViewBase } from '/html/js/views/view-base.js';
+        import { DeviceConnectionView } from '/html/js/views/device-connection-view.js';
+        import { DeviceConnection } from '/html/js/serial/device-connection.js';
+        import { WebSerialConnection } from '/html/js/serial/webserial-connection.js';
+        import { DeviceDeployment } from '/html/js/deployment/device-deployment.js';
+        import { ViewManager } from '/html/js/views/view-manager.js';
+        import { DeviceRuntimeCollection } from '/html/js/data/device-runtime-collection.js';
+        import { I18nService } from '/html/js/i18n/i18n-service.js';
+        import { ProgressEventBus } from '/html/js/core/progress-events.js';
+
+        // Test control panel view
+        class DeploymentTestPanel extends ViewBase {
+            constructor(options) {
+                super({
+                    title: 'Deployment Test Controls',
+                    ...options
+                });
+                
+                this.deviceConnection = options.deviceConnection;
+                this.deviceDeployment = options.deviceDeployment;
+                this.runtimeCollection = options.runtimeCollection;
+                this.viewManager = options.viewManager;  // Store viewManager for dialog methods
+                
+                this._statusLog = [];
+                this._progressListener = null;
+                
+                // Track overall file upload progress
+                this._totalFiles = 0;
+                this._completedFiles = 0;
+                this._activeFileSources = new Set();  // Track active file-send sources
+            }
+
+            render(container) {
+                container.innerHTML = '';
+                
+                const panel = document.createElement('div');
+                panel.className = 'test-panel';
+                
+                // Phase 1: File Transfer Tests
+                panel.appendChild(this._createPhase1Section());
+                
+                // Phase 2: Runtime Deployment Tests
+                panel.appendChild(this._createPhase2Section());
+                
+                // Progress Display
+                panel.appendChild(this._createProgressSection());
+                
+                // Status Display
+                panel.appendChild(this._createStatusSection());
+                
+                container.appendChild(panel);
+            }
+            
+            afterAttach() {
+                super.afterAttach();
+                
+                // Subscribe to progress events
+                this._progressListener = (event) => {
+                    const { source, type, message, progress } = event;
+                    
+                    // Track file-level progress (file-send-* sources)
+                    if (source.startsWith('file-send-')) {
+                        this._handleFileProgress(event);
+                    }
+                    
+                    // Track overall operation progress
+                    if (source === 'runtime-install' || source === 'runtime-upgrade' || 
+                        source === 'runtime-refresh' || source === 'runtime-remove') {
+                        this._handleOperationProgress(event);
+                    }
+                    
+                    // Log to status
+                    if (type === 'error' || type === 'complete' || type === 'start') {
+                        this._logStatus(`[${source}] ${message}`, type === 'error' ? 'error' : 'info');
+                    }
+                };
+                
+                ProgressEventBus.subscribe(this._progressListener);
+            }
+            
+            beforeDetach() {
+                // Unsubscribe from progress events
+                if (this._progressListener) {
+                    ProgressEventBus.unsubscribe(this._progressListener);
+                    this._progressListener = null;
+                }
+                
+                super.beforeDetach();
+            }
+
+            _createPhase1Section() {
+                const section = document.createElement('div');
+                section.className = 'test-section';
+                
+                const title = document.createElement('h3');
+                title.textContent = 'Phase 1: File Transfer';
+                
+                const description = document.createElement('p');
+                description.textContent = 'Test basic file operations: upload, download, delete, list, hash calculation.';
+                
+                // File path input
+                const filePathInput = document.createElement('input');
+                filePathInput.type = 'text';
+                filePathInput.className = 'test-input';
+                filePathInput.placeholder = '/test.txt';
+                filePathInput.value = '/test.txt';
+                filePathInput.id = 'file-path-input';
+                
+                // File content input
+                const fileContentInput = document.createElement('input');
+                fileContentInput.type = 'text';
+                fileContentInput.className = 'test-input';
+                fileContentInput.placeholder = 'File content...';
+                fileContentInput.value = 'Hello from Micro-Otter!';
+                fileContentInput.id = 'file-content-input';
+                
+                const buttonGroup = document.createElement('div');
+                buttonGroup.className = 'button-group';
+                
+                const buttons = [
+                    { text: 'Upload File', handler: () => this._testUploadFile() },
+                    { text: 'Download File', handler: () => this._testDownloadFile() },
+                    { text: 'Calculate Hash', handler: () => this._testCalculateHash() },
+                    { text: 'List Files', handler: () => this._testListFiles() },
+                    { text: 'List Tree', handler: () => this._testListTree(), primary: true },
+                    { text: 'Delete File', handler: () => this._testDeleteFile() },
+                    { text: 'Upload Multiple', handler: () => this._testUploadMultiple() },
+                ];
+                
+                buttons.forEach(btn => {
+                    const button = document.createElement('button');
+                    button.className = btn.primary ? 'test-button test-button-primary' : 'test-button';
+                    button.textContent = btn.text;
+                    button.onclick = btn.handler;
+                    buttonGroup.appendChild(button);
+                });
+                
+                section.appendChild(title);
+                section.appendChild(description);
+                section.appendChild(filePathInput);
+                section.appendChild(fileContentInput);
+                section.appendChild(buttonGroup);
+                
+                return section;
+            }
+
+            _createPhase2Section() {
+                const section = document.createElement('div');
+                section.className = 'test-section';
+                
+                const title = document.createElement('h3');
+                title.textContent = 'Phase 2: Runtime Deployment';
+                
+                const description = document.createElement('p');
+                description.textContent = 'Test runtime operations: install, upgrade, refresh, remove.';
+                
+                // Runtime selector
+                const runtimeSelect = document.createElement('select');
+                runtimeSelect.className = 'test-select';
+                runtimeSelect.id = 'runtime-select';
+                
+                // Add available runtimes (iterate over runtimesById Map)
+                if (this.runtimeCollection && this.runtimeCollection.runtimesById) {
+                    for (const [runtimeId, runtime] of this.runtimeCollection.runtimesById) {
+                        const option = document.createElement('option');
+                        option.value = runtimeId;
+                        option.textContent = `${runtime.name || runtimeId} (${runtimeId})`;
+                        runtimeSelect.appendChild(option);
+                    }
+                }
+                
+                const optionsTitle = document.createElement('p');
+                optionsTitle.textContent = 'Runtime options:';
+
+                const preserveWrapper = document.createElement('label');
+                preserveWrapper.style.display = 'flex';
+                preserveWrapper.style.alignItems = 'center';
+                preserveWrapper.style.gap = '6px';
+                preserveWrapper.style.fontSize = '12px';
+                preserveWrapper.style.color = 'var(--mo-muted, rgba(229, 234, 243, 0.75))';
+
+                const preserveCheckbox = document.createElement('input');
+                preserveCheckbox.type = 'checkbox';
+                preserveCheckbox.id = 'runtime-preserve-collection';
+                preserveCheckbox.checked = true;
+
+                const preserveLabel = document.createElement('span');
+                preserveLabel.textContent = 'Preserve collection on upgrade/refresh';
+
+                preserveWrapper.appendChild(preserveCheckbox);
+                preserveWrapper.appendChild(preserveLabel);
+
+                const buttonGroup = document.createElement('div');
+                buttonGroup.className = 'button-group';
+                
+                const buttons = [
+                    { text: 'Refresh Connection State', handler: () => this._testRefreshConnectionState(), primary: true, debug: true },
+                    { text: 'Get Device Info', handler: () => this._testGetDeviceInfo(), primary: true },
+                    { text: 'Detect MicroPython', handler: () => this._testDetectMicroPython(), primary: true },
+                    { text: 'Refresh Device State', handler: () => this._testRefreshDeviceState(), primary: true },
+                    { text: 'Install Runtime', handler: () => this._testInstallRuntime() },
+                    { text: 'Upgrade Runtime', handler: () => this._testUpgradeRuntime() },
+                    { text: 'Refresh Runtime', handler: () => this._testRefreshRuntime() },
+                    { text: 'Remove Runtime', handler: () => this._testRemoveRuntime() },
+                    { text: 'Remove Runtime + Preserved', handler: () => this._testRemoveRuntimeWithPreserved() },
+                    { text: 'Remove Runtime + Full FS', handler: () => this._testRemoveRuntimeFullFilesystem() },
+                    { text: 'List Installed', handler: () => this._testListInstalledRuntimes() },
+                ];
+                
+                buttons.forEach(btn => {
+                    const button = document.createElement('button');
+                    button.className = btn.primary ? 'test-button test-button-primary' : 'test-button';
+                    button.textContent = btn.text;
+                    button.onclick = btn.handler;
+                    buttonGroup.appendChild(button);
+                });
+                
+                section.appendChild(title);
+                section.appendChild(description);
+                section.appendChild(runtimeSelect);
+                section.appendChild(optionsTitle);
+                section.appendChild(preserveWrapper);
+                section.appendChild(buttonGroup);
+                
+                return section;
+            }
+            
+            _createProgressSection() {
+                const section = document.createElement('div');
+                section.className = 'test-section';
+                
+                const title = document.createElement('h3');
+                title.textContent = 'File Upload Progress';
+                
+                const description = document.createElement('p');
+                description.textContent = 'Real-time progress tracking for file uploads with overall and per-file progress.';
+                
+                const progressContainer = document.createElement('div');
+                progressContainer.className = 'progress-container';
+                
+                // Overall file progress
+                const overallLabel = document.createElement('div');
+                overallLabel.className = 'progress-label';
+                overallLabel.textContent = 'Overall Progress';
+                
+                const overallBarWrapper = document.createElement('div');
+                overallBarWrapper.className = 'progress-bar-wrapper';
+                
+                const overallBar = document.createElement('div');
+                overallBar.className = 'progress-bar';
+                overallBar.id = 'overall-progress-bar';
+                
+                overallBarWrapper.appendChild(overallBar);
+                
+                const overallText = document.createElement('div');
+                overallText.className = 'progress-text';
+                overallText.id = 'overall-progress-text';
+                overallText.textContent = 'No active operation';
+                
+                // Divider
+                const divider = document.createElement('div');
+                divider.className = 'progress-section-divider';
+                
+                // Current file progress
+                const fileLabel = document.createElement('div');
+                fileLabel.className = 'progress-label';
+                fileLabel.textContent = 'Current File';
+                
+                const fileBarWrapper = document.createElement('div');
+                fileBarWrapper.className = 'progress-bar-wrapper';
+                
+                const fileBar = document.createElement('div');
+                fileBar.className = 'progress-bar';
+                fileBar.id = 'file-progress-bar';
+                
+                fileBarWrapper.appendChild(fileBar);
+                
+                const fileText = document.createElement('div');
+                fileText.className = 'progress-text';
+                fileText.id = 'file-progress-text';
+                fileText.textContent = 'No active file transfer';
+                
+                const progressDisplay = document.createElement('div');
+                progressDisplay.id = 'progress-display';
+                progressDisplay.appendChild(overallLabel);
+                progressDisplay.appendChild(overallBarWrapper);
+                progressDisplay.appendChild(overallText);
+                progressDisplay.appendChild(divider);
+                progressDisplay.appendChild(fileLabel);
+                progressDisplay.appendChild(fileBarWrapper);
+                progressDisplay.appendChild(fileText);
+                
+                section.appendChild(title);
+                section.appendChild(description);
+                section.appendChild(progressDisplay);
+                
+                return section;
+            }
+
+            _createStatusSection() {
+                const section = document.createElement('div');
+                section.className = 'test-section';
+                
+                const title = document.createElement('h3');
+                title.textContent = 'Status & Results';
+                
+                const statusDisplay = document.createElement('div');
+                statusDisplay.className = 'status-display';
+                statusDisplay.id = 'status-display';
+                statusDisplay.textContent = 'Ready. Connect to device and run tests.\n';
+                
+                const clearButton = document.createElement('button');
+                clearButton.className = 'test-button';
+                clearButton.textContent = 'Clear Log';
+                clearButton.onclick = () => this._clearStatus();
+                
+                section.appendChild(title);
+                section.appendChild(statusDisplay);
+                section.appendChild(clearButton);
+                
+                return section;
+            }
+
+            // Phase 1 test methods
+            async _testUploadFile() {
+                const path = document.getElementById('file-path-input').value;
+                const content = document.getElementById('file-content-input').value;
+                
+                this._logStatus(`Uploading file: ${path}`);
+                try {
+                    await this.deviceConnection.sendFile(path, content);
+                    this._logStatus(`✓ File uploaded successfully`, 'success');
+                } catch (error) {
+                    this._logStatus(`✗ Upload failed: ${error.message}`, 'error');
+                }
+            }
+
+            async _testDownloadFile() {
+                const path = document.getElementById('file-path-input').value;
+                
+                this._logStatus(`Downloading file: ${path}`);
+                try {
+                    const content = await this.deviceConnection.receiveFile(path);
+                    const text = new TextDecoder().decode(content);
+                    this._logStatus(`✓ Downloaded (${content.length} bytes):\n${text}`, 'success');
+                } catch (error) {
+                    this._logStatus(`✗ Download failed: ${error.message}`, 'error');
+                }
+            }
+
+            async _testCalculateHash() {
+                const path = document.getElementById('file-path-input').value;
+                
+                this._logStatus(`Calculating hash: ${path}`);
+                try {
+                    const hash = await this.deviceConnection.calculateHash(path);
+                    this._logStatus(`✓ Hash: ${hash}`, 'success');
+                } catch (error) {
+                    this._logStatus(`✗ Hash calculation failed: ${error.message}`, 'error');
+                }
+            }
+
+            async _testListFiles() {
+                this._logStatus('Listing files...');
+                try {
+                    const files = await this.deviceConnection.listFiles('/');
+                    this._logStatus(`✓ Files:\n${JSON.stringify(files, null, 2)}`, 'success');
+                } catch (error) {
+                    this._logStatus(`✗ List failed: ${error.message}`, 'error');
+                }
+            }
+
+            async _testListTree() {
+                this._logStatus('Generating file tree...');
+                try {
+                    const result = await this.deviceConnection.listFilesRecursive('/');
+                    this._logStatus(`✓ File tree:\n${result}`, 'success');
+                } catch (error) {
+                    this._logStatus(`✗ List tree failed: ${error.message}`, 'error');
+                }
+            }
+
+            async _testDeleteFile() {
+                const path = document.getElementById('file-path-input').value;
+                
+                this._logStatus(`Deleting file: ${path}`);
+                try {
+                    await this.deviceConnection.deleteFile(path);
+                    this._logStatus(`✓ File deleted`, 'success');
+                } catch (error) {
+                    this._logStatus(`✗ Delete failed: ${error.message}`, 'error');
+                }
+            }
+
+            async _testUploadMultiple() {
+                const files = [
+                    { path: '/test1.txt', content: 'Test file 1' },
+                    { path: '/test2.txt', content: 'Test file 2' },
+                    { path: '/test3.txt', content: 'Test file 3' },
+                ];
+                
+                this._logStatus(`Uploading ${files.length} files...`);
+                try {
+                    for (const file of files) {
+                        await this.deviceConnection.sendFile(file.path, file.content);
+                        this._logStatus(`  ✓ ${file.path}`);
+                    }
+                    this._logStatus(`✓ All files uploaded`, 'success');
+                } catch (error) {
+                    this._logStatus(`✗ Multi-upload failed: ${error.message}`, 'error');
+                }
+            }
+
+            async _testGetDeviceInfo() {
+                this._logStatus('Getting device info...');
+                
+                // ALWAYS refresh connection state first to ensure sync and MicroPython detection
+                // This is necessary because DeviceDeployment may be created before device connection
+                this._logStatus('Refreshing connection state...', 'info');
+                const refreshed = await this.deviceDeployment.refreshConnectionState();
+                this._logStatus(`Connection state: ${refreshed}, MicroPython: ${this.deviceDeployment.hasMicroPython()}`, 'info');
+                
+                try {
+                    const info = await this.deviceDeployment.getDeviceInfo();
+                    this._logStatus(`✓ Device Info:\n${JSON.stringify(info, null, 2)}`, 'success');
+                } catch (error) {
+                    this._logStatus(`✗ Failed to get device info: ${error.message}`, 'error');
+                }
+            }
+            
+            async _testRefreshConnectionState() {
+                this._logStatus('Testing manual connection state refresh...');
+                
+                const connectionState = this.deviceConnection.isConnected();
+                const beforeRefresh = this.deviceDeployment.isConnected();
+                
+                this._logStatus(`Before: DeviceConnection=${connectionState}, DeviceDeployment=${beforeRefresh}`, 'info');
+                
+                const afterRefresh = await this.deviceDeployment.refreshConnectionState();
+                
+                this._logStatus(`After: DeviceDeployment=${afterRefresh}`, 'info');
+                
+                if (connectionState === afterRefresh) {
+                    this._logStatus('✓ States now match!', 'success');
+                    
+                    // Also show MicroPython detection status
+                    const hasMicroPython = this.deviceDeployment.hasMicroPython();
+                    this._logStatus(`MicroPython detected: ${hasMicroPython}`, 'info');
+                } else {
+                    this._logStatus('✗ States still mismatch', 'error');
+                }
+            }
+
+            async _testDetectMicroPython() {
+                this._logStatus('Detecting MicroPython...');
+                
+                // Refresh connection state first to ensure sync
+                await this.deviceDeployment.refreshConnectionState();
+                
+                try {
+                    const detected = await this.deviceDeployment.detectMicroPython();
+                    if (detected) {
+                        const version = this.deviceDeployment.getMicroPythonVersion();
+                        this._logStatus(`✓ MicroPython detected - Version: ${version}`, 'success');
+                    } else {
+                        this._logStatus('✗ MicroPython not detected', 'error');
+                    }
+                } catch (error) {
+                    this._logStatus(`✗ Detection failed: ${error.message}`, 'error');
+                }
+            }
+
+            async _testRefreshDeviceState() {
+                this._logStatus('Refreshing device state...');
+                try {
+                    await this.deviceDeployment.refreshConnectionState();
+                    const state = this.deviceDeployment.getDeviceState();
+                    this._logStatus(`✓ Device State:\n${JSON.stringify(state, null, 2)}`, 'success');
+                } catch (error) {
+                    this._logStatus(`✗ Refresh failed: ${error.message}`, 'error');
+                }
+            }
+
+            async _testInstallRuntime() {
+                const runtimeId = document.getElementById('runtime-select').value;
+                if (!runtimeId) {
+                    this._logStatus('⚠ Please select a runtime', 'warning');
+                    return;
+                }
+                
+                this._logStatus(`Installing runtime: ${runtimeId}`);
+                try {
+                    // Refresh connection state first
+                    await this.deviceDeployment.refreshConnectionState();
+                    
+                    // Ensure MicroPython is detected
+                    this._logStatus('Detecting MicroPython...');
+                    const detected = await this.deviceDeployment.detectMicroPython();
+                    if (!detected) {
+                        throw new Error('MicroPython detection failed');
+                    }
+                    this._logStatus('✓ MicroPython detected', 'success');
+                    
+                    await this.deviceDeployment.installRuntime(runtimeId);
+                    this._logStatus(`✓ Runtime installed successfully`, 'success');
+                } catch (error) {
+                    this._logStatus(`✗ Installation failed: ${error.message}`, 'error');
+                }
+            }
+
+            async _testUpgradeRuntime() {
+                this._logStatus('Upgrading runtime...');
+                try {
+                    await this.deviceDeployment.refreshConnectionState();
+                    const deviceState = this.deviceDeployment.getDeviceState();
+                    if (!deviceState.runtimeId) {
+                        throw new Error('No runtime installed to upgrade');
+                    }
+                    const preserveCollection =
+                        document.getElementById('runtime-preserve-collection')?.checked ?? true;
+                    await this.deviceDeployment.upgradeRuntime(deviceState.runtimeId, {
+                        preserveCollection,
+                    });
+                    this._logStatus(`✓ Runtime upgraded successfully`, 'success');
+                } catch (error) {
+                    this._logStatus(`✗ Upgrade failed: ${error.message}`, 'error');
+                }
+            }
+
+            async _testRefreshRuntime() {
+                this._logStatus('Refreshing runtime...');
+                try {
+                    await this.deviceDeployment.refreshConnectionState();
+                    const deviceState = this.deviceDeployment.getDeviceState();
+                    if (!deviceState.runtimeId) {
+                        throw new Error('No runtime installed to refresh');
+                    }
+                    const preserveCollection =
+                        document.getElementById('runtime-preserve-collection')?.checked ?? true;
+                    await this.deviceDeployment.refreshRuntime(deviceState.runtimeId, {
+                        preserveCollection,
+                    });
+                    this._logStatus(`✓ Runtime refreshed successfully`, 'success');
+                } catch (error) {
+                    this._logStatus(`✗ Refresh failed: ${error.message}`, 'error');
+                }
+            }
+
+            async _testRemoveRuntime() {
+                this._logStatus('Removing runtime...');
+                try {
+                    await this.deviceDeployment.refreshConnectionState();
+                    await this.deviceDeployment.removeRuntime();
+                    this._logStatus(`✓ Runtime removed successfully`, 'success');
+                } catch (error) {
+                    this._logStatus(`✗ Removal failed: ${error.message}`, 'error');
+                }
+            }
+
+            async _testRemoveRuntimeWithPreserved() {
+                this._logStatus('Removing runtime with preserved files...');
+                try {
+                    await this.deviceDeployment.refreshConnectionState();
+                    await this.deviceDeployment.removeRuntime({ deletePreservedFiles: true });
+                    this._logStatus(`✓ Runtime and preserved files removed successfully`, 'success');
+                } catch (error) {
+                    this._logStatus(`✗ Removal failed: ${error.message}`, 'error');
+                }
+            }
+
+            async _testRemoveRuntimeFullFilesystem() {
+                // WARNING: This removes ENTIRE filesystem - show confirmation first
+                const confirmed = await this.viewManager.showConfirmation({
+                    title: 'Delete Entire Filesystem',
+                    message: 'This will delete the ENTIRE filesystem on the device!',
+                    detail: 'All files will be removed and replaced with default MicroPython boot.py and main.py. This operation cannot be undone.',
+                    destructive: true,
+                    confirmLabel: 'Delete Everything',
+                    cancelLabel: 'Cancel'
+                });
+                
+                if (!confirmed) {
+                    this._logStatus('✗ Operation cancelled by user', 'error');
+                    return;
+                }
+                
+                this._logStatus('Removing runtime with full filesystem deletion...');
+                
+                try {
+                    await this.deviceDeployment.refreshConnectionState();
+                    await this.deviceDeployment.removeRuntime({ deleteFileSystem: true });
+                    this._logStatus(`✓ Filesystem cleared and default MicroPython files uploaded`, 'success');
+                } catch (error) {
+                    this._logStatus(`✗ Filesystem deletion failed: ${error.message}`, 'error');
+                }
+            }
+
+            async _testListInstalledRuntimes() {
+                this._logStatus('Listing installed runtime...');
+                try {
+                    const runtime = await this.deviceDeployment.listInstalledRuntime();
+                    if (runtime) {
+                        this._logStatus(`✓ Installed Runtime:\n${JSON.stringify(runtime, null, 2)}`, 'success');
+                    } else {
+                        this._logStatus('✓ No runtime installed on device', 'success');
+                    }
+                } catch (error) {
+                    this._logStatus(`✗ List failed: ${error.message}`, 'error');
+                }
+            }
+
+            _logStatus(message, type = 'info') {
+                const display = document.getElementById('status-display');
+                if (!display) return;
+                
+                const timestamp = new Date().toLocaleTimeString();
+                const prefix = type === 'success' ? '✓' : type === 'error' ? '✗' : type === 'warning' ? '⚠' : 'ℹ';
+                const line = `[${timestamp}] ${prefix} ${message}\n`;
+                
+                const span = document.createElement('span');
+                span.textContent = line;
+                if (type !== 'info') {
+                    span.className = type;
+                }
+                
+                display.appendChild(span);
+                display.scrollTop = display.scrollHeight;
+            }
+
+            _clearStatus() {
+                const display = document.getElementById('status-display');
+                if (display) {
+                    display.textContent = 'Log cleared.\n';
+                }
+            }
+            
+            /**
+             * Handle file-level progress events (file-send-* sources).
+             * Updates per-file progress bar with chunk-by-chunk progress.
+             * @private
+             * @param {Object} event - Progress event
+             */
+            _handleFileProgress(event) {
+                const { source, type, message, progress } = event;
+                
+                if (type === 'start') {
+                    // New file started
+                    this._activeFileSources.add(source);
+                    this._totalFiles = Math.max(this._totalFiles, this._activeFileSources.size);
+                    this._updateOverallProgress();
+                } else if (type === 'complete') {
+                    // File completed
+                    this._activeFileSources.delete(source);
+                    this._completedFiles++;
+                    this._updateOverallProgress();
+                    
+                    // Reset file progress bar
+                    const fileBar = document.getElementById('file-progress-bar');
+                    if (fileBar) fileBar.style.width = '0%';
+                    
+                    const fileText = document.getElementById('file-progress-text');
+                    if (fileText) fileText.textContent = 'File transfer complete';
+                } else if (type === 'error') {
+                    // File failed
+                    this._activeFileSources.delete(source);
+                    this._updateOverallProgress();
+                    
+                    const fileText = document.getElementById('file-progress-text');
+                    if (fileText) fileText.textContent = '✗ Transfer failed';
+                }
+                
+                // Update per-file progress bar
+                const fileBar = document.getElementById('file-progress-bar');
+                if (fileBar && progress !== undefined) {
+                    fileBar.style.width = `${progress}%`;
+                }
+                
+                // Update per-file progress text
+                const fileText = document.getElementById('file-progress-text');
+                if (fileText && type === 'update') {
+                    fileText.textContent = message;
+                }
+            }
+            
+            /**
+             * Handle operation-level progress events.
+             * Resets overall progress counters at operation start.
+             * @private
+             * @param {Object} event - Progress event
+             */
+            _handleOperationProgress(event) {
+                const { type, detail } = event;
+                
+                if (type === 'start') {
+                    // Reset overall progress counters for new operation
+                    this._totalFiles = 0;
+                    this._completedFiles = 0;
+                    this._activeFileSources.clear();
+                    this._updateOverallProgress();
+                } else if (type === 'update' && detail?.totalFiles !== undefined) {
+                    // Preparation phase complete - set total files from detail
+                    this._totalFiles = detail.totalFiles;
+                    this._updateOverallProgress();
+
+                    // Log breakdown if available
+                    if (detail.breakdown) {
+                        const breakdown = detail.breakdown;
+                        let breakdownStr = '';
+
+                        // Runtime installation breakdown
+                        if (breakdown.toolsCount !== undefined) {
+                            breakdownStr += `\n  • Tools: ${breakdown.toolsCount}`;
+                        }
+                        if (breakdown.runtimeCount !== undefined) {
+                            breakdownStr += `\n  • Runtime: ${breakdown.runtimeCount}`;
+                        }
+                        if (breakdown.libsCount !== undefined) {
+                            breakdownStr += `\n  • Runtime base libraries: ${breakdown.libsCount}`;
+                        }
+
+                        // Collection deployment breakdown
+                        if (breakdown.collectionFiles !== undefined) {
+                            breakdownStr += `\n  • Collection files: ${breakdown.collectionFiles}`;
+                        }
+                        if (breakdown.libraries !== undefined) {
+                            breakdownStr += `\n  • Node libraries: ${breakdown.libraries}`;
+                        }
+
+                        this._logStatus(
+                            `📊 Prepared ${detail.totalFiles} files for upload${breakdownStr}`,
+                            'info'
+                        );
+                    }
+                } else if (type === 'complete') {
+                    // Ensure overall progress shows 100% on completion
+                    this._totalFiles = Math.max(this._totalFiles, this._completedFiles);
+                    this._updateOverallProgress();
+                }
+            }
+            
+            /**
+             * Update overall progress bar and text based on file counts.
+             * @private
+             */
+            _updateOverallProgress() {
+                const overallBar = document.getElementById('overall-progress-bar');
+                const overallText = document.getElementById('overall-progress-text');
+                
+                if (!overallBar || !overallText) return;
+                
+                if (this._totalFiles === 0) {
+                    overallBar.style.width = '0%';
+                    overallText.textContent = 'No active operation';
+                } else {
+                    const progress = Math.round((this._completedFiles / this._totalFiles) * 100);
+                    overallBar.style.width = `${progress}%`;
+                    overallText.textContent = `Files: ${this._completedFiles} / ${this._totalFiles} uploaded`;
+                }
+            }
+        }
+
+        // Initialize application
+        async function initApp() {
+            try {
+                // Enable logging system and register classes for debugging
+                if (globalThis.__microOtterLog) {
+                    const { logger } = globalThis.__microOtterLog;
+                    logger.setEnabled(true);
+                    logger.register('DeviceDeployment');
+                    logger.register('RuntimeDeployment');
+                    logger.register('CollectionDeployment');
+                    logger.register('DeviceConnection');
+                    logger.register('FormDialogView');
+                    logger.register('ModalDialogView');
+                    logger.register('ViewManager');
+                    console.log('[Test] Logging enabled for deployment classes');
+                }
+
+                // Initialize ViewManager (handles theme loading and i18n)
+                const appContainer = document.getElementById('app');
+                const viewManager = new ViewManager({
+                    mount: appContainer,
+                    theme: 'standard',  // Use standard theme
+                    logEvents: false
+                });
+
+                // Wait for i18n to load
+                await viewManager.i18nService.load();
+
+                // Initialize Web Serial provider
+                const webSerialConnection = new WebSerialConnection({
+                    logger: console
+                });
+
+                // Initialize device connection with providers
+                const deviceConnection = new DeviceConnection({
+                    providers: {
+                        webserial: {
+                            name: 'Web Serial',
+                            description: 'Direct USB serial connection',
+                            instance: webSerialConnection
+                        }
+                    },
+                    defaultProvider: 'webserial',
+                    logger: console  // DeviceConnection expects an object with .log() method
+                });
+
+                // Load runtime collection
+                const runtimeCollection = new DeviceRuntimeCollection('/device/runtime');
+                await runtimeCollection.load();
+
+                // Create a minimal CollectionManager-like object for testing
+                // DeviceDeployment expects collectionManager with runtimeCollection property
+                const collectionManager = {
+                    runtimeCollection: runtimeCollection
+                };
+
+                // Initialize device deployment
+                const deviceDeployment = new DeviceDeployment({
+                    deviceConnection,
+                    collectionManager,
+                    runtimeCollection,  // Required for runtime operations
+                    transpiler: null,  // Not needed for Phase 1-2 tests
+                    i18nService: viewManager.i18nService,
+                    viewManager  // Required for target selection dialog
+                });
+
+                // Create device connection view
+                const deviceConnectionView = new DeviceConnectionView({
+                    deviceConnection,
+                    i18nService: viewManager.i18nService,
+                    title: 'Device Connection',
+                    logger: console
+                });
+
+                // Create test panel
+                const testPanel = new DeploymentTestPanel({
+                    deviceConnection,
+                    deviceDeployment,
+                    runtimeCollection,
+                    viewManager,  // Pass viewManager for dialog methods
+                    i18nService: viewManager.i18nService
+                });
+
+                // Create split view
+                const splitView = new SplitView({
+                    orientation: 'horizontal',
+                    ratio: 0.45,
+                    views: [deviceConnectionView, testPanel],
+                    i18nService: viewManager.i18nService
+                });
+
+                // Attach to ViewManager
+                viewManager.attachRoot(splitView);
+
+                console.log('✓ Deployment test application initialized');
+            } catch (error) {
+                console.error('Failed to initialize test application:', error);
+                document.body.innerHTML = `
+                    <div style="padding: 20px; color: #ff6b6b;">
+                        <h2>Initialization Failed</h2>
+                        <p>${error.message}</p>
+                        <pre style="background: #000; padding: 10px; border-radius: 5px;">${error.stack}</pre>
+                    </div>
+                `;
+            }
+        }
+
+        // Start app when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initApp);
+        } else {
+            initApp();
+        }
+    </script>
+</body>
+</html>

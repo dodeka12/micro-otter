@@ -1,0 +1,13 @@
+{
+    "targetId": "esp32_s3_mini",
+    "displayName": "ESP32-S3 Mini",
+    "description": "ESP32-S3 Mini (FH4R2: 4 MB flash + 2 MB PSRAM).",
+    "baseTargetId": "esp32_s3",
+    "targetData": {
+        "metadata": {
+            "notes": [
+                "FH4R2 module: quad PSRAM; GPIO33-37 usable."
+            ]
+        }
+    }
+}

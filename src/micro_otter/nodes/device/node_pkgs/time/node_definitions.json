@@ -1,0 +1,750 @@
+{
+    "version": 1,
+    "nodeTypes": {
+        "time-service": {
+            "title": {
+                "en": "Time Service",
+                "de": "Zeitdienst"
+            },
+            "info": {
+                "en": "Fetches the time via NTP, sets the device clock to local time and runs in its own background task. The node has no outputs: the loop only updates its configuration.",
+                "de": "Holt die Uhrzeit per NTP, stellt die Geräteuhr auf Ortszeit und läuft in einem eigenen Hintergrund-Task. Der Node hat keine Ausgänge: die Schleife aktualisiert nur seine Konfiguration."
+            },
+            "category": "time",
+            "executionPhase": "loop",
+            "color": "#5b7fc7",
+            "shape": "round",
+            "icon": "icons/schedule_24dp.svg",
+            "requiredCapabilities": [
+                [
+                    "wifi",
+                    "ethernet"
+                ]
+            ],
+            "inputs": [
+                {
+                    "id": "server",
+                    "name": {
+                        "en": "Server",
+                        "de": "Server"
+                    },
+                    "description": {
+                        "en": "SNTP server host name. An empty value falls back to pool.ntp.org.",
+                        "de": "SNTP-Server-Hostname. Ein leerer Wert verwendet pool.ntp.org."
+                    },
+                    "allowedTypes": [
+                        "string"
+                    ],
+                    "initialTypes": [
+                        "string"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "text",
+                        "label": {
+                            "en": "Server",
+                            "de": "Server"
+                        },
+                        "default": "pool.ntp.org",
+                        "placeholder": "pool.ntp.org"
+                    }
+                },
+                {
+                    "id": "interval",
+                    "name": {
+                        "en": "Interval (min)",
+                        "de": "Intervall (min)"
+                    },
+                    "description": {
+                        "en": "Minutes between two NTP fetches (1 to 1440).",
+                        "de": "Minuten zwischen zwei NTP-Abfragen (1 bis 1440)."
+                    },
+                    "allowedTypes": [
+                        "int",
+                        "float"
+                    ],
+                    "initialTypes": [
+                        "int",
+                        "float"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Interval (min)",
+                            "de": "Intervall (min)"
+                        },
+                        "min": 1,
+                        "max": 1440,
+                        "step": 1,
+                        "default": 60
+                    }
+                },
+                {
+                    "id": "timezone",
+                    "name": {
+                        "en": "Timezone",
+                        "de": "Zeitzone"
+                    },
+                    "description": {
+                        "en": "UTC offset in whole hours for this collection (-12 to +14, half hours allowed).",
+                        "de": "UTC-Offset in ganzen Stunden für diese Collection (-12 bis +14, halbe Stunden erlaubt)."
+                    },
+                    "allowedTypes": [
+                        "float"
+                    ],
+                    "initialTypes": [
+                        "float"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Timezone",
+                            "de": "Zeitzone"
+                        },
+                        "min": -12,
+                        "max": 14,
+                        "step": 0.5,
+                        "default": 0
+                    }
+                },
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "description": {
+                        "en": "Enable the background time synchronisation.",
+                        "de": "Aktiviert die Zeitsynchronisation im Hintergrund."
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    }
+                }
+            ],
+            "outputs": [],
+            "controls": [],
+            "initFunction": "init_time",
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.timeService"
+                }
+            },
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.timeService"
+                }
+            }
+        },
+        "time-status": {
+            "title": {
+                "en": "Time Status",
+                "de": "Zeitstatus"
+            },
+            "info": {
+                "en": "Reports the epoch, the sync flag and the age of the last successful sync of the time service. It reads the running service, so it needs no inputs.",
+                "de": "Meldet Epoche, Synchron-Flag und Alter der letzten erfolgreichen Synchronisation des Zeitdienstes. Der Node liest den laufenden Dienst und braucht daher keine Eingänge."
+            },
+            "category": "time",
+            "executionPhase": "loop",
+            "color": "#5b7fc7",
+            "shape": "square",
+            "icon": "icons/sync_24dp.svg",
+            "inputs": [],
+            "outputs": [
+                {
+                    "id": "epoch",
+                    "name": {
+                        "en": "Epoch",
+                        "de": "Epoche"
+                    },
+                    "description": {
+                        "en": "Current UTC epoch in seconds (derived from the last NTP sync).",
+                        "de": "Aktuelle UTC-Epoche in Sekunden (abgeleitet aus der letzten NTP-Synchronisation)."
+                    },
+                    "outputType": "int",
+                    "initialTypes": [
+                        "int"
+                    ],
+                    "phase": "loop"
+                },
+                {
+                    "id": "synced",
+                    "name": {
+                        "en": "Synced",
+                        "de": "Synchronisiert"
+                    },
+                    "description": {
+                        "en": "True once the service has synchronised at least once.",
+                        "de": "True, sobald der Dienst mindestens einmal synchronisiert hat."
+                    },
+                    "outputType": "bool",
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "loop"
+                },
+                {
+                    "id": "age",
+                    "name": {
+                        "en": "Age",
+                        "de": "Alter"
+                    },
+                    "description": {
+                        "en": "Seconds since the last successful sync, or -1 before the first sync.",
+                        "de": "Sekunden seit der letzten erfolgreichen Synchronisation, oder -1 vor der ersten Synchronisation."
+                    },
+                    "outputType": "int",
+                    "initialTypes": [
+                        "int"
+                    ],
+                    "phase": "loop"
+                }
+            ],
+            "controls": [],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.timeStatus"
+                }
+            }
+        },
+        "time-clock-parts": {
+            "title": {
+                "en": "Clock Parts",
+                "de": "Uhrzeit-Teile"
+            },
+            "info": {
+                "en": "Outputs hour, minute and second for an epoch, by default for the device clock.",
+                "de": "Gibt Stunde, Minute und Sekunde für eine Epoche aus, standardmäßig für die Geräteuhr."
+            },
+            "category": "time",
+            "executionPhase": "loop",
+            "color": "#5b7fc7",
+            "shape": "square",
+            "icon": "icons/timer_24dp.svg",
+            "inputs": [
+                {
+                    "id": "epoch",
+                    "name": {
+                        "en": "Epoch",
+                        "de": "Epoche"
+                    },
+                    "description": {
+                        "en": "UTC epoch in seconds. -1 uses the device clock (the default).",
+                        "de": "UTC-Epoche in Sekunden. -1 verwendet die Geräteuhr (Standard)."
+                    },
+                    "allowedTypes": [
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Epoch",
+                            "de": "Epoche"
+                        },
+                        "min": -1,
+                        "max": 4102444800,
+                        "step": 1,
+                        "default": -1
+                    }
+                },
+                {
+                    "id": "timezone",
+                    "name": {
+                        "en": "Timezone",
+                        "de": "Zeitzone"
+                    },
+                    "description": {
+                        "en": "UTC offset in hours (-12 to +14). -100 inherits the timezone of the time-service node (the default).",
+                        "de": "UTC-Offset in Stunden (-12 bis +14). -100 erbt die Zeitzone des Zeitdienst-Nodes (Standard)."
+                    },
+                    "allowedTypes": [
+                        "float"
+                    ],
+                    "initialTypes": [
+                        "float"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Timezone",
+                            "de": "Zeitzone"
+                        },
+                        "min": -100,
+                        "max": 14,
+                        "step": 0.5,
+                        "default": -100
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "hour",
+                    "name": {
+                        "en": "Hour",
+                        "de": "Stunde"
+                    },
+                    "description": {
+                        "en": "Local hour (0 to 23).",
+                        "de": "Ortsstunde (0 bis 23)."
+                    },
+                    "outputType": "int",
+                    "initialTypes": [
+                        "int"
+                    ],
+                    "phase": "loop"
+                },
+                {
+                    "id": "minute",
+                    "name": {
+                        "en": "Minute",
+                        "de": "Minute"
+                    },
+                    "description": {
+                        "en": "Local minute (0 to 59).",
+                        "de": "Ortsminute (0 bis 59)."
+                    },
+                    "outputType": "int",
+                    "initialTypes": [
+                        "int"
+                    ],
+                    "phase": "loop"
+                },
+                {
+                    "id": "second",
+                    "name": {
+                        "en": "Second",
+                        "de": "Sekunde"
+                    },
+                    "description": {
+                        "en": "Local second (0 to 59).",
+                        "de": "Ortsekunde (0 bis 59)."
+                    },
+                    "outputType": "int",
+                    "initialTypes": [
+                        "int"
+                    ],
+                    "phase": "loop"
+                }
+            ],
+            "controls": [],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.timeClockParts"
+                }
+            }
+        },
+        "time-date-parts": {
+            "title": {
+                "en": "Date Parts",
+                "de": "Datums-Teile"
+            },
+            "info": {
+                "en": "Outputs year, month, day and weekday for an epoch, by default for the device clock. The weekday is 0 for Monday to 6 for Sunday.",
+                "de": "Gibt Jahr, Monat, Tag und Wochentag für eine Epoche aus, standardmäßig für die Geräteuhr. Der Wochentag ist 0 für Montag bis 6 für Sonntag."
+            },
+            "category": "time",
+            "executionPhase": "loop",
+            "color": "#5b7fc7",
+            "shape": "square",
+            "icon": "icons/calendar_month_24dp.svg",
+            "inputs": [
+                {
+                    "id": "epoch",
+                    "name": {
+                        "en": "Epoch",
+                        "de": "Epoche"
+                    },
+                    "description": {
+                        "en": "UTC epoch in seconds. -1 uses the device clock (the default).",
+                        "de": "UTC-Epoche in Sekunden. -1 verwendet die Geräteuhr (Standard)."
+                    },
+                    "allowedTypes": [
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Epoch",
+                            "de": "Epoche"
+                        },
+                        "min": -1,
+                        "max": 4102444800,
+                        "step": 1,
+                        "default": -1
+                    }
+                },
+                {
+                    "id": "timezone",
+                    "name": {
+                        "en": "Timezone",
+                        "de": "Zeitzone"
+                    },
+                    "description": {
+                        "en": "UTC offset in hours (-12 to +14). -100 inherits the timezone of the time-service node (the default).",
+                        "de": "UTC-Offset in Stunden (-12 bis +14). -100 erbt die Zeitzone des Zeitdienst-Nodes (Standard)."
+                    },
+                    "allowedTypes": [
+                        "float"
+                    ],
+                    "initialTypes": [
+                        "float"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Timezone",
+                            "de": "Zeitzone"
+                        },
+                        "min": -100,
+                        "max": 14,
+                        "step": 0.5,
+                        "default": -100
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "year",
+                    "name": {
+                        "en": "Year",
+                        "de": "Jahr"
+                    },
+                    "description": {
+                        "en": "Local year.",
+                        "de": "Ortsjahr."
+                    },
+                    "outputType": "int",
+                    "initialTypes": [
+                        "int"
+                    ],
+                    "phase": "loop"
+                },
+                {
+                    "id": "month",
+                    "name": {
+                        "en": "Month",
+                        "de": "Monat"
+                    },
+                    "description": {
+                        "en": "Local month (1 to 12).",
+                        "de": "Ortsmonat (1 bis 12)."
+                    },
+                    "outputType": "int",
+                    "initialTypes": [
+                        "int"
+                    ],
+                    "phase": "loop"
+                },
+                {
+                    "id": "day",
+                    "name": {
+                        "en": "Day",
+                        "de": "Tag"
+                    },
+                    "description": {
+                        "en": "Local day of month (1 to 31).",
+                        "de": "Ortsmonatstag (1 bis 31)."
+                    },
+                    "outputType": "int",
+                    "initialTypes": [
+                        "int"
+                    ],
+                    "phase": "loop"
+                },
+                {
+                    "id": "weekday",
+                    "name": {
+                        "en": "Weekday",
+                        "de": "Wochentag"
+                    },
+                    "description": {
+                        "en": "Local weekday (0 = Monday, 6 = Sunday).",
+                        "de": "Ortswochentag (0 = Montag, 6 = Sonntag)."
+                    },
+                    "outputType": "int",
+                    "initialTypes": [
+                        "int"
+                    ],
+                    "phase": "loop"
+                }
+            ],
+            "controls": [],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.timeDateParts"
+                }
+            }
+        },
+        "time-between": {
+            "title": {
+                "en": "Time Between",
+                "de": "Zeitfenster"
+            },
+            "info": {
+                "en": "True while the local time is inside an HH:MM window. The end is exclusive and a window past midnight (for example 22:00 to 06:00) is supported.",
+                "de": "True, solange die Ortszeit in einem HH:MM-Fenster liegt. Das Ende ist exklusiv und ein Fenster über Mitternacht (zum Beispiel 22:00 bis 06:00) wird unterstützt."
+            },
+            "category": "time",
+            "executionPhase": "loop",
+            "color": "#5b7fc7",
+            "shape": "square",
+            "icon": "icons/hourglass_bottom_24dp.svg",
+            "inputs": [
+                {
+                    "id": "epoch",
+                    "name": {
+                        "en": "Epoch",
+                        "de": "Epoche"
+                    },
+                    "description": {
+                        "en": "UTC epoch in seconds. -1 uses the device clock (the default).",
+                        "de": "UTC-Epoche in Sekunden. -1 verwendet die Geräteuhr (Standard)."
+                    },
+                    "allowedTypes": [
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Epoch",
+                            "de": "Epoche"
+                        },
+                        "min": -1,
+                        "max": 4102444800,
+                        "step": 1,
+                        "default": -1
+                    }
+                },
+                {
+                    "id": "timezone",
+                    "name": {
+                        "en": "Timezone",
+                        "de": "Zeitzone"
+                    },
+                    "description": {
+                        "en": "UTC offset in hours (-12 to +14). -100 inherits the timezone of the time-service node (the default).",
+                        "de": "UTC-Offset in Stunden (-12 bis +14). -100 erbt die Zeitzone des Zeitdienst-Nodes (Standard)."
+                    },
+                    "allowedTypes": [
+                        "float"
+                    ],
+                    "initialTypes": [
+                        "float"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Timezone",
+                            "de": "Zeitzone"
+                        },
+                        "min": -100,
+                        "max": 14,
+                        "step": 0.5,
+                        "default": -100
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "active",
+                    "name": {
+                        "en": "Active",
+                        "de": "Aktiv"
+                    },
+                    "description": {
+                        "en": "True while the local time is inside the window.",
+                        "de": "True, solange die Ortszeit innerhalb des Fensters liegt."
+                    },
+                    "outputType": "bool",
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "loop"
+                }
+            ],
+            "controls": [
+                {
+                    "type": "text",
+                    "id": "start",
+                    "label": {
+                        "en": "Start",
+                        "de": "Beginn"
+                    },
+                    "description": {
+                        "en": "HH:MM in local time; the start instant is inside the window.",
+                        "de": "HH:MM in Ortszeit; der Beginn liegt innerhalb des Fensters."
+                    },
+                    "default": "08:00"
+                },
+                {
+                    "type": "text",
+                    "id": "end",
+                    "label": {
+                        "en": "End",
+                        "de": "Ende"
+                    },
+                    "description": {
+                        "en": "HH:MM in local time, exclusive; earlier than the start means the window runs past midnight.",
+                        "de": "HH:MM in Ortszeit, exklusiv; früher als der Beginn bedeutet, dass das Fenster über Mitternacht läuft."
+                    },
+                    "default": "17:00"
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.timeBetween"
+                }
+            }
+        },
+        "time-format": {
+            "title": {
+                "en": "Format Time",
+                "de": "Zeit formatieren"
+            },
+            "info": {
+                "en": "Formats an epoch with a small strftime-like pattern. Supported specifiers: %Y %m %d %H %M %S %j %%.",
+                "de": "Formatiert eine Epoche mit einem kleinen strftime-ähnlichen Muster. Unterstützte Platzhalter: %Y %m %d %H %M %S %j %%."
+            },
+            "category": "time",
+            "executionPhase": "loop",
+            "color": "#5b7fc7",
+            "shape": "square",
+            "icon": "icons/text_fields_24dp.svg",
+            "inputs": [
+                {
+                    "id": "epoch",
+                    "name": {
+                        "en": "Epoch",
+                        "de": "Epoche"
+                    },
+                    "description": {
+                        "en": "UTC epoch in seconds. -1 uses the device clock (the default).",
+                        "de": "UTC-Epoche in Sekunden. -1 verwendet die Geräteuhr (Standard)."
+                    },
+                    "allowedTypes": [
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Epoch",
+                            "de": "Epoche"
+                        },
+                        "min": -1,
+                        "max": 4102444800,
+                        "step": 1,
+                        "default": -1
+                    }
+                },
+                {
+                    "id": "timezone",
+                    "name": {
+                        "en": "Timezone",
+                        "de": "Zeitzone"
+                    },
+                    "description": {
+                        "en": "UTC offset in hours (-12 to +14). -100 inherits the timezone of the time-service node (the default).",
+                        "de": "UTC-Offset in Stunden (-12 bis +14). -100 erbt die Zeitzone des Zeitdienst-Nodes (Standard)."
+                    },
+                    "allowedTypes": [
+                        "float"
+                    ],
+                    "initialTypes": [
+                        "float"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Timezone",
+                            "de": "Zeitzone"
+                        },
+                        "min": -100,
+                        "max": 14,
+                        "step": 0.5,
+                        "default": -100
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "text",
+                    "name": {
+                        "en": "Text",
+                        "de": "Text"
+                    },
+                    "description": {
+                        "en": "The formatted local time.",
+                        "de": "Die formatierte Ortszeit."
+                    },
+                    "outputType": "string",
+                    "initialTypes": [
+                        "string"
+                    ],
+                    "phase": "loop"
+                }
+            ],
+            "controls": [
+                {
+                    "type": "text",
+                    "id": "pattern",
+                    "label": {
+                        "en": "Pattern",
+                        "de": "Muster"
+                    },
+                    "description": {
+                        "en": "Pattern with %Y %m %d %H %M %S %j %% support.",
+                        "de": "Muster mit Unterstützung für %Y %m %d %H %M %S %j %%."
+                    },
+                    "default": "%Y-%m-%d %H:%M:%S"
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.timeFormat"
+                }
+            }
+        }
+    }
+}

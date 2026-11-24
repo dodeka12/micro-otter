@@ -1,0 +1,39 @@
+#!/usr/bin/env sh
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+HOOK_TARGET="$SCRIPT_DIR/device_version_hook.py"
+
+# Prefer the repo's managed virtual environment if present.
+for candidate in \
+    "$ROOT_DIR/.venv/Scripts/python.exe" \
+    "$ROOT_DIR/.venv/bin/python" \
+    "$VIRTUAL_ENV/Scripts/python.exe" \
+    "$VIRTUAL_ENV/bin/python"
+do
+    if [ -n "$candidate" ] && [ -x "$candidate" ]; then
+        exec "$candidate" "$HOOK_TARGET" "$@"
+    fi
+done
+
+# System interpreters.
+if command -v python3 >/dev/null 2>&1; then
+    exec python3 "$HOOK_TARGET" "$@"
+fi
+
+if command -v python >/dev/null 2>&1; then
+    exec python "$HOOK_TARGET" "$@"
+fi
+
+if command -v py >/dev/null 2>&1; then
+    exec py -3 "$HOOK_TARGET" "$@"
+fi
+
+# Last resort: ask uv to run the hook (may be slower but works without an env).
+if command -v uv >/dev/null 2>&1; then
+    exec uv run python "$HOOK_TARGET" "$@"
+fi
+
+echo "device version hook: Unable to locate a usable Python interpreter" >&2
+exit 1

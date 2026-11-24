@@ -1,0 +1,83 @@
+{
+  "id": "general",
+  "name": "Micro-Otter",
+  "description": "Generic MicroPython target with the default node libraries and WiFi web interface.",
+  "nodePackages": {
+    "global": [
+      "core",
+      "stdmo",
+      "webview",
+      "audio",
+      "power",
+      "mqtt",
+      "hass",
+      "vars",
+      "led",
+      "time",
+      "irq"
+    ],
+    "local": []
+  },
+  "deviceTargets": {
+    "include": [],
+    "exclude": []
+  },
+  "mainLoopPath": "app/main_loop.py",
+  "version": "1.51.2",
+  "customView": "custom_view.json",
+  "preservedPaths": [
+    "/wifi_settings.json",
+    "/webserver_settings.json",
+    "/mqtt_settings.json",
+    "/app/wifi_settings.json",
+    "/app/webserver_settings.json",
+    "/app/mqtt_settings.json"
+  ],
+  "filesystem": [
+    "manifest.json",
+    "main.py",
+    "app/__init__.py",
+    "app/main_loop.py",
+    "otter_main.py",
+    "otter_runtime/__init__.py",
+    "otter_runtime/custom_settings.py",
+    "otter_runtime/http_request.py",
+    "otter_runtime/logger.py",
+    "otter_runtime/module_utils.py",
+    "otter_runtime/mqtt_service.py",
+    "otter_runtime/service_controller.py",
+    "otter_runtime/services.py",
+    "otter_runtime/settings_store.py",
+    "otter_runtime/web_data_store.py",
+    "otter_runtime/web_interface.py",
+    "otter_runtime/web_server.py",
+    "otter_runtime/webserver_service.py",
+    "otter_runtime/wifi_boot.py",
+    "html/index.html",
+    "html/micro-otter-head-64px.svg",
+    "html/micro-otter-128px-white.svg",
+    "custom_view.json",
+    "locales/en.json",
+    "locales/de.json"
+  ],
+  "mpySourceExcludes": [
+    "main.py",
+    "app/main_loop.py"
+  ],
+  "mpyCompileProfiles": {
+    "052d85852e60": {
+      "mpyCrossVersion": "MicroPython v1.27.0-dirty on 2026-04-08; mpy-cross emitting mpy v6.3",
+      "emit": "bytecode",
+      "smallIntBits": 31,
+      "march": null,
+      "marchFlags": null
+    },
+    "7d963b547334": {
+      "mpyCrossVersion": "MicroPython v1.27.0 on 2026-04-25; mpy-cross emitting mpy v6.3",
+      "emit": "bytecode",
+      "smallIntBits": 31,
+      "march": null,
+      "marchFlags": null
+    }
+  }
+}

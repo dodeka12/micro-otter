@@ -1,0 +1,140 @@
+.split-view {
+    height: 100%;
+    width: 100%;
+    border: 1px solid var(--mo-border, rgba(255, 255, 255, 0.08));
+    border-radius: var(--mo-radius, 8px);
+    background: var(--mo-surface-1, #121927);
+    box-shadow: var(--mo-shadow, 0 8px 28px rgba(0, 0, 0, 0.32));
+    overflow: hidden;
+    gap: var(--split-gap, var(--mo-gap, 0px));
+    padding: var(--mo-padding, 0px);
+    /* Optional leading pane inset (`SplitView` option `contentInsetStart`); falls back to the
+       host padding so existing splits are unchanged. */
+    padding-inline-start: var(--split-inset-start, var(--mo-padding, 0px));
+    /* Optional block-start pane inset (`SplitView` option `contentInsetTop`); separates the first
+       pane from a header rendered directly above the split. */
+    padding-block-start: var(--split-inset-top, var(--mo-padding, 0px));
+    box-sizing: border-box;
+    display: flex;
+    position: relative;
+    min-width: 0; /* Allow shrinking as flex child */
+    min-height: 0; /* Allow shrinking as flex child */
+    flex: 1; /* Fill available space when in flex container */
+}
+
+/* Optional inset guide (`SplitView` option `contentInsetGuide`): a vertical line in the leading
+   inset gutter that ties the indented panes to the section header above the split. It starts below
+   the block-start inset and runs to the host's block end, in the gutter left free by the leading
+   inset, so it never overlaps the panes. Logical properties keep it on the correct side in RTL. */
+.split-view--inset-guide::before {
+    content: '';
+    position: absolute;
+    inset-block-start: var(--split-inset-top, var(--mo-padding, 0px));
+    inset-block-end: 0;
+    inset-inline-start: 0;
+    width: 1px;
+    background: var(--mo-border, rgba(255, 255, 255, 0.08));
+    pointer-events: none;
+}
+
+.split-view__pane {
+    border-radius: calc(var(--mo-radius, 8px) - 2px);
+    background: var(--mo-surface-2, #172133);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+    padding: 0px;
+    box-sizing: border-box;
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    transition:
+        flex-grow 140ms ease,
+        min-width 140ms ease,
+        min-height 140ms ease,
+        max-width 140ms ease,
+        max-height 140ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .split-view__pane {
+        transition: none;
+    }
+}
+
+.split-view__splitter {
+    align-self: stretch;
+    border-radius: 2px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+    border: 1px solid var(--mo-border, rgba(255, 255, 255, 0.08));
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+    transition:
+        background 120ms ease,
+        border-color 120ms ease;
+    /* Box model pairs with SPLIT_VIEW_SPLITTER_THICKNESS in js/views/split-view-sizing.ts:
+       border-box 6px (active) / 4px (inactive) keeps the rendered geometry identical while
+       making the declared size the single source of truth. */
+    box-sizing: border-box;
+    flex-shrink: 0; /* ADD: Prevent splitter from shrinking */
+    flex-grow: 0; /* ADD: Prevent splitter from growing */
+}
+
+.split-view__splitter[data-orientation='row'] {
+    cursor: col-resize;
+    width: 6px;
+    min-width: 6px;
+    height: auto;
+}
+
+.split-view__splitter[data-orientation='column'] {
+    cursor: row-resize;
+    height: 6px;
+    min-height: 6px;
+    width: auto;
+}
+
+.split-view__splitter:hover,
+.split-view__splitter:focus-visible {
+    background: rgba(99, 181, 255, 0.18);
+    border-color: var(--mo-border-strong, rgba(118, 188, 255, 0.6));
+    outline: none;
+}
+
+.split-view__splitter--inactive {
+    align-self: stretch;
+    border-radius: 2px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+    border: 1px solid var(--mo-border, rgba(255, 255, 255, 0.08));
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+    /* transition:
+        background 120ms ease,
+        border-color 120ms ease; */
+    box-sizing: border-box;
+    flex-shrink: 0; /* ADD: Prevent splitter from shrinking */
+    flex-grow: 0; /* ADD: Prevent splitter from growing */
+    cursor: default !important;
+}
+
+.split-view__splitter--inactive:hover,
+.split-view__splitter--inactive:focus-visible {
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.08),
+        rgba(255, 255, 255, 0.02)
+    ) !important;
+    border-color: var(--mo-border, rgba(255, 255, 255, 0.08)) !important;
+    cursor: default !important;
+}
+
+.split-view__splitter--inactive[data-orientation='row'] {
+    cursor: default !important;
+    width: 4px;
+    min-width: 4px;
+    height: auto;
+}
+
+.split-view__splitter--inactive[data-orientation='column'] {
+    cursor: default !important;
+    height: 4px;
+    min-height: 4px;
+    width: auto;
+}

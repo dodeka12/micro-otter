@@ -1,0 +1,2236 @@
+{
+    "nodeTypes": {
+        "hass-bridge": {
+            "title": {
+                "en": "HA Bridge",
+                "de": "HA-Bruecke"
+            },
+            "info": {
+                "en": "Announces this device and its entities to Home Assistant.",
+                "de": "Kuendigt dieses Geraet und seine Entitaeten bei Home Assistant an."
+            },
+            "category": "hass",
+            "color": "#3f8f7a",
+            "shape": "round",
+            "icon": "icons/home_24dp.svg",
+            "inputs": [],
+            "outputs": [],
+            "controls": [
+                {
+                    "type": "text",
+                    "id": "deviceId",
+                    "label": {
+                        "en": "Device ID",
+                        "de": "Geraete-ID"
+                    },
+                    "description": {
+                        "en": "Stable device identifier used in every topic and unique id, e.g. otter-kitchen.",
+                        "de": "Stabile Geraete-ID in jedem Topic und jeder eindeutigen ID, z. B. otter-kitchen."
+                    },
+                    "default": "",
+                    "required": true
+                },
+                {
+                    "type": "text",
+                    "id": "deviceName",
+                    "label": {
+                        "en": "Device Name",
+                        "de": "Geraetename"
+                    },
+                    "description": {
+                        "en": "Name of the Home Assistant device card. Empty uses the device id.",
+                        "de": "Name der Home-Assistant-Geraetekarte. Leer verwendet die Geraete-ID."
+                    },
+                    "default": ""
+                },
+                {
+                    "type": "text",
+                    "id": "discoveryPrefix",
+                    "label": {
+                        "en": "Discovery Prefix",
+                        "de": "Discovery-Praefix"
+                    },
+                    "description": {
+                        "en": "Home Assistant discovery prefix.",
+                        "de": "Discovery-Praefix von Home Assistant."
+                    },
+                    "default": "homeassistant"
+                },
+                {
+                    "type": "text",
+                    "id": "topicPrefix",
+                    "label": {
+                        "en": "Topic Prefix",
+                        "de": "Topic-Praefix"
+                    },
+                    "description": {
+                        "en": "Prefix of the state, command and availability topics.",
+                        "de": "Praefix der Status-, Kommando- und Verfuegbarkeits-Topics."
+                    },
+                    "default": "otter"
+                },
+                {
+                    "type": "checkbox",
+                    "id": "availability",
+                    "label": {
+                        "en": "Availability",
+                        "de": "Verfuegbarkeit"
+                    },
+                    "description": {
+                        "en": "Announce an availability topic and configure a last will.",
+                        "de": "Ein Verfuegbarkeits-Topic ankuendigen und ein Testament konfigurieren."
+                    },
+                    "default": true
+                },
+                {
+                    "type": "checkbox",
+                    "id": "will",
+                    "label": {
+                        "en": "Last Will",
+                        "de": "Testament"
+                    },
+                    "description": {
+                        "en": "Let the broker publish offline when the link dies uncleanly.",
+                        "de": "Den Broker offline veroeffentlichen lassen, wenn die Verbindung unsauber abbricht."
+                    },
+                    "default": true
+                },
+                {
+                    "type": "text",
+                    "id": "manufacturer",
+                    "label": {
+                        "en": "Manufacturer",
+                        "de": "Hersteller"
+                    },
+                    "description": {
+                        "en": "Manufacturer shown on the device card.",
+                        "de": "Hersteller auf der Geraetekarte."
+                    },
+                    "default": "Micro-Otter"
+                },
+                {
+                    "type": "text",
+                    "id": "model",
+                    "label": {
+                        "en": "Model",
+                        "de": "Modell"
+                    },
+                    "description": {
+                        "en": "Optional model shown on the device card.",
+                        "de": "Optionales Modell auf der Geraetekarte."
+                    },
+                    "default": ""
+                },
+                {
+                    "type": "text",
+                    "id": "swVersion",
+                    "label": {
+                        "en": "SW Version",
+                        "de": "SW-Version"
+                    },
+                    "description": {
+                        "en": "Optional software version shown on the device card.",
+                        "de": "Optionale Softwareversion auf der Geraetekarte."
+                    },
+                    "default": ""
+                }
+            ],
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.hassBridge"
+                }
+            },
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.hassBridge"
+                }
+            },
+            "initFunction": "init_mqtt"
+        },
+        "hass-availability": {
+            "title": {
+                "en": "HA Availability",
+                "de": "HA-Verfuegbarkeit"
+            },
+            "info": {
+                "en": "Publishes one named availability flag that entities can reference.",
+                "de": "Veroeffentlicht ein benanntes Verfuegbarkeits-Flag, das Entitaeten referenzieren koennen."
+            },
+            "category": "hass",
+            "color": "#3f8f7a",
+            "shape": "round",
+            "icon": "icons/cloud_alert_24dp.svg",
+            "inputs": [
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    },
+                    "description": {
+                        "en": "When off, no state is published to Home Assistant.",
+                        "de": "Wenn deaktiviert, wird kein Status an Home Assistant gesendet."
+                    }
+                },
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Available",
+                        "de": "Verfuegbar"
+                    },
+                    "description": {
+                        "en": "Publishes online when true and offline when false.",
+                        "de": "Veroeffentlicht online bei true und offline bei false."
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Available",
+                            "de": "Verfuegbar"
+                        },
+                        "default": false
+                    }
+                }
+            ],
+            "outputs": [],
+            "controls": [
+                {
+                    "type": "text",
+                    "id": "id",
+                    "label": {
+                        "en": "Availability ID",
+                        "de": "Verfuegbarkeits-ID"
+                    },
+                    "description": {
+                        "en": "Flag id appended to the device availability topic. Entities reference the flag by this id.",
+                        "de": "Flag-ID, die an das Geraete-Verfuegbarkeits-Topic angehaengt wird. Entitaeten referenzieren das Flag ueber diese ID."
+                    },
+                    "default": "",
+                    "required": true
+                }
+            ],
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.hassAvailability"
+                }
+            },
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.hassAvailability"
+                }
+            },
+            "initFunction": "init_mqtt"
+        },
+        "hass-sensor": {
+            "title": {
+                "en": "HA Sensor",
+                "de": "HA-Sensor"
+            },
+            "info": {
+                "en": "Announces a measurement sensor to Home Assistant.",
+                "de": "Kuendigt einen Messwertsensor bei Home Assistant an."
+            },
+            "category": "hass",
+            "color": "#3f8f7a",
+            "shape": "square",
+            "icon": "icons/sensors_krx_24dp.svg",
+            "inputs": [
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    },
+                    "description": {
+                        "en": "When off, no state is published to Home Assistant.",
+                        "de": "Wenn deaktiviert, wird kein Status an Home Assistant gesendet."
+                    }
+                },
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "description": {
+                        "en": "Value published as the entity state.",
+                        "de": "Wert, der als Status der Entitaet veroeffentlicht wird."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int",
+                        "bool",
+                        "string"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int",
+                        "bool",
+                        "string"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Value",
+                            "de": "Wert"
+                        },
+                        "default": 0,
+                        "min": -100000,
+                        "max": 100000,
+                        "step": 0.01
+                    }
+                }
+            ],
+            "outputs": [],
+            "controls": [
+                {
+                    "type": "text",
+                    "id": "objectId",
+                    "label": {
+                        "en": "Object ID",
+                        "de": "Objekt-ID"
+                    },
+                    "description": {
+                        "en": "Unique object name inside the component, e.g. temperature. Used to build the topics and the unique id.",
+                        "de": "Eindeutiger Objektname innerhalb der Komponente, z. B. temperature. Wird fuer Topics und die eindeutige ID verwendet."
+                    },
+                    "default": "",
+                    "required": true
+                },
+                {
+                    "type": "text",
+                    "id": "name",
+                    "label": {
+                        "en": "Name",
+                        "de": "Name"
+                    },
+                    "description": {
+                        "en": "Display name of the entity. Empty uses the object id.",
+                        "de": "Anzeigename der Entitaet. Leer verwendet die Objekt-ID."
+                    },
+                    "default": ""
+                },
+                {
+                    "type": "icon",
+                    "id": "icon",
+                    "label": {
+                        "en": "Icon",
+                        "de": "Symbol"
+                    },
+                    "description": {
+                        "en": "Optional Material Design icon, e.g. mdi:thermometer.",
+                        "de": "Optionales Material-Design-Symbol, z. B. mdi:thermometer."
+                    },
+                    "default": ""
+                },
+                {
+                    "type": "dropdown",
+                    "id": "availabilityMode",
+                    "label": {
+                        "en": "Availability Mode",
+                        "de": "Verfuegbarkeitsmodus"
+                    },
+                    "description": {
+                        "en": "How the device flag and the selected flags combine. Only used when at least one flag is selected.",
+                        "de": "Wie Geraete-Flag und ausgewaehlte Flags kombiniert werden. Wird nur genutzt, wenn mindestens ein Flag ausgewaehlt ist."
+                    },
+                    "default": "all",
+                    "options": [
+                        {
+                            "value": "all",
+                            "label": {
+                                "en": "All must be online",
+                                "de": "Alle muessen online sein"
+                            }
+                        },
+                        {
+                            "value": "any",
+                            "label": {
+                                "en": "Any online",
+                                "de": "Beliebig einer online"
+                            }
+                        },
+                        {
+                            "value": "latest",
+                            "label": {
+                                "en": "Latest wins",
+                                "de": "Letzter gewinnt"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "multi-dropdown",
+                    "id": "availabilityFlags",
+                    "label": {
+                        "en": "Available Flags",
+                        "de": "Verfuegbarkeits-Flags"
+                    },
+                    "description": {
+                        "en": "Availability topics this entity follows. Device is selected by default; an empty list announces no availability.",
+                        "de": "Verfuegbarkeits-Topics, denen diese Entitaet folgt. Geraet ist standardmaessig ausgewaehlt; eine leere Liste kuendigt keine Verfuegbarkeit an."
+                    },
+                    "default": [
+                        "__device__"
+                    ],
+                    "valueMigration": {
+                        "fromControl": "availability",
+                        "entry": "__device__"
+                    },
+                    "dynamicOptions": {
+                        "source": "availabilityRefs"
+                    }
+                },
+                {
+                    "type": "text",
+                    "id": "deviceClass",
+                    "label": {
+                        "en": "Device Class",
+                        "de": "Geraeteklasse"
+                    },
+                    "description": {
+                        "en": "Optional Home Assistant device class, e.g. temperature or humidity.",
+                        "de": "Optionale Home-Assistant-Geraeteklasse, z. B. temperature oder humidity."
+                    },
+                    "default": ""
+                },
+                {
+                    "type": "text",
+                    "id": "unit",
+                    "label": {
+                        "en": "Unit",
+                        "de": "Einheit"
+                    },
+                    "description": {
+                        "en": "Optional unit of measurement, e.g. C or %.",
+                        "de": "Optionale Masseinheit, z. B. C oder %."
+                    },
+                    "default": ""
+                },
+                {
+                    "type": "dropdown",
+                    "id": "stateClass",
+                    "label": {
+                        "en": "State Class",
+                        "de": "Statusklasse"
+                    },
+                    "description": {
+                        "en": "Optional state class, required for long-term statistics.",
+                        "de": "Optionale Statusklasse, erforderlich fuer Langzeitstatistiken."
+                    },
+                    "default": "",
+                    "options": [
+                        {
+                            "value": "",
+                            "label": {
+                                "en": "None",
+                                "de": "Keine"
+                            }
+                        },
+                        {
+                            "value": "measurement",
+                            "label": {
+                                "en": "Measurement",
+                                "de": "Messwert"
+                            }
+                        },
+                        {
+                            "value": "total",
+                            "label": {
+                                "en": "Total",
+                                "de": "Gesamt"
+                            }
+                        },
+                        {
+                            "value": "total_increasing",
+                            "label": {
+                                "en": "Total increasing",
+                                "de": "Gesamt steigend"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "number",
+                    "id": "expireAfter",
+                    "label": {
+                        "en": "Expire After",
+                        "de": "Verfaellt nach"
+                    },
+                    "description": {
+                        "en": "Seconds after which Home Assistant marks the entity unavailable. 0 disables it. The bridge repeats the current value every half window while the device runs, so this is a liveness check, not a replacement for the availability flags.",
+                        "de": "Sekunden, nach denen Home Assistant die Entitaet als nicht verfuegbar markiert. 0 deaktiviert dies. Die Bridge wiederholt den aktuellen Wert waehrend der Laufzeit alle halbe Fensterlaenge; dies ist eine Lebenszeichen-Pruefung und kein Ersatz fuer die Verfuegbarkeits-Flags."
+                    },
+                    "default": 0,
+                    "min": 0,
+                    "max": 86400,
+                    "step": 1
+                }
+            ],
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.hassSensor"
+                }
+            },
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.hassSensor"
+                }
+            },
+            "initFunction": "init_mqtt"
+        },
+        "hass-binary-sensor": {
+            "title": {
+                "en": "HA Binary Sensor",
+                "de": "HA-Binaersensor"
+            },
+            "info": {
+                "en": "Announces a binary sensor (open/closed, motion, ...) to Home Assistant.",
+                "de": "Kuendigt einen Binaersensor (offen/geschlossen, Bewegung, ...) bei Home Assistant an."
+            },
+            "category": "hass",
+            "color": "#3f8f7a",
+            "shape": "square",
+            "icon": "icons/binary_sensor_24dp.svg",
+            "inputs": [
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    },
+                    "description": {
+                        "en": "When off, no state is published to Home Assistant.",
+                        "de": "Wenn deaktiviert, wird kein Status an Home Assistant gesendet."
+                    }
+                },
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "description": {
+                        "en": "Value published as the entity state.",
+                        "de": "Wert, der als Status der Entitaet veroeffentlicht wird."
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Value",
+                            "de": "Wert"
+                        },
+                        "default": false
+                    }
+                }
+            ],
+            "outputs": [],
+            "controls": [
+                {
+                    "type": "text",
+                    "id": "objectId",
+                    "label": {
+                        "en": "Object ID",
+                        "de": "Objekt-ID"
+                    },
+                    "description": {
+                        "en": "Unique object name inside the component, e.g. temperature. Used to build the topics and the unique id.",
+                        "de": "Eindeutiger Objektname innerhalb der Komponente, z. B. temperature. Wird fuer Topics und die eindeutige ID verwendet."
+                    },
+                    "default": "",
+                    "required": true
+                },
+                {
+                    "type": "text",
+                    "id": "name",
+                    "label": {
+                        "en": "Name",
+                        "de": "Name"
+                    },
+                    "description": {
+                        "en": "Display name of the entity. Empty uses the object id.",
+                        "de": "Anzeigename der Entitaet. Leer verwendet die Objekt-ID."
+                    },
+                    "default": ""
+                },
+                {
+                    "type": "icon",
+                    "id": "icon",
+                    "label": {
+                        "en": "Icon",
+                        "de": "Symbol"
+                    },
+                    "description": {
+                        "en": "Optional Material Design icon, e.g. mdi:thermometer.",
+                        "de": "Optionales Material-Design-Symbol, z. B. mdi:thermometer."
+                    },
+                    "default": ""
+                },
+                {
+                    "type": "dropdown",
+                    "id": "availabilityMode",
+                    "label": {
+                        "en": "Availability Mode",
+                        "de": "Verfuegbarkeitsmodus"
+                    },
+                    "description": {
+                        "en": "How the device flag and the selected flags combine. Only used when at least one flag is selected.",
+                        "de": "Wie Geraete-Flag und ausgewaehlte Flags kombiniert werden. Wird nur genutzt, wenn mindestens ein Flag ausgewaehlt ist."
+                    },
+                    "default": "all",
+                    "options": [
+                        {
+                            "value": "all",
+                            "label": {
+                                "en": "All must be online",
+                                "de": "Alle muessen online sein"
+                            }
+                        },
+                        {
+                            "value": "any",
+                            "label": {
+                                "en": "Any online",
+                                "de": "Beliebig einer online"
+                            }
+                        },
+                        {
+                            "value": "latest",
+                            "label": {
+                                "en": "Latest wins",
+                                "de": "Letzter gewinnt"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "multi-dropdown",
+                    "id": "availabilityFlags",
+                    "label": {
+                        "en": "Available Flags",
+                        "de": "Verfuegbarkeits-Flags"
+                    },
+                    "description": {
+                        "en": "Availability topics this entity follows. Device is selected by default; an empty list announces no availability.",
+                        "de": "Verfuegbarkeits-Topics, denen diese Entitaet folgt. Geraet ist standardmaessig ausgewaehlt; eine leere Liste kuendigt keine Verfuegbarkeit an."
+                    },
+                    "default": [
+                        "__device__"
+                    ],
+                    "valueMigration": {
+                        "fromControl": "availability",
+                        "entry": "__device__"
+                    },
+                    "dynamicOptions": {
+                        "source": "availabilityRefs"
+                    }
+                },
+                {
+                    "type": "dropdown",
+                    "id": "deviceClass",
+                    "label": {
+                        "en": "Device Class",
+                        "de": "Geraeteklasse"
+                    },
+                    "description": {
+                        "en": "Optional Home Assistant device class.",
+                        "de": "Optionale Home-Assistant-Geraeteklasse."
+                    },
+                    "default": "",
+                    "options": [
+                        {
+                            "value": "",
+                            "label": {
+                                "en": "None",
+                                "de": "Keine"
+                            }
+                        },
+                        {
+                            "value": "motion",
+                            "label": {
+                                "en": "Motion",
+                                "de": "Bewegung"
+                            }
+                        },
+                        {
+                            "value": "door",
+                            "label": {
+                                "en": "Door",
+                                "de": "Tuer"
+                            }
+                        },
+                        {
+                            "value": "window",
+                            "label": {
+                                "en": "Window",
+                                "de": "Fenster"
+                            }
+                        },
+                        {
+                            "value": "moisture",
+                            "label": {
+                                "en": "Moisture",
+                                "de": "Feuchtigkeit"
+                            }
+                        },
+                        {
+                            "value": "smoke",
+                            "label": {
+                                "en": "Smoke",
+                                "de": "Rauch"
+                            }
+                        },
+                        {
+                            "value": "connectivity",
+                            "label": {
+                                "en": "Connectivity",
+                                "de": "Konnektivitaet"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "number",
+                    "id": "expireAfter",
+                    "label": {
+                        "en": "Expire After",
+                        "de": "Verfaellt nach"
+                    },
+                    "description": {
+                        "en": "Seconds after which Home Assistant marks the entity unavailable. 0 disables it. The bridge repeats the current value every half window while the device runs, so this is a liveness check, not a replacement for the availability flags.",
+                        "de": "Sekunden, nach denen Home Assistant die Entitaet als nicht verfuegbar markiert. 0 deaktiviert dies. Die Bridge wiederholt den aktuellen Wert waehrend der Laufzeit alle halbe Fensterlaenge; dies ist eine Lebenszeichen-Pruefung und kein Ersatz fuer die Verfuegbarkeits-Flags."
+                    },
+                    "default": 0,
+                    "min": 0,
+                    "max": 86400,
+                    "step": 1
+                }
+            ],
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.hassBinarySensor"
+                }
+            },
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.hassBinarySensor"
+                }
+            },
+            "initFunction": "init_mqtt"
+        },
+        "hass-number": {
+            "title": {
+                "en": "HA Number",
+                "de": "HA-Zahl"
+            },
+            "info": {
+                "en": "Announces a settable number to Home Assistant. Authority chooses whether the Value output follows the device input (Device) or keeps the last Home Assistant command; Report State decides whether that value is published back as the state.",
+                "de": "Kuendigt eine einstellbare Zahl bei Home Assistant an. Zustaendigkeit entscheidet, ob der Ausgang Wert dem Geraeteeingang (Geraet) folgt oder den letzten Befehl von Home Assistant behaelt; Status melden entscheidet, ob dieser Wert als Status zurueckgemeldet wird."
+            },
+            "category": "hass",
+            "color": "#3f8f7a",
+            "shape": "square",
+            "icon": "icons/123_24dp.svg",
+            "inputs": [
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    },
+                    "description": {
+                        "en": "When off, no state is published to Home Assistant.",
+                        "de": "Wenn deaktiviert, wird kein Status an Home Assistant gesendet."
+                    }
+                },
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "description": {
+                        "en": "Value published as the entity state.",
+                        "de": "Wert, der als Status der Entitaet veroeffentlicht wird."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int",
+                        "bool",
+                        "string"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int",
+                        "bool",
+                        "string"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Value",
+                            "de": "Wert"
+                        },
+                        "default": 0,
+                        "min": -100000,
+                        "max": 100000,
+                        "step": 0.01
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "description": {
+                        "en": "Value of the entity: the input while Authority is Device, the last Home Assistant command while Authority is Home Assistant.",
+                        "de": "Wert der Entitaet: der Eingang bei Zustaendigkeit Geraet, der letzte Befehl von Home Assistant bei Zustaendigkeit Home Assistant."
+                    },
+                    "outputType": "float",
+                    "initialTypes": [
+                        "float"
+                    ]
+                },
+                {
+                    "id": "command",
+                    "name": {
+                        "en": "Command",
+                        "de": "Befehl"
+                    },
+                    "description": {
+                        "en": "Last value Home Assistant sent, or the input before the first command. While Authority is Home Assistant it repeats the Value output.",
+                        "de": "Zuletzt von Home Assistant gesendeter Wert, oder der Eingang vor dem ersten Befehl. Bei Zustaendigkeit Home Assistant wiederholt er den Ausgang Wert."
+                    },
+                    "outputType": "float",
+                    "initialTypes": [
+                        "float"
+                    ]
+                },
+                {
+                    "id": "updated",
+                    "name": {
+                        "en": "Updated",
+                        "de": "Aktualisiert"
+                    },
+                    "description": {
+                        "en": "True for the single cycle in which a new command from Home Assistant arrived (an edge, not a level).",
+                        "de": "Wahr fuer den einen Zyklus, in dem ein neuer Befehl von Home Assistant ankam (eine Flanke, kein Pegel)."
+                    },
+                    "outputType": "bool",
+                    "initialTypes": [
+                        "bool"
+                    ]
+                }
+            ],
+            "controls": [
+                {
+                    "type": "text",
+                    "id": "objectId",
+                    "label": {
+                        "en": "Object ID",
+                        "de": "Objekt-ID"
+                    },
+                    "description": {
+                        "en": "Unique object name inside the component, e.g. temperature. Used to build the topics and the unique id.",
+                        "de": "Eindeutiger Objektname innerhalb der Komponente, z. B. temperature. Wird fuer Topics und die eindeutige ID verwendet."
+                    },
+                    "default": "",
+                    "required": true
+                },
+                {
+                    "type": "text",
+                    "id": "name",
+                    "label": {
+                        "en": "Name",
+                        "de": "Name"
+                    },
+                    "description": {
+                        "en": "Display name of the entity. Empty uses the object id.",
+                        "de": "Anzeigename der Entitaet. Leer verwendet die Objekt-ID."
+                    },
+                    "default": ""
+                },
+                {
+                    "type": "icon",
+                    "id": "icon",
+                    "label": {
+                        "en": "Icon",
+                        "de": "Symbol"
+                    },
+                    "description": {
+                        "en": "Optional Material Design icon, e.g. mdi:thermometer.",
+                        "de": "Optionales Material-Design-Symbol, z. B. mdi:thermometer."
+                    },
+                    "default": ""
+                },
+                {
+                    "type": "dropdown",
+                    "id": "availabilityMode",
+                    "label": {
+                        "en": "Availability Mode",
+                        "de": "Verfuegbarkeitsmodus"
+                    },
+                    "description": {
+                        "en": "How the device flag and the selected flags combine. Only used when at least one flag is selected.",
+                        "de": "Wie Geraete-Flag und ausgewaehlte Flags kombiniert werden. Wird nur genutzt, wenn mindestens ein Flag ausgewaehlt ist."
+                    },
+                    "default": "all",
+                    "options": [
+                        {
+                            "value": "all",
+                            "label": {
+                                "en": "All must be online",
+                                "de": "Alle muessen online sein"
+                            }
+                        },
+                        {
+                            "value": "any",
+                            "label": {
+                                "en": "Any online",
+                                "de": "Beliebig einer online"
+                            }
+                        },
+                        {
+                            "value": "latest",
+                            "label": {
+                                "en": "Latest wins",
+                                "de": "Letzter gewinnt"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "multi-dropdown",
+                    "id": "availabilityFlags",
+                    "label": {
+                        "en": "Available Flags",
+                        "de": "Verfuegbarkeits-Flags"
+                    },
+                    "description": {
+                        "en": "Availability topics this entity follows. Device is selected by default; an empty list announces no availability.",
+                        "de": "Verfuegbarkeits-Topics, denen diese Entitaet folgt. Geraet ist standardmaessig ausgewaehlt; eine leere Liste kuendigt keine Verfuegbarkeit an."
+                    },
+                    "default": [
+                        "__device__"
+                    ],
+                    "valueMigration": {
+                        "fromControl": "availability",
+                        "entry": "__device__"
+                    },
+                    "dynamicOptions": {
+                        "source": "availabilityRefs"
+                    }
+                },
+                {
+                    "type": "dropdown",
+                    "id": "authority",
+                    "label": {
+                        "en": "Authority",
+                        "de": "Zustaendigkeit"
+                    },
+                    "description": {
+                        "en": "Who owns the value. Device: the Value output always follows the input and a Home Assistant command only appears on Command/Updated. Home Assistant: the Value output keeps the last command.",
+                        "de": "Wer den Wert bestimmt. Geraet: der Ausgang Wert folgt immer dem Eingang, ein Befehl von Home Assistant erscheint nur an Befehl/Aktualisiert. Home Assistant: der Ausgang Wert behaelt den letzten Befehl."
+                    },
+                    "default": "device",
+                    "legacyDefault": "homeassistant",
+                    "options": [
+                        {
+                            "value": "device",
+                            "label": {
+                                "en": "Device wins",
+                                "de": "Geraet gewinnt"
+                            }
+                        },
+                        {
+                            "value": "homeassistant",
+                            "label": {
+                                "en": "Home Assistant wins",
+                                "de": "Home Assistant gewinnt"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "checkbox",
+                    "id": "reportState",
+                    "label": {
+                        "en": "Report State",
+                        "de": "Status melden"
+                    },
+                    "description": {
+                        "en": "Publish the input as the entity state. Off announces a write-only control: Home Assistant keeps the value the user picked, for settings the device cannot measure.",
+                        "de": "Den Eingang als Status der Entitaet veroeffentlichen. Aus kuendigt ein reines Stellglied an: Home Assistant behaelt den vom Benutzer gewaehlten Wert, fuer Einstellungen, die das Geraet nicht messen kann."
+                    },
+                    "default": true
+                },
+                {
+                    "type": "number",
+                    "id": "min",
+                    "label": {
+                        "en": "Minimum",
+                        "de": "Minimum"
+                    },
+                    "description": {
+                        "en": "Smallest accepted value.",
+                        "de": "Kleinster akzeptierter Wert."
+                    },
+                    "default": 0,
+                    "min": -100000,
+                    "max": 100000,
+                    "step": 0.01
+                },
+                {
+                    "type": "number",
+                    "id": "max",
+                    "label": {
+                        "en": "Maximum",
+                        "de": "Maximum"
+                    },
+                    "description": {
+                        "en": "Largest accepted value.",
+                        "de": "Groesster akzeptierter Wert."
+                    },
+                    "default": 100,
+                    "min": -100000,
+                    "max": 100000,
+                    "step": 0.01
+                },
+                {
+                    "type": "number",
+                    "id": "step",
+                    "label": {
+                        "en": "Step",
+                        "de": "Schrittweite"
+                    },
+                    "description": {
+                        "en": "Increment of the value.",
+                        "de": "Schrittweite des Werts."
+                    },
+                    "default": 1,
+                    "min": 0.001,
+                    "max": 10000,
+                    "step": 0.001
+                },
+                {
+                    "type": "dropdown",
+                    "id": "mode",
+                    "label": {
+                        "en": "Mode",
+                        "de": "Modus"
+                    },
+                    "description": {
+                        "en": "How Home Assistant renders the control.",
+                        "de": "Wie Home Assistant die Steuerung darstellt."
+                    },
+                    "default": "auto",
+                    "options": [
+                        {
+                            "value": "auto",
+                            "label": {
+                                "en": "Auto",
+                                "de": "Automatisch"
+                            }
+                        },
+                        {
+                            "value": "box",
+                            "label": {
+                                "en": "Box",
+                                "de": "Eingabefeld"
+                            }
+                        },
+                        {
+                            "value": "slider",
+                            "label": {
+                                "en": "Slider",
+                                "de": "Schieberegler"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "text",
+                    "id": "unit",
+                    "label": {
+                        "en": "Unit",
+                        "de": "Einheit"
+                    },
+                    "description": {
+                        "en": "Optional unit of measurement.",
+                        "de": "Optionale Masseinheit."
+                    },
+                    "default": ""
+                }
+            ],
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.hassNumber"
+                }
+            },
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.hassNumber"
+                }
+            },
+            "initFunction": "init_mqtt"
+        },
+        "hass-switch": {
+            "title": {
+                "en": "HA Switch",
+                "de": "HA-Schalter"
+            },
+            "info": {
+                "en": "Announces a settable switch to Home Assistant. Authority chooses whether the Value output follows the device input (Device) or keeps the last Home Assistant command; Report State decides whether that value is published back as the state.",
+                "de": "Kuendigt einen einstellbaren Schalter bei Home Assistant an. Zustaendigkeit entscheidet, ob der Ausgang Wert dem Geraeteeingang (Geraet) folgt oder den letzten Befehl von Home Assistant behaelt; Status melden entscheidet, ob dieser Wert als Status zurueckgemeldet wird."
+            },
+            "category": "hass",
+            "color": "#3f8f7a",
+            "shape": "square",
+            "icon": "icons/switch_24dp.svg",
+            "inputs": [
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    },
+                    "description": {
+                        "en": "When off, no state is published to Home Assistant.",
+                        "de": "Wenn deaktiviert, wird kein Status an Home Assistant gesendet."
+                    }
+                },
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "description": {
+                        "en": "Value published as the entity state.",
+                        "de": "Wert, der als Status der Entitaet veroeffentlicht wird."
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Value",
+                            "de": "Wert"
+                        },
+                        "default": false
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "description": {
+                        "en": "Value of the entity: the input while Authority is Device, the last Home Assistant command while Authority is Home Assistant.",
+                        "de": "Wert der Entitaet: der Eingang bei Zustaendigkeit Geraet, der letzte Befehl von Home Assistant bei Zustaendigkeit Home Assistant."
+                    },
+                    "outputType": "bool",
+                    "initialTypes": [
+                        "bool"
+                    ]
+                },
+                {
+                    "id": "command",
+                    "name": {
+                        "en": "Command",
+                        "de": "Befehl"
+                    },
+                    "description": {
+                        "en": "Last value Home Assistant sent, or the input before the first command. While Authority is Home Assistant it repeats the Value output.",
+                        "de": "Zuletzt von Home Assistant gesendeter Wert, oder der Eingang vor dem ersten Befehl. Bei Zustaendigkeit Home Assistant wiederholt er den Ausgang Wert."
+                    },
+                    "outputType": "bool",
+                    "initialTypes": [
+                        "bool"
+                    ]
+                },
+                {
+                    "id": "updated",
+                    "name": {
+                        "en": "Updated",
+                        "de": "Aktualisiert"
+                    },
+                    "description": {
+                        "en": "True for the single cycle in which a new command from Home Assistant arrived (an edge, not a level).",
+                        "de": "Wahr fuer den einen Zyklus, in dem ein neuer Befehl von Home Assistant ankam (eine Flanke, kein Pegel)."
+                    },
+                    "outputType": "bool",
+                    "initialTypes": [
+                        "bool"
+                    ]
+                }
+            ],
+            "controls": [
+                {
+                    "type": "text",
+                    "id": "objectId",
+                    "label": {
+                        "en": "Object ID",
+                        "de": "Objekt-ID"
+                    },
+                    "description": {
+                        "en": "Unique object name inside the component, e.g. temperature. Used to build the topics and the unique id.",
+                        "de": "Eindeutiger Objektname innerhalb der Komponente, z. B. temperature. Wird fuer Topics und die eindeutige ID verwendet."
+                    },
+                    "default": "",
+                    "required": true
+                },
+                {
+                    "type": "text",
+                    "id": "name",
+                    "label": {
+                        "en": "Name",
+                        "de": "Name"
+                    },
+                    "description": {
+                        "en": "Display name of the entity. Empty uses the object id.",
+                        "de": "Anzeigename der Entitaet. Leer verwendet die Objekt-ID."
+                    },
+                    "default": ""
+                },
+                {
+                    "type": "icon",
+                    "id": "icon",
+                    "label": {
+                        "en": "Icon",
+                        "de": "Symbol"
+                    },
+                    "description": {
+                        "en": "Optional Material Design icon, e.g. mdi:thermometer.",
+                        "de": "Optionales Material-Design-Symbol, z. B. mdi:thermometer."
+                    },
+                    "default": ""
+                },
+                {
+                    "type": "dropdown",
+                    "id": "availabilityMode",
+                    "label": {
+                        "en": "Availability Mode",
+                        "de": "Verfuegbarkeitsmodus"
+                    },
+                    "description": {
+                        "en": "How the device flag and the selected flags combine. Only used when at least one flag is selected.",
+                        "de": "Wie Geraete-Flag und ausgewaehlte Flags kombiniert werden. Wird nur genutzt, wenn mindestens ein Flag ausgewaehlt ist."
+                    },
+                    "default": "all",
+                    "options": [
+                        {
+                            "value": "all",
+                            "label": {
+                                "en": "All must be online",
+                                "de": "Alle muessen online sein"
+                            }
+                        },
+                        {
+                            "value": "any",
+                            "label": {
+                                "en": "Any online",
+                                "de": "Beliebig einer online"
+                            }
+                        },
+                        {
+                            "value": "latest",
+                            "label": {
+                                "en": "Latest wins",
+                                "de": "Letzter gewinnt"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "multi-dropdown",
+                    "id": "availabilityFlags",
+                    "label": {
+                        "en": "Available Flags",
+                        "de": "Verfuegbarkeits-Flags"
+                    },
+                    "description": {
+                        "en": "Availability topics this entity follows. Device is selected by default; an empty list announces no availability.",
+                        "de": "Verfuegbarkeits-Topics, denen diese Entitaet folgt. Geraet ist standardmaessig ausgewaehlt; eine leere Liste kuendigt keine Verfuegbarkeit an."
+                    },
+                    "default": [
+                        "__device__"
+                    ],
+                    "valueMigration": {
+                        "fromControl": "availability",
+                        "entry": "__device__"
+                    },
+                    "dynamicOptions": {
+                        "source": "availabilityRefs"
+                    }
+                },
+                {
+                    "type": "dropdown",
+                    "id": "authority",
+                    "label": {
+                        "en": "Authority",
+                        "de": "Zustaendigkeit"
+                    },
+                    "description": {
+                        "en": "Who owns the value. Device: the Value output always follows the input and a Home Assistant command only appears on Command/Updated. Home Assistant: the Value output keeps the last command.",
+                        "de": "Wer den Wert bestimmt. Geraet: der Ausgang Wert folgt immer dem Eingang, ein Befehl von Home Assistant erscheint nur an Befehl/Aktualisiert. Home Assistant: der Ausgang Wert behaelt den letzten Befehl."
+                    },
+                    "default": "device",
+                    "legacyDefault": "homeassistant",
+                    "options": [
+                        {
+                            "value": "device",
+                            "label": {
+                                "en": "Device wins",
+                                "de": "Geraet gewinnt"
+                            }
+                        },
+                        {
+                            "value": "homeassistant",
+                            "label": {
+                                "en": "Home Assistant wins",
+                                "de": "Home Assistant gewinnt"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "checkbox",
+                    "id": "reportState",
+                    "label": {
+                        "en": "Report State",
+                        "de": "Status melden"
+                    },
+                    "description": {
+                        "en": "Publish the input as the entity state. Off announces a write-only control: Home Assistant keeps the value the user picked, for settings the device cannot measure.",
+                        "de": "Den Eingang als Status der Entitaet veroeffentlichen. Aus kuendigt ein reines Stellglied an: Home Assistant behaelt den vom Benutzer gewaehlten Wert, fuer Einstellungen, die das Geraet nicht messen kann."
+                    },
+                    "default": true
+                },
+                {
+                    "type": "text",
+                    "id": "payloadOn",
+                    "label": {
+                        "en": "Payload On",
+                        "de": "Payload an"
+                    },
+                    "description": {
+                        "en": "Payload Home Assistant sends and expects for on.",
+                        "de": "Payload, den Home Assistant fuer an sendet und erwartet."
+                    },
+                    "default": "true"
+                },
+                {
+                    "type": "text",
+                    "id": "payloadOff",
+                    "label": {
+                        "en": "Payload Off",
+                        "de": "Payload aus"
+                    },
+                    "description": {
+                        "en": "Payload Home Assistant sends and expects for off.",
+                        "de": "Payload, den Home Assistant fuer aus sendet und erwartet."
+                    },
+                    "default": "false"
+                }
+            ],
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.hassSwitch"
+                }
+            },
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.hassSwitch"
+                }
+            },
+            "initFunction": "init_mqtt"
+        },
+        "hass-select": {
+            "title": {
+                "en": "HA Select",
+                "de": "HA-Auswahl"
+            },
+            "info": {
+                "en": "Announces a selection list to Home Assistant. Authority chooses whether the Value output follows the device input (Device) or keeps the last Home Assistant command; Report State decides whether that value is published back as the state.",
+                "de": "Kuendigt eine Auswahlliste bei Home Assistant an. Zustaendigkeit entscheidet, ob der Ausgang Wert dem Geraeteeingang (Geraet) folgt oder den letzten Befehl von Home Assistant behaelt; Status melden entscheidet, ob dieser Wert als Status zurueckgemeldet wird."
+            },
+            "category": "hass",
+            "color": "#3f8f7a",
+            "shape": "square",
+            "icon": "icons/menu_open_24dp.svg",
+            "inputs": [
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    },
+                    "description": {
+                        "en": "When off, no state is published to Home Assistant.",
+                        "de": "Wenn deaktiviert, wird kein Status an Home Assistant gesendet."
+                    }
+                },
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "description": {
+                        "en": "Value published as the entity state.",
+                        "de": "Wert, der als Status der Entitaet veroeffentlicht wird."
+                    },
+                    "allowedTypes": [
+                        "string"
+                    ],
+                    "initialTypes": [
+                        "string"
+                    ],
+                    "defaultControl": {
+                        "type": "text",
+                        "label": {
+                            "en": "Value",
+                            "de": "Wert"
+                        },
+                        "default": ""
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "description": {
+                        "en": "Value of the entity: the input while Authority is Device, the last Home Assistant command while Authority is Home Assistant.",
+                        "de": "Wert der Entitaet: der Eingang bei Zustaendigkeit Geraet, der letzte Befehl von Home Assistant bei Zustaendigkeit Home Assistant."
+                    },
+                    "outputType": "string",
+                    "initialTypes": [
+                        "string"
+                    ]
+                },
+                {
+                    "id": "command",
+                    "name": {
+                        "en": "Command",
+                        "de": "Befehl"
+                    },
+                    "description": {
+                        "en": "Last value Home Assistant sent, or the input before the first command. While Authority is Home Assistant it repeats the Value output.",
+                        "de": "Zuletzt von Home Assistant gesendeter Wert, oder der Eingang vor dem ersten Befehl. Bei Zustaendigkeit Home Assistant wiederholt er den Ausgang Wert."
+                    },
+                    "outputType": "string",
+                    "initialTypes": [
+                        "string"
+                    ]
+                },
+                {
+                    "id": "updated",
+                    "name": {
+                        "en": "Updated",
+                        "de": "Aktualisiert"
+                    },
+                    "description": {
+                        "en": "True for the single cycle in which a new command from Home Assistant arrived (an edge, not a level).",
+                        "de": "Wahr fuer den einen Zyklus, in dem ein neuer Befehl von Home Assistant ankam (eine Flanke, kein Pegel)."
+                    },
+                    "outputType": "bool",
+                    "initialTypes": [
+                        "bool"
+                    ]
+                }
+            ],
+            "controls": [
+                {
+                    "type": "text",
+                    "id": "objectId",
+                    "label": {
+                        "en": "Object ID",
+                        "de": "Objekt-ID"
+                    },
+                    "description": {
+                        "en": "Unique object name inside the component, e.g. temperature. Used to build the topics and the unique id.",
+                        "de": "Eindeutiger Objektname innerhalb der Komponente, z. B. temperature. Wird fuer Topics und die eindeutige ID verwendet."
+                    },
+                    "default": "",
+                    "required": true
+                },
+                {
+                    "type": "text",
+                    "id": "name",
+                    "label": {
+                        "en": "Name",
+                        "de": "Name"
+                    },
+                    "description": {
+                        "en": "Display name of the entity. Empty uses the object id.",
+                        "de": "Anzeigename der Entitaet. Leer verwendet die Objekt-ID."
+                    },
+                    "default": ""
+                },
+                {
+                    "type": "icon",
+                    "id": "icon",
+                    "label": {
+                        "en": "Icon",
+                        "de": "Symbol"
+                    },
+                    "description": {
+                        "en": "Optional Material Design icon, e.g. mdi:thermometer.",
+                        "de": "Optionales Material-Design-Symbol, z. B. mdi:thermometer."
+                    },
+                    "default": ""
+                },
+                {
+                    "type": "dropdown",
+                    "id": "availabilityMode",
+                    "label": {
+                        "en": "Availability Mode",
+                        "de": "Verfuegbarkeitsmodus"
+                    },
+                    "description": {
+                        "en": "How the device flag and the selected flags combine. Only used when at least one flag is selected.",
+                        "de": "Wie Geraete-Flag und ausgewaehlte Flags kombiniert werden. Wird nur genutzt, wenn mindestens ein Flag ausgewaehlt ist."
+                    },
+                    "default": "all",
+                    "options": [
+                        {
+                            "value": "all",
+                            "label": {
+                                "en": "All must be online",
+                                "de": "Alle muessen online sein"
+                            }
+                        },
+                        {
+                            "value": "any",
+                            "label": {
+                                "en": "Any online",
+                                "de": "Beliebig einer online"
+                            }
+                        },
+                        {
+                            "value": "latest",
+                            "label": {
+                                "en": "Latest wins",
+                                "de": "Letzter gewinnt"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "multi-dropdown",
+                    "id": "availabilityFlags",
+                    "label": {
+                        "en": "Available Flags",
+                        "de": "Verfuegbarkeits-Flags"
+                    },
+                    "description": {
+                        "en": "Availability topics this entity follows. Device is selected by default; an empty list announces no availability.",
+                        "de": "Verfuegbarkeits-Topics, denen diese Entitaet folgt. Geraet ist standardmaessig ausgewaehlt; eine leere Liste kuendigt keine Verfuegbarkeit an."
+                    },
+                    "default": [
+                        "__device__"
+                    ],
+                    "valueMigration": {
+                        "fromControl": "availability",
+                        "entry": "__device__"
+                    },
+                    "dynamicOptions": {
+                        "source": "availabilityRefs"
+                    }
+                },
+                {
+                    "type": "dropdown",
+                    "id": "authority",
+                    "label": {
+                        "en": "Authority",
+                        "de": "Zustaendigkeit"
+                    },
+                    "description": {
+                        "en": "Who owns the value. Device: the Value output always follows the input and a Home Assistant command only appears on Command/Updated. Home Assistant: the Value output keeps the last command.",
+                        "de": "Wer den Wert bestimmt. Geraet: der Ausgang Wert folgt immer dem Eingang, ein Befehl von Home Assistant erscheint nur an Befehl/Aktualisiert. Home Assistant: der Ausgang Wert behaelt den letzten Befehl."
+                    },
+                    "default": "device",
+                    "legacyDefault": "homeassistant",
+                    "options": [
+                        {
+                            "value": "device",
+                            "label": {
+                                "en": "Device wins",
+                                "de": "Geraet gewinnt"
+                            }
+                        },
+                        {
+                            "value": "homeassistant",
+                            "label": {
+                                "en": "Home Assistant wins",
+                                "de": "Home Assistant gewinnt"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "checkbox",
+                    "id": "reportState",
+                    "label": {
+                        "en": "Report State",
+                        "de": "Status melden"
+                    },
+                    "description": {
+                        "en": "Publish the input as the entity state. Off announces a write-only control: Home Assistant keeps the value the user picked, for settings the device cannot measure.",
+                        "de": "Den Eingang als Status der Entitaet veroeffentlichen. Aus kuendigt ein reines Stellglied an: Home Assistant behaelt den vom Benutzer gewaehlten Wert, fuer Einstellungen, die das Geraet nicht messen kann."
+                    },
+                    "default": true
+                },
+                {
+                    "type": "text",
+                    "id": "options",
+                    "label": {
+                        "en": "Options",
+                        "de": "Optionen"
+                    },
+                    "description": {
+                        "en": "Comma separated list of selectable options, e.g. low,medium,high.",
+                        "de": "Kommagetrennte Liste der Optionen, z. B. low,medium,high."
+                    },
+                    "default": "low,medium,high"
+                }
+            ],
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.hassSelect"
+                }
+            },
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.hassSelect"
+                }
+            },
+            "initFunction": "init_mqtt"
+        },
+        "hass-text": {
+            "title": {
+                "en": "HA Text",
+                "de": "HA-Text"
+            },
+            "info": {
+                "en": "Announces a text field to Home Assistant. Authority chooses whether the Value output follows the device input (Device) or keeps the last Home Assistant text; Report State decides whether that value is published back as the state.",
+                "de": "Kuendigt ein Textfeld bei Home Assistant an. Zustaendigkeit entscheidet, ob der Ausgang Wert dem Geraeteeingang (Geraet) folgt oder den letzten Text von Home Assistant behaelt; Status melden entscheidet, ob dieser Wert als Status zurueckgemeldet wird."
+            },
+            "category": "hass",
+            "color": "#3f8f7a",
+            "shape": "square",
+            "icon": "icons/text_fields_24dp.svg",
+            "inputs": [
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    },
+                    "description": {
+                        "en": "When off, no state is published to Home Assistant.",
+                        "de": "Wenn deaktiviert, wird kein Status an Home Assistant gesendet."
+                    }
+                },
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "description": {
+                        "en": "Text published as the entity state.",
+                        "de": "Text, der als Status der Entitaet veroeffentlicht wird."
+                    },
+                    "allowedTypes": [
+                        "string"
+                    ],
+                    "initialTypes": [
+                        "string"
+                    ],
+                    "defaultControl": {
+                        "type": "text",
+                        "label": {
+                            "en": "Value",
+                            "de": "Wert"
+                        },
+                        "default": ""
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "description": {
+                        "en": "Text of the entity: the input while Authority is Device, the last Home Assistant text while Authority is Home Assistant.",
+                        "de": "Text der Entitaet: der Eingang bei Zustaendigkeit Geraet, der letzte Text von Home Assistant bei Zustaendigkeit Home Assistant."
+                    },
+                    "outputType": "string",
+                    "initialTypes": [
+                        "string"
+                    ]
+                },
+                {
+                    "id": "command",
+                    "name": {
+                        "en": "Command",
+                        "de": "Befehl"
+                    },
+                    "description": {
+                        "en": "Last text Home Assistant sent, or the input before the first command. While Authority is Home Assistant it repeats the Value output.",
+                        "de": "Zuletzt von Home Assistant gesendeter Text, oder der Eingang vor dem ersten Befehl. Bei Zustaendigkeit Home Assistant wiederholt er den Ausgang Wert."
+                    },
+                    "outputType": "string",
+                    "initialTypes": [
+                        "string"
+                    ]
+                },
+                {
+                    "id": "updated",
+                    "name": {
+                        "en": "Updated",
+                        "de": "Aktualisiert"
+                    },
+                    "description": {
+                        "en": "True for the single cycle in which a new text from Home Assistant arrived (an edge, not a level).",
+                        "de": "Wahr fuer den einen Zyklus, in dem ein neuer Text von Home Assistant ankam (eine Flanke, kein Pegel)."
+                    },
+                    "outputType": "bool",
+                    "initialTypes": [
+                        "bool"
+                    ]
+                }
+            ],
+            "controls": [
+                {
+                    "type": "text",
+                    "id": "objectId",
+                    "label": {
+                        "en": "Object ID",
+                        "de": "Objekt-ID"
+                    },
+                    "description": {
+                        "en": "Unique object name inside the component, e.g. temperature. Used to build the topics and the unique id.",
+                        "de": "Eindeutiger Objektname innerhalb der Komponente, z. B. temperature. Wird fuer Topics und die eindeutige ID verwendet."
+                    },
+                    "default": "",
+                    "required": true
+                },
+                {
+                    "type": "text",
+                    "id": "name",
+                    "label": {
+                        "en": "Name",
+                        "de": "Name"
+                    },
+                    "description": {
+                        "en": "Display name of the entity. Empty uses the object id.",
+                        "de": "Anzeigename der Entitaet. Leer verwendet die Objekt-ID."
+                    },
+                    "default": ""
+                },
+                {
+                    "type": "icon",
+                    "id": "icon",
+                    "label": {
+                        "en": "Icon",
+                        "de": "Symbol"
+                    },
+                    "description": {
+                        "en": "Optional Material Design icon, e.g. mdi:thermometer.",
+                        "de": "Optionales Material-Design-Symbol, z. B. mdi:thermometer."
+                    },
+                    "default": ""
+                },
+                {
+                    "type": "dropdown",
+                    "id": "availabilityMode",
+                    "label": {
+                        "en": "Availability Mode",
+                        "de": "Verfuegbarkeitsmodus"
+                    },
+                    "description": {
+                        "en": "How the device flag and the selected flags combine. Only used when at least one flag is selected.",
+                        "de": "Wie Geraete-Flag und ausgewaehlte Flags kombiniert werden. Wird nur genutzt, wenn mindestens ein Flag ausgewaehlt ist."
+                    },
+                    "default": "all",
+                    "options": [
+                        {
+                            "value": "all",
+                            "label": {
+                                "en": "All must be online",
+                                "de": "Alle muessen online sein"
+                            }
+                        },
+                        {
+                            "value": "any",
+                            "label": {
+                                "en": "Any online",
+                                "de": "Beliebig einer online"
+                            }
+                        },
+                        {
+                            "value": "latest",
+                            "label": {
+                                "en": "Latest wins",
+                                "de": "Letzter gewinnt"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "multi-dropdown",
+                    "id": "availabilityFlags",
+                    "label": {
+                        "en": "Available Flags",
+                        "de": "Verfuegbarkeits-Flags"
+                    },
+                    "description": {
+                        "en": "Availability topics this entity follows. Device is selected by default; an empty list announces no availability.",
+                        "de": "Verfuegbarkeits-Topics, denen diese Entitaet folgt. Geraet ist standardmaessig ausgewaehlt; eine leere Liste kuendigt keine Verfuegbarkeit an."
+                    },
+                    "default": [
+                        "__device__"
+                    ],
+                    "valueMigration": {
+                        "fromControl": "availability",
+                        "entry": "__device__"
+                    },
+                    "dynamicOptions": {
+                        "source": "availabilityRefs"
+                    }
+                },
+                {
+                    "type": "dropdown",
+                    "id": "authority",
+                    "label": {
+                        "en": "Authority",
+                        "de": "Zustaendigkeit"
+                    },
+                    "description": {
+                        "en": "Who owns the value. Device: the Value output always follows the input and a Home Assistant command only appears on Command/Updated. Home Assistant: the Value output keeps the last command.",
+                        "de": "Wer den Wert bestimmt. Geraet: der Ausgang Wert folgt immer dem Eingang, ein Befehl von Home Assistant erscheint nur an Befehl/Aktualisiert. Home Assistant: der Ausgang Wert behaelt den letzten Befehl."
+                    },
+                    "default": "device",
+                    "legacyDefault": "homeassistant",
+                    "options": [
+                        {
+                            "value": "device",
+                            "label": {
+                                "en": "Device wins",
+                                "de": "Geraet gewinnt"
+                            }
+                        },
+                        {
+                            "value": "homeassistant",
+                            "label": {
+                                "en": "Home Assistant wins",
+                                "de": "Home Assistant gewinnt"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "checkbox",
+                    "id": "reportState",
+                    "label": {
+                        "en": "Report State",
+                        "de": "Status melden"
+                    },
+                    "description": {
+                        "en": "Publish the input as the entity state. Off announces a write-only control: Home Assistant keeps the value the user picked, for settings the device cannot measure.",
+                        "de": "Den Eingang als Status der Entitaet veroeffentlichen. Aus kuendigt ein reines Stellglied an: Home Assistant behaelt den vom Benutzer gewaehlten Wert, fuer Einstellungen, die das Geraet nicht messen kann."
+                    },
+                    "default": true
+                },
+                {
+                    "type": "number",
+                    "id": "min",
+                    "label": {
+                        "en": "Minimum Length",
+                        "de": "Minimale Laenge"
+                    },
+                    "description": {
+                        "en": "Shortest accepted text, in characters.",
+                        "de": "Kuerzester akzeptierter Text, in Zeichen."
+                    },
+                    "default": 0,
+                    "min": 0,
+                    "max": 65535,
+                    "step": 1
+                },
+                {
+                    "type": "number",
+                    "id": "max",
+                    "label": {
+                        "en": "Maximum Length",
+                        "de": "Maximale Laenge"
+                    },
+                    "description": {
+                        "en": "Longest accepted text, in characters.",
+                        "de": "Laengster akzeptierter Text, in Zeichen."
+                    },
+                    "default": 255,
+                    "min": 0,
+                    "max": 65535,
+                    "step": 1
+                },
+                {
+                    "type": "text",
+                    "id": "pattern",
+                    "label": {
+                        "en": "Pattern",
+                        "de": "Muster"
+                    },
+                    "description": {
+                        "en": "Optional regular expression the text must match, e.g. [a-z]+.",
+                        "de": "Optionaler regulaerer Ausdruck, den der Text erfuellen muss, z. B. [a-z]+."
+                    },
+                    "default": ""
+                },
+                {
+                    "type": "dropdown",
+                    "id": "mode",
+                    "label": {
+                        "en": "Mode",
+                        "de": "Modus"
+                    },
+                    "description": {
+                        "en": "How Home Assistant renders the field. Password hides the typed text in the dashboard.",
+                        "de": "Wie Home Assistant das Feld darstellt. Passwort blendet den eingegebenen Text im Dashboard aus."
+                    },
+                    "default": "text",
+                    "options": [
+                        {
+                            "value": "text",
+                            "label": {
+                                "en": "Text",
+                                "de": "Text"
+                            }
+                        },
+                        {
+                            "value": "password",
+                            "label": {
+                                "en": "Password",
+                                "de": "Passwort"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.hassText"
+                }
+            },
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.hassText"
+                }
+            },
+            "initFunction": "init_mqtt"
+        },
+        "hass-button": {
+            "title": {
+                "en": "HA Button",
+                "de": "HA-Taster"
+            },
+            "info": {
+                "en": "Announces a press button to Home Assistant. Pressed is true for one cycle per press; the node reports no state and nothing the device can measure.",
+                "de": "Kuendigt einen Taster bei Home Assistant an. Gedrueckt ist fuer einen Zyklus pro Druck wahr; der Knoten meldet keinen Status und nichts, was das Geraet messen kann."
+            },
+            "category": "hass",
+            "color": "#3f8f7a",
+            "shape": "square",
+            "icon": "icons/smart_button_24dp.svg",
+            "inputs": [],
+            "outputs": [
+                {
+                    "id": "pressed",
+                    "name": {
+                        "en": "Pressed",
+                        "de": "Gedrueckt"
+                    },
+                    "description": {
+                        "en": "True for exactly one cycle when Home Assistant pressed the button (an edge).",
+                        "de": "Wahr fuer genau einen Zyklus, wenn Home Assistant den Taster gedrueckt hat (eine Flanke)."
+                    },
+                    "outputType": "bool",
+                    "initialTypes": [
+                        "bool"
+                    ]
+                }
+            ],
+            "controls": [
+                {
+                    "type": "text",
+                    "id": "objectId",
+                    "label": {
+                        "en": "Object ID",
+                        "de": "Objekt-ID"
+                    },
+                    "description": {
+                        "en": "Unique object name inside the component, e.g. temperature. Used to build the topics and the unique id.",
+                        "de": "Eindeutiger Objektname innerhalb der Komponente, z. B. temperature. Wird fuer Topics und die eindeutige ID verwendet."
+                    },
+                    "default": "",
+                    "required": true
+                },
+                {
+                    "type": "text",
+                    "id": "name",
+                    "label": {
+                        "en": "Name",
+                        "de": "Name"
+                    },
+                    "description": {
+                        "en": "Display name of the entity. Empty uses the object id.",
+                        "de": "Anzeigename der Entitaet. Leer verwendet die Objekt-ID."
+                    },
+                    "default": ""
+                },
+                {
+                    "type": "icon",
+                    "id": "icon",
+                    "label": {
+                        "en": "Icon",
+                        "de": "Symbol"
+                    },
+                    "description": {
+                        "en": "Optional Material Design icon, e.g. mdi:thermometer.",
+                        "de": "Optionales Material-Design-Symbol, z. B. mdi:thermometer."
+                    },
+                    "default": ""
+                },
+                {
+                    "type": "dropdown",
+                    "id": "availabilityMode",
+                    "label": {
+                        "en": "Availability Mode",
+                        "de": "Verfuegbarkeitsmodus"
+                    },
+                    "description": {
+                        "en": "How the device flag and the selected flags combine. Only used when at least one flag is selected.",
+                        "de": "Wie Geraete-Flag und ausgewaehlte Flags kombiniert werden. Wird nur genutzt, wenn mindestens ein Flag ausgewaehlt ist."
+                    },
+                    "default": "all",
+                    "options": [
+                        {
+                            "value": "all",
+                            "label": {
+                                "en": "All must be online",
+                                "de": "Alle muessen online sein"
+                            }
+                        },
+                        {
+                            "value": "any",
+                            "label": {
+                                "en": "Any online",
+                                "de": "Beliebig einer online"
+                            }
+                        },
+                        {
+                            "value": "latest",
+                            "label": {
+                                "en": "Latest wins",
+                                "de": "Letzter gewinnt"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "multi-dropdown",
+                    "id": "availabilityFlags",
+                    "label": {
+                        "en": "Available Flags",
+                        "de": "Verfuegbarkeits-Flags"
+                    },
+                    "description": {
+                        "en": "Availability topics this entity follows. Device is selected by default; an empty list announces no availability.",
+                        "de": "Verfuegbarkeits-Topics, denen diese Entitaet folgt. Geraet ist standardmaessig ausgewaehlt; eine leere Liste kuendigt keine Verfuegbarkeit an."
+                    },
+                    "default": [
+                        "__device__"
+                    ],
+                    "valueMigration": {
+                        "fromControl": "availability",
+                        "entry": "__device__"
+                    },
+                    "dynamicOptions": {
+                        "source": "availabilityRefs"
+                    }
+                },
+                {
+                    "type": "text",
+                    "id": "payloadPress",
+                    "label": {
+                        "en": "Press Payload",
+                        "de": "Tasten-Payload"
+                    },
+                    "description": {
+                        "en": "Payload Home Assistant publishes when the button is pressed, e.g. PRESS.",
+                        "de": "Payload, den Home Assistant beim Druecken veroeffentlicht, z. B. PRESS."
+                    },
+                    "default": "PRESS"
+                }
+            ],
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.hassButton"
+                }
+            },
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.hassButton"
+                }
+            },
+            "initFunction": "init_mqtt"
+        }
+    }
+}

@@ -1,0 +1,2443 @@
+{
+    "nodeTypes": {
+        "i2s-input": {
+            "title": {
+                "en": "I2S Input",
+                "de": "I2S-Eingang"
+            },
+            "info": {
+                "en": "Reads mono 16-bit audio blocks from an I2S audio input.",
+                "de": "Liest mono 16-Bit-Audioblöcke von einem I2S-Audioeingang."
+            },
+            "category": "audio",
+            "executionPhase": "both",
+            "color": "#a05862",
+            "shape": "square",
+            "icon": "icons/mic_24dp.svg",
+            "inputs": [
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "description": {
+                        "en": "Enable or disable live audio input capture.",
+                        "de": "Aktiviert oder deaktiviert die Live-Audioaufnahme."
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "block",
+                    "name": {
+                        "en": "Block",
+                        "de": "Block"
+                    },
+                    "description": {
+                        "en": "Captured mono audio block (16-bit samples).",
+                        "de": "Erfasster Mono-Audioblock (16-Bit-Samples)."
+                    },
+                    "outputType": "audio.block",
+                    "initialTypes": [
+                        "audio.block"
+                    ],
+                    "phase": "init"
+                },
+                {
+                    "id": "level",
+                    "name": {
+                        "en": "Level",
+                        "de": "Pegel"
+                    },
+                    "description": {
+                        "en": "Current input signal level (0.0 to 1.0).",
+                        "de": "Aktueller Eingangspegel (0,0 bis 1,0)."
+                    },
+                    "outputType": "float",
+                    "initialTypes": [
+                        "float"
+                    ],
+                    "phase": "loop"
+                }
+            ],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "i2sId",
+                    "label": {
+                        "en": "I2S Peripheral",
+                        "de": "I2S-Peripherie"
+                    },
+                    "description": {
+                        "en": "I2S controller id.",
+                        "de": "I2S-Controller-ID."
+                    },
+                    "default": 0,
+                    "dynamicOptions": {
+                        "source": "targetResourceValues",
+                        "resourceGroup": "i2s",
+                        "resourceKey": "controllers"
+                    }
+                },
+                {
+                    "type": "dropdown",
+                    "id": "bclkPin",
+                    "label": {
+                        "en": "BCLK Pin",
+                        "de": "BCLK-Pin"
+                    },
+                    "description": {
+                        "en": "I2S bit-clock pin (shared with the output).",
+                        "de": "I2S-Bittakt-Pin (mit dem Ausgang geteilt)."
+                    },
+                    "default": 4,
+                    "dynamicOptions": {
+                        "source": "targetPinsForCapability",
+                        "capabilityKey": "i2s.bclk"
+                    }
+                },
+                {
+                    "type": "dropdown",
+                    "id": "wsPin",
+                    "label": {
+                        "en": "WS Pin",
+                        "de": "WS-Pin"
+                    },
+                    "description": {
+                        "en": "I2S word-select / left-right clock pin (shared with the output).",
+                        "de": "I2S-Wortauswahl-/Links-Rechts-Takt-Pin (mit dem Ausgang geteilt)."
+                    },
+                    "default": 5,
+                    "dynamicOptions": {
+                        "source": "targetPinsForCapability",
+                        "capabilityKey": "i2s.ws"
+                    }
+                },
+                {
+                    "type": "dropdown",
+                    "id": "dataPin",
+                    "label": {
+                        "en": "Data Pin",
+                        "de": "Daten-Pin"
+                    },
+                    "description": {
+                        "en": "I2S data input from the source DOUT.",
+                        "de": "I2S-Dateneingang vom Quell-DOUT."
+                    },
+                    "default": 7,
+                    "dynamicOptions": {
+                        "source": "targetPinsForCapability",
+                        "capabilityKey": "i2s.din"
+                    }
+                },
+                {
+                    "type": "dropdown",
+                    "id": "sampleRate",
+                    "label": {
+                        "en": "Sample Rate",
+                        "de": "Abtastrate"
+                    },
+                    "description": {
+                        "en": "Audio sample rate in Hz.",
+                        "de": "Audio-Abtastrate in Hz."
+                    },
+                    "options": [
+                        {
+                            "value": 4000,
+                            "label": {
+                                "en": "4 kHz",
+                                "de": "4 kHz"
+                            }
+                        },
+                        {
+                            "value": 8000,
+                            "label": {
+                                "en": "8 kHz",
+                                "de": "8 kHz"
+                            }
+                        },
+                        {
+                            "value": 16000,
+                            "label": {
+                                "en": "16 kHz",
+                                "de": "16 kHz"
+                            }
+                        },
+                        {
+                            "value": 22050,
+                            "label": {
+                                "en": "22.05 kHz",
+                                "de": "22,05 kHz"
+                            }
+                        },
+                        {
+                            "value": 44100,
+                            "label": {
+                                "en": "44.1 kHz",
+                                "de": "44,1 kHz"
+                            }
+                        }
+                    ],
+                    "default": 16000
+                },
+                {
+                    "type": "dropdown",
+                    "id": "blockSamples",
+                    "label": {
+                        "en": "Block Samples",
+                        "de": "Blockgröße"
+                    },
+                    "description": {
+                        "en": "Number of samples per audio block.",
+                        "de": "Anzahl der Samples pro Audioblock."
+                    },
+                    "options": [
+                        {
+                            "value": 64
+                        },
+                        {
+                            "value": 128
+                        },
+                        {
+                            "value": 256
+                        },
+                        {
+                            "value": 512
+                        },
+                        {
+                            "value": 1024
+                        }
+                    ],
+                    "default": 256
+                }
+            ],
+            "resourceUsage": [
+                {
+                    "kind": "pin",
+                    "controlId": "bclkPin",
+                    "capability": "i2s.bclk"
+                },
+                {
+                    "kind": "pin",
+                    "controlId": "wsPin",
+                    "capability": "i2s.ws"
+                },
+                {
+                    "kind": "pin",
+                    "controlId": "dataPin",
+                    "capability": "i2s.din"
+                },
+                {
+                    "kind": "bus",
+                    "type": "i2s",
+                    "controlId": "i2sId"
+                }
+            ],
+            "helperImplementations": {
+                "python": {
+                    "type": "helper-generator",
+                    "value": "NodeHelperGenerators.audioRuntime",
+                    "helperGroup": "audio-runtime"
+                }
+            },
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.i2sInput"
+                }
+            },
+            "initFunction": "init_audio",
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.i2sInput"
+                }
+            }
+        },
+        "i2s-output": {
+            "title": {
+                "en": "I2S Output",
+                "de": "I2S-Ausgang"
+            },
+            "info": {
+                "en": "Writes mono 16-bit audio blocks to an I2S class-D amplifier (e.g. MAX98357A). The optional SD (shutdown) and Gain pins map to the amplifier's SD/GAIN inputs.",
+                "de": "Schreibt mono 16-Bit-Audioblöcke an einen I2S-Class-D-Verstärker (z. B. MAX98357A). Die optionalen SD- (Shutdown) und Gain-Pins werden auf die SD-/GAIN-Eingänge des Verstärkers abgebildet."
+            },
+            "category": "audio",
+            "executionPhase": "both",
+            "color": "#a05862",
+            "shape": "square",
+            "icon": "icons/speaker_24dp.svg",
+            "inputs": [
+                {
+                    "id": "block",
+                    "name": {
+                        "en": "Block",
+                        "de": "Block"
+                    },
+                    "description": {
+                        "en": "Audio block to play.",
+                        "de": "Auszugebender Audioblock."
+                    },
+                    "allowedTypes": [
+                        "audio.block"
+                    ],
+                    "initialTypes": [
+                        "audio.block"
+                    ],
+                    "phase": "init"
+                },
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "description": {
+                        "en": "Enable or disable audio output (false also mutes the amplifier).",
+                        "de": "Aktiviert oder deaktiviert die Audioausgabe (false schaltet auch den Verstärker stumm)."
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    }
+                },
+                {
+                    "id": "gainLevel",
+                    "name": {
+                        "en": "Gain Level",
+                        "de": "Verstärkungspegel"
+                    },
+                    "description": {
+                        "en": "Drives the amplifier gain pin high when true and low when false.",
+                        "de": "Setzt den Gain-Pin des Verstärkers bei true auf high und bei false auf low."
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Gain Level",
+                            "de": "Verstärkungspegel"
+                        },
+                        "default": true
+                    }
+                }
+            ],
+            "outputs": [],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "i2sId",
+                    "label": {
+                        "en": "I2S Peripheral",
+                        "de": "I2S-Peripherie"
+                    },
+                    "description": {
+                        "en": "I2S controller id.",
+                        "de": "I2S-Controller-ID."
+                    },
+                    "default": 1,
+                    "dynamicOptions": {
+                        "source": "targetResourceValues",
+                        "resourceGroup": "i2s",
+                        "resourceKey": "controllers"
+                    }
+                },
+                {
+                    "type": "dropdown",
+                    "id": "bclkPin",
+                    "label": {
+                        "en": "BCLK Pin",
+                        "de": "BCLK-Pin"
+                    },
+                    "description": {
+                        "en": "I2S bit-clock output (shared with the input).",
+                        "de": "I2S-Bittakt-Ausgang (mit dem Eingang geteilt)."
+                    },
+                    "default": 4,
+                    "dynamicOptions": {
+                        "source": "targetPinsForCapability",
+                        "capabilityKey": "i2s.bclk"
+                    }
+                },
+                {
+                    "type": "dropdown",
+                    "id": "wsPin",
+                    "label": {
+                        "en": "WS Pin",
+                        "de": "WS-Pin"
+                    },
+                    "description": {
+                        "en": "I2S word-select / left-right clock output (shared with the input).",
+                        "de": "I2S-Wortauswahl-/Links-Rechts-Takt-Ausgang (mit dem Eingang geteilt)."
+                    },
+                    "default": 5,
+                    "dynamicOptions": {
+                        "source": "targetPinsForCapability",
+                        "capabilityKey": "i2s.ws"
+                    }
+                },
+                {
+                    "type": "dropdown",
+                    "id": "dataPin",
+                    "label": {
+                        "en": "Data Pin",
+                        "de": "Daten-Pin"
+                    },
+                    "description": {
+                        "en": "I2S data output to the amplifier DIN.",
+                        "de": "I2S-Datenausgang zum Verstärker-DIN."
+                    },
+                    "default": 6,
+                    "dynamicOptions": {
+                        "source": "targetPinsForCapability",
+                        "capabilityKey": "i2s.dout"
+                    }
+                },
+                {
+                    "type": "dropdown",
+                    "id": "sdPin",
+                    "label": {
+                        "en": "SD Pin",
+                        "de": "SD-Pin"
+                    },
+                    "description": {
+                        "en": "Amplifier shutdown/mute pin (optional; MAX98357A SD).",
+                        "de": "Shutdown-/Stummschalt-Pin des Verstärkers (optional; MAX98357A SD)."
+                    },
+                    "default": null,
+                    "dynamicOptions": {
+                        "source": "targetPinsForCapability",
+                        "capabilityKey": "digital.output",
+                        "allowNone": true
+                    }
+                },
+                {
+                    "type": "dropdown",
+                    "id": "gainPin",
+                    "label": {
+                        "en": "Gain Pin",
+                        "de": "Gain-Pin"
+                    },
+                    "description": {
+                        "en": "Amplifier gain-select pin (optional). The pin's high/low meaning is hardware dependent and is controlled by the Gain Level input.",
+                        "de": "Gain-Auswahl-Pin des Verstärkers (optional). Die Bedeutung von high/low hängt von der Hardware ab und wird über den Eingang Verstärkungspegel gesteuert."
+                    },
+                    "default": null,
+                    "dynamicOptions": {
+                        "source": "targetPinsForCapability",
+                        "capabilityKey": "digital.output",
+                        "allowNone": true
+                    }
+                },
+                {
+                    "type": "dropdown",
+                    "id": "sampleRate",
+                    "label": {
+                        "en": "Sample Rate",
+                        "de": "Abtastrate"
+                    },
+                    "description": {
+                        "en": "Audio sample rate in Hz.",
+                        "de": "Audio-Abtastrate in Hz."
+                    },
+                    "options": [
+                        {
+                            "value": 4000,
+                            "label": {
+                                "en": "4 kHz",
+                                "de": "4 kHz"
+                            }
+                        },
+                        {
+                            "value": 8000,
+                            "label": {
+                                "en": "8 kHz",
+                                "de": "8 kHz"
+                            }
+                        },
+                        {
+                            "value": 16000,
+                            "label": {
+                                "en": "16 kHz",
+                                "de": "16 kHz"
+                            }
+                        },
+                        {
+                            "value": 22050,
+                            "label": {
+                                "en": "22.05 kHz",
+                                "de": "22,05 kHz"
+                            }
+                        },
+                        {
+                            "value": 44100,
+                            "label": {
+                                "en": "44.1 kHz",
+                                "de": "44,1 kHz"
+                            }
+                        }
+                    ],
+                    "default": 16000
+                },
+                {
+                    "type": "dropdown",
+                    "id": "blockSamples",
+                    "label": {
+                        "en": "Block Samples",
+                        "de": "Blockgröße"
+                    },
+                    "description": {
+                        "en": "Number of samples per audio block.",
+                        "de": "Anzahl der Samples pro Audioblock."
+                    },
+                    "options": [
+                        {
+                            "value": 64
+                        },
+                        {
+                            "value": 128
+                        },
+                        {
+                            "value": 256
+                        },
+                        {
+                            "value": 512
+                        },
+                        {
+                            "value": 1024
+                        }
+                    ],
+                    "default": 256
+                }
+            ],
+            "resourceUsage": [
+                {
+                    "kind": "pin",
+                    "controlId": "bclkPin",
+                    "capability": "i2s.bclk"
+                },
+                {
+                    "kind": "pin",
+                    "controlId": "wsPin",
+                    "capability": "i2s.ws"
+                },
+                {
+                    "kind": "pin",
+                    "controlId": "dataPin",
+                    "capability": "i2s.dout"
+                },
+                {
+                    "kind": "bus",
+                    "type": "i2s",
+                    "controlId": "i2sId"
+                }
+            ],
+            "helperImplementations": {
+                "python": {
+                    "type": "helper-generator",
+                    "value": "NodeHelperGenerators.audioRuntime",
+                    "helperGroup": "audio-runtime"
+                }
+            },
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.i2sOutput"
+                }
+            },
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.i2sOutput"
+                }
+            },
+            "initFunction": "init_audio"
+        },
+        "overdrive": {
+            "title": {
+                "en": "Overdrive",
+                "de": "Overdrive"
+            },
+            "info": {
+                "en": "Applies gain and hard clipping to each audio block.",
+                "de": "Wendet Verstärkung und hartes Clipping auf jeden Audioblock an."
+            },
+            "category": "audio",
+            "requiredCapabilities": [
+                "viper"
+            ],
+            "executionPhase": "both",
+            "color": "#b04a5a",
+            "shape": "square",
+            "icon": "icons/bolt_boost_24dp.svg",
+            "inputs": [
+                {
+                    "id": "block",
+                    "name": {
+                        "en": "Block",
+                        "de": "Block"
+                    },
+                    "description": {
+                        "en": "Input audio block.",
+                        "de": "Eingangs-Audioblock."
+                    },
+                    "allowedTypes": [
+                        "audio.block"
+                    ],
+                    "initialTypes": [
+                        "audio.block"
+                    ],
+                    "phase": "init"
+                },
+                {
+                    "id": "drive",
+                    "name": {
+                        "en": "Drive",
+                        "de": "Drive"
+                    },
+                    "description": {
+                        "en": "Drive gain in dB applied before hard clipping (0 dB = clean).",
+                        "de": "Drive-Verstärkung in dB vor dem harten Clipping (0 dB = sauber)."
+                    },
+                    "allowedTypes": [
+                        "float"
+                    ],
+                    "initialTypes": [
+                        "float"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Drive",
+                            "de": "Drive"
+                        },
+                        "min": 0,
+                        "max": 40,
+                        "step": 1,
+                        "default": 0
+                    }
+                },
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "description": {
+                        "en": "When false, the effect is bypassed and audio passes through unchanged.",
+                        "de": "Wenn false, wird der Effekt umgangen und das Audio unverändert durchgeleitet."
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "block",
+                    "name": {
+                        "en": "Block",
+                        "de": "Block"
+                    },
+                    "description": {
+                        "en": "Processed audio block.",
+                        "de": "Verarbeiteter Audioblock."
+                    },
+                    "outputType": "audio.block",
+                    "initialTypes": [
+                        "audio.block"
+                    ],
+                    "phase": "init"
+                }
+            ],
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.overdrive"
+                }
+            },
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.overdrive"
+                }
+            },
+            "initFunction": "init_audio"
+        },
+        "bitcrusher": {
+            "title": {
+                "en": "Bitcrusher",
+                "de": "Bitcrusher"
+            },
+            "info": {
+                "en": "Quantizes each sample by dropping low bits for lo-fi digital grit.",
+                "de": "Quantisiert jedes Sample durch Verwerfen niederwertiger Bits für digitalen Lo-Fi-Klang."
+            },
+            "category": "audio",
+            "requiredCapabilities": [
+                "viper"
+            ],
+            "executionPhase": "both",
+            "color": "#b04a5a",
+            "shape": "square",
+            "icon": "icons/waterfall_chart_24dp.svg",
+            "inputs": [
+                {
+                    "id": "block",
+                    "name": {
+                        "en": "Block",
+                        "de": "Block"
+                    },
+                    "description": {
+                        "en": "Input audio block.",
+                        "de": "Eingangs-Audioblock."
+                    },
+                    "allowedTypes": [
+                        "audio.block"
+                    ],
+                    "initialTypes": [
+                        "audio.block"
+                    ],
+                    "phase": "init"
+                },
+                {
+                    "id": "bits",
+                    "name": {
+                        "en": "Bits to Drop",
+                        "de": "Zu entfernende Bits"
+                    },
+                    "description": {
+                        "en": "Low bits rounded away per sample: 4 ≈ 12-bit, 8 ≈ 8-bit, 15 = 1-bit square.",
+                        "de": "Pro Sample entfernte niederwertige Bits: 4 ≈ 12 Bit, 8 ≈ 8 Bit, 15 = 1-Bit-Rechteck."
+                    },
+                    "allowedTypes": [
+                        "int",
+                        "float"
+                    ],
+                    "initialTypes": [
+                        "int",
+                        "float"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Bits to Drop",
+                            "de": "Zu entfernende Bits"
+                        },
+                        "min": 1,
+                        "max": 15,
+                        "step": 1,
+                        "default": 4
+                    }
+                },
+                {
+                    "id": "mix",
+                    "name": {
+                        "en": "Mix",
+                        "de": "Mischung"
+                    },
+                    "description": {
+                        "en": "Dry/wet blend: 0 passes the input through untouched, 1 is the full crush.",
+                        "de": "Dry/Wet-Mischung: 0 leitet das Eingangssignal unverändert weiter, 1 ist die volle Zerstörung."
+                    },
+                    "allowedTypes": [
+                        "int",
+                        "float"
+                    ],
+                    "initialTypes": [
+                        "int",
+                        "float"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Mix",
+                            "de": "Mischung"
+                        },
+                        "min": 0,
+                        "max": 1,
+                        "step": 0.05,
+                        "default": 1
+                    }
+                },
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "description": {
+                        "en": "When false, the effect is bypassed and audio passes through unchanged.",
+                        "de": "Wenn false, wird der Effekt umgangen und das Audio unverändert durchgeleitet."
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "block",
+                    "name": {
+                        "en": "Block",
+                        "de": "Block"
+                    },
+                    "description": {
+                        "en": "Processed audio block.",
+                        "de": "Verarbeiteter Audioblock."
+                    },
+                    "outputType": "audio.block",
+                    "initialTypes": [
+                        "audio.block"
+                    ],
+                    "phase": "init"
+                }
+            ],
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.bitcrusher"
+                }
+            },
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.bitcrusher"
+                }
+            },
+            "initFunction": "init_audio"
+        },
+        "square-fuzz": {
+            "title": {
+                "en": "Square Fuzz",
+                "de": "Square Fuzz"
+            },
+            "info": {
+                "en": "Squares the waveform to a square wave that follows the input, with a dB wet level and a dry/wet mix.",
+                "de": "Formt die Wellenform zu einer dem Eingang folgenden Rechteckwelle mit dB-Wet-Pegel und Dry/Wet-Mix."
+            },
+            "category": "audio",
+            "requiredCapabilities": [
+                "viper"
+            ],
+            "executionPhase": "both",
+            "color": "#b04a5a",
+            "shape": "square",
+            "icon": "icons/lens_blur_24dp.svg",
+            "inputs": [
+                {
+                    "id": "block",
+                    "name": {
+                        "en": "Block",
+                        "de": "Block"
+                    },
+                    "description": {
+                        "en": "Input audio block.",
+                        "de": "Eingangs-Audioblock."
+                    },
+                    "allowedTypes": [
+                        "audio.block"
+                    ],
+                    "initialTypes": [
+                        "audio.block"
+                    ],
+                    "phase": "init"
+                },
+                {
+                    "id": "level",
+                    "name": {
+                        "en": "Level",
+                        "de": "Pegel"
+                    },
+                    "description": {
+                        "en": "Gain of the squared wave in dB (0 dB = unity, negative attenuates); the dry share is untouched.",
+                        "de": "Verstärkung der Rechteckwelle in dB (0 dB = Eins, negativ dämpft); der Dry-Anteil bleibt unverändert."
+                    },
+                    "allowedTypes": [
+                        "int",
+                        "float"
+                    ],
+                    "initialTypes": [
+                        "int",
+                        "float"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Level",
+                            "de": "Pegel"
+                        },
+                        "min": -60,
+                        "max": 0,
+                        "step": 1,
+                        "default": -6
+                    }
+                },
+                {
+                    "id": "mix",
+                    "name": {
+                        "en": "Mix",
+                        "de": "Mischung"
+                    },
+                    "description": {
+                        "en": "Dry/wet blend: 0 leaves the input untouched, 1 is the full square wave.",
+                        "de": "Dry/Wet-Mischung: 0 lässt das Eingangssignal unverändert, 1 ist die volle Rechteckwelle."
+                    },
+                    "allowedTypes": [
+                        "int",
+                        "float"
+                    ],
+                    "initialTypes": [
+                        "int",
+                        "float"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Mix",
+                            "de": "Mischung"
+                        },
+                        "min": 0,
+                        "max": 1,
+                        "step": 0.05,
+                        "default": 0.5
+                    }
+                },
+                {
+                    "id": "envelopeFollow",
+                    "name": {
+                        "en": "Envelope Follow",
+                        "de": "Hüllkurve folgen"
+                    },
+                    "description": {
+                        "en": "When true, the square wave level follows the input; when false, samples are snapped to full scale.",
+                        "de": "Wenn true, folgt der Rechteckwellen-Pegel dem Eingang; wenn false, werden die Samples auf Vollaussteuerung gesetzt."
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Envelope Follow",
+                            "de": "Hüllkurve folgen"
+                        },
+                        "default": true
+                    }
+                },
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "description": {
+                        "en": "When false, the effect is bypassed and audio passes through unchanged.",
+                        "de": "Wenn false, wird der Effekt umgangen und das Audio unverändert durchgeleitet."
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "block",
+                    "name": {
+                        "en": "Block",
+                        "de": "Block"
+                    },
+                    "description": {
+                        "en": "Processed audio block.",
+                        "de": "Verarbeiteter Audioblock."
+                    },
+                    "outputType": "audio.block",
+                    "initialTypes": [
+                        "audio.block"
+                    ],
+                    "phase": "init"
+                }
+            ],
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.squareFuzz"
+                }
+            },
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.squareFuzz"
+                }
+            },
+            "initFunction": "init_audio"
+        },
+        "downsampler": {
+            "title": {
+                "en": "Downsampler",
+                "de": "Downsampler"
+            },
+            "info": {
+                "en": "Sample-and-hold decimator with an anti-aliased, block-continuous hold grid.",
+                "de": "Sample-and-Hold-Dezimierer mit anti-aliasinggefiltertem, blockkontinuierlichem Hold-Raster."
+            },
+            "category": "audio",
+            "requiredCapabilities": [
+                "viper"
+            ],
+            "executionPhase": "both",
+            "color": "#b04a5a",
+            "shape": "square",
+            "icon": "icons/stat_minus_3_24dp.svg",
+            "inputs": [
+                {
+                    "id": "block",
+                    "name": {
+                        "en": "Block",
+                        "de": "Block"
+                    },
+                    "description": {
+                        "en": "Input audio block.",
+                        "de": "Eingangs-Audioblock."
+                    },
+                    "allowedTypes": [
+                        "audio.block"
+                    ],
+                    "initialTypes": [
+                        "audio.block"
+                    ],
+                    "phase": "init"
+                },
+                {
+                    "id": "hold",
+                    "name": {
+                        "en": "Hold",
+                        "de": "Halten"
+                    },
+                    "description": {
+                        "en": "Number of times each held sample is repeated (1 = no change, clamped to the block length).",
+                        "de": "Anzahl der Wiederholungen jedes gehaltenen Samples (1 = keine Änderung, begrenzt auf die Blocklänge)."
+                    },
+                    "allowedTypes": [
+                        "int",
+                        "float"
+                    ],
+                    "initialTypes": [
+                        "int",
+                        "float"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Hold",
+                            "de": "Halten"
+                        },
+                        "min": 1,
+                        "max": 64,
+                        "step": 1,
+                        "default": 4
+                    }
+                },
+                {
+                    "id": "mix",
+                    "name": {
+                        "en": "Mix",
+                        "de": "Mischung"
+                    },
+                    "description": {
+                        "en": "Dry/wet blend: 0 passes the input through untouched, 1 is the full sample-and-hold.",
+                        "de": "Dry/Wet-Mischung: 0 leitet das Eingangssignal unverändert weiter, 1 ist das volle Sample-and-Hold."
+                    },
+                    "allowedTypes": [
+                        "int",
+                        "float"
+                    ],
+                    "initialTypes": [
+                        "int",
+                        "float"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Mix",
+                            "de": "Mischung"
+                        },
+                        "min": 0,
+                        "max": 1,
+                        "step": 0.05,
+                        "default": 1
+                    }
+                },
+                {
+                    "id": "antiAlias",
+                    "name": {
+                        "en": "Anti-Alias",
+                        "de": "Anti-Alias"
+                    },
+                    "description": {
+                        "en": "Band-limit the input before decimating; switch off for raw, aliasing grit.",
+                        "de": "Begrenzt das Eingangssignal vor dem Dezimieren; ausschalten für rohen, verzerrten Aliasing-Klang."
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Anti-Alias",
+                            "de": "Anti-Alias"
+                        },
+                        "default": true
+                    }
+                },
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "description": {
+                        "en": "When false, the effect is bypassed and audio passes through unchanged.",
+                        "de": "Wenn false, wird der Effekt umgangen und das Audio unverändert durchgeleitet."
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "block",
+                    "name": {
+                        "en": "Block",
+                        "de": "Block"
+                    },
+                    "description": {
+                        "en": "Processed audio block.",
+                        "de": "Verarbeiteter Audioblock."
+                    },
+                    "outputType": "audio.block",
+                    "initialTypes": [
+                        "audio.block"
+                    ],
+                    "phase": "init"
+                }
+            ],
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.downsampler"
+                }
+            },
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.downsampler"
+                }
+            },
+            "initFunction": "init_audio"
+        },
+        "gain": {
+            "title": {
+                "en": "Gain",
+                "de": "Verstärkung"
+            },
+            "info": {
+                "en": "Applies gain in dB with clipping.",
+                "de": "Wendet Verstärkung in dB mit Clipping an."
+            },
+            "category": "audio",
+            "requiredCapabilities": [
+                "viper"
+            ],
+            "executionPhase": "both",
+            "color": "#b04a5a",
+            "shape": "square",
+            "icon": "icons/volume_up_24dp.svg",
+            "inputs": [
+                {
+                    "id": "block",
+                    "name": {
+                        "en": "Block",
+                        "de": "Block"
+                    },
+                    "description": {
+                        "en": "Input audio block.",
+                        "de": "Eingangs-Audioblock."
+                    },
+                    "allowedTypes": [
+                        "audio.block"
+                    ],
+                    "initialTypes": [
+                        "audio.block"
+                    ],
+                    "phase": "init"
+                },
+                {
+                    "id": "volume",
+                    "name": {
+                        "en": "Volume",
+                        "de": "Lautstärke"
+                    },
+                    "description": {
+                        "en": "Gain in dB: 0 = unity, +6 = ×2, −6 = ×0.5.",
+                        "de": "Verstärkung in dB: 0 = Eins, +6 = ×2, −6 = ×0,5."
+                    },
+                    "allowedTypes": [
+                        "float"
+                    ],
+                    "initialTypes": [
+                        "float"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Volume",
+                            "de": "Lautstärke"
+                        },
+                        "min": -12,
+                        "max": 12,
+                        "step": 1,
+                        "default": 0
+                    }
+                },
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "description": {
+                        "en": "When false, the effect is bypassed and audio passes through unchanged.",
+                        "de": "Wenn false, wird der Effekt umgangen und das Audio unverändert durchgeleitet."
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "block",
+                    "name": {
+                        "en": "Block",
+                        "de": "Block"
+                    },
+                    "description": {
+                        "en": "Processed audio block.",
+                        "de": "Verarbeiteter Audioblock."
+                    },
+                    "outputType": "audio.block",
+                    "initialTypes": [
+                        "audio.block"
+                    ],
+                    "phase": "init"
+                }
+            ],
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.gain"
+                }
+            },
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.gain"
+                }
+            },
+            "initFunction": "init_audio"
+        },
+        "pitch-shifter": {
+            "title": {
+                "en": "Pitch Shifter",
+                "de": "Pitch Shifter"
+            },
+            "info": {
+                "en": "Shifts voice pitch up or down in semitones without changing speed.",
+                "de": "Verschiebt die Tonhöhe in Halbtönen, ohne die Geschwindigkeit zu ändern."
+            },
+            "category": "audio",
+            "requiredCapabilities": [
+                "viper"
+            ],
+            "executionPhase": "both",
+            "color": "#b04a5a",
+            "shape": "square",
+            "icon": "icons/pitch_shift_24dp.svg",
+            "inputs": [
+                {
+                    "id": "block",
+                    "name": {
+                        "en": "Block",
+                        "de": "Block"
+                    },
+                    "description": {
+                        "en": "Input audio block.",
+                        "de": "Eingangs-Audioblock."
+                    },
+                    "allowedTypes": [
+                        "audio.block"
+                    ],
+                    "initialTypes": [
+                        "audio.block"
+                    ],
+                    "phase": "init"
+                },
+                {
+                    "id": "semitones",
+                    "name": {
+                        "en": "Semitones",
+                        "de": "Halbtöne"
+                    },
+                    "description": {
+                        "en": "Pitch shift in semitones (−12 = one octave down, +12 = one octave up).",
+                        "de": "Tonhöhenverschiebung in Halbtönen (−12 = eine Oktave tiefer, +12 = eine Oktave höher)."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Semitones",
+                            "de": "Halbtöne"
+                        },
+                        "min": -12,
+                        "max": 12,
+                        "step": 1,
+                        "default": 0
+                    }
+                },
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "description": {
+                        "en": "When false, the effect is bypassed and audio passes through unchanged.",
+                        "de": "Wenn false, wird der Effekt umgangen und das Audio unverändert durchgeleitet."
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "block",
+                    "name": {
+                        "en": "Block",
+                        "de": "Block"
+                    },
+                    "description": {
+                        "en": "Pitch-shifted audio block.",
+                        "de": "Tonhöhenverschobener Audioblock."
+                    },
+                    "outputType": "audio.block",
+                    "initialTypes": [
+                        "audio.block"
+                    ],
+                    "phase": "init"
+                }
+            ],
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.pitchShifter"
+                }
+            },
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.pitchShifter"
+                }
+            },
+            "initFunction": "init_audio"
+        },
+        "filter": {
+            "title": {
+                "en": "Filter",
+                "de": "Filter"
+            },
+            "info": {
+                "en": "Band-pass filter (high-pass + low-pass) for radio/telephone-style voice.",
+                "de": "Bandpassfilter (Hochpass + Tiefpass) für Funk-/Telefon-Klang."
+            },
+            "category": "audio",
+            "requiredCapabilities": [
+                "viper"
+            ],
+            "executionPhase": "both",
+            "color": "#b04a5a",
+            "shape": "square",
+            "icon": "icons/filter_24dp.svg",
+            "inputs": [
+                {
+                    "id": "block",
+                    "name": {
+                        "en": "Block",
+                        "de": "Block"
+                    },
+                    "description": {
+                        "en": "Input audio block.",
+                        "de": "Eingangs-Audioblock."
+                    },
+                    "allowedTypes": [
+                        "audio.block"
+                    ],
+                    "initialTypes": [
+                        "audio.block"
+                    ],
+                    "phase": "init"
+                },
+                {
+                    "id": "lowHz",
+                    "name": {
+                        "en": "Low Cutoff",
+                        "de": "Untere Grenzfrequenz"
+                    },
+                    "description": {
+                        "en": "High-pass cutoff in Hz (removes frequencies below this).",
+                        "de": "Hochpass-Grenzfrequenz in Hz (entfernt Frequenzen darunter)."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Low Cutoff",
+                            "de": "Untere Grenzfrequenz"
+                        },
+                        "min": 20,
+                        "max": 2000,
+                        "step": 10,
+                        "default": 300
+                    }
+                },
+                {
+                    "id": "highHz",
+                    "name": {
+                        "en": "High Cutoff",
+                        "de": "Obere Grenzfrequenz"
+                    },
+                    "description": {
+                        "en": "Low-pass cutoff in Hz (removes frequencies above this).",
+                        "de": "Tiefpass-Grenzfrequenz in Hz (entfernt Frequenzen darüber)."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "High Cutoff",
+                            "de": "Obere Grenzfrequenz"
+                        },
+                        "min": 500,
+                        "max": 8000,
+                        "step": 100,
+                        "default": 3000
+                    }
+                },
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "description": {
+                        "en": "When false, the effect is bypassed and audio passes through unchanged.",
+                        "de": "Wenn false, wird der Effekt umgangen und das Audio unverändert durchgeleitet."
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "block",
+                    "name": {
+                        "en": "Block",
+                        "de": "Block"
+                    },
+                    "description": {
+                        "en": "Filtered audio block.",
+                        "de": "Gefilterter Audioblock."
+                    },
+                    "outputType": "audio.block",
+                    "initialTypes": [
+                        "audio.block"
+                    ],
+                    "phase": "init"
+                }
+            ],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "sampleRate",
+                    "label": {
+                        "en": "Sample Rate",
+                        "de": "Abtastrate"
+                    },
+                    "description": {
+                        "en": "Audio sample rate in Hz.",
+                        "de": "Audio-Abtastrate in Hz."
+                    },
+                    "options": [
+                        {
+                            "value": 4000,
+                            "label": {
+                                "en": "4 kHz",
+                                "de": "4 kHz"
+                            }
+                        },
+                        {
+                            "value": 8000,
+                            "label": {
+                                "en": "8 kHz",
+                                "de": "8 kHz"
+                            }
+                        },
+                        {
+                            "value": 16000,
+                            "label": {
+                                "en": "16 kHz",
+                                "de": "16 kHz"
+                            }
+                        },
+                        {
+                            "value": 22050,
+                            "label": {
+                                "en": "22.05 kHz",
+                                "de": "22,05 kHz"
+                            }
+                        },
+                        {
+                            "value": 44100,
+                            "label": {
+                                "en": "44.1 kHz",
+                                "de": "44,1 kHz"
+                            }
+                        }
+                    ],
+                    "default": 16000
+                }
+            ],
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.filter"
+                }
+            },
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.filter"
+                }
+            },
+            "initFunction": "init_audio"
+        },
+        "ring-mod": {
+            "title": {
+                "en": "Ring Modulator",
+                "de": "Ringmodulation"
+            },
+            "info": {
+                "en": "Multiplies the signal by a sine carrier for metallic, bell-like sidebands.",
+                "de": "Multipliziert das Signal mit einem Sinusträger für metallische, glockenartige Seitenbänder."
+            },
+            "category": "audio",
+            "requiredCapabilities": [
+                "viper"
+            ],
+            "executionPhase": "both",
+            "color": "#b04a5a",
+            "shape": "square",
+            "icon": "icons/ring_mod_24dp.svg",
+            "inputs": [
+                {
+                    "id": "block",
+                    "name": {
+                        "en": "Block",
+                        "de": "Block"
+                    },
+                    "description": {
+                        "en": "Input audio block.",
+                        "de": "Eingangs-Audioblock."
+                    },
+                    "allowedTypes": [
+                        "audio.block"
+                    ],
+                    "initialTypes": [
+                        "audio.block"
+                    ],
+                    "phase": "init"
+                },
+                {
+                    "id": "frequency",
+                    "name": {
+                        "en": "Frequency",
+                        "de": "Frequenz"
+                    },
+                    "description": {
+                        "en": "Carrier frequency in Hz.",
+                        "de": "Trägerfrequenz in Hz."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Frequency",
+                            "de": "Frequenz"
+                        },
+                        "min": 10,
+                        "max": 4000,
+                        "step": 1,
+                        "default": 150
+                    }
+                },
+                {
+                    "id": "depth",
+                    "name": {
+                        "en": "Depth",
+                        "de": "Tiefe"
+                    },
+                    "description": {
+                        "en": "0 = dry, 1 = full ring modulation (intermediate values give amplitude modulation at the carrier rate).",
+                        "de": "0 = trocken, 1 = volle Ringmodulation (Zwischenwerte ergeben Amplitudenmodulation mit der Trägerrate)."
+                    },
+                    "allowedTypes": [
+                        "float"
+                    ],
+                    "initialTypes": [
+                        "float"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Depth",
+                            "de": "Tiefe"
+                        },
+                        "min": 0,
+                        "max": 1,
+                        "step": 0.01,
+                        "default": 1
+                    }
+                },
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "description": {
+                        "en": "When false, the effect is bypassed and audio passes through unchanged.",
+                        "de": "Wenn false, wird der Effekt umgangen und das Audio unverändert durchgeleitet."
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "block",
+                    "name": {
+                        "en": "Block",
+                        "de": "Block"
+                    },
+                    "description": {
+                        "en": "Ring-modulated audio block.",
+                        "de": "Ringmodulierter Audioblock."
+                    },
+                    "outputType": "audio.block",
+                    "initialTypes": [
+                        "audio.block"
+                    ],
+                    "phase": "init"
+                }
+            ],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "sampleRate",
+                    "label": {
+                        "en": "Sample Rate",
+                        "de": "Abtastrate"
+                    },
+                    "description": {
+                        "en": "Audio sample rate in Hz.",
+                        "de": "Audio-Abtastrate in Hz."
+                    },
+                    "options": [
+                        {
+                            "value": 4000,
+                            "label": {
+                                "en": "4 kHz",
+                                "de": "4 kHz"
+                            }
+                        },
+                        {
+                            "value": 8000,
+                            "label": {
+                                "en": "8 kHz",
+                                "de": "8 kHz"
+                            }
+                        },
+                        {
+                            "value": 16000,
+                            "label": {
+                                "en": "16 kHz",
+                                "de": "16 kHz"
+                            }
+                        },
+                        {
+                            "value": 22050,
+                            "label": {
+                                "en": "22.05 kHz",
+                                "de": "22,05 kHz"
+                            }
+                        },
+                        {
+                            "value": 44100,
+                            "label": {
+                                "en": "44.1 kHz",
+                                "de": "44,1 kHz"
+                            }
+                        }
+                    ],
+                    "default": 16000
+                }
+            ],
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.ringMod"
+                }
+            },
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.ringMod"
+                }
+            },
+            "initFunction": "init_audio"
+        },
+        "noise": {
+            "title": {
+                "en": "Noise",
+                "de": "Rauschen"
+            },
+            "info": {
+                "en": "Adds white noise (static) that follows the input voice level.",
+                "de": "Fügt weißes Rauschen (Statik) hinzu, das dem Pegel der Eingangsstimme folgt."
+            },
+            "category": "audio",
+            "requiredCapabilities": [
+                "viper"
+            ],
+            "executionPhase": "both",
+            "color": "#b04a5a",
+            "shape": "square",
+            "icon": "icons/noise_24dp.svg",
+            "inputs": [
+                {
+                    "id": "block",
+                    "name": {
+                        "en": "Block",
+                        "de": "Block"
+                    },
+                    "description": {
+                        "en": "Input audio block.",
+                        "de": "Eingangs-Audioblock."
+                    },
+                    "allowedTypes": [
+                        "audio.block"
+                    ],
+                    "initialTypes": [
+                        "audio.block"
+                    ],
+                    "phase": "init"
+                },
+                {
+                    "id": "level",
+                    "name": {
+                        "en": "Level",
+                        "de": "Pegel"
+                    },
+                    "description": {
+                        "en": "Static level in dB: relative to the input when Envelope Follow is on, otherwise relative to full scale. -60 = off.",
+                        "de": "Rauschpegel in dB: relativ zum Eingang bei aktivierter Hüllkurve, sonst relativ zur Vollaussteuerung. -60 = aus."
+                    },
+                    "allowedTypes": [
+                        "float"
+                    ],
+                    "initialTypes": [
+                        "float"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Level",
+                            "de": "Pegel"
+                        },
+                        "min": -60,
+                        "max": 0,
+                        "step": 1,
+                        "default": -60
+                    }
+                },
+                {
+                    "id": "threshold",
+                    "name": {
+                        "en": "Threshold",
+                        "de": "Schwellwert"
+                    },
+                    "description": {
+                        "en": "Input amplitude (dBFS) above which static is added. -60 = always on.",
+                        "de": "Eingangsamplitude (dBFS), oberhalb derer Rauschen hinzugefügt wird. -60 = immer aktiv."
+                    },
+                    "allowedTypes": [
+                        "float"
+                    ],
+                    "initialTypes": [
+                        "float"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Threshold",
+                            "de": "Schwellwert"
+                        },
+                        "min": -60,
+                        "max": 0,
+                        "step": 1,
+                        "default": -60
+                    }
+                },
+                {
+                    "id": "envelopeFollow",
+                    "name": {
+                        "en": "Envelope Follow",
+                        "de": "Hüllkurve folgen"
+                    },
+                    "description": {
+                        "en": "When true, the static amplitude follows the input level; when false, it is relative to full scale.",
+                        "de": "Wenn true, folgt die Rauschamplitude dem Eingangspegel; wenn false, ist sie relativ zur Vollaussteuerung."
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Envelope Follow",
+                            "de": "Hüllkurve folgen"
+                        },
+                        "default": true
+                    }
+                },
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "description": {
+                        "en": "When false, the effect is bypassed and audio passes through unchanged.",
+                        "de": "Wenn false, wird der Effekt umgangen und das Audio unverändert durchgeleitet."
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "block",
+                    "name": {
+                        "en": "Block",
+                        "de": "Block"
+                    },
+                    "description": {
+                        "en": "Audio block with added noise.",
+                        "de": "Audioblock mit hinzugefügtem Rauschen."
+                    },
+                    "outputType": "audio.block",
+                    "initialTypes": [
+                        "audio.block"
+                    ],
+                    "phase": "init"
+                }
+            ],
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.noise"
+                }
+            },
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.noise"
+                }
+            },
+            "initFunction": "init_audio"
+        },
+        "oscillator": {
+            "title": {
+                "en": "Oscillator",
+                "de": "Oszillator"
+            },
+            "info": {
+                "en": "Generates a periodic test signal (sine, square, triangle, or sawtooth) as an audio block source.",
+                "de": "Erzeugt ein periodisches Testsignal (Sinus, Rechteck, Dreieck oder Sägezahn) als Audio-Blockquelle."
+            },
+            "category": "audio",
+            "requiredCapabilities": [
+                "viper"
+            ],
+            "executionPhase": "both",
+            "color": "#a05862",
+            "shape": "square",
+            "icon": "icons/sine_wave_24dp.svg",
+            "inputs": [
+                {
+                    "id": "block",
+                    "name": {
+                        "en": "Block",
+                        "de": "Block"
+                    },
+                    "description": {
+                        "en": "Optional input signal. When connected, the oscillator adds its waveform on top of this signal; when left unconnected, it acts as a standalone source.",
+                        "de": "Optionales Eingangssignal. Wenn verbunden, addiert der Oszillator seine Wellenform auf dieses Signal; wenn nicht verbunden, dient er als eigenständige Quelle."
+                    },
+                    "allowedTypes": [
+                        "audio.block"
+                    ],
+                    "initialTypes": [
+                        "audio.block"
+                    ],
+                    "phase": "init"
+                },
+                {
+                    "id": "frequency",
+                    "name": {
+                        "en": "Frequency",
+                        "de": "Frequenz"
+                    },
+                    "description": {
+                        "en": "Signal frequency in Hz.",
+                        "de": "Signalfrequenz in Hz."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Frequency",
+                            "de": "Frequenz"
+                        },
+                        "min": 1,
+                        "max": 8000,
+                        "step": 1,
+                        "default": 440
+                    }
+                },
+                {
+                    "id": "phase",
+                    "name": {
+                        "en": "Phase",
+                        "de": "Phase"
+                    },
+                    "description": {
+                        "en": "Initial phase offset in degrees (0 to 360).",
+                        "de": "Anfänglicher Phasenversatz in Grad (0 bis 360)."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Phase",
+                            "de": "Phase"
+                        },
+                        "min": 0,
+                        "max": 360,
+                        "step": 1,
+                        "default": 0
+                    }
+                },
+                {
+                    "id": "mix",
+                    "name": {
+                        "en": "Mix",
+                        "de": "Mischung"
+                    },
+                    "description": {
+                        "en": "Oscillation level (0.0 to 1.0).",
+                        "de": "Oszillationspegel (0,0 bis 1,0)."
+                    },
+                    "allowedTypes": [
+                        "float"
+                    ],
+                    "initialTypes": [
+                        "float"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Mix",
+                            "de": "Mischung"
+                        },
+                        "min": 0,
+                        "max": 1,
+                        "step": 0.05,
+                        "default": 1
+                    }
+                },
+                {
+                    "id": "saturate",
+                    "name": {
+                        "en": "Saturate",
+                        "de": "Sättigung"
+                    },
+                    "description": {
+                        "en": "When true, the mixed sum is clamped to the 16-bit range; when false, it wraps.",
+                        "de": "Wenn true, wird die gemischte Summe auf den 16-Bit-Bereich begrenzt; wenn false, läuft sie über."
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Saturate",
+                            "de": "Sättigung"
+                        },
+                        "default": true
+                    }
+                },
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "description": {
+                        "en": "Enable or disable signal generation (outputs silence when disabled).",
+                        "de": "Aktiviert oder deaktiviert die Signalerzeugung (gibt bei Deaktivierung Stille aus)."
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "block",
+                    "name": {
+                        "en": "Block",
+                        "de": "Block"
+                    },
+                    "description": {
+                        "en": "Generated mono audio block (16-bit samples).",
+                        "de": "Erzeugter Mono-Audioblock (16-Bit-Samples)."
+                    },
+                    "outputType": "audio.block",
+                    "initialTypes": [
+                        "audio.block"
+                    ],
+                    "phase": "init"
+                },
+                {
+                    "id": "level",
+                    "name": {
+                        "en": "Level",
+                        "de": "Pegel"
+                    },
+                    "description": {
+                        "en": "Current output signal level (0.0 to 1.0).",
+                        "de": "Aktueller Ausgangspegel (0,0 bis 1,0)."
+                    },
+                    "outputType": "float",
+                    "initialTypes": [
+                        "float"
+                    ],
+                    "phase": "loop"
+                }
+            ],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "wave",
+                    "label": {
+                        "en": "Wave",
+                        "de": "Wellenform"
+                    },
+                    "description": {
+                        "en": "Waveform shape.",
+                        "de": "Wellenform."
+                    },
+                    "options": [
+                        {
+                            "value": "sine",
+                            "label": {
+                                "en": "Sine",
+                                "de": "Sinus"
+                            }
+                        },
+                        {
+                            "value": "square",
+                            "label": {
+                                "en": "Square",
+                                "de": "Rechteck"
+                            }
+                        },
+                        {
+                            "value": "triangle",
+                            "label": {
+                                "en": "Triangle",
+                                "de": "Dreieck"
+                            }
+                        },
+                        {
+                            "value": "sawtooth",
+                            "label": {
+                                "en": "Sawtooth",
+                                "de": "Sägezahn"
+                            }
+                        }
+                    ],
+                    "default": "sine"
+                },
+                {
+                    "type": "dropdown",
+                    "id": "sampleRate",
+                    "label": {
+                        "en": "Sample Rate",
+                        "de": "Abtastrate"
+                    },
+                    "description": {
+                        "en": "Audio sample rate in Hz.",
+                        "de": "Audio-Abtastrate in Hz."
+                    },
+                    "options": [
+                        {
+                            "value": 4000,
+                            "label": {
+                                "en": "4 kHz",
+                                "de": "4 kHz"
+                            }
+                        },
+                        {
+                            "value": 8000,
+                            "label": {
+                                "en": "8 kHz",
+                                "de": "8 kHz"
+                            }
+                        },
+                        {
+                            "value": 16000,
+                            "label": {
+                                "en": "16 kHz",
+                                "de": "16 kHz"
+                            }
+                        },
+                        {
+                            "value": 22050,
+                            "label": {
+                                "en": "22.05 kHz",
+                                "de": "22,05 kHz"
+                            }
+                        },
+                        {
+                            "value": 44100,
+                            "label": {
+                                "en": "44.1 kHz",
+                                "de": "44,1 kHz"
+                            }
+                        }
+                    ],
+                    "default": 16000
+                },
+                {
+                    "type": "dropdown",
+                    "id": "blockSamples",
+                    "label": {
+                        "en": "Block Samples",
+                        "de": "Blockgröße"
+                    },
+                    "description": {
+                        "en": "Number of samples per audio block.",
+                        "de": "Anzahl der Samples pro Audioblock."
+                    },
+                    "options": [
+                        {
+                            "value": 64
+                        },
+                        {
+                            "value": 128
+                        },
+                        {
+                            "value": 256
+                        },
+                        {
+                            "value": 512
+                        },
+                        {
+                            "value": 1024
+                        }
+                    ],
+                    "default": 256
+                }
+            ],
+            "helperImplementations": {
+                "python": {
+                    "type": "helper-generator",
+                    "value": "NodeHelperGenerators.audioRuntime",
+                    "helperGroup": "audio-runtime"
+                }
+            },
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.oscillator"
+                }
+            },
+            "initFunction": "init_audio",
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.oscillator"
+                }
+            }
+        }
+    }
+}

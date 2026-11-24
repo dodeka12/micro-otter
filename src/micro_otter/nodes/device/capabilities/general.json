@@ -1,0 +1,51 @@
+{
+  "capabilities": [
+    {
+      "id": "math",
+      "kind": "generic",
+      "domain": "general",
+      "derivedKeys": ["math"],
+      "icon": "calculate",
+      "limitKey": null,
+      "check": { "kind": "membership" }
+    },
+    {
+      "id": "viper",
+      "kind": "generic",
+      "domain": "general",
+      "derivedKeys": ["viper"],
+      "icon": null,
+      "glyph": "V",
+      "limitKey": null,
+      "check": { "kind": "membership" }
+    },
+    {
+      "id": "wifi",
+      "kind": "generic",
+      "domain": "general",
+      "derivedKeys": ["wifi"],
+      "icon": "wifi",
+      "limitKey": null,
+      "check": { "kind": "membership" }
+    },
+    {
+      "id": "bluetooth",
+      "kind": "generic",
+      "domain": "general",
+      "derivedKeys": ["bluetooth"],
+      "icon": "bluetooth",
+      "limitKey": null,
+      "check": { "kind": "membership" }
+    },
+    {
+      "id": "ethernet",
+      "kind": "generic",
+      "domain": "general",
+      "derivedKeys": ["ethernet"],
+      "icon": "ethernet",
+      "glyph": "E",
+      "limitKey": null,
+      "check": { "kind": "membership" }
+    }
+  ]
+}

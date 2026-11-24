@@ -1,0 +1,52 @@
+{
+    "styles": [
+        "view-system",
+        "activity-pulse",
+        "view-manager",
+        "split-view",
+        "tabbed-view",
+        "text-view",
+        "code-view",
+        "markdown-view",
+        "html-view",
+        "overlay-window",
+        "modal-dialog",
+        "file-picker-dialog",
+        "device-connection-dialog",
+        "progress-detail-view",
+        "deployment-progress-dialog",
+        "connecting-progress-dialog",
+        "menu",
+        "console-log-view",
+        "node-info-view",
+        "node-type-ui",
+        "node-palette-view",
+        "workspace-view",
+        "collection-view",
+        "general-settings-view",
+        "collection-settings-view",
+        "graph-settings-view",
+        "graph-panel-view",
+        "graph-panel-documentation-areas",
+        "all-settings-view",
+        "collapsible-view",
+        "stack-view",
+        "message-view",
+        "content-view",
+        "toolbar-view",
+        "progress-bar-view",
+        "device-deployment-view",
+        "device-connection-view",
+        "firmware-build-view",
+        "data-table-view",
+        "custom-runtime-controls"
+    ],
+    "themes": [
+        {
+            "id": "standard",
+            "label": "Standard Compact Dark",
+            "description": "Tight, modern dark theme with small typography and minimal padding/gaps to conserve space.",
+            "entry": "styles/standard/view-system.css"
+        }
+    ]
+}

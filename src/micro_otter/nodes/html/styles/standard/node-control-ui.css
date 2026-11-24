@@ -1,0 +1,220 @@
+/* Copyright (c) 2025 Christian Perwass; SPDX-LICENSE-Identifier: GPL-3.0-only */
+
+/**
+ * Node Control UI Styles: Visual appearance for node control inputs.
+ * 
+ * Supports:
+ * - Number, text, checkbox, dropdown, slider, and color controls
+ * - Validation feedback
+ * - Consistent layout and spacing
+ */
+
+/* Base control UI */
+.node-control-ui {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 0;
+}
+
+.node-control-ui__wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    background-color: rgba(40, 50, 70, 0.8);
+    border-radius: 4px;
+    border: none;
+}
+
+.node-control-ui__label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--mo-text, #e5eaf3);
+    min-width: 80px;
+    flex-shrink: 0;
+}
+
+.node-control-ui__input {
+    min-width: 0;
+    padding: 4px 8px;
+    border: 1px solid var(--mo-border, rgba(255, 255, 255, 0.12));
+    border-radius: 4px;
+    background: var(--mo-surface-1, #121927);
+    color: var(--mo-text, #e5eaf3);
+    font-size: 12px;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.node-control-ui__input:focus {
+    outline: none;
+    border-color: var(--mo-accent, #63b5ff);
+    box-shadow: 0 0 0 2px rgba(99, 181, 255, 0.2);
+}
+
+/* Number input */
+.node-control-ui--number {
+    /* Inherits base styles */
+}
+
+.node-control-ui__input--number {
+    text-align: right;
+    /* Fixed width, don't expand */
+}
+
+.node-control-ui__input--number.is-invalid {
+    border-color: #ff4444;
+    box-shadow: 0 0 0 2px rgba(255, 68, 68, 0.2);
+}
+
+/* Text input */
+.node-control-ui--text {
+    /* Inherits base styles */
+}
+
+.node-control-ui__input--text {
+    flex: 1; /* Allow text input to expand */
+}
+
+/* Checkbox */
+.node-control-ui--checkbox {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.node-control-ui__input--checkbox {
+    width: 16px;
+    height: 16px;
+    flex: none;
+    cursor: pointer;
+}
+
+/* Dropdown */
+.node-control-ui--dropdown {
+    /* Inherits base styles */
+}
+
+.node-control-ui__input--dropdown {
+    flex: 1; /* Allow dropdown to expand */
+    cursor: pointer;
+    padding-right: 24px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill="%23e5eaf3" d="M2 4l4 4 4-4z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    appearance: none;
+}
+
+/* Slider */
+.node-control-ui--slider {
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.node-control-ui__slider-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.node-control-ui__input--slider {
+    flex: 1;
+    height: 6px;
+    border-radius: 3px;
+    appearance: none;
+    background: var(--mo-surface-2, #172133);
+    padding: 0;
+}
+
+.node-control-ui__input--slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--mo-accent, #63b5ff);
+    cursor: pointer;
+    transition: transform 0.15s ease;
+}
+
+.node-control-ui__input--slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+.node-control-ui__input--slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--mo-accent, #63b5ff);
+    cursor: pointer;
+    border: none;
+    transition: transform 0.15s ease;
+}
+
+.node-control-ui__input--slider::-moz-range-thumb:hover {
+    transform: scale(1.2);
+}
+
+.node-control-ui__slider-value {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--mo-text, #e5eaf3);
+    min-width: 40px;
+    text-align: right;
+}
+
+/* Color picker */
+.node-control-ui--color {
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.node-control-ui__color-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.node-control-ui__input--color {
+    width: 48px;
+    height: 32px;
+    border: 1px solid var(--mo-border, rgba(255, 255, 255, 0.12));
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 2px;
+    flex-shrink: 0;
+}
+
+.node-control-ui__alpha-slider {
+    flex: 1;
+    height: 6px;
+    border-radius: 3px;
+    appearance: none;
+    background: linear-gradient(to right, transparent, currentColor);
+    padding: 0;
+}
+
+.node-control-ui__alpha-slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--mo-text, #e5eaf3);
+    border: 2px solid var(--mo-surface-1, #121927);
+    cursor: pointer;
+}
+
+.node-control-ui__alpha-slider::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--mo-text, #e5eaf3);
+    border: 2px solid var(--mo-surface-1, #121927);
+    cursor: pointer;
+}
+
+.node-control-ui__alpha-value {
+    font-size: 11px;
+    color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+    min-width: 50px;
+    text-align: right;
+}

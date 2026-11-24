@@ -1,0 +1,197 @@
+{
+    "nodeTypes": {
+        "servo": {
+            "title": {
+                "en": "Servo",
+                "de": "Servo"
+            },
+            "info": {
+                "en": "Sets the angle of a servo motor via PWM.",
+                "de": "Stellt den Winkel eines Servos per PWM ein."
+            },
+            "category": "hardware",
+            "color": "#6b9e8a",
+            "shape": "square",
+            "icon": "icons/servo_24dp.svg",
+            "requiredCapabilities": [
+                "pwm.output"
+            ],
+            "capabilityCheck": "NodeCapabilityChecks.servoNode",
+            "inputs": [
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    },
+                    "description": {
+                        "en": "When off, the servo is not driven.",
+                        "de": "Wenn deaktiviert, wird der Servo nicht angesteuert."
+                    }
+                },
+                {
+                    "id": "angle",
+                    "name": {
+                        "en": "Angle",
+                        "de": "Winkel"
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int",
+                        "double"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Angle",
+                            "de": "Winkel"
+                        },
+                        "min": -90,
+                        "max": 90,
+                        "step": 1,
+                        "default": 0
+                    },
+                    "description": {
+                        "en": "Desired servo angle (range min..max).",
+                        "de": "Gewünschter Servowinkel (Bereich min..max)."
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "angleOut",
+                    "name": {
+                        "en": "Angle",
+                        "de": "Winkel"
+                    },
+                    "outputType": "float",
+                    "description": {
+                        "en": "Current servo angle.",
+                        "de": "Aktueller Servowinkel."
+                    }
+                }
+            ],
+            "controls": [
+                {
+                    "type": "number",
+                    "id": "pin",
+                    "label": {
+                        "en": "PWM Pin",
+                        "de": "PWM-Pin"
+                    },
+                    "min": 0,
+                    "max": 40,
+                    "step": 1,
+                    "default": 0,
+                    "description": {
+                        "en": "PWM pin driving the servo.",
+                        "de": "PWM-Pin, der den Servo ansteuert."
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "minUs",
+                    "label": {
+                        "en": "Min µs",
+                        "de": "Min µs"
+                    },
+                    "min": 500,
+                    "max": 2500,
+                    "step": 10,
+                    "default": 1000,
+                    "description": {
+                        "en": "Pulse width for the minimum angle, in µs.",
+                        "de": "Pulsbreite für den Minimalwinkel, in µs."
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "maxUs",
+                    "label": {
+                        "en": "Max µs",
+                        "de": "Max µs"
+                    },
+                    "min": 1500,
+                    "max": 3000,
+                    "step": 10,
+                    "default": 2000,
+                    "description": {
+                        "en": "Pulse width for the maximum angle, in µs.",
+                        "de": "Pulsbreite für den Maximalwinkel, in µs."
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "rangeMin",
+                    "label": {
+                        "en": "Range Min",
+                        "de": "Bereich Min"
+                    },
+                    "min": -180,
+                    "max": 0,
+                    "step": 1,
+                    "default": -90,
+                    "description": {
+                        "en": "Angle mapped to the minimum pulse width.",
+                        "de": "Winkel, der der minimalen Pulsbreite zugeordnet wird."
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "rangeMax",
+                    "label": {
+                        "en": "Range Max",
+                        "de": "Bereich Max"
+                    },
+                    "min": 0,
+                    "max": 180,
+                    "step": 1,
+                    "default": 90,
+                    "description": {
+                        "en": "Angle mapped to the maximum pulse width.",
+                        "de": "Winkel, der der maximalen Pulsbreite zugeordnet wird."
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "maxRate",
+                    "label": {
+                        "en": "Max °/s",
+                        "de": "Max °/s"
+                    },
+                    "min": 1,
+                    "max": 720,
+                    "step": 1,
+                    "default": 180,
+                    "description": {
+                        "en": "Maximum rate of change in degrees per second.",
+                        "de": "Maximale Änderungsrate in Grad pro Sekunde."
+                    }
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "function",
+                    "value": "otter_stdmo.servo_callable.ServoNodeFn",
+                    "dependencies": [
+                        "otter_stdmo.servo"
+                    ]
+                }
+            }
+        }
+    }
+}

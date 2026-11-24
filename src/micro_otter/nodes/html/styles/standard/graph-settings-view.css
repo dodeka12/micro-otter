@@ -1,0 +1,216 @@
+/* Import generic dropdown control styles (Signals multi-select, mode select). */
+@import './controls/dropdown-control.css';
+/* Import the editable-Markdown control (function description + port documentation). */
+@import './controls/markdown-editor-control.css';
+
+.view-graph-settings {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: calc(var(--mo-padding, 1px) * 8);
+    color: var(--mo-text, #e5eaf3);
+    background: var(--mo-surface-0, #0f141f);
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.view-graph-settings__title {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--mo-text, #e5eaf3);
+}
+
+.view-graph-settings__controls {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+    gap: 10px;
+    padding: calc(var(--mo-padding, 1px) * 8);
+}
+
+/* The settings split host fills the graph-settings pane and hosts the vertical split that stacks
+   the general parameters, the Inputs section and the Outputs section. */
+.view-graph-settings__split-host {
+    display: flex;
+    flex: 1 1 auto;
+    min-height: 0;
+    min-width: 0;
+}
+
+/* The settings split is embedded in the scrolling settings sheet, so its panes follow their
+   content instead of sharing a fixed host height (which would squeeze every pane down to the
+   minimum). The hook mirrors the port-list split below; splitters become dividers, not drag
+   handles. */
+.view-graph-settings__split-host > .split-view {
+    height: auto;
+    flex: 0 0 auto;
+}
+
+.view-graph-settings__split-host > .split-view > .split-view__pane {
+    flex-grow: 0 !important;
+    flex-shrink: 0 !important;
+    flex-basis: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+}
+
+.view-graph-settings__split-host > .split-view > .split-view__splitter {
+    pointer-events: none;
+    cursor: default;
+}
+
+.view-graph-settings__group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.view-graph-settings__group .custom-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* The enabled switch is a checkbox, not a text field: it must not stretch. */
+.view-graph-settings__checkbox {
+    flex: 0 0 auto;
+    margin: 0;
+}
+
+.view-graph-settings__label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+    margin: 0;
+    flex: 0 0 120px;
+}
+
+.view-graph-settings__description {
+    font-size: 11px;
+    color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+}
+
+.view-graph-settings__input,
+.view-graph-settings__select {
+    padding: 5px 8px;
+    background: var(--mo-surface-1, #121927);
+    color: var(--mo-text, #e5eaf3);
+    border: 1px solid var(--mo-border, rgba(255, 255, 255, 0.08));
+    border-radius: var(--mo-radius, 5px);
+    font-size: 12px;
+    box-sizing: border-box;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.view-graph-settings__input:focus-visible,
+.view-graph-settings__select:focus-visible {
+    outline: none;
+    border-color: var(--mo-border-strong, rgba(118, 188, 255, 0.6));
+}
+
+/* The picker keeps the reusable labelled-dropdown shape: title in the same 120 px
+   gutter as every other row, trigger filling the rest of the line. */
+.view-graph-settings__signal-control .dropdown-control--labeled {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.view-graph-settings__signal-control .dropdown-control__label {
+    flex: 0 0 120px;
+}
+
+.view-graph-settings__signal-control .dropdown-control__button {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.view-graph-settings__description--error {
+    border-left: 2px solid var(--mo-error, #f87171);
+    padding-left: 6px;
+    color: var(--mo-error, #f87171);
+}
+
+.view-graph-settings__description--warning {
+    border-left: 2px solid var(--mo-warning, #fbbf24);
+    padding-left: 6px;
+    color: var(--mo-warning, #fbbf24);
+}
+
+/* Function block: the category row reuses the labelled text-field shape. */
+.view-graph-settings__function-category .custom-control,
+.view-graph-settings__port-fields .custom-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Port list: a vertical SplitView with one content-sized pane per parameter plus a trailing
+   add-toolbar pane. The split is embedded in the scrolling settings sheet, so its panes follow
+   their collapsible content instead of sharing a fixed host height (which would squeeze every
+   row down to the pane minimum). Each CollapsibleView keeps applying its own min/max height. */
+.view-graph-settings__function-ports {
+    display: flex;
+    flex-direction: column;
+}
+
+.view-graph-settings__function-ports > .split-view {
+    height: auto;
+    flex: 0 0 auto;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: visible;
+}
+
+.view-graph-settings__function-ports > .split-view > .split-view__pane {
+    /* SplitView writes these inline; a content-sized embedded split overrides them. */
+    flex-grow: 0 !important;
+    flex-shrink: 0 !important;
+    flex-basis: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+}
+
+/* The panes are sized by their content, so the separators are dividers, not drag handles. */
+.view-graph-settings__function-ports > .split-view > .split-view__splitter {
+    pointer-events: none;
+    cursor: default;
+}
+
+.view-graph-settings__port-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.view-graph-settings__port-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 4px 0;
+}
+
+/* The port type picker keeps the labelled-dropdown shape of the signal picker. */
+.view-graph-settings__port-types .dropdown-control--labeled {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.view-graph-settings__port-types .dropdown-control__label {
+    flex: 0 0 120px;
+}
+
+.view-graph-settings__port-types .dropdown-control__button {
+    flex: 1 1 auto;
+    min-width: 0;
+}

@@ -1,0 +1,125 @@
+name: Auto Tag Version
+
+# Post-merge release tagging, not part of the CI baseline. ci.yml holds only
+# `contents: read` and publishes nothing; this workflow needs `contents: write`
+# solely to push the version tag and is replaced by the release workflow (M8).
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  bump-version:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: main
+
+      - name: Determine semver bump from commit titles
+        id: determine-bump
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            if (!pr) {
+              core.setOutput('bump', 'patch');
+              return 'patch';
+            }
+
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const candidates = [];
+
+            if (pr.title) {
+              candidates.push(pr.title);
+            }
+
+            const commits = await github.paginate(
+              github.rest.pulls.listCommits,
+              {
+                owner,
+                repo,
+                pull_number: pr.number,
+                per_page: 100,
+              },
+              (response) => response.data
+            );
+
+            for (const commit of commits) {
+              if (commit?.commit?.message) {
+                candidates.push(commit.commit.message);
+              }
+            }
+
+            const priority = { patch: 1, minor: 2, major: 3 };
+
+            const classify = (text) => {
+              if (!text) {
+                return null;
+              }
+              const normalized = text.trim();
+              if (!normalized) {
+                return null;
+              }
+              const lower = normalized.toLowerCase();
+              if (lower.includes('breaking change')) {
+                return 'major';
+              }
+              const firstLine = lower.split('\n')[0].trim();
+              const match = firstLine.match(/^([a-z]+)(?:\([^)]+\))?(!)?:/);
+              if (!match) {
+                return null;
+              }
+              const [, type, bang] = match;
+              if (bang || type === 'breaking') {
+                return 'major';
+              }
+              if (type === 'feat') {
+                return 'minor';
+              }
+              if (
+                ['fix', 'perf', 'refactor', 'chore', 'docs', 'style', 'test', 'build', 'ci', 'revert'].includes(
+                  type
+                )
+              ) {
+                return 'patch';
+              }
+              return null;
+            };
+
+            let bump = 'patch';
+            for (const candidate of candidates) {
+              const classification = classify(candidate);
+              if (!classification) {
+                continue;
+              }
+              if (priority[classification] > priority[bump]) {
+                bump = classification;
+                if (bump === 'major') {
+                  break;
+                }
+              }
+            }
+
+            core.info(`Determined bump level: ${bump}`);
+            core.setOutput('bump', bump);
+            return bump;
+
+      - name: Bump semantic version tag
+        uses: anothrNick/github-tag-action@1.67.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_BRANCHES: main
+          DEFAULT_BUMP: ${{ steps.determine-bump.outputs.bump }}
+          WITH_V: true

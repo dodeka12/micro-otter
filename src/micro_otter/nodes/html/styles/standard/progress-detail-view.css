@@ -1,0 +1,66 @@
+/*
+ * Standard two-tier determinate progress detail (`js/views/progress-detail-view.ts`).
+ *
+ * This is a pure content component: it draws the tiers, bars and divider, and nothing else. The
+ * host owns the surface (background, border, radius, padding) and the placement, so no `position`,
+ * `inset` or `z-index` appears below. The root fills the host exactly: `width: 100%` plus
+ * `box-sizing: border-box` keeps a padded host from overflowing.
+ *
+ * The tier, label, text, bar and divider rules are the visual that used to live in
+ * `deployment-progress-dialog.css`, moved here unchanged except for the selector names. The
+ * dialog keeps only its phase line and footer; see `deployment-progress-dialog.css`.
+ *
+ * The bar wrapper is `border-box` so its 1px border stays inside the root. `height: 8px` with a
+ * 6px content box reproduces the previous content-box `height: 6px` plus 2 × 1px border, so the
+ * painted bar keeps its exact size.
+ */
+
+.progress-detail-view {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.progress-detail-view__tier {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.progress-detail-view__label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: var(--mo-accent, #63b5ff);
+}
+
+.progress-detail-view__text {
+    font-size: 10px;
+    color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+}
+
+.progress-detail-view__divider {
+    height: 1px;
+    background: var(--mo-border, rgba(255, 255, 255, 0.08));
+    margin: 0;
+}
+
+.progress-detail-view__bar-wrapper {
+    width: 100%;
+    height: 8px;
+    box-sizing: border-box;
+    background: var(--mo-bg, #0c0f16);
+    border: 1px solid var(--mo-border, rgba(255, 255, 255, 0.12));
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.progress-detail-view__bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--mo-accent, #63b5ff), var(--mo-accent-boost, #8bf0d2));
+    transition: width 200ms ease;
+}

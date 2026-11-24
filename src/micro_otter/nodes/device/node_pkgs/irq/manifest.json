@@ -1,0 +1,43 @@
+{
+  "id": "irq",
+  "name": "Interrupts",
+  "description": "GPIO interrupt input and enable nodes.",
+  "version": "0.2.2",
+  "author": "Micro-Otter",
+  "assetsRoot": "./",
+  "nodeDefs": "node_definitions.json",
+  "generators": [
+    "node_generators.js"
+  ],
+  "capabilityChecks": "node_capabilities.js",
+  "mpModuleRoots": [
+    ""
+  ],
+  "mpyCompileProfiles": {
+    "052d85852e60": {
+      "mpyCrossVersion": "MicroPython v1.27.0-dirty on 2026-04-08; mpy-cross emitting mpy v6.3",
+      "emit": "bytecode",
+      "smallIntBits": 31,
+      "march": null,
+      "marchFlags": null
+    },
+    "7d963b547334": {
+      "mpyCrossVersion": "MicroPython v1.27.0 on 2026-04-25; mpy-cross emitting mpy v6.3",
+      "emit": "bytecode",
+      "smallIntBits": 31,
+      "march": null,
+      "marchFlags": null
+    }
+  },
+  "manifestVersion": 2,
+  "variants": {
+    "py": {
+      "mpAssets": {
+        "*": [
+          "otter_irq/__init__.py",
+          "otter_irq/interrupts.py"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,1630 @@
+// Copyright (c) 2025 Christian Perwass; SPDX-License-Identifier: GPL-3.0-only
+
+/**
+ * Node UI v2: draws a node and performs hit tests for the node body and its connectors.
+ *
+ * Responsibilities:
+ * - Render a single node onto a provided 2D canvas context.
+ * - Expose hit tests for node body and connectors (inputs/outputs).
+ * - Persist changes back into the owning NodeGraph (position, collapse, etc.).
+ */
+import NodeData from '../data/node-data.js';
+import { debugLog } from '../core/debug.js';
+
+const DEFAULT_STYLE = {
+    bodyColor: '#5b7fc7',
+    headerColor: '#2d3350',
+    borderColor: 'rgba(255, 255, 255, 0.2)',
+    selectedBorderColor: '#f0d858',
+    textColor: '#f5f5f5',
+};
+
+const NODE_HEADER_HEIGHT = 22;
+const NODE_BODY_PADDING = 10;
+const NODE_CORNER_RADIUS = 10;
+const CONNECTOR_RADIUS = 7;
+const CONNECTOR_SPACING = 18;
+const CONNECTOR_LABEL_OFFSET = 14;
+const CONNECTOR_OVERLAP = 5; // How much connector extends outside node
+const HIT_PADDING = 4;
+const CONTROL_HEIGHT = 24;
+const CONTROL_SPACING = 8;
+const CONTROL_LABEL_WIDTH = 80; // Fixed width for control labels
+const CONTROL_LABEL_MARGIN = 4; // Gap between label and control input
+const COLLAPSE_BUTTON_SIZE = 24;
+
+/**
+ * Node UI v2 renderer and hit tester for a single graph node.
+ *
+ * Member overview:
+ * - constructor(graph, nodeId, options): wire graph reference, initial selection, and styles.
+ * - setSelected(selected): flip visual selection state.
+ * - setGraph(graph, nodeId): swap owning graph and optional node id, rebinding listeners.
+ * - setNodeId(nodeId): update which node id this UI instance addresses.
+ * - getNodeData(): fetch live node data from the bound graph.
+ * - getData(): return the cached NodeData reference (if any).
+ * - setPosition(x, y): persist a new node position through the graph API or directly on data.
+ * - setCollapsed(collapsed): persist collapsed state through the graph API or directly on data.
+ * - getBounds(): report current node rectangle for layout and hit tests.
+ * - getConnectors(kind): list connector positions for a given kind.
+ * - getConnectorPosition(kind, index): fetch a single connector position descriptor.
+ * - hitTestNode(point, padding): detect body hits with optional padding.
+ * - hitTestConnector(point): detect connector hits and return a descriptor.
+ * - draw(ctx, options): render the node body, header, title, and connectors.
+ * - _drawConnectors(ctx, kind, hoverConnector): paint connectors with hover affordances.
+ * - _connectorPositions(kind): compute connector anchor points for a connector kind.
+ * - _bindGraph(graph): attach to graph change notifications (reserved for future use).
+ * - _unbindGraph(): clean up graph change listener if one was attached.
+ */
+export class NodeUi {
+    /**
+     * Create a new UI instance for a node.
+     * @param {import('../data/node-graph.js').default|object} graph Graph that owns the node data.
+     * @param {string|number} nodeId Identifier of the node to render and hit test.
+     * @param {object} [options]
+     * @param {boolean} [options.selected] Whether the node is initially selected.
+     * @param {Partial<typeof DEFAULT_STYLE>} [options.style] Style overrides for this instance.
+     * @param {Function} [options.onIconLoad] Callback when icon finishes loading.
+     */
+    constructor(graph, nodeId, options = {}) {
+        this.graph = graph;
+        this.nodeId = nodeId;
+        this.selected = Boolean(options.selected);
+        this.style = { ...DEFAULT_STYLE, ...(options.style || {}) };
+        this._unsubscribe = null;
+        this._controlEditorOverlay = null;
+        this._activeEditor = null;
+        this._activeEditorClickHandler = null;
+        this._lastClickTime = 0;
+        this._lastClickTarget = null;
+        this._canvasToScreenFn = options.canvasToScreen || null;
+        this._screenToCanvasFn = options.screenToCanvas || null;
+        this._workspace = options.workspace || null;
+        this._onIconLoad = options.onIconLoad || null;
+        this._iconImage = null;
+        this._iconLoaded = false;
+
+        debugLog('node_ui', '[NodeUi.constructor] Creating NodeUi', {
+            nodeId,
+            hasGraph: !!graph,
+            nodeData: this.getNodeData(),
+        });
+
+        this._bindGraph(graph);
+        this._loadIcon();
+    }
+
+    /**
+     * Update selection state used for rendering.
+     * @param {boolean} selected Whether the node should render with selected styling.
+     */
+    setSelected(selected) {
+        this.selected = Boolean(selected);
+    }
+
+    /**
+     * Swap the backing graph reference and optional node id.
+     * @param {import('../data/node-graph.js').default|object} graph Graph that owns the node.
+     * @param {string|number} [nodeId] New node identifier to target.
+     */
+    setGraph(graph, nodeId = this.nodeId) {
+        this._unbindGraph();
+        this.graph = graph;
+        this.nodeId = nodeId;
+        this._bindGraph(graph);
+    }
+
+    /**
+     * Update the tracked node id.
+     * @param {string|number} nodeId New identifier for lookups and mutations.
+     */
+    setNodeId(nodeId) {
+        this.nodeId = nodeId;
+    }
+
+    /**
+     * Resolve the current node from the bound graph.
+     * @returns {NodeData|null} Node data object or null if missing.
+     */
+    getNodeData() {
+        if (!this.graph || typeof this.graph.getNode !== 'function') {
+            return null;
+        }
+        return this.graph.getNode(this.nodeId);
+    }
+
+    /**
+     * Return the cached NodeData reference, if one was stored externally.
+     * @returns {NodeData|undefined}
+     */
+    getData() {
+        return this.data;
+    }
+
+    /**
+     * Update the node position and persist to NodeData.
+     * @param {number} x New x coordinate in canvas space.
+     * @param {number} y New y coordinate in canvas space.
+     */
+    setPosition(x, y) {
+        if (this.graph?.updateNodePosition) {
+            this.graph.updateNodePosition(this.nodeId, x, y);
+            return;
+        }
+        const data = this.getNodeData();
+        if (data) {
+            data.setPosition(x, y);
+        }
+    }
+
+    /**
+     * Toggle collapsed state and persist.
+     * @param {boolean} collapsed Whether the node body should hide connectors.
+     */
+    setCollapsed(collapsed) {
+        if (this.graph?.updateNode) {
+            this.graph.updateNode(this.nodeId, { collapsed: Boolean(collapsed) });
+            return;
+        }
+        const data = this.getNodeData();
+        if (data) {
+            data.collapsed = Boolean(collapsed);
+        }
+    }
+
+    /**
+     * Returns the rectangular bounds of the node.
+     * @returns {{x:number,y:number,width:number,height:number}} Node rectangle in canvas space.
+     */
+    getBounds() {
+        const data = this.getNodeData();
+        if (!data) {
+            return { x: 0, y: 0, width: 0, height: 0 };
+        }
+        return {
+            x: data.x,
+            y: data.y,
+            width: data.width,
+            height: data.height,
+        };
+    }
+
+    /**
+     * Ensure node has proper height set. Calculates and updates if missing or zero.
+     * Should be called before first render or when node structure changes.
+     */
+    ensureNodeHeight() {
+        const data = this.getNodeData();
+        if (!data) {
+            debugLog('node_ui', '[NodeUi.ensureNodeHeight] No data, returning');
+            return;
+        }
+
+        debugLog('node_ui', '[NodeUi.ensureNodeHeight]', {
+            nodeId: this.nodeId,
+            currentHeight: data.height,
+            controls: data.controls?.length,
+            inputs: data.inputs?.length,
+            outputs: data.outputs?.length,
+        });
+
+        // ALWAYS calculate height to fix nodes loaded from storage with incorrect heights
+        const calculatedHeight = this._calculateNodeHeight(data);
+        debugLog('node_ui', '[NodeUi.ensureNodeHeight] Calculated height:', calculatedHeight);
+
+        // Only update if height changed
+        if (data.height !== calculatedHeight) {
+            debugLog(
+                'node_ui',
+                '[NodeUi.ensureNodeHeight] Height changed from',
+                data.height,
+                'to',
+                calculatedHeight
+            );
+
+            // Update via graph if possible
+            if (this.graph && typeof this.graph.updateNode === 'function') {
+                debugLog('node_ui', '[NodeUi.ensureNodeHeight] Updating via graph.updateNode');
+                this.graph.updateNode(this.nodeId, { height: calculatedHeight });
+            } else {
+                debugLog('node_ui', '[NodeUi.ensureNodeHeight] Updating data.height directly');
+                data.height = calculatedHeight;
+            }
+        } else {
+            debugLog('node_ui', '[NodeUi.ensureNodeHeight] Height unchanged:', data.height);
+        }
+    }
+
+    /**
+     * Calculate required node height based on content.
+     * Layout order: Header → Controls → Inputs/Outputs (horizontally aligned)
+     * @param {object} nodeData - Node data with inputs, outputs, controls.
+     * @returns {number} Required height in pixels.
+     */
+    _calculateNodeHeight(nodeData) {
+        // When collapsed, only show header
+        if (nodeData.collapsed) {
+            debugLog(
+                'node_ui',
+                '[NodeUi._calculateNodeHeight] Node is collapsed, returning header height:',
+                NODE_HEADER_HEIGHT
+            );
+            return NODE_HEADER_HEIGHT;
+        }
+
+        let height = NODE_HEADER_HEIGHT;
+        debugLog('node_ui', '[NodeUi._calculateNodeHeight] Starting with header:', height);
+        height += NODE_BODY_PADDING; // Top padding
+        debugLog('node_ui', '[NodeUi._calculateNodeHeight] After top padding:', height);
+
+        // Controls first (only visible ones)
+        const visibleControls = this._getVisibleControls(nodeData);
+        debugLog(
+            'node_ui',
+            '[NodeUi._calculateNodeHeight] Visible controls:',
+            visibleControls.length
+        );
+        if (visibleControls.length > 0) {
+            const controlsHeight = visibleControls.length * (CONTROL_HEIGHT + CONTROL_SPACING);
+            height += controlsHeight;
+            debugLog(
+                'node_ui',
+                '[NodeUi._calculateNodeHeight] After controls (+',
+                controlsHeight,
+                '):',
+                height
+            );
+        }
+
+        // Inputs and outputs at same height (horizontally aligned)
+        const inputs = nodeData.inputs || [];
+        const outputs = nodeData.outputs || [];
+        const maxConnectors = Math.max(inputs.length, outputs.length);
+        debugLog(
+            'node_ui',
+            '[NodeUi._calculateNodeHeight] Connectors - inputs:',
+            inputs.length,
+            'outputs:',
+            outputs.length,
+            'max:',
+            maxConnectors
+        );
+
+        if (maxConnectors > 0) {
+            if (visibleControls.length > 0) {
+                height += CONTROL_SPACING; // Gap between controls and connectors
+                debugLog('node_ui', '[NodeUi._calculateNodeHeight] After gap:', height);
+            }
+            const connectorsHeight = maxConnectors * CONNECTOR_SPACING;
+            height += connectorsHeight;
+            debugLog(
+                'node_ui',
+                '[NodeUi._calculateNodeHeight] After connectors (+',
+                connectorsHeight,
+                '):',
+                height
+            );
+        }
+
+        height += NODE_BODY_PADDING; // Bottom padding
+        debugLog('node_ui', '[NodeUi._calculateNodeHeight] FINAL HEIGHT:', height);
+
+        return height;
+    }
+
+    /**
+     * Get list of controls that should be visible based on dropdown selections.
+     * @param {object} nodeData - Node data with controls and controlValues.
+     * @returns {Array} Visible control objects.
+     */
+    _getVisibleControls(nodeData) {
+        const controls = nodeData.controls || [];
+        const controlValues = nodeData.controlValues || {};
+
+        debugLog(
+            'node_ui',
+            '[NodeUi._getVisibleControls] Total controls:',
+            controls.length,
+            'controlValues:',
+            controlValues
+        );
+
+        // Find all dropdowns with affectsControls=true
+        const affectingDropdowns = controls.filter(
+            (c) => c.type === 'dropdown' && c.affectsControls
+        );
+
+        debugLog(
+            'node_ui',
+            '[NodeUi._getVisibleControls] Affecting dropdowns:',
+            affectingDropdowns.length
+        );
+
+        if (affectingDropdowns.length === 0) {
+            // No dynamic visibility, return all controls
+            debugLog(
+                'node_ui',
+                '[NodeUi._getVisibleControls] No affecting dropdowns, returning all controls'
+            );
+            return controls;
+        }
+
+        // Determine which controls are active
+        const activeControlIds = new Set();
+
+        for (const dropdown of affectingDropdowns) {
+            const selectedValue = controlValues[dropdown.id] ?? dropdown.default;
+            const selectedOption = dropdown.options?.find((opt) => opt.value === selectedValue);
+
+            if (selectedOption?.activeControls) {
+                selectedOption.activeControls.forEach((id) => activeControlIds.add(id));
+            }
+        }
+
+        // If no dropdown has activeControls specified, show all
+        if (activeControlIds.size === 0) {
+            return controls;
+        }
+
+        // Filter to only active controls (and always show the affecting dropdowns themselves)
+        return controls.filter((c) => affectingDropdowns.includes(c) || activeControlIds.has(c.id));
+    }
+
+    /**
+     * Get connector positions for a connector kind.
+     * @param {'input'|'output'} kind
+     * @returns {Array<{type:'input'|'output',index:number,x:number,y:number,id?:string,label?:string}>}
+     */
+    getConnectors(kind) {
+        return this._connectorPositions(kind);
+    }
+
+    /**
+     * Get a specific connector position by index.
+     * @param {'input'|'output'} kind
+     * @param {number} [index=0]
+     * @returns {{type:'input'|'output',index:number,x:number,y:number,id?:string,label?:string}|null}
+     */
+    getConnectorPosition(kind, index = 0) {
+        const connectors = this._connectorPositions(kind);
+        return connectors[index] || null;
+    }
+
+    /**
+     * Hit test the node body (not connectors).
+     * @param {{x:number,y:number}} point
+     * @param {number} [padding] Extra padding around the body hit box.
+     * @returns {boolean} True if the point lands within the padded rectangle.
+     */
+    hitTestNode(point, padding = HIT_PADDING) {
+        const { x, y, width, height } = this.getBounds();
+        const px = point?.x ?? 0;
+        const py = point?.y ?? 0;
+        return (
+            px >= x - padding &&
+            px <= x + width + padding &&
+            py >= y - padding &&
+            py <= y + height + padding
+        );
+    }
+
+    /**
+     * Hit test connectors. Returns null if nothing hit; otherwise a descriptor.
+     * @param {{x:number,y:number}} point
+     * @returns {{type:'input'|'output', index:number, id:string|undefined, nodeId:number|string,x:number,y:number}|null}
+     */
+    hitTestConnector(point) {
+        const connectors = [
+            ...this._connectorPositions('input'),
+            ...this._connectorPositions('output'),
+        ];
+        const px = point?.x ?? 0;
+        const py = point?.y ?? 0;
+        for (const entry of connectors) {
+            const dx = px - entry.x;
+            const dy = py - entry.y;
+            const dist = Math.hypot(dx, dy);
+            if (dist <= CONNECTOR_RADIUS + HIT_PADDING) {
+                return {
+                    type: entry.type,
+                    index: entry.index,
+                    id: entry.id,
+                    nodeId: this.nodeId,
+                    x: entry.x,
+                    y: entry.y,
+                };
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Draw the node on the provided 2D context.
+     * @param {CanvasRenderingContext2D} ctx
+     * @param {{hoverConnector?: {type:'input'|'output',kind?:'input'|'output',index:number,nodeId:string|number}, draggingConnection?: {start:{kind:string,type:string,nodeId:string|number,index:number}}}} [options]
+     */
+    draw(ctx, { hoverConnector = null, draggingConnection = null } = {}) {
+        if (!ctx) {
+            return;
+        }
+        const data = this.getNodeData();
+        if (!data) {
+            return;
+        }
+
+        debugLog(
+            'node_ui',
+            '[NodeUi.draw] Before ensureNodeHeight - node:',
+            this.nodeId,
+            'height:',
+            data.height
+        );
+        // Ensure height is calculated before rendering
+        this.ensureNodeHeight();
+        debugLog('node_ui', '[NodeUi.draw] After ensureNodeHeight - height:', data.height);
+
+        const bounds = {
+            x: data.x,
+            y: data.y,
+            width: data.width,
+            height: data.height,
+        };
+        debugLog('node_ui', '[NodeUi.draw] Drawing with bounds:', bounds);
+        ctx.save();
+
+        // Body
+        ctx.fillStyle = this.style.bodyColor;
+        ctx.strokeStyle = this.selected ? this.style.selectedBorderColor : this.style.borderColor;
+        ctx.lineWidth = this.selected ? 2 : 1.2;
+        ctx.beginPath();
+        ctx.roundRect(bounds.x, bounds.y, bounds.width, bounds.height, NODE_CORNER_RADIUS);
+        ctx.fill();
+        ctx.stroke();
+
+        // Header (clip to node radius so the top corners stay rounded)
+        ctx.save();
+        ctx.beginPath();
+        ctx.roundRect(bounds.x, bounds.y, bounds.width, bounds.height, NODE_CORNER_RADIUS);
+        ctx.clip();
+        ctx.fillStyle = this.style.headerColor;
+        ctx.fillRect(bounds.x, bounds.y, bounds.width, NODE_HEADER_HEIGHT);
+        ctx.restore();
+
+        // Node type icon (left side)
+        const iconSize = 16;
+        const iconX = bounds.x + 6;
+        const iconY = bounds.y + (NODE_HEADER_HEIGHT - iconSize) / 2;
+
+        debugLog('node_ui', '[NodeUi.draw] Icon rendering check', {
+            nodeId: this.nodeId,
+            hasIconImage: !!this._iconImage,
+            iconComplete: this._iconImage?.complete,
+            iconLoaded: this._iconLoaded,
+            iconSrc: this._iconImage?.src,
+            dataIcon: data.icon,
+            position: { iconX, iconY, iconSize },
+        });
+
+        // Draw icon if available
+        if (this._iconImage && this._iconImage.complete) {
+            debugLog('node_ui', '[NodeUi.draw] Drawing icon image');
+            ctx.drawImage(this._iconImage, iconX, iconY, iconSize, iconSize);
+        } else {
+            debugLog('node_ui', '[NodeUi.draw] Drawing placeholder square (icon not ready)');
+            // Fallback: draw simple placeholder square
+            ctx.fillStyle = this.style.textColor;
+            ctx.globalAlpha = 0.5;
+            ctx.fillRect(iconX, iconY, iconSize, iconSize);
+            ctx.globalAlpha = 1.0;
+        }
+
+        // Title (centered between icon and collapse button)
+        ctx.fillStyle = this.style.textColor;
+        ctx.font = '12px "Segoe UI", Arial, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        const title = typeof data.title === 'string' ? data.title : `${data.type} ${data.id}`;
+        const titleX = bounds.x + bounds.width / 2;
+        ctx.fillText(title, titleX, bounds.y + NODE_HEADER_HEIGHT / 2);
+
+        // Collapse indicator (chevron on right side)
+        this._drawCollapseIndicator(
+            ctx,
+            bounds.x + bounds.width - COLLAPSE_BUTTON_SIZE / 2,
+            bounds.y + NODE_HEADER_HEIGHT / 2,
+            data.collapsed || false
+        );
+
+        // Connectors
+        this._drawConnectors(ctx, 'input', hoverConnector, draggingConnection);
+        this._drawConnectors(ctx, 'output', hoverConnector, draggingConnection);
+
+        // Controls (only when not collapsed)
+        if (!data.collapsed) {
+            this._drawControls(ctx);
+        }
+
+        ctx.restore();
+    }
+
+    /**
+     * Hit test for node header elements (name, collapse button).
+     * Layout: [Icon 6-22px] [Title centered] [Collapse button right 24px]
+     * @param {{x:number,y:number}} point Canvas coordinates.
+     * @returns {{type:'name'|'collapse'|'drag',bounds?:object}|null}
+     */
+    hitTestHeader(point) {
+        const data = this.getNodeData();
+        if (!data) return null;
+
+        const headerBounds = {
+            x: data.x,
+            y: data.y,
+            width: data.width,
+            height: NODE_HEADER_HEIGHT,
+        };
+
+        if (!this._pointInRect(point, headerBounds)) {
+            return null;
+        }
+
+        // Check collapse button (right side)
+        const collapseBounds = {
+            x: data.x + data.width - COLLAPSE_BUTTON_SIZE,
+            y: data.y,
+            width: COLLAPSE_BUTTON_SIZE,
+            height: NODE_HEADER_HEIGHT,
+        };
+
+        if (this._pointInRect(point, collapseBounds)) {
+            return { type: 'collapse' };
+        }
+
+        // Check name area (between icon and collapse button)
+        const nameBounds = {
+            x: data.x + 24, // After icon
+            y: data.y,
+            width: data.width - 24 - COLLAPSE_BUTTON_SIZE, // Between icon and collapse
+            height: NODE_HEADER_HEIGHT,
+        };
+
+        if (this._pointInRect(point, nameBounds)) {
+            return { type: 'name', bounds: nameBounds };
+        }
+
+        return { type: 'drag' }; // Icon area or edges are for dragging
+    }
+
+    /**
+     * Hit test for control elements in the node body.
+     * Layout order: Header → Controls → Connectors (controls come first now)
+     * @param {{x:number,y:number}} point Canvas coordinates.
+     * @returns {{controlId:string,type:string,bounds:object}|null}
+     */
+    hitTestControl(point) {
+        const data = this.getNodeData();
+        if (!data || data.collapsed) return null;
+
+        const visibleControls = this._getVisibleControls(data);
+
+        // Controls start immediately after header (no inputs before them)
+        let yOffset = data.y + NODE_HEADER_HEIGHT + NODE_BODY_PADDING;
+
+        const leftMargin = data.x + NODE_BODY_PADDING;
+        const totalWidth = data.width - NODE_BODY_PADDING * 2;
+
+        // Create temporary canvas context for text measurement
+        const tempCanvas = document.createElement('canvas');
+        const ctx = tempCanvas.getContext('2d');
+        ctx.font = '11px "Segoe UI", Arial, sans-serif';
+
+        for (const control of visibleControls) {
+            // Calculate exact bounds of the value area (matching _drawControls)
+            const label = this._extractLocalizedString(control.label) || control.id || '';
+            const labelWidth = ctx.measureText(label).width;
+            const controlX = leftMargin + labelWidth + CONTROL_LABEL_MARGIN;
+            const valueWidth = totalWidth - labelWidth - CONTROL_LABEL_MARGIN;
+
+            const controlBounds = {
+                x: controlX,
+                y: yOffset,
+                width: valueWidth,
+                height: CONTROL_HEIGHT,
+            };
+
+            if (this._pointInRect(point, controlBounds)) {
+                return {
+                    controlId: control.id,
+                    type: control.type,
+                    bounds: controlBounds,
+                };
+            }
+
+            yOffset += CONTROL_HEIGHT + CONTROL_SPACING;
+        }
+
+        return null;
+    }
+
+    /**
+     * Show an inline editor for the node name.
+     * @param {{x:number,y:number}} canvasPoint Canvas coordinates.
+     * @param {HTMLElement} canvasElement Canvas element for positioning.
+     * @param {{pan:{x:number,y:number},zoom:number}} viewport Viewport transform.
+     */
+    showNameEditor(canvasPoint, canvasElement, viewport) {
+        const data = this.getNodeData();
+        if (!data) return;
+
+        this.hideEditor();
+
+        // Use GraphPanelView's coordinate transformation if available, otherwise fallback
+        const screenPoint = this._canvasToScreenFn
+            ? this._canvasToScreenFn(canvasPoint)
+            : this._canvasToScreen(canvasPoint, canvasElement, viewport);
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = data.title || '';
+        input.className = 'node-ui__name-editor';
+        input.style.position = 'absolute';
+        input.style.left = `${screenPoint.x}px`;
+        input.style.top = `${screenPoint.y}px`;
+        input.style.width = '180px';
+        input.style.zIndex = '1000';
+        input.style.fontSize = '12px';
+        input.style.padding = '4px 8px';
+        input.style.border = '1px solid #7ba3d6';
+        input.style.borderRadius = '4px';
+        input.style.backgroundColor = '#2d3350';
+        input.style.color = '#f5f5f5';
+        input.style.outline = 'none';
+
+        const commitValue = () => {
+            const newName = input.value.trim();
+            if (newName && newName !== data.title) {
+                data.title = newName;
+                if (this.graph && typeof this.graph.updateNode === 'function') {
+                    this.graph.updateNode(this.nodeId, { title: newName });
+                }
+            }
+            input.remove();
+            this._activeEditor = null;
+        };
+
+        input.addEventListener('blur', commitValue);
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                commitValue();
+            } else if (e.key === 'Escape') {
+                input.remove();
+                this._activeEditor = null;
+            }
+        });
+
+        document.body.appendChild(input);
+        this._activeEditor = input;
+        input.focus();
+        input.select();
+    }
+
+    /**
+     * Show an inline editor for a control.
+     * @param {string} controlId Control identifier.
+     * @param {{x:number,y:number}} canvasPoint Canvas coordinates (fallback position).
+     * @param {HTMLElement} canvasElement Canvas element for positioning.
+     * @param {{pan:{x:number,y:number},zoom:number}} viewport Viewport transform.
+     * @param {{x:number,y:number,width:number,height:number}} bounds Optional control bounds.
+     */
+    showControlEditor(controlId, canvasPoint, canvasElement, viewport, bounds = null) {
+        const data = this.getNodeData();
+        if (!data) return;
+
+        const control = (data.controls || []).find((c) => c.id === controlId);
+        if (!control) return;
+
+        this.hideEditor();
+
+        // Use control bounds top-left if provided, otherwise fall back to click point
+        const editorPoint = bounds ? { x: bounds.x, y: bounds.y } : canvasPoint;
+
+        // Use GraphPanelView's coordinate transformation if available, otherwise fallback
+        const screenPoint = this._canvasToScreenFn
+            ? this._canvasToScreenFn(editorPoint)
+            : this._canvasToScreen(editorPoint, canvasElement, viewport);
+
+        let editor;
+        switch (control.type) {
+            case 'number':
+                editor = this._createNumberEditor(control, screenPoint);
+                break;
+            case 'text':
+                editor = this._createTextEditor(control, screenPoint);
+                break;
+            case 'dropdown':
+                editor = this._createDropdownEditor(control, screenPoint);
+                break;
+            case 'checkbox':
+                // Checkboxes toggle immediately, no editor needed
+                this._toggleCheckbox(control);
+                return;
+            case 'slider':
+                editor = this._createSliderEditor(control, screenPoint);
+                break;
+            case 'color':
+                editor = this._createColorEditor(control, screenPoint);
+                break;
+            default:
+                return;
+        }
+
+        if (editor) {
+            document.body.appendChild(editor);
+            this._activeEditor = editor;
+            editor.focus();
+
+            // Close when clicking outside the editor (including on control label)
+            const clickAwayHandler = (event) => {
+                if (!editor.contains(event.target)) {
+                    this.hideEditor();
+                }
+            };
+            // Use capture phase to intercept clicks before they reach other handlers
+            document.addEventListener('mousedown', clickAwayHandler, true);
+            this._activeEditorClickHandler = clickAwayHandler;
+        }
+    }
+
+    /**
+     * Hide any active editor overlay.
+     */
+    hideEditor() {
+        if (this._activeEditor) {
+            this._activeEditor.remove();
+            this._activeEditor = null;
+        }
+        // Clean up click-away listener
+        if (this._activeEditorClickHandler) {
+            document.removeEventListener('mousedown', this._activeEditorClickHandler, true);
+            this._activeEditorClickHandler = null;
+        }
+    }
+
+    /**
+     * Toggle the collapsed state of the node.
+     */
+    toggleCollapsed() {
+        const data = this.getNodeData();
+        if (data) {
+            this.setCollapsed(!data.collapsed);
+        }
+    }
+
+    /**
+     * Handle a click on the node. Checks for control, header, or drag interactions.
+     * Returns true if the click was handled (prevents dragging), false otherwise.
+     * @param {{x:number,y:number}} point Canvas coordinates of the click.
+     * @param {HTMLElement} canvasElement Canvas element for positioning editors.
+     * @param {{pan:{x:number,y:number},zoom:number}} viewport Viewport transform.
+     * @returns {boolean} True if click was handled internally, false to allow dragging.
+     */
+    handleClick(point, canvasElement, viewport) {
+        // Check for control hit first (highest priority)
+        const controlHit = this.hitTestControl(point);
+        if (controlHit) {
+            // Pass control bounds so editor appears at control position, not mouse position
+            this.showControlEditor(
+                controlHit.controlId,
+                point,
+                canvasElement,
+                viewport,
+                controlHit.bounds
+            );
+            return true; // Handled - prevent drag
+        }
+
+        // Check for header interactions
+        const headerHit = this.hitTestHeader(point);
+        if (headerHit) {
+            if (headerHit.type === 'collapse') {
+                this.toggleCollapsed();
+                return true; // Handled - prevent drag
+            } else if (headerHit.type === 'name') {
+                // Only show name editor on double-click
+                const now = Date.now();
+                const isDoubleClick =
+                    this._lastClickTarget === 'name' && now - this._lastClickTime < 400; // 400ms double-click threshold
+
+                if (isDoubleClick) {
+                    this.showNameEditor(point, canvasElement, viewport);
+                    this._lastClickTime = 0; // Reset to prevent triple-click
+                    this._lastClickTarget = null;
+                    return true; // Handled - prevent drag
+                } else {
+                    this._lastClickTime = now;
+                    this._lastClickTarget = 'name';
+                    // Single click on name - allow drag
+                    return false;
+                }
+            }
+            // type === 'drag' falls through
+        }
+
+        // Reset double-click tracking if clicking elsewhere
+        this._lastClickTime = 0;
+        this._lastClickTarget = null;
+
+        return false; // Not handled - allow dragging
+    }
+
+    /**
+     * Destroy the node UI and clean up resources.
+     */
+    destroy() {
+        this.hideEditor();
+        this._unbindGraph();
+    }
+
+    /**
+     * Create a number input editor.
+     * @private
+     */
+    _createNumberEditor(control, screenPoint) {
+        const data = this.getNodeData();
+        const currentValue = data.controlValues?.[control.id] ?? control.default ?? 0;
+
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.value = currentValue;
+        input.className = 'node-ui__control-editor';
+        this._styleEditor(input, screenPoint);
+
+        if (control.min !== undefined) input.min = control.min;
+        if (control.max !== undefined) input.max = control.max;
+        if (control.step !== undefined) input.step = control.step;
+
+        const commitValue = () => {
+            const newValue = parseFloat(input.value);
+            if (!isNaN(newValue)) {
+                this._updateControlValue(control.id, newValue);
+            }
+            input.remove();
+            this._activeEditor = null;
+        };
+
+        input.addEventListener('blur', commitValue);
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') commitValue();
+            else if (e.key === 'Escape') {
+                input.remove();
+                this._activeEditor = null;
+            }
+        });
+
+        return input;
+    }
+
+    /**
+     * Create a text input editor.
+     * @private
+     */
+    _createTextEditor(control, screenPoint) {
+        const data = this.getNodeData();
+        const currentValue = data.controlValues?.[control.id] ?? control.default ?? '';
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = currentValue;
+        input.className = 'node-ui__control-editor';
+        this._styleEditor(input, screenPoint);
+
+        const commitValue = () => {
+            this._updateControlValue(control.id, input.value);
+            input.remove();
+            this._activeEditor = null;
+        };
+
+        input.addEventListener('blur', commitValue);
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') commitValue();
+            else if (e.key === 'Escape') {
+                input.remove();
+                this._activeEditor = null;
+            }
+        });
+
+        return input;
+    }
+
+    /**
+     * Create a dropdown editor.
+     * @private
+     */
+    _createDropdownEditor(control, screenPoint) {
+        const data = this.getNodeData();
+        const currentValue = data.controlValues?.[control.id] ?? control.default;
+
+        const select = document.createElement('select');
+        select.className = 'node-ui__control-editor';
+
+        const options = control.options || [];
+        let maxTextLength = 0;
+
+        for (const option of options) {
+            const opt = document.createElement('option');
+            opt.value = option.value;
+            // Extract localized label string (handles i18n objects)
+            const labelText = this._extractLocalizedString(option.label) || option.value;
+            opt.textContent = labelText;
+            if (option.value === currentValue) {
+                opt.selected = true;
+            }
+            select.appendChild(opt);
+            maxTextLength = Math.max(maxTextLength, labelText.length);
+        }
+
+        // Calculate width based on text length (roughly 8px per character + padding)
+        // Min 80px, max 300px
+        const calculatedWidth = Math.min(Math.max(maxTextLength * 8 + 40, 80), 300);
+        this._styleEditor(select, screenPoint, calculatedWidth);
+
+        const commitValue = () => {
+            this._updateControlValue(control.id, select.value);
+            select.remove();
+            this._activeEditor = null;
+        };
+
+        select.addEventListener('blur', commitValue);
+        select.addEventListener('change', commitValue);
+        select.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                select.remove();
+                this._activeEditor = null;
+            }
+        });
+
+        return select;
+    }
+
+    /**
+     * Create a slider editor.
+     * @private
+     */
+    _createSliderEditor(control, screenPoint) {
+        const data = this.getNodeData();
+        const currentValue = data.controlValues?.[control.id] ?? control.default ?? 0;
+
+        const container = document.createElement('div');
+        container.className = 'node-ui__control-editor node-ui__control-editor--slider';
+        container.style.position = 'absolute';
+        container.style.left = `${screenPoint.x}px`;
+        container.style.top = `${screenPoint.y}px`;
+        container.style.width = '180px';
+        container.style.zIndex = '1000';
+        container.style.padding = '8px';
+        container.style.backgroundColor = '#2d3350';
+        container.style.border = '1px solid #7ba3d6';
+        container.style.borderRadius = '4px';
+
+        const input = document.createElement('input');
+        input.type = 'range';
+        input.value = currentValue;
+        input.style.width = '100%';
+
+        if (control.min !== undefined) input.min = control.min;
+        if (control.max !== undefined) input.max = control.max;
+        if (control.step !== undefined) input.step = control.step;
+
+        const valueDisplay = document.createElement('span');
+        valueDisplay.textContent = input.value;
+        valueDisplay.style.color = '#f5f5f5';
+        valueDisplay.style.fontSize = '11px';
+
+        input.addEventListener('input', () => {
+            valueDisplay.textContent = input.value;
+        });
+
+        const commitValue = () => {
+            this._updateControlValue(control.id, parseFloat(input.value));
+            container.remove();
+            this._activeEditor = null;
+        };
+
+        input.addEventListener('change', commitValue);
+        container.addEventListener('mouseleave', commitValue);
+
+        container.appendChild(input);
+        container.appendChild(valueDisplay);
+
+        return container;
+    }
+
+    /**
+     * Create a color picker editor.
+     * @private
+     */
+    _createColorEditor(control, screenPoint) {
+        const data = this.getNodeData();
+        const currentValue = data.controlValues?.[control.id] ?? control.default ?? '#ffffff';
+
+        const input = document.createElement('input');
+        input.type = 'color';
+        input.value = currentValue;
+        input.className = 'node-ui__control-editor';
+        this._styleEditor(input, screenPoint);
+        input.style.width = '60px';
+        input.style.height = '40px';
+
+        const commitValue = () => {
+            this._updateControlValue(control.id, input.value);
+            input.remove();
+            this._activeEditor = null;
+        };
+
+        input.addEventListener('blur', commitValue);
+        input.addEventListener('change', commitValue);
+
+        return input;
+    }
+
+    /**
+     * Toggle a checkbox control immediately.
+     * @private
+     */
+    _toggleCheckbox(control) {
+        const data = this.getNodeData();
+        const currentValue = data.controlValues?.[control.id] ?? control.default ?? false;
+        this._updateControlValue(control.id, !currentValue);
+    }
+
+    /**
+     * Apply standard styling to editor elements.
+     * @private
+     * @param {HTMLElement} element - The editor element to style.
+     * @param {{x:number,y:number}} screenPoint - Screen position.
+     * @param {number} [width=180] - Width in pixels (default 180).
+     */
+    _styleEditor(element, screenPoint, width = 180) {
+        element.style.position = 'absolute';
+        element.style.left = `${screenPoint.x}px`;
+        element.style.top = `${screenPoint.y}px`;
+        element.style.width = `${width}px`;
+        element.style.zIndex = '1000';
+        element.style.fontSize = '12px';
+        element.style.padding = '4px 8px';
+        element.style.border = '1px solid #7ba3d6';
+        element.style.borderRadius = '4px';
+        element.style.backgroundColor = '#2d3350';
+        element.style.color = '#f5f5f5';
+        element.style.outline = 'none';
+    }
+
+    /**
+     * Update a control value and notify the graph.
+     * @private
+     */
+    _updateControlValue(controlId, value) {
+        const data = this.getNodeData();
+        if (!data) return;
+
+        // Store value in controlValues object (not on control definition)
+        if (!data.controlValues) {
+            data.controlValues = {};
+        }
+        data.controlValues[controlId] = value;
+
+        // Check if this control affects visibility
+        const control = data.controls?.find((c) => c.id === controlId);
+        if (control && control.type === 'dropdown' && control.affectsControls) {
+            // Recalculate node height
+            const newHeight = this._calculateNodeHeight(data);
+
+            // Update node via graph
+            if (this.graph && typeof this.graph.updateNode === 'function') {
+                this.graph.updateNode(this.nodeId, {
+                    controlValues: data.controlValues,
+                    height: newHeight,
+                });
+            } else {
+                data.height = newHeight;
+            }
+        } else {
+            // Normal update (no height change)
+            if (this.graph && typeof this.graph.updateNode === 'function') {
+                this.graph.updateNode(this.nodeId, { controlValues: data.controlValues });
+            }
+        }
+    }
+
+    /**
+     * Convert canvas coordinates to screen coordinates.
+     * @private
+     */
+    _canvasToScreen(canvasPoint, canvasElement, viewport) {
+        if (!canvasElement || !viewport) {
+            return { x: canvasPoint.x, y: canvasPoint.y };
+        }
+
+        const rect = canvasElement.getBoundingClientRect();
+        const x = (canvasPoint.x + viewport.pan.x) * viewport.zoom + rect.left;
+        const y = (canvasPoint.y + viewport.pan.y) * viewport.zoom + rect.top;
+
+        return { x, y };
+    }
+
+    /**
+     * Check if a point is inside a rectangle.
+     * @private
+     */
+    _pointInRect(point, rect) {
+        return (
+            point.x >= rect.x &&
+            point.x <= rect.x + rect.width &&
+            point.y >= rect.y &&
+            point.y <= rect.y + rect.height
+        );
+    }
+
+    /**
+     * Render connector icons and labels for a given kind.
+     * @param {CanvasRenderingContext2D} ctx
+     * @param {'input'|'output'} kind Connector type to draw.
+     * @param {{type:'input'|'output',kind?:'input'|'output',index:number,nodeId:string|number}|null} hoverConnector Descriptor of hovered connector, if any.
+     * @param {{start:{kind:string,type:string,nodeId:string|number,index:number}}|null} draggingConnection Info about connection being dragged.
+     */
+    _drawConnectors(ctx, kind, hoverConnector, draggingConnection) {
+        const data = this.getNodeData();
+        const isCollapsed = data?.collapsed || false;
+        const entries = this._connectorPositions(kind);
+        ctx.save();
+        ctx.font = '11px "Segoe UI", Arial, sans-serif';
+        ctx.textBaseline = 'middle';
+        for (const entry of entries) {
+            const hoverType = hoverConnector?.type || hoverConnector?.kind;
+            const isHover =
+                hoverConnector &&
+                hoverConnector.nodeId === this.nodeId &&
+                hoverType === kind &&
+                hoverConnector.index === entry.index;
+
+            // Check if this connector should be highlighted during connection dragging
+            const isCompatible = this._isConnectorCompatible(kind, entry.index, draggingConnection);
+            const shouldHighlight = isHover || isCompatible;
+            if (kind === 'input') {
+                // Only draw label when not collapsed
+                if (!isCollapsed) {
+                    ctx.fillStyle = this.style.textColor;
+                    ctx.textAlign = 'left';
+                    const label = entry.label || entry.id || '';
+                    ctx.fillText(label, entry.x + CONNECTOR_LABEL_OFFSET, entry.y);
+                }
+
+                // Draw square socket shape (open to the left for output connector to fit)
+                const socketSize = CONNECTOR_RADIUS * 2;
+                const socketDepth = socketSize * 0.4; // How far the socket extends left
+                const socketWidth = socketSize * 0.6; // Right side visible width
+
+                ctx.fillStyle = shouldHighlight ? '#f0d858' : '#d4d7e3';
+                ctx.strokeStyle = shouldHighlight ? '#f0d858' : '#7ba3d6';
+                ctx.lineWidth = shouldHighlight ? 3 : 2;
+
+                // Draw socket as a square with left side open
+                ctx.beginPath();
+                ctx.moveTo(entry.x - socketDepth, entry.y - socketSize / 2); // Top-left
+                ctx.lineTo(entry.x + socketWidth, entry.y - socketSize / 2); // Top-right
+                ctx.lineTo(entry.x + socketWidth, entry.y + socketSize / 2); // Bottom-right
+                ctx.lineTo(entry.x - socketDepth, entry.y + socketSize / 2); // Bottom-left
+                // Leave left side open (don't close path)
+                ctx.stroke();
+
+                // Fill interior with semi-transparent color to show socket depth
+                ctx.fillStyle = shouldHighlight
+                    ? 'rgba(240, 216, 88, 0.3)'
+                    : 'rgba(212, 215, 227, 0.3)';
+                ctx.fill();
+
+                if (shouldHighlight) {
+                    ctx.globalAlpha = 0.2;
+                    ctx.fillStyle = '#f0d858';
+                    ctx.beginPath();
+                    ctx.moveTo(entry.x - socketDepth - 2, entry.y - socketSize / 2 - 2);
+                    ctx.lineTo(entry.x + socketWidth + 2, entry.y - socketSize / 2 - 2);
+                    ctx.lineTo(entry.x + socketWidth + 2, entry.y + socketSize / 2 + 2);
+                    ctx.lineTo(entry.x - socketDepth - 2, entry.y + socketSize / 2 + 2);
+                    ctx.fill();
+                    ctx.globalAlpha = 1.0; // Reset alpha for subsequent connectors
+                }
+            } else {
+                ctx.fillStyle = shouldHighlight ? '#f0d858' : '#95b89a';
+                ctx.strokeStyle = shouldHighlight ? '#f0d858' : '#7da682';
+                ctx.lineWidth = shouldHighlight ? 2.5 : 1.5;
+                const width = CONNECTOR_RADIUS * 2 - 2;
+                const height = (width * 2) / 3; // Height is 2/3 of width
+                const x = entry.x - width / 2;
+                const y = entry.y - height / 2;
+                ctx.beginPath();
+                ctx.roundRect(x, y, width, height, 3);
+                ctx.fill();
+                ctx.stroke();
+
+                // Only draw label when not collapsed
+                if (!isCollapsed) {
+                    ctx.fillStyle = this.style.textColor;
+                    ctx.textAlign = 'right';
+                    const label = entry.label || entry.id || '';
+                    ctx.fillText(label, entry.x - CONNECTOR_LABEL_OFFSET, entry.y);
+                }
+            }
+        }
+        ctx.restore();
+    }
+
+    /**
+     * Check if a connector on this node is compatible with a dragging connection.
+     * Compatible means: opposite kind, different node, and matching types.
+     * @private
+     * @param {'input'|'output'} kind The kind of connector to check.
+     * @param {number} index The index of the connector.
+     * @param {{start:{kind:string,type:string,nodeId:string|number,index:number}}|null} draggingConnection The connection being dragged.
+     * @returns {boolean} True if this connector is compatible with the dragging connection.
+     */
+    _isConnectorCompatible(kind, index, draggingConnection) {
+        if (!draggingConnection?.start) return false;
+
+        const sourceConnector = draggingConnection.start;
+        const sourceKind = sourceConnector.kind || sourceConnector.type;
+
+        // Must be opposite kind (input vs output)
+        if (kind === sourceKind) return false;
+
+        // Must be different node
+        if (this.nodeId === sourceConnector.nodeId) return false;
+
+        // Get node data to check types
+        const data = this.getNodeData();
+        if (!data) return false;
+
+        // Get the target connector definition
+        const connectors = kind === 'input' ? data.inputs : data.outputs;
+        const targetConnector = connectors[index];
+        if (!targetConnector) return false;
+
+        // Get source node data to find source connector type
+        const sourceNodeData = this.graph?.getNode?.(sourceConnector.nodeId);
+        if (!sourceNodeData) return false;
+
+        const sourceConnectors =
+            sourceKind === 'input' ? sourceNodeData.inputs : sourceNodeData.outputs;
+        const sourceConnectorDef = sourceConnectors?.[sourceConnector.index];
+
+        // Check type compatibility
+        const sourceType = sourceConnectorDef?.type;
+        const targetType = targetConnector.type;
+
+        const compatible =
+            !sourceType ||
+            !targetType ||
+            sourceType === 'any' ||
+            targetType === 'any' ||
+            sourceType === targetType;
+
+        console.log('[NodeUi._isConnectorCompatible]', {
+            thisNode: this.nodeId,
+            targetConnector: `${kind}[${index}]`,
+            targetType,
+            sourceNode: sourceConnector.nodeId,
+            sourceConnector: `${sourceKind}[${sourceConnector.index}]`,
+            sourceType,
+            compatible,
+        });
+
+        return compatible;
+    }
+
+    /**
+     * Render all controls in the node body.
+     * @private
+     * @param {CanvasRenderingContext2D} ctx
+     */
+    _drawControls(ctx) {
+        const data = this.getNodeData();
+        if (!data) return;
+
+        const visibleControls = this._getVisibleControls(data);
+        if (visibleControls.length === 0) return;
+
+        ctx.save();
+
+        // Calculate starting Y position (immediately after header, before connectors)
+        let yOffset = data.y + NODE_HEADER_HEIGHT + NODE_BODY_PADDING;
+
+        // Control rendering area
+        const leftMargin = data.x + NODE_BODY_PADDING;
+        const totalWidth = data.width - NODE_BODY_PADDING * 2;
+
+        for (const control of visibleControls) {
+            // Draw label on LEFT
+            ctx.font = '11px "Segoe UI", Arial, sans-serif';
+            ctx.fillStyle = 'rgba(245, 245, 245, 0.7)';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'middle';
+
+            const label = this._extractLocalizedString(control.label) || control.id || '';
+            ctx.fillText(label, leftMargin, yOffset + CONTROL_HEIGHT / 2);
+
+            // Measure label width and position control right after it
+            const labelWidth = ctx.measureText(label).width;
+            const controlX = leftMargin + labelWidth + CONTROL_LABEL_MARGIN;
+            const valueWidth = totalWidth - labelWidth - CONTROL_LABEL_MARGIN;
+
+            // Draw control value box on RIGHT
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.roundRect(controlX, yOffset, valueWidth, CONTROL_HEIGHT, 4);
+            ctx.fill();
+            ctx.stroke();
+
+            // Draw control value as text
+            // Get control value, falling back to default if not set
+            let controlValue = data.controlValues?.[control.id];
+            if (controlValue === undefined || controlValue === null) {
+                controlValue = control.default;
+            }
+
+            const valueText = this._formatControlValue(control, controlValue);
+
+            ctx.fillStyle = '#f5f5f5';
+            ctx.font = '11px "Segoe UI", Arial, sans-serif';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(valueText, controlX + 4, yOffset + CONTROL_HEIGHT / 2, valueWidth - 8);
+
+            yOffset += CONTROL_HEIGHT + CONTROL_SPACING;
+        }
+
+        ctx.restore();
+    }
+
+    /**
+     * Format control value for display, handling localization.
+     * @private
+     * @param {object} control - Control definition.
+     * @param {*} value - Control value.
+     * @returns {string} Formatted value text.
+     */
+    _formatControlValue(control, value) {
+        // Debug logging to verify values are displayed correctly
+        if (this._logger?.debug) {
+            this._logger.debug(`[NodeUi] Formatting control ${control.id} (${control.type}):`, {
+                value,
+                hasValue: value !== undefined,
+                default: control.default,
+            });
+        }
+
+        switch (control.type) {
+            case 'checkbox':
+                return value ? '☑' : '☐';
+            case 'dropdown':
+                if (control.options && Array.isArray(control.options)) {
+                    const option = control.options.find((opt) => opt.value === value);
+                    if (option) {
+                        // Extract localized label
+                        return this._extractLocalizedString(option.label) || value || '';
+                    }
+                }
+                return value !== undefined && value !== null ? String(value) : '';
+            default:
+                // Handle 0 and other falsy but valid values
+                return value !== undefined && value !== null ? String(value) : '';
+        }
+    }
+
+    /**
+     * Extract localized string from value using current locale.
+     * @private
+     * @param {string|object} value - String or localization object.
+     * @returns {string} Localized string.
+     */
+    _extractLocalizedString(value) {
+        if (typeof value === 'string') {
+            return value;
+        }
+        if (typeof value === 'object' && value !== null) {
+            // Try current locale, fall back to 'en', then first available
+            const locale = this._i18nService?.currentLocale || 'en';
+            return value[locale] || value['en'] || value[Object.keys(value)[0]] || '';
+        }
+        return String(value);
+    }
+
+    /**
+     * Compute connector anchor points and metadata for rendering and hit tests.
+     * @param {'input'|'output'} kind Connector type to inspect.
+     * @returns {Array<{type:'input'|'output',index:number,x:number,y:number,id?:string,label?:string}>}
+     */
+    _connectorPositions(kind) {
+        const data = this.getNodeData();
+        if (!data) {
+            return [];
+        }
+        const isInput = kind === 'input';
+        const list = isInput ? data.inputs : data.outputs;
+        const positions = [];
+
+        // X position: extend outside node border
+        const baseX = isInput
+            ? data.x - CONNECTOR_OVERLAP
+            : data.x + data.width + CONNECTOR_OVERLAP;
+
+        // Calculate Y position: after header + padding + all visible controls
+        const visibleControls = this._getVisibleControls(data);
+        const controlsHeight =
+            visibleControls.length > 0
+                ? visibleControls.length * (CONTROL_HEIGHT + CONTROL_SPACING) + CONTROL_SPACING
+                : 0;
+        const centerY =
+            data.y + NODE_HEADER_HEIGHT + NODE_BODY_PADDING + controlsHeight + CONNECTOR_RADIUS;
+
+        for (let i = 0; i < list.length; i += 1) {
+            const entry = list[i] || {};
+            const y = data.collapsed
+                ? data.y + NODE_HEADER_HEIGHT / 2
+                : centerY + i * CONNECTOR_SPACING;
+            positions.push({
+                type: kind,
+                index: i,
+                x: baseX,
+                y,
+                id: entry.id,
+                label: entry.name || entry.label,
+            });
+        }
+        return positions;
+    }
+
+    /**
+     * Draw the collapse indicator (chevron) in the header.
+     * @private
+     * @param {CanvasRenderingContext2D} ctx
+     * @param {number} x X coordinate
+     * @param {number} y Y coordinate
+     * @param {boolean} collapsed Whether node is collapsed
+     */
+    _drawCollapseIndicator(ctx, x, y, collapsed) {
+        ctx.save();
+        ctx.translate(x, y);
+
+        // Rotate 180 degrees if collapsed
+        if (collapsed) {
+            ctx.rotate(Math.PI);
+        }
+
+        // Draw chevron down
+        ctx.strokeStyle = this.style.textColor;
+        ctx.lineWidth = 2;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.beginPath();
+        ctx.moveTo(-4, -2);
+        ctx.lineTo(0, 2);
+        ctx.lineTo(4, -2);
+        ctx.stroke();
+
+        ctx.restore();
+    }
+
+    /**
+     * Reload the node's icon from the current NodeData.
+     * Call this after modifying nodeData.icon to update the visual representation.
+     */
+    reloadIcon() {
+        debugLog('node_ui', '[NodeUi.reloadIcon] Reloading icon', {
+            nodeId: this.nodeId,
+        });
+        this._iconImage = null;
+        this._iconLoaded = false;
+        this._loadIcon();
+    }
+
+    /**
+     * Load the node type icon asynchronously.
+     * @private
+     */
+    _loadIcon() {
+        const data = this.getNodeData();
+        debugLog('node_ui', '[NodeUi._loadIcon] Starting icon load', {
+            nodeId: this.nodeId,
+            hasData: !!data,
+            dataIcon: data?.icon,
+        });
+
+        if (!data) {
+            debugLog('node_ui', '[NodeUi._loadIcon] No data, skipping');
+            return;
+        }
+
+        // Get icon from nodeData or look it up from runtime
+        let iconPath = data.icon;
+        if (!iconPath && this._workspace) {
+            const runtime = this._workspace.runtimeCollection?.getActiveRuntime();
+            if (runtime) {
+                const nodeType = runtime.getNodeType(data.type);
+                if (nodeType && nodeType.icon) {
+                    iconPath = nodeType.icon;
+                    debugLog('node_ui', '[NodeUi._loadIcon] Icon not in nodeData, using runtime', {
+                        nodeId: this.nodeId,
+                        nodeType: data.type,
+                        iconPath,
+                    });
+                }
+            }
+        }
+
+        if (!iconPath) {
+            debugLog('node_ui', '[NodeUi._loadIcon] No icon available, skipping', {
+                hasDataIcon: !!data.icon,
+                hasWorkspace: !!this._workspace,
+            });
+            return;
+        }
+
+        // Create and load icon image
+        this._iconImage = new Image();
+        this._iconImage.onload = () => {
+            this._iconLoaded = true;
+            debugLog('node_ui', '[NodeUi._loadIcon] Icon loaded successfully', {
+                nodeId: this.nodeId,
+                icon: iconPath,
+                imageSize: { width: this._iconImage.width, height: this._iconImage.height },
+            });
+
+            // Trigger re-render callback if provided
+            if (typeof this._onIconLoad === 'function') {
+                this._onIconLoad(this.nodeId);
+            }
+        };
+        this._iconImage.onerror = (error) => {
+            this._iconImage = null;
+            this._iconLoaded = false;
+            debugLog('node_ui', '[NodeUi._loadIcon] Icon load FAILED', {
+                nodeId: this.nodeId,
+                icon: iconPath,
+                error,
+            });
+        };
+        this._iconImage.src = iconPath;
+        debugLog('node_ui', '[NodeUi._loadIcon] Image.src set to', iconPath);
+    }
+
+    /**
+     * Attach to graph change notifications, reserving a handle for cleanup.
+     * @param {import('../data/node-graph.js').default|object} graph Graph instance to observe.
+     */
+    _bindGraph(graph) {
+        if (!graph || typeof graph.onChange !== 'function') {
+            return;
+        }
+        // this._unsubscribe = graph.onChange(() => {
+        //     // No-op; hook kept to avoid stale refs and enable future reactive hooks.
+        // });
+    }
+
+    /**
+     * Remove graph change listener when swapping or destroying instances.
+     */
+    _unbindGraph() {
+        if (typeof this._unsubscribe === 'function') {
+            try {
+                this._unsubscribe();
+            } catch (_) {
+                // ignore listener cleanup errors
+            }
+        }
+        this._unsubscribe = null;
+    }
+}
+
+export default NodeUi;

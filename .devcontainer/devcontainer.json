@@ -1,0 +1,54 @@
+{
+    "name": "micro-otter",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": ".."
+    },
+    "runArgs": [
+        "--group-add=dialout",
+        "--device-cgroup-rule=c 166:* rmw",
+        "--device-cgroup-rule=c 188:* rmw"
+    ],
+    "mounts": [
+        "type=bind,source=/dev,target=/dev",
+        "type=bind,source=${localEnv:HOME}/micro_otter/opt,target=/opt",
+        "type=volume,source=micro-otter-gnupg,target=/root/.gnupg",
+        "type=bind,source=${localEnv:HOME}/micro_otter/cline,target=/root/.cline"
+    ],
+    "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+    "forwardPorts": [5173],
+    "portsAttributes": {
+        "5173": {
+            "label": "Vite Dev Server",
+            "onAutoForward": "openPreview"
+        }
+    },
+    "remoteUser": "root",
+    "containerEnv": {
+        "PLAYWRIGHT_BROWSERS_PATH": "/ms-playwright",
+        "UV_PYTHON_PREFERENCE": "only-managed",
+        "GIT_SIGNING_KEY_ID": "${localEnv:GIT_SIGNING_KEY_ID}",
+        "GIT_USER_NAME": "${localEnv:GIT_USER_NAME}",
+        "GIT_USER_EMAIL": "${localEnv:GIT_USER_EMAIL}"
+    },
+    "postCreateCommand": "bash deploy/toolchain/bootstrap.sh && bash .devcontainer/link-idf-launcher.sh && bash .devcontainer/post-create.sh",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "charliermarsh.ruff",
+                "ms-playwright.playwright",
+                "dbaeumer.vscode-eslint",
+                "esbenp.prettier-vscode",
+                "mhutchie.git-graph"
+            ],
+            "settings": {
+                "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+                "python.terminal.activateEnvironment": true,
+                "terminal.integrated.defaultProfile.linux": "bash"
+            }
+        }
+    }
+
+}

@@ -1,0 +1,60 @@
+:root {
+    --mo-scrim: rgba(3, 5, 10, 0.8);
+}
+
+.view-manager {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.view-manager__layer {
+    position: absolute;
+    inset: 0;
+}
+
+.view-manager__layer--root {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: var(--mo-surface-0, #0f141f);
+}
+
+.view-manager__layer--overlay {
+    pointer-events: none;
+    overflow: visible;
+    z-index: 20;
+}
+
+.view-manager__layer--overlay > .overlay-view {
+    pointer-events: auto;
+}
+
+.view-manager__layer--modal {
+    display: none;
+    z-index: 30;
+    pointer-events: none;
+}
+
+.view-manager__modal-scrim {
+    position: absolute;
+    inset: 0;
+    background: var(--mo-scrim);
+    pointer-events: auto;
+}
+
+.view-manager__modal-host {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: auto;
+}
+
+.view-manager__modal-host > * {
+    pointer-events: auto;
+}

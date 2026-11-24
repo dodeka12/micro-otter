@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation and Error Dialog Test</title>
+    <link rel="stylesheet" href="../../src/micro_otter/nodes/html/styles/standard/view-system.css">
+    <link rel="stylesheet" href="../../src/micro_otter/nodes/html/styles/standard/view-manager.css">
+    <link rel="stylesheet" href="../../src/micro_otter/nodes/html/styles/standard/modal-dialog.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: #0c0f16;
+            color: #e5eaf3;
+        }
+        #controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            background: #172133;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #e5eaf3;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #1e2a3f;
+        }
+        #result {
+            padding: 20px;
+            background: #0f141f;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            min-height: 100px;
+        }
+        #view-root {
+            width: 100%;
+            height: 500px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .result-entry {
+            padding: 8px;
+            margin: 4px 0;
+            border-left: 3px solid #63b5ff;
+            background: rgba(99, 181, 255, 0.1);
+            border-radius: 0 4px 4px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>ViewManager Dialog Test</h1>
+    <p>Test the new showConfirmation() and showError() convenience methods.</p>
+    
+    <div id="controls">
+        <button id="btn-confirm-simple">Simple Confirmation</button>
+        <button id="btn-confirm-detail">Confirmation with Detail</button>
+        <button id="btn-confirm-destructive">Destructive Confirmation</button>
+        <button id="btn-error-simple">Simple Error</button>
+        <button id="btn-error-detail">Error with Stack Trace</button>
+        <button id="btn-clear-results">Clear Results</button>
+    </div>
+    
+    <div id="result">
+        <h3>Results:</h3>
+        <div id="result-content"></div>
+    </div>
+    
+    <div id="view-root"></div>
+
+    <script type="module">
+        import { ViewManager } from '../../src/micro_otter/nodes/html/js/views/view-manager.js';
+        import { I18nService } from '../../src/micro_otter/nodes/html/js/i18n/i18n-service.js';
+
+        // Initialize i18n
+        const i18nService = new I18nService({
+            manifestPath: '/html/locales/locales.json',
+            defaultLocale: 'en',
+            logger: console
+        });
+        await i18nService.load();
+
+        // Initialize ViewManager
+        const rootEl = document.getElementById('view-root');
+        const manager = new ViewManager({
+            mount: rootEl,
+            theme: 'standard',
+            i18nService: i18nService,
+            logEvents: true
+        });
+
+        const resultContent = document.getElementById('result-content');
+
+        function addResult(message, type = 'info') {
+            const entry = document.createElement('div');
+            entry.className = 'result-entry';
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            if (type === 'confirmed') {
+                entry.style.borderLeftColor = '#4ade80';
+                entry.style.background = 'rgba(74, 222, 128, 0.1)';
+            } else if (type === 'cancelled') {
+                entry.style.borderLeftColor = '#f87171';
+                entry.style.background = 'rgba(248, 113, 113, 0.1)';
+            }
+            resultContent.appendChild(entry);
+        }
+
+        // Simple Confirmation
+        document.getElementById('btn-confirm-simple').addEventListener('click', async () => {
+            addResult('Opening simple confirmation dialog...');
+            const result = await manager.showConfirmation({
+                title: 'Confirm Action',
+                message: 'Are you sure you want to proceed?',
+                confirmLabel: 'Yes, Proceed',
+                cancelLabel: 'Cancel'
+            });
+            addResult(`User ${result ? 'confirmed' : 'cancelled'}`, result ? 'confirmed' : 'cancelled');
+        });
+
+        // Confirmation with Detail
+        document.getElementById('btn-confirm-detail').addEventListener('click', async () => {
+            addResult('Opening confirmation with detail...');
+            const result = await manager.showConfirmation({
+                title: 'Update Firmware',
+                message: 'This will update the device firmware to version 2.0.',
+                detail: 'The device will restart after the update. This process cannot be interrupted once started.',
+                confirmLabel: 'Update',
+                cancelLabel: 'Cancel'
+            });
+            addResult(`User ${result ? 'confirmed' : 'cancelled'} firmware update`, result ? 'confirmed' : 'cancelled');
+        });
+
+        // Destructive Confirmation
+        document.getElementById('btn-confirm-destructive').addEventListener('click', async () => {
+            addResult('Opening destructive confirmation...');
+            const result = await manager.showConfirmation({
+                title: 'Delete All Data',
+                message: 'Are you sure you want to delete all data?',
+                detail: 'This action cannot be undone. All graphs, configurations, and saved state will be permanently deleted.',
+                confirmLabel: 'Delete Everything',
+                cancelLabel: 'Keep Data',
+                destructive: true
+            });
+            addResult(`User ${result ? 'confirmed deletion' : 'kept data'}`, result ? 'confirmed' : 'cancelled');
+        });
+
+        // Simple Error
+        document.getElementById('btn-error-simple').addEventListener('click', async () => {
+            addResult('Opening simple error dialog...');
+            await manager.showError({
+                title: 'Connection Error',
+                message: 'Failed to connect to the device. Please check the connection and try again.'
+            });
+            addResult('User dismissed error dialog');
+        });
+
+        // Error with Stack Trace
+        document.getElementById('btn-error-detail').addEventListener('click', async () => {
+            addResult('Opening error with stack trace...');
+            const fakeError = new Error('Network timeout after 5000ms');
+            fakeError.stack = `Error: Network timeout after 5000ms
+    at connectToDevice (device-connection.js:145:15)
+    at async DeviceManager.connect (device-manager.js:78:5)
+    at async WebSerialProvider.open (webserial-provider.js:123:12)`;
+            
+            await manager.showError({
+                title: 'Connection Failed',
+                message: 'The device did not respond in time.',
+                detail: fakeError.stack,
+                detailCollapsible: true
+            });
+            addResult('User dismissed error with stack trace');
+        });
+
+        // Clear Results
+        document.getElementById('btn-clear-results').addEventListener('click', () => {
+            resultContent.innerHTML = '';
+            addResult('Results cleared');
+        });
+
+        addResult('ViewManager initialized and ready');
+        console.log('ViewManager test page loaded');
+    </script>
+</body>
+</html>

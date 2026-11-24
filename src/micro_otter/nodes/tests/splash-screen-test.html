@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Splash Screen Test - Step 2.2</title>
+    <link rel="stylesheet" href="../styles/standard/splash-screen.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #0e111b;
+            color: #e7ebff;
+        }
+        .test-controls {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(12, 16, 28, 0.8);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        h1 {
+            margin: 0 0 20px 0;
+            font-size: 24px;
+        }
+        .button-group {
+            margin-bottom: 15px;
+        }
+        .button-group h3 {
+            margin: 0 0 8px 0;
+            font-size: 14px;
+            color: rgba(229, 234, 243, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            background: linear-gradient(120deg, #63b5ff, #2f86e5);
+            border: 1px solid rgba(118, 188, 255, 0.6);
+            border-radius: 6px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 140ms ease, box-shadow 140ms ease;
+        }
+        button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 14px rgba(0, 0, 0, 0.18);
+        }
+        .info {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 6px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .info ul {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-controls">
+        <h1>Splash Screen Test - Steps 2.1-2.3 Complete</h1>
+        
+        <div class="button-group">
+            <h3>Basic Controls</h3>
+            <button id="showBtn">Show Splash</button>
+            <button id="hideBtn">Hide Splash</button>
+            <button id="resetBtn">Reset Progress</button>
+        </div>
+        
+        <div class="button-group">
+            <h3>Progress Events</h3>
+            <button id="startBtn">START Event</button>
+            <button id="updateBtn">UPDATE Event</button>
+            <button id="completeBtn">COMPLETE Event</button>
+            <button id="errorBtn">ERROR Event</button>
+        </div>
+        
+        <div class="button-group">
+            <h3>Progress Test Sequences</h3>
+            <button id="simulateLoadBtn">Simulate Full Load (10 steps)</button>
+            <button id="simulateErrorBtn">Simulate Error Scenario</button>
+        </div>
+        
+        <div class="button-group">
+            <h3>Feature Warnings (Step 2.3)</h3>
+            <button id="showOptionalWarningsBtn">Show Optional Feature Warnings</button>
+            <button id="showRequiredWarningsBtn">Show Required Feature Warnings</button>
+            <button id="hideWarningsBtn">Hide Warnings</button>
+        </div>
+        
+        <div class="info">
+            <strong>All Features Tested (Steps 2.1-2.3):</strong>
+            <ul>
+                <li><strong>Splash Screen:</strong> Show/hide with fade transitions</li>
+                <li><strong>Progress Bar:</strong> Visual bar with percentage display</li>
+                <li><strong>Progress Message:</strong> Current status message with color coding</li>
+                <li><strong>Event Types:</strong> START (▶), UPDATE (●), COMPLETE (✓), ERROR (✗)</li>
+                <li><strong>History List:</strong> Scrollable list of last 8 events with icons and sources</li>
+                <li><strong>Auto-scroll:</strong> History automatically scrolls to latest item</li>
+                <li><strong>Error Highlighting:</strong> Errors shown in red in both message and history</li>
+                <li><strong>Complete Indicators:</strong> Completed events shown in green with checkmark</li>
+                <li><strong>Feature Warnings:</strong> Display required (red) and optional (yellow) missing features</li>
+                <li><strong>Continue Button:</strong> Appears only when optional features missing</li>
+                <li><strong>Custom Events:</strong> Emits 'splash-continue' event when Continue button clicked</li>
+            </ul>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import logging system FIRST
+        import '/html/js/core/log.js';
+        
+        import { SplashScreen } from '/html/js/views/splash-screen.js';
+        import { ProgressEvent, ProgressEventType } from '/html/js/core/progress-events.js';
+
+        // Enable logging system
+        if (globalThis.__microOtterLog) {
+            const { logger } = globalThis.__microOtterLog;
+            logger.setEnabled(true);
+            logger.register('SplashScreen');
+            console.log('[Test] Logging enabled for SplashScreen');
+        }
+
+        // Create splash screen instance
+        const splash = new SplashScreen({
+            title: 'Micro-Otter',
+            version: '0.2.0-dev',
+            maxHistoryItems: 8
+        });
+
+        // Listen for continue event
+        splash._container.addEventListener('splash-continue', (event) => {
+            console.log('User clicked Continue button! Missing optional features:', event.detail.missingOptional);
+            alert('Continue clicked! App would proceed with limited functionality.');
+        });
+
+        let stepCounter = 0;
+
+        // Basic controls
+        document.getElementById('showBtn').addEventListener('click', async () => {
+            console.log('Showing splash screen...');
+            await splash.show();
+            console.log('Splash screen shown!');
+        });
+
+        document.getElementById('hideBtn').addEventListener('click', async () => {
+            console.log('Hiding splash screen...');
+            await splash.hide();
+            console.log('Splash screen hidden!');
+        });
+
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            splash.resetProgress();
+            stepCounter = 0;
+            console.log('Progress reset');
+        });
+
+        // Event type buttons
+        document.getElementById('startBtn').addEventListener('click', () => {
+            const event = new ProgressEvent({
+                source: 'test',
+                type: ProgressEventType.START,
+                message: 'Starting initialization...',
+                progress: 0
+            });
+            splash.updateProgress(event);
+            console.log('START event sent');
+        });
+
+        document.getElementById('updateBtn').addEventListener('click', () => {
+            stepCounter++;
+            const event = new ProgressEvent({
+                source: 'test',
+                type: ProgressEventType.UPDATE,
+                message: `Processing step ${stepCounter}...`,
+                progress: Math.min(stepCounter * 10, 90)
+            });
+            splash.updateProgress(event);
+            console.log('UPDATE event sent');
+        });
+
+        document.getElementById('completeBtn').addEventListener('click', () => {
+            const event = new ProgressEvent({
+                source: 'test',
+                type: ProgressEventType.COMPLETE,
+                message: 'Initialization complete!',
+                progress: 100
+            });
+            splash.updateProgress(event);
+            console.log('COMPLETE event sent');
+        });
+
+        document.getElementById('errorBtn').addEventListener('click', () => {
+            const event = new ProgressEvent({
+                source: 'test',
+                type: ProgressEventType.ERROR,
+                message: 'An error occurred during initialization',
+                detail: { error: 'Test error' }
+            });
+            splash.updateProgress(event);
+            console.log('ERROR event sent');
+        });
+
+        // Simulate full load sequence
+        document.getElementById('simulateLoadBtn').addEventListener('click', async () => {
+            console.log('Starting load simulation...');
+            await splash.show();
+            splash.resetProgress();
+            
+            const steps = [
+                { source: 'workspace', message: 'Initializing workspace...', progress: 0 },
+                { source: 'workspace', message: 'Creating graph store...', progress: 10 },
+                { source: 'workspace', message: 'Initializing panels...', progress: 20 },
+                { source: 'renderer', message: 'Setting up canvas...', progress: 30 },
+                { source: 'renderer', message: 'Loading shaders...', progress: 40 },
+                { source: 'device-runtime', message: 'Loading device collections...', progress: 50 },
+                { source: 'device-runtime', message: 'Validating configurations...', progress: 60 },
+                { source: 'packages', message: 'Loading node packages...', progress: 70 },
+                { source: 'packages', message: 'Registering node types...', progress: 85 },
+                { source: 'ui', message: 'Binding UI components...', progress: 95 }
+            ];
+
+            for (let i = 0; i < steps.length; i++) {
+                const step = steps[i];
+                const eventType = i === 0 ? ProgressEventType.START : ProgressEventType.UPDATE;
+                const event = new ProgressEvent({
+                    source: step.source,
+                    type: eventType,
+                    message: step.message,
+                    progress: step.progress
+                });
+                splash.updateProgress(event);
+                await new Promise(resolve => setTimeout(resolve, 600));
+            }
+
+            // Complete
+            const completeEvent = new ProgressEvent({
+                source: 'workspace',
+                type: ProgressEventType.COMPLETE,
+                message: 'Application ready!',
+                progress: 100
+            });
+            splash.updateProgress(completeEvent);
+            
+            console.log('Load simulation complete');
+        });
+
+        // Simulate error scenario
+        document.getElementById('simulateErrorBtn').addEventListener('click', async () => {
+            console.log('Starting error simulation...');
+            await splash.show();
+            splash.resetProgress();
+            
+            const startEvent = new ProgressEvent({
+                source: 'workspace',
+                type: ProgressEventType.START,
+                message: 'Starting initialization...',
+                progress: 0
+            });
+            splash.updateProgress(startEvent);
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            const update1 = new ProgressEvent({
+                source: 'workspace',
+                type: ProgressEventType.UPDATE,
+                message: 'Loading configuration...',
+                progress: 25
+            });
+            splash.updateProgress(update1);
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            const update2 = new ProgressEvent({
+                source: 'device-runtime',
+                type: ProgressEventType.UPDATE,
+                message: 'Loading device profiles...',
+                progress: 50
+            });
+            splash.updateProgress(update2);
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            const errorEvent = new ProgressEvent({
+                source: 'device-runtime',
+                type: ProgressEventType.ERROR,
+                message: 'Failed to load device profile: connection timeout',
+                detail: { error: 'TIMEOUT', code: 'ERR_CONN_TIMEOUT' }
+            });
+            splash.updateProgress(errorEvent);
+            
+            console.log('Error simulation complete');
+        });
+
+        // Feature warning buttons
+        document.getElementById('showOptionalWarningsBtn').addEventListener('click', async () => {
+            console.log('Showing optional feature warnings...');
+            await splash.show();
+            
+            const missingOptional = ['WebUSB', 'FileSystemAccess'];
+            const details = new Map([
+                ['WebUSB', { available: false, reason: 'Not supported in this browser' }],
+                ['FileSystemAccess', { available: false, reason: 'Requires HTTPS or localhost' }]
+            ]);
+            
+            splash.showFeatureWarnings([], missingOptional, details);
+            console.log('Optional warnings displayed');
+        });
+
+        document.getElementById('showRequiredWarningsBtn').addEventListener('click', async () => {
+            console.log('Showing required feature warnings...');
+            await splash.show();
+            
+            const missingRequired = ['WebAssembly', 'IndexedDB'];
+            const missingOptional = ['Notifications'];
+            const details = new Map([
+                ['WebAssembly', { available: false, reason: 'Browser too old - WebAssembly is required for runtime' }],
+                ['IndexedDB', { available: false, reason: 'Private browsing mode may disable IndexedDB' }],
+                ['Notifications', { available: false, reason: 'Permission denied or not supported' }]
+            ]);
+            
+            splash.showFeatureWarnings(missingRequired, missingOptional, details);
+            console.log('Required warnings displayed - no Continue button shown');
+        });
+
+        document.getElementById('hideWarningsBtn').addEventListener('click', () => {
+            splash.hideFeatureWarnings();
+            console.log('Warnings hidden');
+        });
+
+        console.log('Splash screen test initialized');
+    </script>
+</body>
+</html>

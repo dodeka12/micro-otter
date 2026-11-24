@@ -1,0 +1,225 @@
+/* Icon Control - MDI icon picker for node control editors */
+/* Copyright (c) 2025 Christian Perwass; SPDX-License-Identifier: GPL-3.0-only */
+
+/**
+ * The picker draws glyphs from the vendored Material Design Icons webfont
+ * (see tools/generate-mdi-icons.mjs and vendor/mdi/LICENSE). Tiles are rendered from the
+ * codepoints in vendor/mdi/icon-index.json, so the font is only needed for painting — the
+ * icon control's canvas glyph uses the same family and loads it explicitly.
+ */
+@font-face {
+    font-family: 'micro-otter-mdi';
+    src: url('/html/vendor/mdi/materialdesignicons-webfont.woff2') format('woff2');
+    font-display: block;
+    font-weight: normal;
+    font-style: normal;
+}
+
+.icon-control {
+    position: relative;
+}
+
+.icon-control__glyph {
+    font-family: 'micro-otter-mdi', sans-serif;
+    font-size: 22px;
+    line-height: 1;
+    color: inherit;
+    /* Prevent the picker grid from re-layouting while the webfont loads. */
+    min-width: 22px;
+    text-align: center;
+}
+
+/* Popover surface. IconControlUi anchors it inside the control wrapper; MdiIconPickerControl reuses
+   the same classes for both of its portals (body = fixed layer, inline = anchored in the wrapper). */
+.icon-control__popover {
+    position: absolute;
+    left: 0;
+    z-index: 1100;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    box-sizing: border-box;
+    width: 328px;
+    min-height: 96px;
+    padding: 8px;
+    background: var(--mo-surface-1, #121927);
+    border: 1px solid var(--mo-border, rgba(255, 255, 255, 0.08));
+    border-radius: var(--mo-radius, 5px);
+    box-shadow: var(--mo-shadow, 0 8px 28px rgba(0, 0, 0, 0.32));
+    overflow: hidden;
+}
+
+.icon-control__popover[hidden] {
+    display: none;
+}
+
+.icon-control__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 36px);
+    justify-content: start;
+    gap: 2px;
+    max-height: 248px;
+    overflow-y: auto;
+}
+
+.icon-control__tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    color: var(--mo-text, #e5eaf3);
+    cursor: pointer;
+    transition: background 80ms ease;
+}
+
+.icon-control__tile:hover {
+    background: var(--mo-surface-2, #172133);
+}
+
+.icon-control__tile:focus-visible {
+    outline: 2px solid var(--mo-accent, #63b5ff);
+    outline-offset: -2px;
+}
+
+.icon-control__tile[aria-selected='true'] {
+    border-color: var(--mo-accent, #63b5ff);
+    background: var(--mo-surface-2, #172133);
+    color: var(--mo-accent, #63b5ff);
+}
+
+.icon-control__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-width: 0;
+    font-size: 11px;
+    color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+}
+
+.icon-control__status {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.icon-control__clear,
+.icon-control__more {
+    flex: 0 0 auto;
+    padding: 2px 8px;
+    background: var(--mo-surface-0, #0f141f);
+    border: 1px solid var(--mo-border, rgba(255, 255, 255, 0.08));
+    border-radius: 3px;
+    color: var(--mo-text, #e5eaf3);
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.icon-control__clear:hover,
+.icon-control__more:hover {
+    border-color: var(--mo-border-strong, rgba(118, 188, 255, 0.6));
+    background: var(--mo-surface-2, #172133);
+}
+
+.icon-control__clear[hidden],
+.icon-control__more[hidden] {
+    display: none;
+}
+
+.icon-control__hint {
+    padding: 2px 4px;
+    border-radius: 3px;
+    background: rgba(255, 196, 92, 0.12);
+    color: #ffc45c;
+    font-size: 11px;
+    line-height: 1.3;
+}
+
+.icon-control__hint[hidden] {
+    display: none;
+}
+
+/* Host wrapper of the reusable MdiIconPickerControl (views/controls/mdi-icon-picker-control.ts).
+   The popover surface above is reused verbatim; only the labelled input row and the disabled
+   state are host-level concerns. The input matches the settings views' field variant. */
+.mdi-icon-picker {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+}
+
+.mdi-icon-picker--labeled {
+    width: 100%;
+}
+
+.mdi-icon-picker__label {
+    flex: 0 0 auto;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+    white-space: nowrap;
+}
+
+.mdi-icon-picker__input {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 5px 8px;
+    background: var(--mo-surface-1, #121927);
+    color: var(--mo-text, #e5eaf3);
+    border: 1px solid var(--mo-border, rgba(255, 255, 255, 0.08));
+    border-radius: var(--mo-radius, 5px);
+    font-size: 12px;
+    box-sizing: border-box;
+}
+
+/* The input and its glyph preview share one wrapper so the preview can sit inside the
+   field's right edge. The wrapper takes over the input's flex slot in the labelled row. */
+.mdi-icon-picker__field {
+    position: relative;
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+}
+
+.mdi-icon-picker__field .mdi-icon-picker__input {
+    padding-right: 28px;
+}
+
+.mdi-icon-picker__preview {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'micro-otter-mdi', sans-serif;
+    font-size: 16px;
+    line-height: 1;
+    color: var(--mo-text, #e5eaf3);
+    pointer-events: none;
+    max-width: 20px;
+    overflow: hidden;
+}
+
+.mdi-icon-picker__preview[hidden] {
+    display: none;
+}
+
+.mdi-icon-picker__input:focus-visible {
+    outline: none;
+    border-color: var(--mo-border-strong, rgba(118, 188, 255, 0.6));
+}
+
+.mdi-icon-picker--disabled .mdi-icon-picker__input {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+

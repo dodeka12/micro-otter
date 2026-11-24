@@ -1,0 +1,165 @@
+/* Copyright (c) 2025 Christian Perwass; SPDX-License-Identifier: GPL-3.0-only */
+
+/**
+ * CodeView - Syntax-highlighted code display
+ * 
+ * Styles for CodeView component with Prism.js integration.
+ * Uses theme variables for consistency with Standard Compact Dark theme.
+ */
+
+.view-code {
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    max-width: 100%; /* Prevent content from forcing container to expand */
+    min-width: 0; /* Prevent flex item from overflowing parent */
+    min-height: 0; /* Allow shrinking in column flex container */
+    flex: 1; /* Fill available space in flex container */
+    padding: 0;
+    background: var(--mo-surface-0, #0f141f);
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 11px;
+    line-height: 1.5;
+    position: relative;
+    overflow: hidden; /* Outer container doesn't scroll */
+}
+
+.view-code__scroll-wrapper {
+    width: 100%;
+    height: 100%;
+    overflow-x: auto; /* Horizontal scrolling */
+    overflow-y: auto; /* Vertical scrolling */
+    box-sizing: border-box;
+    /*
+     * The wrapper carries the host's height cap, because `height: 100%` above only
+     * means "as tall as the host" when the host has a height of its own: inside an
+     * auto-height host the percentage resolves to `auto`, the wrapper grows with its
+     * text and never overflows, and a `max-height` on `.view-code` then clips the
+     * rest (`.view-code` is `overflow: hidden`) with no scrollbar to reach it.
+     */
+    max-height: inherit;
+}
+
+.view-code pre {
+    display: inline-block; /* Allow sizing to content for horizontal scroll */
+    min-width: 100%; /* Fill width when content is narrow */
+    margin: 0;
+    padding: 8px;
+    background: transparent;
+    white-space: pre; /* Preserve whitespace and prevent wrapping */
+    box-sizing: border-box;
+}
+
+.view-code code {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    white-space: inherit; /* Inherit pre's white-space handling */
+}
+
+/* Prism.js token colors - Standard theme integration */
+.view-code .token.comment,
+.view-code .token.prolog,
+.view-code .token.doctype,
+.view-code .token.cdata {
+    color: var(--mo-muted, rgba(229, 234, 243, 0.5));
+    font-style: italic;
+}
+
+.view-code .token.punctuation {
+    color: var(--mo-text, #e5eaf3);
+}
+
+.view-code .token.property,
+.view-code .token.tag,
+.view-code .token.boolean,
+.view-code .token.number,
+.view-code .token.constant,
+.view-code .token.symbol,
+.view-code .token.deleted {
+    color: #f78c6c;
+}
+
+.view-code .token.selector,
+.view-code .token.attr-name,
+.view-code .token.string,
+.view-code .token.char,
+.view-code .token.builtin,
+.view-code .token.inserted {
+    color: #c3e88d;
+}
+
+.view-code .token.operator,
+.view-code .token.entity,
+.view-code .token.url,
+.view-code .language-css .token.string,
+.view-code .style .token.string {
+    color: var(--mo-accent, #63b5ff);
+}
+
+.view-code .token.atrule,
+.view-code .token.attr-value,
+.view-code .token.keyword {
+    color: #c792ea;
+}
+
+.view-code .token.function,
+.view-code .token.class-name {
+    color: var(--mo-accent-boost, #8bf0d2);
+}
+
+.view-code .token.regex,
+.view-code .token.important,
+.view-code .token.variable {
+    color: #f78c6c;
+}
+
+.view-code .token.important,
+.view-code .token.bold {
+    font-weight: bold;
+}
+
+.view-code .token.italic {
+    font-style: italic;
+}
+
+.view-code .token.entity {
+    cursor: help;
+}
+
+/* Line numbers support (optional) */
+.view-code pre.line-numbers {
+    position: relative;
+    padding-left: 3.8em;
+    counter-reset: linenumber;
+}
+
+.view-code pre.line-numbers > code {
+    position: relative;
+    white-space: inherit;
+}
+
+.view-code .line-numbers .line-numbers-rows {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    font-size: 100%;
+    left: -3.8em;
+    width: 3em;
+    letter-spacing: -1px;
+    border-right: 1px solid var(--mo-border, rgba(255, 255, 255, 0.08));
+    user-select: none;
+}
+
+.view-code .line-numbers .line-numbers-rows > span {
+    display: block;
+    counter-increment: linenumber;
+}
+
+.view-code .line-numbers .line-numbers-rows > span:before {
+    content: counter(linenumber);
+    color: var(--mo-muted, rgba(229, 234, 243, 0.5));
+    display: block;
+    padding-right: 0.8em;
+    text-align: right;
+}

@@ -1,0 +1,143 @@
+/* Copyright (c) 2025 Christian Perwass; SPDX-License-Identifier: GPL-3.0-only */
+
+/* Device Connection View - Standard Compact Dark Theme */
+
+.device-connection-view {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    background: var(--mo-surface-0, #0f141f);
+    border-radius: var(--mo-radius, 8px);
+    overflow: hidden;
+}
+
+.device-connection-view__split-host {
+    flex: 1;
+    min-height: 0;
+    position: relative;
+}
+
+.device-connection-loading-panel {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: rgba(15, 20, 31, 0.78);
+    backdrop-filter: blur(1px);
+}
+
+.device-connection-loading-spinner {
+    width: 28px;
+    height: 28px;
+    border: 3px solid var(--mo-border, rgba(255, 255, 255, 0.12));
+    border-top-color: var(--mo-accent, #63b5ff);
+    border-radius: 50%;
+    animation: device-connection-spin 900ms linear infinite;
+}
+
+.device-connection-loading-message {
+    margin: 0;
+    color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+    font-size: 12px;
+}
+
+.device-connection-loading-progress {
+    margin: 0;
+    color: var(--mo-accent, #63b5ff);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+@keyframes device-connection-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Connection status indicator (optional enhancement) */
+.device-connection-view__status {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--mo-muted, rgba(229, 234, 243, 0.5));
+    transition: background 200ms ease;
+}
+
+.device-connection-view__status.is-connected {
+    background: var(--mo-success, #4caf50);
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.6);
+}
+
+.device-connection-view__status.is-connecting {
+    background: var(--mo-warning, #ff9800);
+    animation: pulse 1s ease-in-out infinite;
+}
+
+.device-connection-view__status.is-disconnected {
+    background: var(--mo-muted, rgba(229, 234, 243, 0.3));
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Provider dropdown specific styling */
+.device-connection-view .toolbar-view__button--dropdown {
+    min-width: 150px;
+}
+
+/* Endpoint refresh button (websocket provider) */
+.device-endpoint-refresh {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    margin: 0;
+    border: 1px solid var(--mo-border, rgba(255, 255, 255, 0.12));
+    border-radius: 4px;
+    background: var(--mo-surface-1, #121927);
+    color: var(--mo-text, #e5eaf3);
+    cursor: pointer;
+}
+
+.device-endpoint-refresh:hover:not(:disabled) {
+    background: var(--mo-surface-2-hover, #1f2b42);
+}
+
+.device-endpoint-refresh:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+
+/* Toolbar styling when inside split view */
+.device-connection-view .toolbar-view {
+    padding: 4px 8px;
+}
+
+/* Stack the provider/device group above the action buttons group */
+.device-connection-view .view-toolbar__controls--multi-line {
+    flex-direction: column;
+    align-items: stretch;
+}
+
+/* Console styling when inside split view */
+.device-connection-view .console-log-view {
+    height: 100%;
+}

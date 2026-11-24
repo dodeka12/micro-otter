@@ -1,0 +1,64 @@
+/* Copyright (c) 2025 Christian Perwass; SPDX-License-Identifier: GPL-3.0-only */
+
+/* StackView - Standard Compact Dark Theme */
+
+.stack-view {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+    gap: var(--stack-view-gap, 0px);
+    padding: var(--stack-view-padding, 0px);
+}
+
+.stack-view--horizontal {
+    flex-direction: row;
+}
+
+.stack-view--horizontal.stack-view--wrap {
+    flex-wrap: wrap;
+}
+
+.stack-view--fill {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: 100%;
+}
+
+.stack-view__item {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+}
+
+.stack-view--horizontal > .stack-view__item {
+    flex: 0 1 auto;
+}
+
+.stack-view__item--grow {
+    flex: 1 1 auto;
+}
+
+.stack-view--horizontal > .stack-view__item--grow {
+    flex: 1 1 220px;
+}
+
+.stack-view__item--fixed {
+    flex: 0 0 auto;
+}
+
+/* Native hidden wins over the item's flex display. */
+.stack-view__item[hidden] {
+    display: none;
+}
+
+/* Optional alternating row background for long form stacks. */
+.stack-view--striped > .stack-view__item:nth-child(even) {
+    margin: -2px -4px;
+    padding: 5px 4px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.02);
+}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Micro-Otter Manual Test Index</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 24px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--mo-bg, #0c0f16);
+            color: var(--mo-text, #e5eaf3);
+        }
+
+        h1 {
+            font-size: 18px;
+            margin: 0 0 12px 0;
+        }
+
+        p {
+            font-size: 12px;
+            color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+            margin: 0 0 16px 0;
+        }
+
+        .test-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .test-link {
+            display: block;
+            padding: 12px 14px;
+            background: var(--mo-surface-1, #121927);
+            border: 1px solid var(--mo-border, rgba(255, 255, 255, 0.08));
+            border-radius: 8px;
+            text-decoration: none;
+            color: inherit;
+            transition: border-color 120ms ease, background 120ms ease;
+        }
+
+        .test-link:hover {
+            background: var(--mo-surface-2, #172133);
+            border-color: var(--mo-accent, #63b5ff);
+        }
+
+        .test-link-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--mo-accent-boost, #8bf0d2);
+        }
+
+        .test-link-desc {
+            font-size: 12px;
+            color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+        }
+    </style>
+</head>
+<body>
+    <h1>Micro-Otter Manual Test Index</h1>
+    <p>Select a manual test page to open in the browser.</p>
+
+    <div class="test-links">
+        <a class="test-link" href="/tests/deployment-manual-test.html">
+            <div class="test-link-title">Deployment Manual Test (Phase 1 & 2)</div>
+            <div class="test-link-desc">
+                File transfer operations and runtime deployment workflows.
+            </div>
+        </a>
+        <a class="test-link" href="/tests/deployment-phase3-manual-test.html">
+            <div class="test-link-title">Deployment Manual Test (Phase 3)</div>
+            <div class="test-link-desc">
+                Collection deployment, sync, validation, and device state checks.
+            </div>
+        </a>
+        <a class="test-link" href="/tests/phase5-custom-view-test.html">
+            <div class="test-link-title">Custom View & Runtime Deployment Test (Phase 5)</div>
+            <div class="test-link-desc">
+                Device custom runtime settings view and runtime deployment operations.
+            </div>
+        </a>
+        <a class="test-link" href="/tests/graph-panel-demo.html">
+            <div class="test-link-title">Graph Panel Demo</div>
+            <div class="test-link-desc">
+                Interactive node graph canvas with viewport controls and node rendering.
+            </div>
+        </a>
+        <a class="test-link" href="/tests/splash-screen-test.html">
+            <div class="test-link-title">Splash Screen Test</div>
+            <div class="test-link-desc">
+                Progress events, loading indicators, and feature detection UI.
+            </div>
+        </a>
+    </div>
+</body>
+</html>

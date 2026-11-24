@@ -1,0 +1,33 @@
+# Copyright (c) 2025 Christian Perwass; SPDX-License-Identifier: GPL-3.0-only
+
+# Micro-Otter Access Control
+# Prevents direct browser navigation to application resources while allowing JavaScript requests
+
+# Enable Apache modules (uncomment on server if needed):
+# a2enmod headers
+# a2enmod rewrite
+
+# Deny direct browser navigation to protected resources
+<IfModule mod_headers.c>
+    <IfModule mod_rewrite.c>
+        RewriteEngine On
+        
+        # Allow index files and favicon
+        RewriteCond %{REQUEST_URI} ^/(index\.html|index-v2\.html|favicon\.ico)?$ [OR]
+        RewriteCond %{REQUEST_URI} ^/$
+        RewriteRule ^ - [L]
+        
+        # Block direct navigation to /html/* and /device/* 
+        # Check for navigate mode AND document destination
+        RewriteCond %{REQUEST_URI} ^/(html|device)/ [NC]
+        RewriteCond %{HTTP:Sec-Fetch-Mode} =navigate
+        RewriteCond %{HTTP:Sec-Fetch-Dest} =document
+        RewriteRule ^ - [F,L]
+    </IfModule>
+</IfModule>
+
+# Add security headers
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+</IfModule>

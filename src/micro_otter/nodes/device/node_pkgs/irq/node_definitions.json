@@ -1,0 +1,273 @@
+{
+  "nodeTypes": {
+    "interrupt-input": {
+      "title": {
+        "en": "Interrupt Input",
+        "de": "Interrupt-Eingang"
+      },
+      "info": {
+        "en": "Binds a digital pin to a GPIO interrupt and exposes the arriving edges as a boolean, a running edge count and the current pin level.\n\nThe interrupt name connects this input to the irq-mode graphs and enable nodes that use the same name.",
+        "de": "Bindet einen digitalen Pin an einen GPIO-Interrupt und stellt ankommende Flanken als booleschen Wert, laufende Flankenzahl und aktuellen Pin-Pegel bereit.\n\nDer Interrupt-Name verbindet diesen Eingang mit den irq-Graphen und Enable-Knoten, die denselben Namen verwenden."
+      },
+      "category": "hardware",
+      "color": "#5b7fc7",
+      "shape": "square",
+      "icon": "icons/bolt_24dp.svg",
+      "executionPhase": "both",
+      "inputs": [],
+      "outputs": [
+        {
+          "id": "triggered",
+          "name": {
+            "en": "Triggered",
+            "de": "Ausgelöst"
+          },
+          "description": {
+            "en": "True when an edge arrived since the last read.",
+            "de": "Wahr, wenn seit dem letzten Lesen eine Flanke ankam."
+          },
+          "outputType": "bool",
+          "initialTypes": [
+            "bool"
+          ]
+        },
+        {
+          "id": "count",
+          "name": {
+            "en": "Count",
+            "de": "Anzahl"
+          },
+          "description": {
+            "en": "Edges seen since the program started.",
+            "de": "Seit Programmstart gesehene Flanken."
+          },
+          "outputType": "int",
+          "initialTypes": [
+            "int"
+          ]
+        },
+        {
+          "id": "state",
+          "name": {
+            "en": "State",
+            "de": "Pegel"
+          },
+          "description": {
+            "en": "Current pin level.",
+            "de": "Aktueller Pegel des Pins."
+          },
+          "outputType": "bool",
+          "initialTypes": [
+            "bool"
+          ]
+        }
+      ],
+      "controls": [
+        {
+          "type": "dropdown",
+          "id": "pin",
+          "label": {
+            "en": "Pin",
+            "de": "Pin"
+          },
+          "description": {
+            "en": "Digital pin observed by the interrupt.",
+            "de": "Digitaler Pin, den der Interrupt beobachtet."
+          },
+          "default": 0,
+          "dynamicOptions": {
+            "source": "targetPinsForCapability",
+            "capabilityKey": "irq"
+          }
+        },
+        {
+          "type": "dropdown",
+          "id": "trigger",
+          "label": {
+            "en": "Trigger",
+            "de": "Auslöser"
+          },
+          "description": {
+            "en": "Signal edge or level that fires the interrupt.",
+            "de": "Signalflanke oder -pegel, die den Interrupt auslöst."
+          },
+          "default": "rising",
+          "options": [
+            {
+              "value": "rising",
+              "label": {
+                "en": "Rising edge",
+                "de": "Steigende Flanke"
+              }
+            },
+            {
+              "value": "falling",
+              "label": {
+                "en": "Falling edge",
+                "de": "Fallende Flanke"
+              }
+            },
+            {
+              "value": "change",
+              "label": {
+                "en": "Any edge",
+                "de": "Jede Flanke"
+              }
+            },
+            {
+              "value": "low",
+              "label": {
+                "en": "Low level",
+                "de": "Low-Pegel"
+              }
+            },
+            {
+              "value": "high",
+              "label": {
+                "en": "High level",
+                "de": "High-Pegel"
+              }
+            }
+          ]
+        },
+        {
+          "type": "dropdown",
+          "id": "pull",
+          "label": {
+            "en": "Pull Resistor",
+            "de": "Pull-Widerstand"
+          },
+          "description": {
+            "en": "Optional internal pull resistor.",
+            "de": "Optionaler interner Pull-Widerstand."
+          },
+          "default": null,
+          "dynamicOptions": {
+            "source": "targetPinPull",
+            "dependsOn": [
+              "pin"
+            ],
+            "includeUndefined": true
+          }
+        },
+        {
+          "type": "number",
+          "id": "debounceMs",
+          "label": {
+            "en": "Debounce (ms)",
+            "de": "Entprellen (ms)"
+          },
+          "description": {
+            "en": "Minimum time between two accepted edges; 0 disables debouncing.",
+            "de": "Mindestzeit zwischen zwei akzeptierten Flanken; 0 deaktiviert das Entprellen."
+          },
+          "min": 0,
+          "max": 10000,
+          "step": 1,
+          "default": 0
+        },
+        {
+          "type": "text",
+          "id": "triggerName",
+          "label": {
+            "en": "Interrupt name",
+            "de": "Interrupt-Name"
+          },
+          "description": {
+            "en": "Name that irq-mode graphs and interrupt-enable nodes use to reach this input.",
+            "de": "Name, über den irq-Graphen und Interrupt-Enable-Knoten diesen Eingang erreichen."
+          },
+          "default": ""
+        }
+      ],
+      "resourceUsage": [
+        {
+          "kind": "pin",
+          "controlId": "pin",
+          "capability": "irq"
+        }
+      ],
+      "initFunction": "init_irq_generation",
+      "initImplementations": {
+        "python": {
+          "type": "code-generator",
+          "value": "NodeInitGenerators.interruptInput"
+        }
+      },
+      "implementations": {
+        "python": {
+          "type": "code-generator",
+          "value": "NodeCodeGenerators.interruptInput"
+        }
+      }
+    },
+    "interrupt-enable": {
+      "title": {
+        "en": "Interrupt Enable",
+        "de": "Interrupt-Freigabe"
+      },
+      "info": {
+        "en": "Enables or disables the interrupt input selected by name.\n\nA disabled interrupt still latches edges, but irq-mode graphs waiting on that name stay suspended.",
+        "de": "Aktiviert oder deaktiviert den über den Namen gewählten Interrupt-Eingang.\n\nEin deaktivierter Interrupt merkt sich weiterhin Flanken, aber irq-Graphen, die auf diesen Namen warten, bleiben angehalten."
+      },
+      "category": "hardware",
+      "color": "#5b7fc7",
+      "shape": "square",
+      "icon": "icons/toggle_on_24dp.svg",
+      "executionPhase": "loop",
+      "inputs": [
+        {
+          "id": "enabled",
+          "name": {
+            "en": "Enabled",
+            "de": "Aktiviert"
+          },
+          "allowedTypes": [
+            "bool"
+          ],
+          "initialTypes": [
+            "bool"
+          ],
+          "phase": "loop",
+          "defaultControl": {
+            "type": "checkbox",
+            "label": {
+              "en": "Enabled",
+              "de": "Aktiviert"
+            },
+            "default": true
+          },
+          "description": {
+            "en": "When off, waiting irq-mode graphs do not wake up.",
+            "de": "Wenn deaktiviert, wachen wartende irq-Graphen nicht auf."
+          }
+        }
+      ],
+      "outputs": [],
+      "controls": [
+        {
+          "type": "dropdown",
+          "id": "triggerName",
+          "label": {
+            "en": "Interrupt name",
+            "de": "Interrupt-Name"
+          },
+          "description": {
+            "en": "Interrupt input this node enables or disables.",
+            "de": "Interrupt-Eingang, den dieser Knoten aktiviert oder deaktiviert."
+          },
+          "default": "",
+          "dynamicOptions": {
+            "source": "irqTriggerNames"
+          }
+        }
+      ],
+      "implementations": {
+        "python": {
+          "type": "code-generator",
+          "value": "NodeCodeGenerators.interruptEnable"
+        }
+      }
+    }
+  }
+}

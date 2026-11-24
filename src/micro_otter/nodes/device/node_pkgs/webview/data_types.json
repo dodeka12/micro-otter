@@ -1,0 +1,36 @@
+{
+  "types": {
+    "web.element": {
+      "name": {
+        "en": "Web Element",
+        "de": "Web-Element"
+      },
+      "description": {
+        "en": "Reference to a rendered web element",
+        "de": "Referenz auf ein gerendertes Web-Element"
+      },
+      "color": "#b87aac",
+      "kind": "structure",
+      "connectionPolicy": {
+        "input": {
+          "maxConnections": 1
+        },
+        "output": {
+          "maxConnections": 1
+        }
+      }
+    },
+    "web.rgba": {
+      "name": {
+        "en": "RGBA Color",
+        "de": "RGBA-Farbe"
+      },
+      "description": {
+        "en": "Color value with red, green, blue, and alpha channels.",
+        "de": "Farbwert mit Rot-, Gruen-, Blau- und Alpha-Kanaelen."
+      },
+      "color": "#70d6ff",
+      "kind": "value"
+    }
+  }
+}

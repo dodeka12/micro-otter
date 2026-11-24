@@ -1,0 +1,10 @@
+/* Collection View Styles - Standard Theme */
+
+.collection-view {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: var(--mo-surface-0, #0f141f);
+}
+
+/* Inherits from tabbed-view.css for tab styling */
