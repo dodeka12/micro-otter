@@ -1,0 +1,270 @@
+/* Console Log View - Standard Compact Dark Theme */
+/* Copyright (c) 2025 Christian Perwass; SPDX-License-Identifier: GPL-3.0-only */
+
+/* Import generic dropdown control styles */
+@import './controls/dropdown-control.css';
+
+.console-log-view {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: var(--mo-surface-0);
+    color: var(--mo-text);
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 12px;
+}
+
+/* Toolbar (ToolbarView override for compact icon-only buttons) */
+.console-log-view .view-toolbar {
+    background: var(--mo-surface-1);
+    border-bottom: 1px solid var(--mo-border);
+    padding: 0 6px;
+    overflow: visible; /* Allow dropdown menus to extend beyond toolbar */
+    position: relative; /* Establish stacking context */
+    z-index: 10; /* Ensure toolbar and dropdowns render above messages container */
+}
+
+.console-log-view .view-toolbar__controls {
+    overflow: visible; /* Allow dropdown menus to extend beyond controls container */
+}
+
+/* Console-specific button styling - STRUCTURE ONLY */
+.console-log-view .view-toolbar__btn.console-btn {
+    min-width: 26px;
+    height: 26px;
+    padding: 4px;
+    border: 1px solid var(--mo-border);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--mo-text);
+}
+
+.console-log-view .view-toolbar__btn.console-btn:hover {
+    background: var(--mo-surface-2);
+    border-color: var(--mo-border-strong);
+}
+
+/* Feedback states (success/error) - temporary visual feedback only */.console-log-view .view-toolbar__btn.console-btn.success {
+    background: rgba(139, 240, 210, 0.15);
+    border-color: var(--mo-accent-boost);
+    color: var(--mo-accent-boost);
+}
+
+.console-log-view .view-toolbar__btn.console-btn.error {
+    background: rgba(255, 82, 82, 0.15);
+    border-color: #ff5252;
+    color: #ff5252;
+}
+
+/* Messages Container */
+.console-messages-container {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 8px;
+    background: var(--mo-surface-0);
+    height: 100%;
+}
+
+.console-messages-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.console-empty-state {
+    padding: 24px;
+    text-align: center;
+    color: var(--mo-muted);
+    font-style: italic;
+}
+
+/* Message Row */
+.console-message {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 4px 6px;
+    border-radius: 3px;
+    transition: background 80ms ease;
+}
+
+.console-message:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.console-message-icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+.console-message-icon-image {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+}
+
+.console-message-timestamp {
+    flex-shrink: 0;
+    color: var(--mo-muted);
+    font-size: 11px;
+    opacity: 0.7;
+    min-width: 70px;
+}
+
+.console-message-content {
+    flex: 1;
+    word-break: break-word;
+    white-space: pre-wrap;
+}
+
+.console-message-content--json {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.console-message-json-details {
+    width: 100%;
+}
+
+.console-message-json-summary {
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+}
+
+.console-message-json-summary::-webkit-details-marker {
+    display: none;
+}
+
+.console-message-json-summary::before {
+    content: '▸ ';
+    color: var(--mo-muted);
+}
+
+.console-message-json-details[open] > .console-message-json-summary::before {
+    content: '▾ ';
+}
+
+.console-message-json-pretty {
+    margin: 0;
+    padding: 6px 8px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--mo-text);
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-family: inherit;
+    font-size: 12px;
+    line-height: 1.35;
+}
+
+/* Message Type Styles */
+.msg-info {
+    color: var(--mo-accent);
+}
+
+.msg-info .console-message-icon {
+    color: var(--mo-accent);
+}
+
+.msg-success {
+    color: var(--mo-accent-boost);
+}
+
+.msg-success .console-message-icon {
+    color: var(--mo-accent-boost);
+}
+
+.msg-warning {
+    color: #ffb74d;
+}
+
+.msg-warning .console-message-icon {
+    color: #ffb74d;
+}
+
+.msg-error {
+    color: #ff5252;
+}
+
+.msg-error .console-message-icon {
+    color: #ff5252;
+}
+
+.msg-user {
+    color: #ba68c8;
+}
+
+.msg-user .console-message-icon {
+    color: #ba68c8;
+}
+
+.msg-system {
+    color: #4dd0e1;
+}
+
+.msg-system .console-message-icon {
+    color: #4dd0e1;
+}
+
+.msg-data {
+    color: #81c784;
+}
+
+.msg-data .console-message-icon {
+    color: #81c784;
+}
+
+.msg-otter {
+    color: var(--mo-text);
+}
+
+.msg-otter .console-message-icon {
+    color: var(--mo-text);
+}
+
+.msg-raw {
+    color: #b0bec5;
+}
+
+.msg-raw .console-message-icon {
+    color: #b0bec5;
+}
+
+/* Scrollbar Styling */
+.console-messages-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.console-messages-container::-webkit-scrollbar-track {
+    background: var(--mo-surface-0);
+}
+
+.console-messages-container::-webkit-scrollbar-thumb {
+    background: var(--mo-border);
+    border-radius: 4px;
+}
+
+.console-messages-container::-webkit-scrollbar-thumb:hover {
+    background: var(--mo-border-strong);
+}
+
+/* Console Filter Container */
+.console-filter-container {
+    margin-left: auto; /* Push to right side of toolbar */
+    position: relative; /* Establish positioning context for dropdown menu */
+    z-index: 100; /* Ensure dropdown appears above other toolbar elements */
+}
+
+/* Console-specific dropdown customization */
+.console-filter-dropdown {
+    /* Console-specific overrides if needed */
+}

@@ -1,0 +1,17 @@
+{
+  "defaultLocale": "en",
+  "locales": [
+    {
+      "code": "en",
+      "label": "English",
+      "file": "en.json",
+      "icon": "icon-en.svg"
+    },
+    {
+      "code": "de",
+      "label": "Deutsch",
+      "file": "de.json",
+      "icon": "icon-de.svg"
+    }
+  ]
+}

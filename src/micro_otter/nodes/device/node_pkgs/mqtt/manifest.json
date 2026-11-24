@@ -1,0 +1,54 @@
+{
+  "id": "mqtt",
+  "name": "MQTT",
+  "description": "MQTT broker publish and subscribe nodes.",
+  "version": "0.24.0",
+  "author": "Micro-Otter",
+  "assetsRoot": "./",
+  "nodeDefs": "node_definitions.json",
+  "requiredPackages": [
+    "vars"
+  ],
+  "generators": [
+    "node_generators.js"
+  ],
+  "requiredCapabilities": [
+    [
+      "wifi",
+      "ethernet"
+    ]
+  ],
+  "mpModuleRoots": [
+    ""
+  ],
+  "mpyCompileProfiles": {
+    "052d85852e60": {
+      "mpyCrossVersion": "MicroPython v1.27.0-dirty on 2026-04-08; mpy-cross emitting mpy v6.3",
+      "emit": "bytecode",
+      "smallIntBits": 31,
+      "march": null,
+      "marchFlags": null
+    },
+    "7d963b547334": {
+      "mpyCrossVersion": "MicroPython v1.27.0 on 2026-04-25; mpy-cross emitting mpy v6.3",
+      "emit": "bytecode",
+      "smallIntBits": 31,
+      "march": null,
+      "marchFlags": null
+    }
+  },
+  "manifestVersion": 2,
+  "variants": {
+    "py": {
+      "mpAssets": {
+        "*": [
+          "otter_mqtt/__init__.py",
+          "otter_mqtt/runtime.py",
+          "otter_mqtt/umqtt/__init__.py",
+          "otter_mqtt/umqtt/simple.py",
+          "otter_mqtt/umqtt/robust.py"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,75 @@
+{
+    "schemaVersion": 1,
+    "rules": [
+        {
+            "id": "esp32-wroom-default",
+            "webTargetId": "esp32_wroom",
+            "runtimeIdInclude": ["*"],
+            "runtimeIdExclude": [],
+            "compile": {
+                "board": "esp32",
+                "backend": "esp-idf",
+                "params": {
+                    "port": "esp32"
+                }
+            },
+            "priority": 100
+        },
+        {
+            "id": "esp32-s3-default",
+            "webTargetId": "esp32_s3",
+            "runtimeIdInclude": ["*"],
+            "runtimeIdExclude": [],
+            "compile": {
+                "board": "ESP32_GENERIC_S3",
+                "backend": "esp-idf",
+                "params": {
+                    "port": "esp32"
+                }
+            },
+            "priority": 100
+        },
+        {
+            "id": "esp32-s2-default",
+            "webTargetId": "esp32_s2",
+            "runtimeIdInclude": ["*"],
+            "runtimeIdExclude": [],
+            "compile": {
+                "board": "ESP32_GENERIC_S2",
+                "backend": "esp-idf",
+                "params": {
+                    "port": "esp32"
+                }
+            },
+            "priority": 100
+        },
+        {
+            "id": "custom-all-boards",
+            "webTargetId": "custom",
+            "runtimeIdInclude": ["*"],
+            "runtimeIdExclude": [],
+            "compile": {
+                "board": "*",
+                "backend": "esp-idf",
+                "params": {
+                    "port": "*"
+                }
+            },
+            "priority": 20
+        },
+        {
+            "id": "generic-fallback",
+            "webTargetId": "generic_micropython",
+            "runtimeIdInclude": ["*"],
+            "runtimeIdExclude": [],
+            "compile": {
+                "board": "*",
+                "backend": "esp-idf",
+                "params": {
+                    "port": "*"
+                }
+            },
+            "priority": 10
+        }
+    ]
+}

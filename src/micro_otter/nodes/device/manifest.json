@@ -1,0 +1,8 @@
+{
+    "version": "1.0.0",
+    "nodePackagesPath": "node_pkgs",
+    "deviceTargetsPath": "targets",
+    "runtimesPath": "runtime",
+    "graphsPath": "graphs",
+    "toolsPath": "tools"
+}

@@ -1,0 +1,15 @@
+.view-text {
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  display: block;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 4px;
+  color: var(--mo-text, #e5eaf3);
+  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+  font-size: 12px;
+  line-height: 1.4;
+}

@@ -1,37 +1,139 @@
 name: CI
 
+# Baseline validation for every pull request. This workflow is published verbatim
+# into the public repository, so it never names either repository, never runs a
+# private-only guard, and publishes nothing (no branch/tag push, no package, no
+# site, no firmware). Publication is owned by the release and Pages workflows.
+#
+# Job ids are the stable required status-check names shared by both repositories:
+# `python`, `web`, `docs`. There is no `device-syntax` job: mpy-cross is a local
+# toolchain build, so that gate stays in `npm run check:ci-local`.
+
 on:
-  pull_request:
-    branches: [main]
   push:
-    branches: [main]
+    # `main` takes no direct pushes, so this is the post-merge gate: it revalidates
+    # the tree after a merge, which the pull request run cannot cover when another
+    # pull request lands in between. Feature branches are covered by
+    # `pull_request`, so a branch push never spends a second run.
+    branches:
+      - main
+  pull_request:
+    # A planning-only pull request in the private repository never spends a run.
+    # The filter is a no-op in the public repository, which never tracks `ldev/`.
+    paths-ignore:
+      - 'ldev/**'
+  workflow_dispatch:
+
+# Least privilege: every job only reads the checkout. No job writes a tag,
+# branch, package, release, or pages artifact.
+permissions:
+  contents: read
+
+# One run per ref; a newer push cancels the superseded run.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  lint-python:
+  python:
+    name: python
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v5
         with:
           python-version: '3.12'
-      - name: Install dependencies
-        run: |
-          pip install ruff black
-      - name: Check formatting with black
-        run: black --check .
-      - name: Lint with ruff
-        run: ruff check .
+          enable-cache: true
+          cache-dependency-glob: uv.lock
 
-  lint-javascript:
+      - name: Install Python dependencies
+        run: uv sync --group dev
+
+      - name: Ruff
+        run: uv run ruff check src/ tools/ tests/
+
+      - name: Pytest
+        # The toolchain pins are canonical: the firmware tests resolve the
+        # MicroPython version from the environment instead of a local checkout.
+        run: |
+          set -a
+          . deploy/toolchain/versions.env
+          set +a
+          uv run pytest
+
+  web:
+    name: web
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
+          cache: npm
+
       - name: Install dependencies
-        run: npm ci || npm install
-      - name: Run ESLint
-        run: npm run lint || echo "No lint script defined"
-      - name: Check formatting with Prettier
-        run: npx prettier --check "**/*.{js,jsx,ts,tsx,json,css,md}" || echo "Prettier check complete"
+        run: npm ci
+
+      - name: Check lockfile sync
+        run: npm run check:lockfile-sync
+
+      - name: Check generated OSS registry
+        run: npm run check:oss-generated
+
+      - name: Check generated MDI icons
+        run: npm run check:mdi-generated
+
+      - name: Check payload docs
+        run: npm run check:payload-docs
+
+      - name: Check event payload emissions
+        run: npm run check:event-payload-emissions
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Node tests
+        run: npm run test:node
+
+      - name: Vitest
+        run: npm run test:vitest
+
+      - name: Build
+        run: npm run build
+
+  docs:
+    name: docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: '3.12'
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+
+      - name: Install docs dependencies
+        run: uv sync --group docs
+
+      - name: Build docs
+        run: uv run mkdocs build --strict
+
+      - name: Upload docs site
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs-site
+          path: site/
+          if-no-files-found: error
+          retention-days: 7

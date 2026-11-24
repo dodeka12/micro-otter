@@ -1,0 +1,108 @@
+{
+  "capabilities": [
+    {
+      "id": "digital",
+      "kind": "digital",
+      "derivedKeys": ["digital.input", "digital.output"],
+      "icon": "digital",
+      "limitKey": null,
+      "check": { "kind": "membership" }
+    },
+    {
+      "id": "pwm",
+      "kind": "pwm",
+      "derivedKeys": ["pwm.input", "pwm.output"],
+      "icon": "pwm",
+      "limitKey": "pwm.channels",
+      "check": { "kind": "membership" }
+    },
+    {
+      "id": "pull",
+      "kind": "pull",
+      "derivedKeys": ["pull.up", "pull.down"],
+      "icon": "pull",
+      "limitKey": null,
+      "check": { "kind": "membership" }
+    },
+    {
+      "id": "adc",
+      "kind": "adc",
+      "derivedKeys": ["adc", "adc.unit1", "adc.unit2", "adc.wifiSafe"],
+      "icon": "adc",
+      "limitKey": "adc.channelsPerUnit",
+      "limitInstances": { "prefix": "unit" },
+      "check": { "kind": "membership" },
+      "constraints": [{ "when": { "uses": "wifi" }, "forbid": ["adc.unit2"] }]
+    },
+    {
+      "id": "dac",
+      "kind": "dac",
+      "derivedKeys": ["dac"],
+      "icon": "dac",
+      "limitKey": "dac.channels",
+      "check": { "kind": "membership" }
+    },
+    {
+      "id": "touch",
+      "kind": "touch",
+      "derivedKeys": ["touch"],
+      "icon": "touch",
+      "limitKey": "touch.channels",
+      "check": { "kind": "membership" }
+    },
+    {
+      "id": "uart",
+      "kind": "uart",
+      "derivedKeys": ["uart", "uart.tx", "uart.rx"],
+      "icon": "serial",
+      "limitKey": "uart.ports",
+      "countKind": "bus",
+      "exclusive": true,
+      "check": { "kind": "membership" }
+    },
+    {
+      "id": "i2c",
+      "kind": "i2c",
+      "derivedKeys": ["i2c", "i2c.sda", "i2c.scl"],
+      "icon": "i2c",
+      "limitKey": "i2c.buses",
+      "countKind": "bus",
+      "check": { "kind": "membership" }
+    },
+    {
+      "id": "spi",
+      "kind": "spi",
+      "derivedKeys": ["spi", "spi.cs", "spi.sck", "spi.mosi", "spi.miso"],
+      "icon": "spi",
+      "limitKey": "spi.buses",
+      "countKind": "bus",
+      "check": { "kind": "membership" }
+    },
+    {
+      "id": "i2s",
+      "kind": "i2s",
+      "derivedKeys": ["i2s", "i2s.bclk", "i2s.ws", "i2s.dout", "i2s.din", "i2s.mclk"],
+      "icon": "i2s",
+      "limitKey": "i2s.controllers",
+      "countKind": "bus",
+      "exclusive": true,
+      "check": { "kind": "membership" }
+    },
+    {
+      "id": "rtc",
+      "kind": "rtc",
+      "derivedKeys": ["rtc"],
+      "icon": "rtc",
+      "limitKey": null,
+      "check": { "kind": "membership" }
+    },
+    {
+      "id": "irq",
+      "kind": "digital",
+      "derivedKeys": ["irq"],
+      "icon": "irq",
+      "limitKey": null,
+      "check": { "kind": "membership" }
+    }
+  ]
+}

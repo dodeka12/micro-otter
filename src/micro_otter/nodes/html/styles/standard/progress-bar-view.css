@@ -1,0 +1,54 @@
+/* Copyright (c) 2025 Christian Perwass; SPDX-License-Identifier: GPL-3.0-only */
+
+/* Reusable labelled progress readout (js/views/progress-bar-view.ts).
+ *
+ * Text only: the view draws no bar. The WS /firmware protocol carries no
+ * percentage, and a styled native <progress> is not portable across engines
+ * (Chromium/WebKit paint nothing when indeterminate, Gecko paints a full bar),
+ * so the ticking elapsed line is the progress cue. */
+.progress-bar-view {
+    display: flex;
+    flex-direction: column;
+    padding: 6px 0;
+}
+
+/* The root sets `display`, so the UA `[hidden]` rule needs an override. */
+.progress-bar-view[hidden] {
+    display: none;
+}
+
+.progress-bar-view__head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+}
+
+.progress-bar-view__label {
+    font-weight: 600;
+    color: var(--mo-text, #e5eaf3);
+}
+
+.progress-bar-view__status,
+.progress-bar-view__elapsed {
+    color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.progress-bar-view__elapsed {
+    margin-left: auto;
+}
+
+.progress-bar-view__cancel {
+    display: inline-flex;
+}
+
+/* Written as `hidden` toggles in the view; both hosts set `display`. */
+.progress-bar-view__status[hidden],
+.progress-bar-view__elapsed[hidden],
+.progress-bar-view__cancel[hidden] {
+    display: none;
+}
+

@@ -1,0 +1,34 @@
+/*
+ * Activity pulse - Standard Theme
+ *
+ * A soft, layout-neutral "something is happening" cue that any element or view can
+ * switch on for as long as one of its background activities runs. The class is
+ * toggled by `js/views/activity-pulse.ts`; the animation and the reduced-motion
+ * fallback live here, so themes can restyle or disable it without touching JS.
+ *
+ * The glow is drawn with an inset `box-shadow` on purpose: hosts such as the
+ * workspace title bar set their background and border inline, which would outrank
+ * animated `background-color` or `border-color` rules, and a shadow never reflows.
+ */
+
+@keyframes mo-activity-pulse {
+    0%,
+    100% {
+        box-shadow: inset 0 0 0 0 rgba(99, 181, 255, 0);
+    }
+    50% {
+        box-shadow: inset 0 0 18px 1px rgba(99, 181, 255, 0.32);
+    }
+}
+
+.mo-activity-pulse {
+    animation: mo-activity-pulse 1.7s ease-in-out infinite;
+}
+
+/* Reduced motion keeps the cue without movement: a static, faint accent ring. */
+@media (prefers-reduced-motion: reduce) {
+    .mo-activity-pulse {
+        animation: none;
+        box-shadow: inset 0 0 0 1px rgba(99, 181, 255, 0.35);
+    }
+}

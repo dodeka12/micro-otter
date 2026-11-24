@@ -1,0 +1,121 @@
+/* Copyright (c) 2025 Christian Perwass; SPDX-License-Identifier: GPL-3.0-only */
+
+/**
+ * MarkdownView - Styles for safe Markdown content.
+ *
+ * The view renders only the allowlisted subset produced by `js/core/markdown-renderer.ts`:
+ * headings, paragraphs, lists, emphasis, inline/block code, links, blockquotes, and the
+ * `doc-area__*` code/raw/math-fallback classes that renderer emits. Everything is scoped
+ * under `.view-markdown` so the documentation-area stylesheet stays untouched.
+ */
+
+.view-markdown {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    color: var(--mo-text, #e5eaf3);
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+.view-markdown--scrollable {
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 4px;
+}
+
+.view-markdown p {
+    margin: 0 0 6px;
+}
+
+.view-markdown h1,
+.view-markdown h2,
+.view-markdown h3,
+.view-markdown h4,
+.view-markdown h5,
+.view-markdown h6 {
+    margin: 10px 0 4px;
+    color: var(--mo-text, #e5eaf3);
+    font-weight: 600;
+}
+
+.view-markdown h1 {
+    font-size: 15px;
+}
+
+.view-markdown h2 {
+    font-size: 14px;
+}
+
+.view-markdown h3 {
+    font-size: 13px;
+}
+
+.view-markdown ul,
+.view-markdown ol {
+    margin: 0 0 6px;
+    padding-left: 18px;
+}
+
+.view-markdown li {
+    margin: 1px 0;
+}
+
+.view-markdown strong {
+    color: var(--mo-text, #e5eaf3);
+    font-weight: 600;
+}
+
+.view-markdown code {
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+    font-size: 11px;
+    color: var(--mo-accent-boost, #8bf0d2);
+}
+
+.view-markdown .doc-area__code {
+    margin: 0 0 6px;
+    padding: 6px;
+    border-radius: var(--mo-radius, 5px);
+    background: var(--mo-surface-2, #172133);
+    overflow-x: auto;
+}
+
+.view-markdown .doc-area__code code {
+    color: var(--mo-text, #e5eaf3);
+}
+
+.view-markdown .doc-area__raw {
+    margin: 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+    color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+}
+
+.view-markdown .doc-area__math-fallback {
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+    color: var(--mo-accent-boost, #8bf0d2);
+}
+
+.view-markdown blockquote {
+    margin: 0 0 6px;
+    padding: 2px 8px;
+    border-left: 2px solid var(--mo-border-strong, rgba(118, 188, 255, 0.6));
+    color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+}
+
+.view-markdown a {
+    color: var(--mo-accent, #63b5ff);
+    text-decoration: none;
+}
+
+.view-markdown a:hover {
+    text-decoration: underline;
+}
+
+.view-markdown hr {
+    margin: 6px 0;
+    border: none;
+    border-top: 1px solid var(--mo-border, rgba(255, 255, 255, 0.08));
+}

@@ -1,0 +1,42 @@
+# Micro-Otter configuration example.
+#
+# Copy this file to `micro-otter.toml` (in the repository root, or in
+# ~/.micro-otter/micro-otter.toml) and uncomment what you need. Every key below is
+# commented out on purpose: the shipped file configures nothing, so commands run
+# inside the checkout keep the platform defaults.
+#
+# Resolution order, highest first:
+#
+#     CLI flag  >  environment variable  >  micro-otter.toml  >  platform default
+#
+# Every key has a matching environment variable (see the tables below). A missing
+# file is fine; an unparsable file or an unknown key is a configuration error that
+# the CLI reports with exit code 2.
+#
+# Reference: docs/dev/deployment/configuration.md
+
+[paths]
+# home = "~/.micro-otter"                            # MICRO_OTTER_HOME
+# workspace = "."                                    # MICRO_OTTER_WORKSPACE
+# toolchain_dir = "~/.micro-otter/toolchain"         # MICRO_OTTER_TOOLCHAIN_DIR
+# firmware_dir = "~/.micro-otter/firmware"           # MICRO_OTTER_FIRMWARE_DIR
+# build_dir = "~/.micro-otter/build"                 # MICRO_OTTER_BUILD_DIR
+# addons_dir = "~/.micro-otter/addons"               # MICRO_OTTER_ADDONS_DIR
+# micropython_root = "~/.micro-otter/toolchain/micropython"
+#                                                    # MICRO_OTTER_MICROPYTHON_ROOT, MICROPYTHON_ROOT
+# idf_path = "~/.micro-otter/toolchain/esp-idf"      # MICRO_OTTER_IDF_PATH, IDF_PATH
+# idf_tools_path = "~/.micro-otter/toolchain/.espressif"
+#                                                    # MICRO_OTTER_IDF_TOOLS_PATH, IDF_TOOLS_PATH
+
+[build]
+# backend = "auto"                                   # MICRO_OTTER_BUILD_BACKEND
+# flash_backend = "auto"                             # MICRO_OTTER_FLASH_BACKEND
+# enable_compile = true                              # MICRO_OTTER_ENABLE_COMPILE (interactive menu only)
+# enable_deploy = true                               # MICRO_OTTER_ENABLE_DEPLOY (interactive menu only)
+# max_jobs = 1                                       # MICRO_OTTER_MAX_BUILD_JOBS
+# timeout_seconds = 3600                             # MICRO_OTTER_BUILD_TIMEOUT
+
+[server]
+# host = "127.0.0.1"                                 # MICRO_OTTER_HOST (use "0.0.0.0" to expose)
+# port = 8000                                        # MICRO_OTTER_PORT
+# open_browser = false                               # MICRO_OTTER_OPEN_BROWSER

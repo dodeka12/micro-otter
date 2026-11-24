@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phase 5: Custom View & Runtime Deployment Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--mo-bg, #0c0f16);
+            color: var(--mo-text, #e5eaf3);
+        }
+
+        #app {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: var(--mo-surface-1, #121927);
+            border-bottom: 1px solid var(--mo-border, rgba(255, 255, 255, 0.08));
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            z-index: 1000;
+        }
+
+        .header-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--mo-accent-boost, #8bf0d2);
+        }
+
+        .header-info {
+            margin-left: auto;
+            font-size: 11px;
+            color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+        }
+
+        .container-wrapper {
+            position: fixed;
+            top: 40px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .instructions {
+            position: fixed;
+            bottom: 12px;
+            left: 12px;
+            right: 12px;
+            background: var(--mo-surface-1, #121927);
+            border: 1px solid var(--mo-border, rgba(255, 255, 255, 0.08));
+            border-radius: 8px;
+            padding: 12px;
+            max-width: 500px;
+            z-index: 999;
+            font-size: 11px;
+            color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+        }
+
+        .instructions h4 {
+            margin: 0 0 8px 0;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--mo-accent-boost, #8bf0d2);
+        }
+
+        .instructions ol {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 4px;
+        }
+
+        .close-instructions {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: transparent;
+            border: none;
+            color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+            cursor: pointer;
+            font-size: 16px;
+            padding: 4px 8px;
+            line-height: 1;
+        }
+
+        .close-instructions:hover {
+            color: var(--mo-text, #e5eaf3);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-title">Phase 5: Custom Runtime View Test</div>
+        <div class="header-info">Connect device to see custom view</div>
+    </div>
+    
+    <div class="container-wrapper">
+        <div id="app"></div>
+    </div>
+
+    <div class="instructions" id="instructions">
+        <button class="close-instructions" onclick="document.getElementById('instructions').style.display='none'">×</button>
+        <h4>Test Instructions</h4>
+        <ol>
+            <li><strong>Connect Device:</strong> Click "Select Serial Port" in the Device Connection view</li>
+            <li><strong>View Custom Settings:</strong> After connection, a "Runtime Settings" section will appear with WiFi & webserver controls</li>
+            <li><strong>Test Controls:</strong> Modify settings and click Save/Load buttons to interact with device</li>
+            <li><strong>Deploy Runtime:</strong> Use the Deployment view to deploy updated runtime versions</li>
+        </ol>
+    </div>
+
+    <script type="module">
+        // Import logging system FIRST
+        import '/html/js/core/log.js';
+        
+        import { SplitView } from '/html/js/views/split-view.js';
+        import { DeviceConnectionView } from '/html/js/views/device-connection-view.js';
+        import { DeviceDeploymentView } from '/html/js/views/device-deployment-view.js';
+        import { ViewManager } from '/html/js/views/view-manager.js';
+        import { Workspace } from '/html/js/core/workspace.js';
+        import { I18nService } from '/html/js/i18n/i18n-service.js';
+
+        // Enable logging system
+        if (globalThis.__microOtterLog) {
+            const { logger } = globalThis.__microOtterLog;
+            logger.setEnabled(true);
+            logger.register('DeviceConnection');
+            logger.register('DeviceDeployment');
+            logger.register('CustomViewRenderer');
+            logger.register('I18nService');
+            console.log('[Test] Logging enabled for Phase 5 test');
+        }
+
+        async function initApp() {
+            try {
+                const appContainer = document.getElementById('app');
+
+                // Initialize I18n service
+                const i18nService = new I18nService();
+                await i18nService.load();
+
+                // Initialize ViewManager
+                const viewManager = new ViewManager({
+                    mount: appContainer,
+                    theme: 'standard',
+                    logEvents: false,
+                    i18nService,
+                });
+
+                // Initialize Workspace
+                const workspace = new Workspace({
+                    viewManager,
+                    i18nService,
+                });
+
+                await workspace.load();
+
+                // Create DeviceConnectionView - will show custom view when device connects
+                const deviceConnectionView = new DeviceConnectionView({
+                    deviceConnection: workspace.deviceConnection,
+                    i18nService: workspace.i18nService,
+                    title: 'Device Connection',
+                    logger: console,
+                });
+
+                // Create DeviceDeploymentView - for deploying runtimes
+                const deviceDeploymentView = new DeviceDeploymentView({
+                    deviceDeployment: workspace.deviceDeployment,
+                    runtimeCollection: workspace.runtimeCollection,
+                    collectionManager: workspace.collectionManager,
+                    viewManager: viewManager,
+                    i18nService: workspace.i18nService,
+                    title: 'Runtime Deployment',
+                });
+
+                // Create split view layout
+                const splitView = new SplitView({
+                    orientation: 'horizontal',
+                    ratio: 0.5,
+                    views: [deviceConnectionView, deviceDeploymentView],
+                    i18nService: workspace.i18nService,
+                });
+
+                viewManager.attachRoot(splitView);
+                
+                console.log('✓ Phase 5 Custom View test initialized');
+                console.log('  - Connect device to see custom runtime settings');
+                console.log('  - Use deployment view to deploy runtime updates');
+                
+                // Log when device connects
+                workspace.deviceConnection.addEventListener('connected', () => {
+                    console.log('✓ Device connected - checking for custom view...');
+                });
+
+                workspace.deviceConnection.addEventListener('device-info-loaded', (event) => {
+                    console.log('✓ Device info loaded:', event.detail);
+                    if (event.detail?.customView) {
+                        console.log('✓ Custom view definition found:', event.detail.customView);
+                    } else {
+                        console.log('ℹ No custom view for this runtime');
+                    }
+                });
+
+            } catch (error) {
+                console.error('Failed to initialize test application:', error);
+                document.body.innerHTML = `
+                    <div style="padding: 20px; color: #ff6b6b;">
+                        <h2>Initialization Failed</h2>
+                        <p>${error.message}</p>
+                        <pre style="background: #000; padding: 10px; border-radius: 5px; overflow: auto;">${error.stack}</pre>
+                    </div>
+                `;
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initApp);
+        } else {
+            initApp();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,497 @@
+/* Copyright (c) 2025 Christian Perwass; SPDX-License-Identifier: GPL-3.0-only */
+
+/* Shell: the Firmware tab fills its tab; each pane scrolls on its own. */
+.firmware-build-view {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.firmware-build-view__help-body {
+    min-height: 0;
+}
+
+.firmware-build-view__content {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
+}
+
+.firmware-build-view__offline {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    min-height: 0;
+    padding: 10px 12px;
+}
+
+.firmware-build-view__offline-body {
+    max-width: 760px;
+}
+
+/* Per-backend diagnostic lines under the offline explainer */
+.firmware-build-view__diagnostics {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 4px 8px 0;
+    font-size: 11px;
+    color: var(--mo-warning, #ff9800);
+}
+
+.firmware-build-view__diagnostic {
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
+/*
+ * Split host: one vertical `SplitView` pane per section. The tab itself never
+ * scrolls; `ContentView` inside each pane owns the scrolling.
+ */
+.firmware-build-view__split-host {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.firmware-build-view__help {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.firmware-build-view .collapsible-view__content {
+    padding: 8px 10px;
+}
+
+.firmware-build-view__targets,
+.firmware-build-view__packages,
+.firmware-build-view__addons,
+.firmware-build-view__build-firmware,
+.firmware-build-view__deploy {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* Every nested sub-section (log, result, packages, add-ons) shares one host class;
+   the group-specific classes stay as aliases so existing selectors keep working. */
+.firmware-build-view__sub,
+.firmware-build-view__build-firmware-sub,
+.firmware-build-view__addons-sub {
+    margin-top: 2px;
+}
+
+.firmware-build-view [hidden] {
+    display: none !important;
+}
+
+/* Shared content views, adjusted only under the view root. */
+.firmware-build-view .data-table-view {
+    margin: 0;
+}
+
+.firmware-build-view .data-table-view__cell--label {
+    width: 1%;
+    white-space: nowrap;
+}
+
+/* The log boxes are capped at 240px, and the scrolling wrapper inherits that cap
+   (`code-view.css`), so a long transcript scrolls inside the box instead of being
+   clipped by it: a `max-height` on the view alone would hide every line past the
+   first screenful. */
+.firmware-build-view__build-log .view-code,
+.firmware-build-view__deploy-log .view-code,
+.firmware-build-view__inventory-log-lines .view-code {
+    max-height: 240px;
+}
+
+/* Group wrapper that stacks a pane's own content above its log. */
+.firmware-build-view__inventory-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* Sub-section hosts that need no rule of their own beyond `__sub` spacing. */
+.firmware-build-view__build-log-sub,
+.firmware-build-view__deploy-log-sub,
+.firmware-build-view__inventory-log {
+    margin-top: 2px;
+}
+
+/* Control rows and shared controls, scoped to the view. */
+.firmware-build-view__packages-toolbar,
+.firmware-build-view__addons-toolbar,
+.firmware-build-view__deploy-port-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Wrapper class `ToolbarView.addControl()` applies to the panel controls. */
+.firmware-build-view__action {
+    display: inline-flex;
+}
+
+/* In-group progress readouts (js/views/progress-bar-view.ts). */
+.firmware-build-view__build-progress,
+.firmware-build-view__deploy-progress {
+    margin: 6px 0;
+}
+
+/* A port label is a `/dev/serial/by-id` name, so its length follows the board's USB
+   descriptor and a long one would stretch the row and push the rescan button out of it.
+   Cap the closed trigger and let the shared `.dropdown-control__button-label` rule ellipsize
+   the text; the label carries its own `title`, so the full name stays one hover away. */
+.firmware-build-view__dropdown--port {
+    max-width: 220px;
+}
+
+/* The open menu is viewport-fixed (`DropdownControl._positionMenu()`), so it is capped
+   against the viewport rather than the trigger: it still prints the by-id names the
+   trigger just truncated. */
+.firmware-build-view__dropdown-menu--port {
+    max-width: min(420px, calc(100vw - 16px));
+}
+
+.firmware-build-view__dropdown--target,
+.firmware-build-view__dropdown--port,
+.firmware-build-view__dropdown-menu--target,
+.firmware-build-view__dropdown-menu--port {
+    min-width: 140px;
+}
+
+.firmware-build-view .dropdown-control--disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.firmware-build-view__wipe {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Package checklist table. */
+.firmware-build-view__package-checkbox {
+    margin: 0;
+    cursor: pointer;
+}
+
+.firmware-build-view__package-checkbox:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.firmware-build-view__package-name {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.firmware-build-view__package-badge {
+    padding: 0 5px;
+    border-radius: var(--mo-radius, 5px);
+    background: var(--mo-surface-2, #172133);
+    color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.firmware-build-view__package-badge--variant {
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.firmware-build-view__package-note {
+    color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+    font-size: 11px;
+}
+
+.firmware-build-view__package-count,
+.firmware-build-view__addons-count {
+    color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+    font-size: 11px;
+}
+
+.firmware-build-view__package-hint {
+    color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+    font-size: 11px;
+}
+
+.firmware-build-view__addons-error {
+    color: var(--mo-error, #f87171);
+    font-size: 11px;
+}
+
+.firmware-build-view__package-variant {
+    display: inline-flex;
+    margin-left: 8px;
+}
+
+.firmware-build-view__info,
+.firmware-build-view__packages-list,
+.firmware-build-view__addons-list {
+    min-height: 0;
+}
+
+.firmware-build-view__deploy-port-status,
+.firmware-build-view__deploy-firmware-status {
+    color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+    font-size: 11px;
+}
+
+.firmware-build-view__deploy-port-note {
+    color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.firmware-build-view__deploy-port-note p {
+    margin: 0 0 4px 0;
+}
+
+.firmware-build-view__deploy-port-note p:last-child {
+    margin-bottom: 0;
+}
+
+.firmware-build-view__deploy-firmware {
+    margin-top: 4px;
+}
+
+/* Local firmware inventory section. */
+.firmware-build-view__inventory {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.firmware-inventory__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.firmware-inventory__count {
+    color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+    font-size: 11px;
+}
+
+.firmware-inventory__list {
+    min-height: 0;
+    /*
+     * The table keeps `table-layout: auto`, so its columns grow to their content
+     * and the table can outgrow this host. Scrolling is captured here — the
+     * nearest host of the table — because every ancestor clips horizontally
+     * (`.firmware-build-view__content` and the `CollapsibleView` content box both
+     * hide overflow), which used to clip the grown table instead.
+     */
+    overflow-x: auto;
+}
+
+.firmware-inventory__progress {
+    height: 4px;
+    overflow: hidden;
+    border-radius: var(--mo-radius, 5px);
+    background: var(--mo-surface-2, #172133);
+}
+
+.firmware-inventory__progress[hidden] {
+    display: none;
+}
+
+.firmware-inventory__progress-bar {
+    height: 100%;
+    width: 40%;
+    background: var(--mo-accent, #4f8cff);
+    animation: firmware-inventory__slide 1.2s ease-in-out infinite;
+}
+
+@keyframes firmware-inventory__slide {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(300%);
+    }
+}
+
+.firmware-inventory__details {
+    margin-top: 8px;
+}
+
+.firmware-inventory__packages {
+    margin-top: 8px;
+}
+
+.firmware-inventory__details-hint {
+    margin-top: 6px;
+    color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+    font-size: 11px;
+}
+
+.firmware-inventory__row-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.firmware-inventory__name {
+    font-weight: 600;
+}
+
+.firmware-inventory__name,
+.firmware-inventory__version-suffix {
+    white-space: nowrap;
+}
+
+.firmware-inventory__version-suffix {
+    font-weight: 400;
+    opacity: 0.65;
+}
+
+.firmware-inventory__badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 4px;
+    border-radius: var(--mo-radius, 5px);
+    background: var(--mo-surface-2, #172133);
+    color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+    line-height: 0;
+}
+
+.firmware-inventory__badge-icon {
+    display: block;
+    width: 12px;
+    height: 12px;
+    opacity: 0.9;
+}
+
+/*
+ * The badge and marker glyphs ship neutral grey, so each tone is applied with
+ * the app-wide `brightness(0) saturate(100%) ...` filter idiom rather than a
+ * per-glyph SVG: the panels stay free of inline styles and the badges need no
+ * second icon variant per colour. The chains resolve to the theme tokens
+ * `--mo-accent-boost`, `--mo-warning` and `--mo-accent`.
+ */
+.firmware-inventory__badge--latest .firmware-inventory__badge-icon,
+.firmware-inventory__marker--compatible .firmware-inventory__badge-icon {
+    filter: brightness(0) saturate(100%) invert(87%) sepia(16%) saturate(481%)
+        hue-rotate(111deg) brightness(75%) contrast(200%);
+}
+
+.firmware-inventory__badge--new .firmware-inventory__badge-icon {
+    filter: brightness(0) saturate(100%) invert(88%) sepia(26%) saturate(1652%)
+        hue-rotate(354deg) brightness(105%) contrast(64%);
+}
+
+.firmware-inventory__badge--addons .firmware-inventory__badge-icon {
+    filter: brightness(0) saturate(100%) invert(100%) sepia(31%) saturate(2242%)
+        hue-rotate(190deg) brightness(54%) contrast(83%);
+}
+
+.firmware-inventory__badge--imported .firmware-inventory__badge-icon {
+    filter: brightness(0) saturate(100%) invert(100%) sepia(31%) saturate(2242%)
+        hue-rotate(190deg) brightness(54%) contrast(83%);
+}
+
+.firmware-inventory__badge--release .firmware-inventory__badge-icon {
+    filter: brightness(0) saturate(100%) invert(87%) sepia(16%) saturate(481%)
+        hue-rotate(111deg) brightness(75%) contrast(200%);
+}
+
+.firmware-inventory__badge--latest-channel .firmware-inventory__badge-icon {
+    filter: brightness(0) saturate(100%) invert(87%) sepia(16%) saturate(481%)
+        hue-rotate(111deg) brightness(75%) contrast(200%);
+}
+
+.firmware-build-view__composition-banner {
+    margin: 6px 0;
+    padding: 6px 8px;
+    border-radius: var(--mo-radius, 5px);
+    background: var(--mo-surface-2, #172133);
+    color: var(--mo-warning, #d9a441);
+    font-size: 12px;
+}
+
+/*
+ * "Does a firmware for this selection already exist?" line in the Build Firmware
+ * group: muted while a build is needed, accent-boosted when a published image
+ * already embeds every ticked package.
+ */
+.firmware-build-view__build-match {
+    margin: 2px 0 0;
+    color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+    font-size: 11px;
+}
+
+.firmware-build-view__build-match--exists {
+    color: var(--mo-accent-boost, #8bf0d2);
+}
+
+.firmware-inventory__badge--dev .firmware-inventory__badge-icon {
+    filter: brightness(0) saturate(100%) invert(88%) sepia(26%) saturate(1652%)
+        hue-rotate(354deg) brightness(105%) contrast(64%);
+}
+
+/*
+ * Coverage is a moon-phase pair: a filled circle for an image that embeds every
+ * package the target offers, a half circle for a subset build. `complete` takes
+ * the accent blue, `partial` stays muted, and the compatibility tick keeps the
+ * accent-boost green it shares with the `latest` badge.
+ */
+.firmware-inventory__badge--complete .firmware-inventory__badge-icon {
+    filter: brightness(0) saturate(100%) invert(100%) sepia(31%) saturate(2242%)
+        hue-rotate(190deg) brightness(54%) contrast(83%);
+}
+
+.firmware-inventory__badge--partial .firmware-inventory__badge-icon {
+    filter: brightness(0) saturate(100%) invert(62%) sepia(0%) saturate(0%)
+        hue-rotate(0deg) brightness(110%) contrast(90%);
+}
+
+.firmware-inventory__marker {
+    display: inline-flex;
+    align-items: center;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+}
+
+.firmware-inventory__marker--compatible {
+    color: var(--mo-accent-boost, #8bf0d2);
+}
+
+.firmware-inventory__marker--unknown {
+    color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+}
+
+.firmware-inventory__marker--otherTarget {
+    color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+}
+
+.firmware-inventory__row--selected {
+    background: var(--mo-surface-3, #1c2a40);
+    border-left: 2px solid var(--mo-accent, #4f8cff);
+}

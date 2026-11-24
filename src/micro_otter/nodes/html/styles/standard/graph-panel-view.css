@@ -1,0 +1,160 @@
+/* Icon control (MDI picker) styles used by node control editors. */
+@import './controls/icon-control.css';
+
+/* Graph panel layout: fixed-height toolbar row above the canvas area. */
+.graph-panel-view {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+}
+
+.graph-panel-view__toolbar {
+    flex: 0 0 auto;
+    min-width: 0;
+}
+
+.graph-panel-view__toolbar:empty {
+    display: none;
+}
+
+.graph-panel-view__canvas {
+    position: relative;
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    /* The canvas is only ever cleared, never painted opaque, so this shows through. */
+    background-color: var(--mo-graph-canvas-bg, #0e141f);
+}
+
+/* Disabled graphs are excluded from transpilation: the canvas drops to a neutral gray. */
+.graph-panel-view__canvas--disabled {
+    background-color: var(--mo-graph-canvas-bg-disabled, #232830);
+}
+
+.graph-panel-view__canvas > canvas {
+    display: block;
+}
+
+/*
+ * Layer stack inside the canvas host. Paint order is grid + documentation shading (background
+ * canvas) -> documentation text layer (DOM) -> connections + nodes (node canvas) -> documentation
+ * chrome layer (DOM: burger + inline editors). DOM order alone already yields this order; the
+ * explicit z-index keeps it stable if a host reorders children. The chrome layer has to sit above
+ * the canvas, otherwise its controls could never be clicked or typed into.
+ */
+.graph-panel-view__canvas-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.graph-panel-view__documentation {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.graph-panel-view__canvas-node {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+}
+
+.graph-panel-view__documentation-chrome {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+}
+
+/* Compact single-row toolbar above the canvas. */
+.graph-panel-view__toolbar .view-toolbar {
+    width: 100%;
+}
+
+.graph-panel-view__toolbar .view-toolbar__controls {
+    padding: 0 4px;
+    gap: 4px;
+    align-items: center;
+}
+
+.graph-panel-view__toolbar .view-toolbar__separator {
+    /* The shared rule uses --mo-border (8 % white), which is invisible on the panel toolbar. */
+    width: 1px;
+    height: 20px;
+    margin: 0 4px;
+    background: currentColor;
+    opacity: 0.25;
+}
+
+/* Compact inline controls: the shared runtime styling stacks label above input,
+   which is ~43px tall and does not fit a 36px toolbar. */
+.graph-panel-view__toolbar-control {
+    display: flex;
+    align-items: center;
+}
+
+.graph-panel-view__toolbar-control[hidden] {
+    display: none;
+}
+
+.graph-panel-view__toolbar-control .custom-control {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+}
+
+.graph-panel-view__toolbar-control .custom-control__label {
+    display: inline;
+    margin: 0;
+    white-space: nowrap;
+    font-size: 0.7rem;
+    opacity: 0.85;
+}
+
+/* The execution-type dropdown is untitled; drop its empty label so it adds no gap. */
+.graph-panel-view__toolbar-control .custom-control__label:empty {
+    display: none;
+}
+
+.graph-panel-view__toolbar-control .custom-control__input {
+    height: 24px;
+    padding: 0 4px;
+    font-size: 0.7rem;
+}
+
+.graph-panel-view__toolbar-control .custom-control--number .custom-control__input {
+    /* Five digits (60000) plus the native number spinner; box-sizing is border-box. */
+    width: calc(5ch + 34px);
+}
+
+/* The reusable multi-select trigger matches the compact 24px toolbar inputs. */
+.graph-panel-view__toolbar-control .dropdown-control__button {
+    display: flex;
+    align-items: center;
+    height: 24px;
+    padding: 0 4px;
+    font-size: 0.7rem;
+    box-sizing: border-box;
+}
+
+/*
+ * The signals trigger shows the translated placeholder plus a `(n)` count badge, so it stays
+ * short in any locale. The cap keeps a long translation from crowding the controls that follow
+ * it in the scroll row; the label keeps the shared ellipsis rule.
+ */
+.graph-panel-view__toolbar-control--signals .dropdown-control__button {
+    max-width: 12rem;
+    gap: 4px;
+}
+
+.graph-panel-view__toolbar-control--signals .dropdown-control__button-label {
+    min-width: 0;
+}

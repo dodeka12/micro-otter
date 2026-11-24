@@ -1,0 +1,23 @@
+#!/usr/bin/env sh
+set -e
+
+zero_sha="0000000000000000000000000000000000000000"
+has_non_delete_push="0"
+
+while read -r local_ref local_sha remote_ref remote_sha
+do
+	[ -z "$local_ref" ] && continue
+
+	if [ "$local_sha" != "$zero_sha" ]; then
+		has_non_delete_push="1"
+		break
+	fi
+done
+
+if [ "$has_non_delete_push" = "0" ]; then
+	echo "pre-push: delete-only push detected, skipping local CI checks."
+	exit 0
+fi
+
+echo "pre-push: running strict local CI checks..."
+npm run check:ci-local

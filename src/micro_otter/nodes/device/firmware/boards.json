@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 2,
+  "boards": [
+    {
+      "name": "esp32",
+      "slug": "esp32",
+      "displayName": "ESP32 (WROOM / generic)",
+      "buildBackend": "esp-idf",
+      "flashBackend": "esptool",
+      "chip": "esp32",
+      "build": {
+        "port": "esp32",
+        "board": "esp32",
+        "buildDirName": "build-ESP32_GENERIC"
+      },
+      "flash": {
+        "offset": "0x1000"
+      }
+    },
+    {
+      "name": "ESP32_GENERIC_S3",
+      "slug": "esp32_generic_s3",
+      "displayName": "ESP32-S3 (generic)",
+      "buildBackend": "esp-idf",
+      "flashBackend": "esptool",
+      "chip": "esp32s3",
+      "build": {
+        "port": "esp32",
+        "board": "ESP32_GENERIC_S3",
+        "buildDirName": "build-ESP32_GENERIC_S3"
+      },
+      "flash": {
+        "offset": "0"
+      }
+    },
+    {
+      "name": "ESP32_GENERIC_S2",
+      "slug": "esp32_generic_s2",
+      "displayName": "ESP32-S2 (generic)",
+      "buildBackend": "esp-idf",
+      "flashBackend": "esptool",
+      "chip": "esp32s2",
+      "build": {
+        "port": "esp32",
+        "board": "ESP32_GENERIC_S2",
+        "buildDirName": "build-ESP32_GENERIC_S2"
+      },
+      "flash": {
+        "offset": "0x1000"
+      }
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "version": 3,
+  "collection": {
+    "name": "Default Collection",
+    "targetId": "generic_micropython"
+  },
+  "definitionId": "general",
+  "graphs": [
+    {
+      "id": "init-graph",
+      "name": "Init",
+      "executionType": "startup",
+      "triggerIntervalMs": 500,
+      "highlightColor": "#5b7fc7",
+      "nodeCounter": 0,
+      "nodes": [],
+      "connections": []
+    },
+    {
+      "id": "graph-1",
+      "name": "Graph 1",
+      "executionType": "continuous",
+      "triggerIntervalMs": 500,
+      "highlightColor": "#5b7fc7",
+      "nodeCounter": 4,
+      "nodes": [
+        {
+          "id": 1,
+          "type": "const",
+          "title": "Constant 1",
+          "position": { "x": 100, "y": 120 },
+          "controlValues": { "inputValue": 1 },
+          "inputDefaults": {},
+          "collapsed": false
+        },
+        {
+          "id": 2,
+          "type": "math",
+          "title": "Math 2",
+          "position": { "x": 320, "y": 120 },
+          "controlValues": { "operation": "add", "angleUnit": "degrees" },
+          "inputDefaults": {},
+          "collapsed": false
+        },
+        {
+          "id": 3,
+          "type": "print",
+          "title": "Print 3",
+          "position": { "x": 560, "y": 140 },
+          "controlValues": {},
+          "inputDefaults": { "title": "Value" },
+          "collapsed": false
+        }
+      ],
+      "connections": [
+        { "fromNode": 1, "fromIndex": 0, "toNode": 2, "toIndex": 0 },
+        { "fromNode": 2, "fromIndex": 0, "toNode": 3, "toIndex": 1 }
+      ]
+    }
+  ],
+  "activeGraphId": "graph-1",
+  "crossGraphLinks": []
+}

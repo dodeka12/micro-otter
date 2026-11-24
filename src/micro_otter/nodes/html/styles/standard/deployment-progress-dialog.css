@@ -1,0 +1,44 @@
+/*
+ * The one deployment progress dialog (`js/views/deployment-progress-dialog-view.ts`).
+ *
+ * Header, modal surface, scrim, border and focus behaviour come from `modal-dialog.css`. This
+ * sheet owns only the phase line, the slot for the hosted `ProgressDetailView`, and the hidden
+ * footer.
+ *
+ * Single-surface rule: the dialog adds no second background, border or padding. The old nested
+ * body used `width: min(520px, 100%)` plus `padding: 10px 12px` without `box-sizing`, so its
+ * content-box `100%` resolved to the padded width and the padding was added again, spilling 24px
+ * past the modal surface. The body now fills exactly the surface's content box.
+ *
+ * The two determinate bars are not styled here: their tier, label, text, divider and bar rules
+ * live in `progress-detail-view.css`, because the component is generic content. The dialog must
+ * never position itself, so no `position`, `inset` or `z-index` appears below.
+ */
+
+.deployment-progress-dialog {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.deployment-progress-dialog__phase {
+    font-size: 11px;
+    margin-bottom: 6px;
+    color: var(--mo-text, #e5eaf3);
+}
+
+.deployment-progress-dialog__phase.is-error {
+    color: var(--mo-error, #f87171);
+}
+
+.deployment-progress-dialog__detail {
+    width: 100%;
+}
+
+/*
+ * The footer exists only because `ModalDialogView` expects one, and it carries no action. It
+ * uses this dialog's own class rather than `.modal-dialog__footer`, because that class sets
+ * `display: flex`, which would outrank the user agent's `[hidden]` rule.
+ */
+.deployment-progress-dialog__footer[hidden] {
+    display: none;
+}

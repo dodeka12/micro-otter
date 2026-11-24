@@ -1,0 +1,20 @@
+{
+    "types": {
+        "vars.array": {
+            "name": {
+                "en": "Array",
+                "de": "Array"
+            },
+            "description": {
+                "en": "A homogeneous numeric array with one value per element.",
+                "de": "Ein homogenes numerisches Array mit einem Wert pro Element."
+            },
+            "color": "#e0a458",
+            "kind": "value",
+            "connectionPolicy": {
+                "input": { "maxConnections": 1 },
+                "output": { "maxConnections": 0 }
+            }
+        }
+    }
+}

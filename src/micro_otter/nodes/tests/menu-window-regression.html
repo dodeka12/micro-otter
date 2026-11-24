@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Window Regression Fixture</title>
+    <link rel="stylesheet" href="/html/styles/standard/base.css">
+    <link rel="stylesheet" href="/html/styles/standard/overlay-window.css">
+    <link rel="stylesheet" href="/html/styles/standard/menu.css">
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #test-root {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="test-root"></div>
+
+    <script type="module">
+        import { MenuWindow } from '/html/js/views/menu-window.js';
+        import { IconProvider } from '/html/js/views/icon-provider.js';
+
+        const root = document.getElementById('test-root');
+        let menuWindow = null;
+
+        function openMenuWindow() {
+            if (menuWindow) {
+                menuWindow.close();
+            }
+
+            menuWindow = new MenuWindow({
+                x: 120,
+                y: 80,
+                items: [
+                    { id: 'with-icon', label: 'With Icon', icon: IconProvider.menu },
+                    { id: 'text-icon', label: 'Text Icon', icon: '⚙' },
+                ],
+            });
+
+            menuWindow.attachTo(root);
+        }
+
+        function closeMenuWindow() {
+            if (menuWindow) {
+                menuWindow.close();
+                menuWindow = null;
+            }
+        }
+
+        window.__menuWindowFixture = {
+            openMenuWindow,
+            closeMenuWindow,
+        };
+    </script>
+</body>
+</html>

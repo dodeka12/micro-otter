@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deployment System Manual Test (Phase 3)</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--mo-bg, #0c0f16);
+            color: var(--mo-text, #e5eaf3);
+        }
+
+        #app {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .test-panel {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            padding: 12px;
+            gap: 16px;
+            overflow-y: auto;
+        }
+
+        .test-section {
+            background: var(--mo-surface-1, #121927);
+            border: 1px solid var(--mo-border, rgba(255, 255, 255, 0.08));
+            border-radius: 8px;
+            padding: 12px;
+        }
+
+        .test-section h3 {
+            margin: 0 0 12px 0;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--mo-accent-boost, #8bf0d2);
+        }
+
+        .test-section p {
+            margin: 0 0 8px 0;
+            font-size: 12px;
+            color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+        }
+
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .test-button {
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 500;
+            background: var(--mo-surface-2, #172133);
+            border: 1px solid var(--mo-border, rgba(255, 255, 255, 0.12));
+            border-radius: 6px;
+            color: var(--mo-text, #e5eaf3);
+            cursor: pointer;
+            transition: all 120ms ease;
+        }
+
+        .test-button:hover {
+            background: var(--mo-accent, #63b5ff);
+            border-color: var(--mo-accent, #63b5ff);
+        }
+
+        .test-button:active {
+            transform: translateY(1px);
+        }
+
+        .test-button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .test-button-primary {
+            background: var(--mo-accent, #63b5ff);
+            border-color: var(--mo-accent, #63b5ff);
+            color: #0c0f16;
+        }
+
+        .test-button-primary:hover {
+            background: var(--mo-accent-boost, #8bf0d2);
+            border-color: var(--mo-accent-boost, #8bf0d2);
+        }
+
+        .test-select {
+            width: 100%;
+            padding: 6px 10px;
+            font-size: 12px;
+            background: var(--mo-surface-0, #0f141f);
+            border: 1px solid var(--mo-border, rgba(255, 255, 255, 0.08));
+            border-radius: 6px;
+            color: var(--mo-text, #e5eaf3);
+            margin-bottom: 8px;
+        }
+
+        .status-display {
+            background: var(--mo-surface-0, #0f141f);
+            border: 1px solid var(--mo-border, rgba(255, 255, 255, 0.08));
+            border-radius: 6px;
+            padding: 8px;
+            font-size: 11px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 160px;
+            overflow-y: auto;
+        }
+
+        .progress-bar-wrapper {
+            width: 100%;
+            height: 24px;
+            background: var(--mo-bg, #0c0f16);
+            border: 1px solid var(--mo-border, rgba(255, 255, 255, 0.12));
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--mo-accent, #63b5ff), var(--mo-accent-boost, #8bf0d2));
+            transition: width 200ms ease;
+            width: 0%;
+        }
+
+        .progress-text {
+            font-size: 11px;
+            color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+            padding: 4px 0;
+        }
+
+        .success {
+            color: var(--mo-accent-boost, #8bf0d2);
+        }
+
+        .error {
+            color: #ff6b6b;
+        }
+
+        .warning {
+            color: #ffd93d;
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+
+    <script type="module">
+        // Import logging system FIRST
+        import '/html/js/core/log.js';
+        
+        import { SplitView } from '/html/js/views/split-view.js';
+        import { ViewBase } from '/html/js/views/view-base.js';
+        import { DeviceConnectionView } from '/html/js/views/device-connection-view.js';
+        import { ViewManager } from '/html/js/views/view-manager.js';
+        import { Workspace } from '/html/js/core/workspace.js';
+        import { I18nService } from '/html/js/i18n/i18n-service.js';
+        import { ProgressEventBus } from '/html/js/core/progress-events.js';
+
+        // Enable logging system
+        if (globalThis.__microOtterLog) {
+            const { logger } = globalThis.__microOtterLog;
+            logger.setEnabled(true);
+            logger.register('DeviceDeployment');
+            logger.register('RuntimeDeployment');
+            logger.register('CollectionDeployment');
+            logger.register('Workspace');
+            logger.register('DeviceConnection');
+            console.log('[Test] Logging enabled for deployment phase 3 classes');
+        }
+
+        class DeploymentPhase3Panel extends ViewBase {
+            constructor(options) {
+                super({
+                    title: 'Deployment Phase 3 Controls',
+                    ...options,
+                });
+
+                this.workspace = options.workspace;
+                this.deviceDeployment = options.deviceDeployment;
+                this.collectionManager = options.collectionManager;
+                this._progressListener = null;
+            }
+
+            render(container) {
+                container.innerHTML = '';
+
+                const panel = document.createElement('div');
+                panel.className = 'test-panel';
+
+                panel.appendChild(this._createCollectionSection());
+                panel.appendChild(this._createProgressSection());
+                panel.appendChild(this._createStatusSection());
+
+                container.appendChild(panel);
+            }
+
+            afterAttach() {
+                super.afterAttach();
+                this._progressListener = (event) => {
+                    const progressBar = document.getElementById('progress-bar');
+                    const progressText = document.getElementById('progress-text');
+                    if (progressBar && event.progress !== undefined) {
+                        progressBar.style.width = `${event.progress}%`;
+                    }
+                    if (progressText) {
+                        const typeIcon =
+                            event.type === 'complete'
+                                ? '✓'
+                                : event.type === 'error'
+                                ? '✗'
+                                : '⏳';
+                        progressText.textContent = `${typeIcon} ${event.message}`;
+                    }
+                    this._logStatus(`[${event.source}] ${event.message}`,
+                        event.type === 'error' ? 'error' : 'info'
+                    );
+                };
+                ProgressEventBus.subscribe(this._progressListener);
+                this._refreshCollectionList();
+            }
+
+            beforeDetach() {
+                if (this._progressListener) {
+                    ProgressEventBus.unsubscribe(this._progressListener);
+                    this._progressListener = null;
+                }
+                super.beforeDetach();
+            }
+
+            _createCollectionSection() {
+                const section = document.createElement('div');
+                section.className = 'test-section';
+
+                const title = document.createElement('h3');
+                title.textContent = 'Phase 3: Collection Deployment';
+
+                const description = document.createElement('p');
+                description.textContent = 'Deploy, sync, and validate collections from the workspace.';
+
+                const collectionSelect = document.createElement('select');
+                collectionSelect.className = 'test-select';
+                collectionSelect.id = 'collection-select';
+
+                const optionsTitle = document.createElement('p');
+                optionsTitle.textContent = 'Deployment options:';
+
+                const includeFullWrapper = document.createElement('label');
+                includeFullWrapper.style.display = 'flex';
+                includeFullWrapper.style.alignItems = 'center';
+                includeFullWrapper.style.gap = '6px';
+                includeFullWrapper.style.fontSize = '12px';
+                includeFullWrapper.style.color = 'var(--mo-muted, rgba(229, 234, 243, 0.75))';
+
+                const includeFullCheckbox = document.createElement('input');
+                includeFullCheckbox.type = 'checkbox';
+                includeFullCheckbox.id = 'include-full-definition';
+                includeFullCheckbox.checked = true;
+
+                const includeFullLabel = document.createElement('span');
+                includeFullLabel.textContent = 'Include full collection definition';
+
+                includeFullWrapper.appendChild(includeFullCheckbox);
+                includeFullWrapper.appendChild(includeFullLabel);
+
+                const overrideWrapper = document.createElement('label');
+                overrideWrapper.style.display = 'flex';
+                overrideWrapper.style.alignItems = 'center';
+                overrideWrapper.style.gap = '6px';
+                overrideWrapper.style.fontSize = '12px';
+                overrideWrapper.style.color = 'var(--mo-muted, rgba(229, 234, 243, 0.75))';
+
+                const overrideCheckbox = document.createElement('input');
+                overrideCheckbox.type = 'checkbox';
+                overrideCheckbox.id = 'override-target-check';
+                overrideCheckbox.checked = false;
+
+                const overrideLabel = document.createElement('span');
+                overrideLabel.textContent = 'Override target compatibility check';
+
+                overrideWrapper.appendChild(overrideCheckbox);
+                overrideWrapper.appendChild(overrideLabel);
+
+                const buttonGroup = document.createElement('div');
+                buttonGroup.className = 'button-group';
+
+                const buttons = [
+                    { text: 'Refresh Collections', handler: () => this._refreshCollectionList(), primary: true },
+                    { text: 'Show Active Collection', handler: () => this._showActiveCollection() },
+                    { text: 'Validate Compatibility', handler: () => this._validateCompatibility() },
+                    { text: 'Validate Node Packages', handler: () => this._validateNodePackages() },
+                    { text: 'Deploy Collection', handler: () => this._deployCollection(), primary: true },
+                    { text: 'Sync Collection Files', handler: () => this._syncCollection(), primary: true },
+                    { text: 'Remove Collection', handler: () => this._removeCollection() },
+                    { text: 'List Device Files', handler: () => this._listDeviceFiles() },
+                ];
+
+                buttons.forEach((btn) => {
+                    const button = document.createElement('button');
+                    button.className = btn.primary
+                        ? 'test-button test-button-primary'
+                        : 'test-button';
+                    button.textContent = btn.text;
+                    button.onclick = btn.handler;
+                    buttonGroup.appendChild(button);
+                });
+
+                section.appendChild(title);
+                section.appendChild(description);
+                section.appendChild(collectionSelect);
+                section.appendChild(optionsTitle);
+                section.appendChild(includeFullWrapper);
+                section.appendChild(overrideWrapper);
+                section.appendChild(buttonGroup);
+
+                return section;
+            }
+
+            _createProgressSection() {
+                const section = document.createElement('div');
+                section.className = 'test-section';
+
+                const title = document.createElement('h3');
+                title.textContent = 'Deployment Progress';
+
+                const description = document.createElement('p');
+                description.textContent = 'Progress updates for collection deployment and sync.';
+
+                const progressBarWrapper = document.createElement('div');
+                progressBarWrapper.className = 'progress-bar-wrapper';
+
+                const progressBar = document.createElement('div');
+                progressBar.className = 'progress-bar';
+                progressBar.id = 'progress-bar';
+
+                progressBarWrapper.appendChild(progressBar);
+
+                const progressText = document.createElement('div');
+                progressText.className = 'progress-text';
+                progressText.id = 'progress-text';
+                progressText.textContent = 'No active deployment';
+
+                section.appendChild(title);
+                section.appendChild(description);
+                section.appendChild(progressBarWrapper);
+                section.appendChild(progressText);
+
+                return section;
+            }
+
+            _createStatusSection() {
+                const section = document.createElement('div');
+                section.className = 'test-section';
+
+                const title = document.createElement('h3');
+                title.textContent = 'Status & Results';
+
+                const statusDisplay = document.createElement('div');
+                statusDisplay.className = 'status-display';
+                statusDisplay.id = 'status-display';
+                statusDisplay.textContent = 'Ready. Connect to device and deploy a collection.\n';
+
+                const clearButton = document.createElement('button');
+                clearButton.className = 'test-button';
+                clearButton.textContent = 'Clear Log';
+                clearButton.onclick = () => this._clearStatus();
+
+                section.appendChild(title);
+                section.appendChild(statusDisplay);
+                section.appendChild(clearButton);
+
+                return section;
+            }
+
+            _getSelectedCollection() {
+                const select = document.getElementById('collection-select');
+                const collectionId = select?.value;
+                if (!collectionId) {
+                    return this.workspace.getActiveCollection();
+                }
+                return this.collectionManager.getCollectionById(collectionId);
+            }
+
+            async _refreshCollectionList() {
+                const select = document.getElementById('collection-select');
+                if (!select) return;
+
+                try {
+                    await this.collectionManager.loadCollections();
+                    this.workspace.collections = this.collectionManager.getCollections();
+                } catch (error) {
+                    this._logStatus(`Failed to reload collections: ${error.message}`, 'error');
+                }
+
+                select.innerHTML = '';
+                const collectionIds = this.workspace.getCollectionIds();
+                let activeId = this.collectionManager.getActiveCollectionId?.() || null;
+
+                if (activeId && !this.collectionManager.hasCollection(activeId)) {
+                    activeId = null;
+                    this.collectionManager.setActiveCollectionId(null);
+                }
+
+                if (!activeId && collectionIds.length > 0) {
+                    activeId = collectionIds[0];
+                    this.collectionManager.setActiveCollectionId(activeId);
+                }
+
+                if (collectionIds.length === 0) {
+                    const option = document.createElement('option');
+                    option.value = '';
+                    option.textContent = 'No collections available';
+                    select.appendChild(option);
+                    return;
+                }
+
+                collectionIds.forEach((collectionId) => {
+                    const collection = this.collectionManager.getCollectionById(collectionId);
+                    const option = document.createElement('option');
+                    option.value = collectionId;
+                    option.textContent = collection
+                        ? `${collection.getTitle?.() || collection.title || collectionId} (${collectionId})`
+                        : collectionId;
+                    if (collectionId === activeId) {
+                        option.selected = true;
+                    }
+                    select.appendChild(option);
+                });
+
+                this._logStatus(`Refreshed collections (${collectionIds.length})`, 'success');
+            }
+
+            async _showActiveCollection() {
+                const active = this.workspace.getActiveCollection();
+                if (!active) {
+                    this._logStatus('No active collection available', 'warning');
+                    return;
+                }
+
+                const info = {
+                    id: active.getId?.() || active.id,
+                    title: active.getTitle?.() || active.title,
+                    version: active.getVersionString?.() || active.getVersion?.() || active.version,
+                    runtimeId: active.getDeviceRuntimeId?.() || active.deviceRuntimeId,
+                };
+
+                this._logStatus(`Active Collection:\n${JSON.stringify(info, null, 2)}`, 'success');
+            }
+
+            async _validateCompatibility() {
+                const collection = this.workspace.getActiveCollection();
+                if (!collection) {
+                    this._logStatus('Please select a collection to validate', 'warning');
+                    return;
+                }
+
+                const result = await this.deviceDeployment.validateCollectionCompatibility(collection);
+                this._logStatus(`Compatibility Result:\n${JSON.stringify(result, null, 2)}`,
+                    result.compatible ? 'success' : 'error'
+                );
+            }
+
+            async _validateNodePackages() {
+                const collection = this.workspace.getActiveCollection();
+                if (!collection) {
+                    this._logStatus('Please select a collection to validate', 'warning');
+                    return;
+                }
+
+                const result = this.deviceDeployment.validateNodePackages(collection);
+                this._logStatus(`Node Package Result:\n${JSON.stringify(result, null, 2)}`,
+                    result.compatible ? 'success' : 'error'
+                );
+            }
+
+            async _deployCollection() {
+                const collection = this.workspace.getActiveCollection();
+                if (!collection) {
+                    this._logStatus('Please select a collection to deploy', 'warning');
+                    return;
+                }
+
+                const includeFullDefinition =
+                    document.getElementById('include-full-definition')?.checked ?? true;
+                const overrideTargetCheck =
+                    document.getElementById('override-target-check')?.checked ?? false;
+
+                this._logStatus(
+                    `Deploying collection: ${collection.getTitle?.() || collection.title}`
+                );
+
+                try {
+                    await this.deviceDeployment.deployCollection(collection, {
+                        includeFullDefinition,
+                        overrideTargetCheck,
+                    });
+                    this._logStatus('✓ Collection deployed successfully', 'success');
+                } catch (error) {
+                    this._logStatus(`✗ Deployment failed: ${error.message}`, 'error');
+                }
+            }
+
+            async _syncCollection() {
+                const collection = this.workspace.getActiveCollection();
+                if (!collection) {
+                    this._logStatus('Please select a collection to sync', 'warning');
+                    return;
+                }
+
+                const includeFullDefinition =
+                    document.getElementById('include-full-definition')?.checked ?? true;
+
+                this._logStatus(
+                    `Syncing collection: ${collection.getTitle?.() || collection.title}`
+                );
+
+                try {
+                    const filesChanged = await this.deviceDeployment.syncCollectionFiles(collection, {
+                        includeFullDefinition,
+                    });
+                    this._logStatus(`✓ Sync complete (${filesChanged} files changed)`, 'success');
+                } catch (error) {
+                    this._logStatus(`✗ Sync failed: ${error.message}`, 'error');
+                }
+            }
+
+            async _removeCollection() {
+                this._logStatus('Removing collection from device...');
+                try {
+                    await this.deviceDeployment.removeCollection();
+                    this._logStatus('✓ Collection removed', 'success');
+                } catch (error) {
+                    this._logStatus(`✗ Remove failed: ${error.message}`, 'error');
+                }
+            }
+
+            async _listDeviceFiles() {
+                const deviceConnection = this.workspace?.deviceConnection;
+                if (!deviceConnection?.isConnected()) {
+                    this._logStatus('Device not connected', 'warning');
+                    return;
+                }
+
+                this._logStatus('Listing device files...');
+                try {
+                    const result = await deviceConnection.listFilesRecursive('/');
+                    this._logStatus(`Device Files:\n${result}`, 'success');
+                } catch (error) {
+                    this._logStatus(`✗ List files failed: ${error.message}`, 'error');
+                }
+            }
+
+            _logStatus(message, type = 'info') {
+                const display = document.getElementById('status-display');
+                if (!display) return;
+
+                const timestamp = new Date().toLocaleTimeString();
+                const prefix =
+                    type === 'success'
+                        ? '✓'
+                        : type === 'error'
+                        ? '✗'
+                        : type === 'warning'
+                        ? '⚠'
+                        : 'ℹ';
+                const line = `[${timestamp}] ${prefix} ${message}\n`;
+
+                const span = document.createElement('span');
+                span.textContent = line;
+                if (type !== 'info') {
+                    span.className = type;
+                }
+
+                display.appendChild(span);
+                display.scrollTop = display.scrollHeight;
+            }
+
+            _clearStatus() {
+                const display = document.getElementById('status-display');
+                if (display) {
+                    display.textContent = 'Log cleared.\n';
+                }
+            }
+        }
+
+        async function initApp() {
+            try {
+                const appContainer = document.getElementById('app');
+
+                const i18nService = new I18nService();
+                const viewManager = new ViewManager({
+                    mount: appContainer,
+                    theme: 'standard',
+                    logEvents: false,
+                    i18nService,
+                });
+
+                const workspace = new Workspace({
+                    viewManager,
+                    i18nService,
+                });
+
+                await workspace.load();
+
+
+                const deviceConnectionView = new DeviceConnectionView({
+                    deviceConnection: workspace.deviceConnection,
+                    i18nService: workspace.i18nService,
+                    title: 'Device Connection',
+                    logger: console,
+                });
+
+                const testPanel = new DeploymentPhase3Panel({
+                    workspace,
+                    deviceDeployment: workspace.deviceDeployment,
+                    collectionManager: workspace.collectionManager,
+                    i18nService: workspace.i18nService,
+                });
+
+                const splitView = new SplitView({
+                    orientation: 'horizontal',
+                    ratio: 0.45,
+                    views: [deviceConnectionView, testPanel],
+                    i18nService: workspace.i18nService,
+                });
+
+                viewManager.attachRoot(splitView);
+                console.log('✓ Deployment Phase 3 manual test initialized');
+            } catch (error) {
+                console.error('Failed to initialize test application:', error);
+                document.body.innerHTML = `
+                    <div style="padding: 20px; color: #ff6b6b;">
+                        <h2>Initialization Failed</h2>
+                        <p>${error.message}</p>
+                        <pre style="background: #000; padding: 10px; border-radius: 5px;">${error.stack}</pre>
+                    </div>
+                `;
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initApp);
+        } else {
+            initApp();
+        }
+    </script>
+</body>
+</html>

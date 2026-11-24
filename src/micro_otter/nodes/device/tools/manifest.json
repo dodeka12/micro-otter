@@ -1,0 +1,29 @@
+{
+  "version": "0.10.0",
+  "files": [
+    "__init__.py",
+    "wifi_manager.py",
+    "fs_utils.py",
+    "runtime_info.py",
+    "runtime_log.py",
+    "set_wifi.py",
+    "wifi_probe.py",
+    "wifi_diag.py"
+  ],
+  "mpyCompileProfiles": {
+    "052d85852e60": {
+      "mpyCrossVersion": "MicroPython v1.27.0-dirty on 2026-04-08; mpy-cross emitting mpy v6.3",
+      "emit": "bytecode",
+      "smallIntBits": 31,
+      "march": null,
+      "marchFlags": null
+    },
+    "7d963b547334": {
+      "mpyCrossVersion": "MicroPython v1.27.0 on 2026-04-25; mpy-cross emitting mpy v6.3",
+      "emit": "bytecode",
+      "smallIntBits": 31,
+      "march": null,
+      "marchFlags": null
+    }
+  }
+}

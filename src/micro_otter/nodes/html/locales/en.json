@@ -1,0 +1,1479 @@
+{
+    "app": {
+        "documentTitle": "Node Editor"
+    },
+    "loading": {
+        "overlayAria": "Loading node editor",
+        "productName": "Micro Otter Node Studio",
+        "status": "Initializing workspace…",
+        "storageNote": "Stores editor preferences locally (no cookies).",
+        "statusLocale": "Loading translations…",
+        "statusConfig": "Loading editor configuration…",
+        "statusGenerators": "Loading code generators…",
+        "statusNodes": "Building node library…",
+        "statusReady": "Starting workspace…"
+    },
+    "dialog": {
+        "defaultPrimary": "Continue",
+        "defaultSecondary": "Cancel",
+        "closeAria": "Close dialog",
+        "about": {
+            "title": "Micro-Otter",
+            "subtitle": "Visual Node Editor for Microprocessors",
+            "versionLabel": "Version: {{version}}",
+            "summary": "Micro-Otter helps you design firmware visually and target a growing range of microprocessor platforms.",
+            "openSourceTitle": "Open-source packages",
+            "openSourceLicenseLabel": "License: {{license}}",
+            "copyright": "© 2025-2026 Christian Perwass",
+            "license": "License: GPL-3.0-only",
+            "closeButton": "Close",
+            "links": {
+                "docs": "Documentation",
+                "github": "GitHub Repository",
+                "issues": "Report Issue",
+                "privacyNotice": "Privacy Notice"
+            }
+        },
+        "confirm": "Confirm",
+        "cancel": "Cancel",
+        "ok": "OK",
+        "submit": "Submit",
+        "showDetails": "Show Details",
+        "hideDetails": "Hide Details",
+        "import": "Import",
+        "export": "Export",
+        "create": "Create",
+        "delete": "Delete",
+        "save": "Save",
+        "close": "Close"
+    },
+    "palette": {
+        "windowTitle": "Node Library",
+        "minimizeAria": "Minimize node library",
+        "description": "Drag an icon to the canvas to add a node.",
+        "ioSummary": "{{inputs}} in / {{outputs}} out",
+        "infoIconLabel": "About {{name}}",
+        "nodePackage": {
+            "addonBadge": "Add-on",
+            "addonTooltip": "Installed from an add-on package"
+        }
+    },
+    "nodePalette": {
+        "search": "Search for nodes",
+        "favorites": "Favorites",
+        "recent": "Recently Used",
+        "infoTooltipFallback": "No description available.",
+        "functionPackage": "Functions",
+        "organizeMode": {
+            "alphabetical": "Alphabetical",
+            "package": "By Package",
+            "category": "By Category"
+        },
+        "viewSize": {
+            "small": "Small",
+            "large": "Large"
+        },
+        "organizational": "Organizational",
+        "graphItems": {
+            "documentationArea": {
+                "title": "Documentation Area",
+                "info": "Coloured, resizable box for notes and formulas."
+            }
+        }
+    },
+    "functionGraph": {
+        "node": {
+            "input": {
+                "title": "Function Input",
+                "info": "Mirrors the declared function inputs as output connectors."
+            },
+            "output": {
+                "title": "Function Output",
+                "info": "Mirrors the declared function outputs as input connectors."
+            }
+        }
+    },
+    "menu": {
+        "navAria": "Workspace menu",
+        "toggleLabel": "Menu",
+        "toggleAria": "Toggle menu",
+        "upload": "Upload",
+        "uploadAria": "Upload configuration",
+        "generate": "Generate",
+        "generateAria": "Generate code",
+        "download": "Download",
+        "downloadAria": "Download project",
+        "group": {
+            "collection": "Collection",
+            "database": "Database",
+            "targetConfig": "Target Config",
+            "info": "Info"
+        },
+        "item": {
+            "createCollection": "Create New Collection",
+            "uploadToDevice": "Upload to Device",
+            "deleteCollection": "Delete Collection",
+            "deleteGraph": "Delete Graph",
+            "downloadJSON": "Export Collection as JSON",
+            "uploadJSON": "Import Collection JSON",
+            "uploadTargetConfig": "Upload Target Config",
+            "downloadTargetConfigTemplate": "Download Target Config Template",
+            "downloadCurrentTargetConfig": "Download Current Target Config",
+            "backupDB": "Backup Entire Database",
+            "restoreDB": "Restore Database from Backup",
+            "selectLanguage": "Select Language",
+            "about": "About",
+            "privacyNotice": "Privacy Notice"
+        }
+    },
+    "brand": {
+        "srAbout": "About Micro Otter"
+    },
+    "properties": {
+        "windowTitle": "Node Properties",
+        "minimizeAria": "Minimize properties window",
+        "closeAria": "Close properties window",
+        "titleLabel": "Title",
+        "titlePlaceholder": "Node title",
+        "typeLabel": "Type",
+        "inputsHeading": "Inputs",
+        "outputsHeading": "Outputs",
+        "controlsHeading": "Controls",
+        "deleteButton": "Delete Node",
+        "checkboxEnabled": "Enabled",
+        "defaultLabelFallback": "Default"
+    },
+    "transpiler": {
+        "title": "Transpiler",
+        "windowTitle": "Generated Code",
+        "minimizeAria": "Minimize generated code",
+        "label": "Language",
+        "button": "Generate",
+        "placeholder": "Click Generate to produce code...",
+        "language": {
+            "python": "Python",
+            "javascript": "JavaScript"
+        },
+        "errorPrefix": "Error",
+        "buttons": {
+            "transpile": "Transpile",
+            "copy": "Copy",
+            "clear": "Clear",
+            "dumpGenerated": "Dump Generated"
+        },
+        "versionIndicator": {
+            "current": "Code is current",
+            "needed": "Transpile needed (version changed)"
+        },
+        "buttonStates": {
+            "current": "Transpile (code is current)",
+            "needed": "Transpile (required - version changed)"
+        },
+        "progress": {
+            "starting": "Starting transpilation...",
+            "validating": "Validating graph structure...",
+            "processing": "Processing graph {{graphName}}...",
+            "assembling": "Assembling final code...",
+            "complete": "Transpilation complete"
+        },
+        "errors": {
+            "title": "Transpilation Error",
+            "cycleDetected": "Cycle detected in graph: {{graphName}}",
+            "missingDefinition": "Missing node definition for type: {{nodeType}}",
+            "missingImplementation": "Node type {{nodeType}} lacks a {{language}} implementation",
+            "invalidConnection": "Invalid connection: {{message}}",
+            "noCollection": "No collection selected",
+            "noGraphs": "Collection has no graphs to transpile"
+        },
+        "footer": {
+            "lastTranspiled": "Last: {{time}}",
+            "version": "v{{version}}",
+            "lineCount": "{{count}} lines"
+        },
+        "clipboard": {
+            "copySuccess": "Code copied to clipboard",
+            "copyFailed": "Failed to copy code"
+        },
+        "debug": {
+            "dumpUnavailable": "Transpile the active collection before dumping generated artifacts",
+            "dumpFailed": "Failed to write transpile debug dump"
+        }
+    },
+    "webserial": {
+        "connect": "Connect MicroPython",
+        "disconnect": "Disconnect",
+        "deploy": "Reinstall Device Profile",
+        "restart": "Restart Device",
+        "reset": "Reset Device Filesystem",
+        "resetConfirm": "This will delete all files on the device and replace them with default boot.py and main.py files. Continue?",
+        "wifi": "Configure WiFi",
+        "wifiPromptSsid": "Enter WiFi SSID",
+        "wifiPromptPassword": "Enter WiFi password (leave blank for open AP)",
+        "wifiPromptMode": "Enter WiFi mode (\"sta\" for station, \"ap\" for access point)",
+        "wifiStatusLabel": "WiFi",
+        "wifiIpUnavailable": "WiFi IP unavailable",
+        "wifiIpLinkTitle": "Open device web interface (opens in new tab)",
+        "wifiDisabledLabel": "WiFi disabled",
+        "wifiModeLabel": "Mode",
+        "wifiNetworkLabel": "Network",
+        "wifiStatusDetailLabel": "Status",
+        "wifiNetworkUnavailable": "Not set",
+        "wifiModeNames": {
+            "sta": "Station",
+            "ap": "Access Point",
+            "unknown": "Unknown"
+        },
+        "wifiStatusDetail": {
+            "disabled": "WiFi disabled.",
+            "waitingIp": "Waiting for IP address…",
+            "disconnected": "Not connected.",
+            "connected": "Connected.",
+            "apActive": "Access point broadcasting.",
+            "apInactive": "Access point inactive.",
+            "searching": "Searching for network…",
+            "statusLabelPrefix": "Station status",
+            "unknown": "Status unavailable.",
+            "errorPrefix": "WiFi error"
+        },
+        "wifiStationStatus": {
+            "idle": "Idle",
+            "connecting": "Connecting",
+            "got-ip": "IP acquired",
+            "no-ap-found": "Network not found",
+            "connect-fail": "Connection failed",
+            "wrong-password": "Wrong password",
+            "link-down": "Link down",
+            "unknown": "Unknown"
+        },
+        "wifiState": {
+            "enabled": "Enabled",
+            "disabled": "Disabled",
+            "unknown": "Unknown"
+        },
+        "wifiDialog": {
+            "title": "Configure Board WiFi",
+            "description": "Enable or disable WiFi on the device and update credentials.",
+            "enabledLabel": "Enable WiFi",
+            "enabledDescription": "When disabled, the device skips WiFi provisioning and the embedded web server.",
+            "modeLabel": "Mode",
+            "modeStation": "Station (join network)",
+            "modeAccessPoint": "Access Point (host network)",
+            "modeHint": "Station joins an existing network; Access Point creates a hotspot hosted by the board.",
+            "ssidLabel": "SSID",
+            "passwordLabel": "Password",
+            "passwordHint": "Leave blank for open networks.",
+            "primary": "Save settings",
+            "secondary": "Cancel"
+        },
+        "status": {
+            "idle": "Serial bridge idle.",
+            "connecting": "Requesting serial port…",
+            "connected": "Connected to MicroPython device.",
+            "deploying": "Uploading main loop…",
+            "success": "Upload complete. Reload requested.",
+            "error": "Deployment failed. Check console output.",
+            "unsupported": "WebSerial is not available in this browser.",
+            "connectingPort": "Opening serial port…",
+            "interruptingFriendly": "Stopping running code…",
+            "waitingFriendlyPrompt": "Waiting for friendly REPL prompt…",
+            "friendlyPromptReady": "Friendly REPL prompt detected.",
+            "waitingRawPrompt": "Waiting for raw REPL prompt…",
+            "rawPromptReady": "Raw REPL prompt detected.",
+            "softResetting": "Requesting soft reboot…",
+            "waitingSoftReboot": "Waiting for soft reboot banner…",
+            "probingRuntime": "Checking MicroPython runtime…",
+            "waitingRuntimeInfo": "Awaiting MicroPython version output…",
+            "runtimeProbeResult": "MicroPython version detected.",
+            "syncingFilesystem": "Inspecting device filesystem…",
+            "installingDevice": "Installing Micro Otter runtime on the device…",
+            "missingDeviceDescriptor": "device.json is missing on the board.",
+            "missingMicropython": "MicroPython firmware not detected. Install it from micropython.org.",
+            "refreshingDevice": "Reinstalling device runtime…",
+            "refreshComplete": "Device profile reinstalled.",
+            "refreshCanceled": "Device reinstall canceled.",
+            "deviceRefreshFailed": "Device reinstall failed.",
+            "restartingDevice": "Restarting MicroPython firmware…",
+            "restartComplete": "Device restarted.",
+            "restartFailed": "Device restart failed.",
+            "resettingDevice": "Resetting MicroPython filesystem…",
+            "resetComplete": "Filesystem reset complete.",
+            "resetCanceled": "Filesystem reset canceled.",
+            "resetFailed": "Filesystem reset failed.",
+            "settingWifi": "Uploading WiFi credentials…",
+            "wifiSaved": "WiFi credentials saved.",
+            "wifiCanceled": "WiFi update canceled.",
+            "wifiFailed": "WiFi credential update failed.",
+            "wifiStatusProbe": "Checking WiFi connection…",
+            "wifiStatusListening": "Listening for device WiFi logs…",
+            "wifiStatusConnected": "WiFi connection detected.",
+            "wifiStatusDisconnected": "WiFi is not connected.",
+            "wifiStatusWaitingIp": "Waiting for WiFi IP address…",
+            "wifiStatusSearching": "Searching for WiFi network…",
+            "wifiStatusStationError": "WiFi connection error.",
+            "wifiStatusFailed": "Unable to read WiFi status.",
+            "wifiDisabled": "WiFi disabled in device settings.",
+            "wifiModeInvalid": "WiFi mode must be \"sta\" or \"ap\".",
+            "wifiApPasswordInvalid": "Access point passwords must be at least 8 characters or empty.",
+            "wifiStationCredentialsMissing": "Station mode requires both SSID and password.",
+            "syncPreparing": "Preparing file sync…",
+            "syncUploading": "Uploading changed files…",
+            "syncComplete": "Device files synchronized.",
+            "syncUpToDate": "Device files already match the host.",
+            "syncFailed": "Device file sync failed.",
+            "runtimeReady": "Runtime startup finished.",
+            "connectionLost": "Serial connection lost. Please reconnect.",
+            "healthCheckPending": "Pinging device…",
+            "healthCheckOk": "Device heartbeat received.",
+            "healthCheckFailed": "Device heartbeat failed.",
+            "heartbeatUnsupported": "Device runtime lacks heartbeat support. Reinstall the Micro Otter files.",
+            "heartbeatToggleFailed": "Unable to toggle device heartbeat."
+        },
+        "overlay": {
+            "menuLabel": "Serial Console",
+            "menuAria": "Open WebSerial console",
+            "ariaLabel": "WebSerial console",
+            "closeAria": "Close WebSerial console",
+            "minimizeAria": "Minimize WebSerial console",
+            "eyebrow": "Deployment",
+            "title": "MicroPython WebSerial Console",
+            "description": "Connect to your MicroPython board over WebSerial, deploy the Micro Otter runtime, and configure device WiFi without leaving the editor.",
+            "tipsAria": "Show WebSerial tips",
+            "actionGroup": "Serial actions",
+            "consoleHeading": "Serial console",
+            "consolePlaceholder": "Serial output will appear here after you connect to a device.",
+            "consoleAria": "Serial console log",
+            "consoleShowIo": "Show RX/TX",
+            "consolePause": "Pause console output",
+            "consoleResume": "Resume console output",
+            "consoleUserLabel": "User code",
+            "heartbeatToggle": "Heartbeat",
+            "heartbeatStateDisconnected": "Heartbeat disconnected",
+            "heartbeatStateIdle": "Heartbeat idle",
+            "heartbeatStateRunning": "Heartbeat active",
+            "heartbeatStateError": "Heartbeat error",
+            "hostHeading": "Host system",
+            "hostHint": "Used to adapt COM/tty naming guidance.",
+            "hostWindows": "Windows",
+            "hostLinux": "Linux",
+            "portHeading": "Serial port",
+            "refresh": "Refresh",
+            "portLabel": "Authorized ports",
+            "portPlaceholder": "Use browser selection dialog",
+            "portManualLabel": "Manual port name",
+            "portManualHint": "Stored locally so you can remember which COM or tty device to pick.",
+            "statusHeading": "Bridge status",
+            "manualPlaceholder": {
+                "windows": "Example: COM4",
+                "linux": "Example: /dev/ttyUSB0"
+            },
+            "selectionHint": "Host: {{host}} · Port hint: {{port}}",
+            "portUnavailable": "Browser cannot list ports yet.",
+            "portEmpty": "No ports authorized yet.",
+            "portWithVidPid": "Port {{index}} (VID {{vendor}} / PID {{product}})",
+            "portGeneric": "Authorized port {{index}}",
+            "notesHeading": "WebSerial tips",
+            "tipChromium": "Chromium-based browsers (Chrome, Edge, Opera, Arc) always show a chooser dialog when you request a serial port.",
+            "tipPermissions": "After granting access, the same port stays available to this tab until you disconnect or close it.",
+            "tipSupport": "Firefox and Safari do not currently ship the WebSerial API. Firefox users can install the WebSerial add-on from addons.mozilla.org."
+        },
+        "deviceDialog": {
+            "title": "Install Device Profile",
+            "description": "Select which Micro Otter runtime to install on the connected board.",
+            "selectLabel": "Choose a profile",
+            "optionLabel": "{{name}} ({{version}})",
+            "optionLabelNoVersion": "{{name}}",
+            "detail": "{{name}} · {{version}}",
+            "detailWithDescription": "{{name}} · {{version}} — {{description}}",
+            "versionUnknown": "version pending",
+            "caution": "Installing a profile resets the MicroPython filesystem (WiFi credentials are preserved).",
+            "primary": "Install",
+            "secondary": "Cancel",
+            "promptTitle": "No Micro Otter runtime was found on the board. Select a device profile to install:",
+            "invalidSelection": "Invalid selection. Please try again.",
+            "empty": "No device profiles are available for installation.",
+            "unnamed": "Unnamed device"
+        },
+        "updateDialog": {
+            "title": "Update Device Runtime",
+            "description": "A newer runtime (v{{version}}) is available for {{name}}.",
+            "installLabel": "Reinstall Everything",
+            "syncLabel": "Sync Changed Files",
+            "detail": "Full reinstall overwrites all runtime files, while sync only uploads newer sources.",
+            "remoteInfo": "Current board version: v{{remoteVersion}}"
+        }
+    },
+    "graphPanels": {
+        "collectionSelectLabel": "Graph collection",
+        "collectionTargetLabel": "Device target",
+        "uploadCollectionAria": "Upload workspace to device",
+        "addCollectionAria": "Add graph collection",
+        "renameCollectionAria": "Rename graph collection",
+        "renameCollectionTitle": "Rename graph collection",
+        "renameCollectionDescription": "Enter a new name for the selected collection.",
+        "renameCollectionPrimary": "Save name",
+        "renameCollectionSecondary": "Cancel",
+        "renameCollectionPlaceholder": "New collection name",
+        "renameCollectionFailed": "Unable to rename graph collection.",
+        "addPanel": "Add Graph Panel",
+        "regionAria": "Graph panels",
+        "deleteCollectionAria": "Delete graph collection",
+        "deleteCollectionConfirmTitle": "Delete graph collection?",
+        "deleteCollectionConfirmDescription": "This will delete all graphs in this collection and create a new empty collection. This cannot be undone.",
+        "deleteCollectionConfirmPrimary": "Delete collection",
+        "deleteCollectionConfirmSecondary": "Cancel",
+        "deleteCollectionFailed": "Unable to delete graph collection.",
+        "deleteLastError": "You must keep at least one graph.",
+        "deleteConfirmTitle": "Delete graph panel?",
+        "deleteConfirmDescription": "This will delete \"{{name}}\" and remove its panel. This cannot be undone.",
+        "deleteConfirmPrimary": "Delete",
+        "deleteConfirmSecondary": "Cancel",
+        "deleteFailed": "Unable to delete graph."
+    },
+    "about": {
+        "toggleAria": "Open about dialog",
+        "overlayAria": "About Micro Otter",
+        "closeAria": "Close about dialog",
+        "title": "Micro Otter Node Studio",
+        "tagline": "Modular robotics made visual.",
+        "description": "The Micro Otter node editor lets you design and deploy behavior graphs for embedded controllers, bridging intuitive visual workflows with deployable firmware.",
+        "highlight1": "Drag-and-drop node composition with real-time validation.",
+        "highlight2": "Language-aware transpiler for Python and JavaScript targets.",
+        "highlight3": "Built-in tooling for ESP32 deployments and sensor orchestration.",
+        "storageNote": "Editor preferences are stored in localStorage (no cookies).",
+        "link": "Browse the documentation (opens in new tab)"
+    },
+    "controls": {
+        "booleanOn": "On",
+        "booleanOff": "Off",
+        "iconPicker": {
+            "hint": "Type to filter, e.g. thermometer or user (alias)",
+            "loading": "Loading icons…",
+            "unavailable": "Icon list unavailable — type the name",
+            "noMatches": "No icons match \"{{query}}\"",
+            "count": "{{shown}} of {{total}} icons",
+            "clear": "Clear",
+            "showMore": "Show {{count}} more",
+            "unknown": "Not in bundled MDI {{version}} — may be newer or a custom icon set"
+        },
+        "markdownEditor": {
+            "edit": "Edit",
+            "done": "Done",
+            "empty": "No description yet."
+        }
+    },
+    "contextMenu": {
+        "settings": "Node Settings",
+        "delete": "Delete Node"
+    },
+    "graph": {
+        "nodeCopied": "Node copied to clipboard",
+        "nodeCut": "Node cut to clipboard",
+        "nodesPasted": "{{count}} node(s) pasted",
+        "nodeDuplicated": "Node duplicated",
+        "nodeDeleted": "Node deleted",
+        "nodesCopied": "{{count}} nodes copied to clipboard",
+        "nodesCut": "{{count}} nodes cut to clipboard",
+        "nodesDuplicated": "{{count}} nodes duplicated",
+        "nodesDeleted": "{{count}} nodes deleted",
+        "nodesSelected": "{{count}} nodes selected",
+        "nodeTypeMissing": "Unknown node type \"{{type}}\". Node package \"{{package}}\" is not installed or does not provide this type. Install the add-on, then reload the workspace.",
+        "contextMenu": {
+            "copy": "Copy",
+            "cut": "Cut",
+            "paste": "Paste",
+            "duplicate": "Duplicate",
+            "delete": "Delete",
+            "changeColor": "Change Color",
+            "showInfo": "Show Information",
+            "gridSnap": "Snap to Grid",
+            "showGrid": "Show Grid",
+            "zoomToFit": "Zoom to Fit",
+            "resetZoom": "Reset Zoom",
+            "selectAll": "Select All",
+            "copyMultiple": "Copy {{count}} nodes",
+            "cutMultiple": "Cut {{count}} nodes",
+            "duplicateMultiple": "Duplicate {{count}} nodes",
+            "deleteMultiple": "Delete {{count}} nodes"
+        },
+        "info": {
+            "title": "Node Information",
+            "viewDocs": "View Documentation",
+            "inputs": "Inputs",
+            "outputs": "Outputs",
+            "controls": "Controls",
+            "columns": {
+                "name": "Name",
+                "type": "Type",
+                "description": "Description"
+            }
+        },
+        "colorPicker": {
+            "title": "Change Node Color",
+            "customColor": "Custom Color"
+        },
+        "toolbar": {
+            "alignToGrid": "Align nodes to grid",
+            "alignToGridUndo": "Align nodes to grid",
+            "executionType": {
+                "label": "Execution Type",
+                "startup": "Startup",
+                "loop": "Loop",
+                "irq": "Interrupt",
+                "event": "Event",
+                "function": "Function"
+            },
+            "sleepDuration": {
+                "label": "Interval (ms)"
+            },
+            "triggerName": {
+                "label": "Interrupt"
+            },
+            "signalNames": {
+                "label": "Signals",
+                "placeholder": "Signals"
+            },
+            "signalMode": {
+                "label": "Trigger mode",
+                "any": "Any",
+                "all": "All"
+            }
+        }
+    },
+    "console": {
+        "empty": "No messages to display",
+        "emptyFiltered": "No {type} messages",
+        "emptyFilteredSummary": "No messages match the current filter. Available: {{summary}}",
+        "filter": {
+            "all": "All messages",
+            "label": "Filter by type",
+            "placeholder": "Select filter",
+            "selectAll": "Select all",
+            "selectNone": "Select none"
+        },
+        "actions": {
+            "clear": "Clear",
+            "copy": "Copy",
+            "copied": "Copied!",
+            "copyFailed": "Copy failed",
+            "autoScroll": "Auto-scroll"
+        },
+        "types": {
+            "info": "Info",
+            "error": "Error",
+            "warning": "Warning",
+            "success": "Success",
+            "user": "User",
+            "system": "System",
+            "data": "Data",
+            "otter": "Otter",
+            "raw": "Raw"
+        }
+    },
+    "locale": {
+        "switcherAria": "Change language",
+        "switcherLabel": "Language",
+        "flagButtonAria": "Change language",
+        "flagButtonSr": "Select language",
+        "windowTitle": "Choose Language",
+        "windowDescription": "Pick a language to localize the editor.",
+        "windowClose": "Close language window",
+        "gridAria": "Available languages"
+    },
+    "view": {
+        "untitled": "Untitled View",
+        "loading": "Loading...",
+        "error": "Error",
+        "splitView": "Split View",
+        "tabbedView": "Tabbed View",
+        "textView": "Text View"
+    },
+    "fileImport": {
+        "title": "Import File",
+        "uploadPlaceholder": "Click to select a file or drag and drop here",
+        "confirmLabel": "Import",
+        "cancelLabel": "Cancel"
+    },
+    "firmwareBuild": {
+        "title": "Firmware",
+        "help": {
+            "title": "Help",
+            "body": "## What this tab does\n\nMicro-Otter graphs run on plain MicroPython: the Deploy tab uploads the deployed graph and its node libraries as `.py` source, so no firmware build is required to run a graph.\n\nPrecompiling the node libraries to `.mpy` and freezing them into the MicroPython firmware uses less user-area memory and starts faster. This tab builds and deploys that firmware.\n\nTo deploy a graph collection you only need a compatible firmware: you do not need to compile a new firmware for every graph change."
+        },
+        "doctor": {
+            "hint": "Run `micro-otter doctor` to see why the firmware toolchain is unavailable.",
+            "backend": "{{backend}}: {{reason}}",
+            "noReason": "no reason reported",
+            "noBackend": "The server reports no firmware backend for this feature."
+        },
+        "target": {
+            "label": "Target",
+            "board": "Board",
+            "port": "Port",
+            "chip": "Chip",
+            "mcuFamily": "MCU family",
+            "flashOffset": "Flash offset",
+            "noMapping": "No compile mapping for this target",
+            "unknownBoard": "Unknown board",
+            "noTarget": "No target selected",
+            "noRuntime": "No active runtime"
+        },
+        "packages": {
+            "title": "Build Firmware",
+            "addon": "Add-on",
+            "optional": "Optional",
+            "localNotStaged": "Runtime-local packages are not staged",
+            "missingCapabilities": "Missing capabilities: {{capabilities}}",
+            "selectAll": "Select all",
+            "clear": "Clear",
+            "refresh": "Refresh",
+            "count": "{{selected}} of {{total}} selected",
+            "noneSelected": "Select at least one package to build.",
+            "empty": "No packages",
+            "scanFailed": "Local package scan failed",
+            "minimal": "Minimal",
+            "minimalHint": "Some collection packages could not be selected.",
+            "selectCollectionEmpty": "The collection uses no packages.",
+            "selectNothingSelected": "No selectable packages matched the collection."
+        },
+        "log": {
+            "title": "Build log",
+            "empty": "No output yet",
+            "droppedOutput": "Earlier output dropped"
+        },
+        "inventory": {
+            "title": "Local firmware",
+            "refresh": "Refresh",
+            "delete": "Delete",
+            "cancel": "Cancel",
+            "deleteConfirmTitle": "Delete firmware image",
+            "deleteConfirm": "Delete {{name}}? This cannot be undone.",
+            "import": "Import",
+            "export": "Export",
+            "importConfirmTitle": "Replace firmware image",
+            "importConfirm": "Replace {{name}} with the imported image?",
+            "firmwareVersion": "Firmware version",
+            "hash": "Hash",
+            "micropython": "MicroPython",
+            "runtime": "Runtime",
+            "target": "Target",
+            "notAvailable": "n/a",
+            "count": "{{count}} image(s)",
+            "empty": "No firmware images for this target.",
+            "refreshFailed": "The firmware list could not be loaded.",
+            "latest": "latest",
+            "badgeNew": "new",
+            "badgeAddons": "add-ons included",
+            "badgeRelease": "Release",
+            "badgeDev": "Dev",
+            "versionSource": "Version source",
+            "channel": "Channel",
+            "latestInChannel": "latest {{channel}} image",
+            "detailsAddons": "Add-ons",
+            "complete": "complete",
+            "partial": "partial",
+            "noImage": "No image published in this channel yet.",
+            "missingPackages": "The latest image in this channel does not embed what this collection needs: {{ids}}",
+            "unknownContents": "The latest image in this channel has no manifest, so its contents are unknown.",
+            "compatible": "compatible",
+            "incomplete": "incomplete",
+            "unknown": "unknown",
+            "otherTarget": "other target",
+            "detailsTitle": "Image details",
+            "detailsImage": "Image",
+            "detailsOriginalFile": "Original file",
+            "detailsImportTarget": "Imported for",
+            "detailsPackage": "Package",
+            "detailsVersionLabel": "Version",
+            "detailsVariant": "Variant",
+            "detailsVersion": "Runtime firmware",
+            "detailsSize": "Size",
+            "detailsModified": "Modified",
+            "detailsPackages": "Packages",
+            "detailsNotEmbedded": "Not embedded",
+            "detailsNoneSelected": "Select an image to see its details.",
+            "detailsDeployHint": "This image will be deployed.",
+            "log": "Local firmware log",
+            "importFromUrl": "Import from URL…",
+            "importFromUrlTitle": "Import from a URL",
+            "importFromUrlMessage": "The server fetches the URL itself; no bytes are uploaded from the browser. A `.firmware.zip` or a `.bin` image is accepted.",
+            "imported": "Imported",
+            "importedHint": "Flash this image, then install the Micro Otter runtime from the Device tab and deploy your collection.",
+            "importTargetTitle": "Import firmware image",
+            "importTargetMessage": "The platform decides how the image is flashed (chip, flash offset). The image carries no runtime, so install the runtime afterwards.",
+            "importTargetLabel": "Platform",
+            "importedNotice": "{{status}}: {{filename}} ({{target}})",
+            "urlLabel": "URL",
+            "urlInvalid": "Use an https:// URL, or http:// only towards this machine.",
+            "exportConfirmTitle": "Overwrite firmware package",
+            "exportConfirm": "{{path}} already has this package. Overwrite it?"
+        },
+        "progress": {
+            "building": "Building firmware…",
+            "deploying": "Deploying firmware…",
+            "elapsed": "{{seconds}}s elapsed",
+            "cancel": "Cancel"
+        },
+        "buildFirmware": {
+            "packages": "Packages",
+            "addons": "Installed add-ons",
+            "buildLog": "Build log"
+        },
+        "build": {
+            "start": "Build",
+            "cancel": "Cancel",
+            "cancelling": "Cancelling…",
+            "cleanBuild": "Clean build",
+            "cleanBuildHint": "Wipe the build directory before compiling.",
+            "running": "Building…",
+            "artifact": "Artifact",
+            "artifactUnpublished": "Not published",
+            "publishStatus": "Publish status",
+            "runtimeVersion": "Runtime version",
+            "packages": "Packages",
+            "artifactSize": "Size",
+            "warnings": "Warnings",
+            "copyPath": "Copy path",
+            "copied": "Copied",
+            "matchingFirmware": "A firmware for exactly this selection already exists: {{version}}",
+            "matchingFirmwareHint": "This image embeds exactly the selected packages, so a rebuild adds nothing new.",
+            "matchingFirmwareSuperset": "A firmware that includes this selection already exists: {{version}}",
+            "matchingFirmwareHintSuperset": "This image embeds every selected package plus at least one more; deploying it covers them, and a rebuild would only slim the image.",
+            "noMatchingFirmware": "No firmware exists for this selection yet.",
+            "noMatchingFirmwareHint": "Building creates a new image that embeds exactly these packages."
+        },
+        "deploy": {
+            "title": "Deploy",
+            "start": "Deploy",
+            "port": "Port",
+            "device": "Device",
+            "noPorts": "No serial ports found",
+            "portsLoading": "Scanning serial ports…",
+            "portsUnavailable": "Could not list serial ports",
+            "refreshPorts": "Rescan serial ports",
+            "noPort": "Enter a port to deploy.",
+            "wipe": "Wipe filesystem",
+            "wipeHint": "Erase the device filesystem before flashing. This deletes user data.",
+            "portBusy": "The app is connected to this port — Deploy disconnects it first.",
+            "portFreeNote": "Deploy releases the app\u2019s connection to the port, then flashes. Reconnect afterwards from the cable badge in the title bar.",
+            "portReleased": "Released the app\u2019s connection to the serial port.",
+            "portReleaseFailed": "Could not release the serial port: {{error}}",
+            "firmwarePathFromBuild": "Using the firmware from the last successful build.",
+            "firmwarePathSelected": "Using the selected firmware image: {{name}}",
+            "firmwarePathNewest": "Using the newest available firmware image.",
+            "summaryBoard": "Board",
+            "summaryChip": "Chip",
+            "summaryPort": "Port",
+            "summaryImage": "Image",
+            "summarySize": "Size",
+            "summarySha256": "SHA-256",
+            "log": "Deploy log"
+        },
+        "result": {
+            "failed": "Failed",
+            "cancelled": "Cancelled",
+            "timeout": "Timed out"
+        },
+        "errors": {
+            "invalid-frame": "The request frame was invalid.",
+            "unknown-frame-type": "The request type is not recognised.",
+            "job-busy": "A job is already running.",
+            "compile-disabled": "Firmware compilation is disabled on this server.",
+            "deploy-disabled": "Firmware deployment is disabled on this server.",
+            "runtime-not-found": "The runtime was not found.",
+            "board-unknown": "The board is not known.",
+            "target-unknown": "The selected target has no buildable board.",
+            "build-timeout": "The build timed out.",
+            "internal-error": "An internal error occurred.",
+            "unknown-package-id": "An unknown package id was requested.",
+            "package-not-staged": "A runtime-local package cannot be staged.",
+            "firmware-image-unavailable": "No firmware image is available.",
+            "firmware-image-invalid": "The firmware image is invalid.",
+            "firmware-not-found": "The firmware image was not found.",
+            "firmware-path-invalid": "The firmware path is outside the publish folder.",
+            "firmware-package-invalid": "The firmware package is not valid.",
+            "firmware-package-identity-mismatch": "The package and its sidecar disagree.",
+            "firmware-package-checksum-mismatch": "The package checksum does not match.",
+            "firmware-package-too-large": "The firmware package is too large.",
+            "firmware-import-exists": "An image with this name already exists.",
+            "firmware-import-denied": "The firmware folder is not writable.",
+            "firmware-import-invalid": "The image is not an acceptable .bin file.",
+            "board-not-flashable": "This board cannot be flashed.",
+            "runtime-manifest-invalid": "The runtime manifest is invalid.",
+            "flash-backend": "The flash backend failed.",
+            "flash-error": "Flashing failed.",
+            "flash-firmware-image-not-found": "The firmware image was not found.",
+            "flash-tool-missing": "The flash tool is not installed.",
+            "flash-monitor-not-supported": "The flash monitor is not supported.",
+            "flash-command": "The flash command failed.",
+            "flash-backend-unavailable": "The flash backend is unavailable.",
+            "flash-unsupported-chip": "The flash backend does not support this chip.",
+            "flash-no-available-backend": "No flash backend is available.",
+            "flash-unknown-backend": "The flash backend id is not known.",
+            "capabilities-unavailable": "The server capabilities are unavailable.",
+            "socket-error": "The firmware socket failed.",
+            "disconnected": "The server disconnected; the job was cancelled.",
+            "noTarget": "No buildable platform is available for this runtime.",
+            "addon-already-installed": "That add-on is already installed.",
+            "addon-archive-invalid": "The file is not a readable .zip archive.",
+            "addon-archive-no-manifest": "The archive contains no package folder with a manifest.json.",
+            "addon-archive-not-found": "The archive could not be found.",
+            "addon-archive-symlink": "The archive contains a symbolic link, which is not allowed.",
+            "addon-archive-too-large": "The archive is larger than the 64 MiB limit.",
+            "addon-archive-too-many-entries": "The archive contains more than 2000 entries.",
+            "addon-archive-unpacked-too-large": "The unpacked add-on would exceed 128 MiB.",
+            "addon-archive-unsafe-path": "The archive contains an unsafe path.",
+            "addon-id-conflicts-builtin": "The add-on uses the id of a built-in package.",
+            "addon-id-invalid": "The package id is not valid.",
+            "addon-id-mismatch": "The package id does not match the requested id.",
+            "addon-manifest-forbidden-asset": "The manifest declares a file the tool owns.",
+            "addon-manifest-invalid": "The manifest is not valid.",
+            "addon-manifest-missing-asset": "The manifest declares a file the archive does not contain.",
+            "addon-manifest-missing-version": "The manifest declares no version.",
+            "addon-module-root-invalid": "A device module is not under the reserved moa_ namespace.",
+            "addon-not-installed": "That add-on is not installed.",
+            "addon-variant-capabilities-missing": "A variant manifest declares no requiredCapabilities.",
+            "addon-variant-hardware-missing": "A variant manifest declares no hardware description.",
+            "addon-variant-manifest-invalid": "A variant manifest is not valid.",
+            "addon-variant-precedence-duplicate": "Two variant manifests declare the same precedence.",
+            "archive-path-invalid": "The archive path is not an existing .zip file.",
+            "archive-too-large": "The archive is above the size cap.",
+            "archive-url-invalid": "The archive URL is not a supported https:// address.",
+            "archive-url-blocked": "Plain http is only allowed towards this machine.",
+            "archive-url-redirect": "The archive URL redirects too many times.",
+            "archive-url-unreachable": "The archive URL could not be fetched.",
+            "archive-url-too-large": "The archive URL exceeds the size cap.",
+            "fs-not-allowed": "Local file access is disabled on this server.",
+            "fs-path-invalid": "The path must be an absolute directory.",
+            "fs-not-found": "The path does not exist.",
+            "fs-not-a-directory": "The path is not a directory.",
+            "fs-permission-denied": "The server cannot read that directory.",
+            "fs-too-many-entries": "The directory has too many entries to list.",
+            "fs-not-writable": "The folder is not writable by the server.",
+            "fs-destination-not-absolute": "The destination must be an absolute folder.",
+            "firmware-export-exists": "The export destination already has this package."
+        },
+        "addons": {
+            "title": "Installed add-ons",
+            "count": "{{selected}} of {{total}} selected",
+            "selectAll": "Select all",
+            "clear": "Clear",
+            "refresh": "Refresh",
+            "empty": "No add-ons installed",
+            "install": "Install add-on",
+            "remove": "Remove",
+            "cancel": "Cancel",
+            "installConfirmTitle": "Replace add-on",
+            "installConfirm": "Replace the installed add-on {{name}} with this archive?",
+            "removeConfirmTitle": "Remove add-ons",
+            "removeConfirm": "Remove {{names}}? This cannot be undone.",
+            "archiveInvalid": "Only .zip add-on archives can be installed.",
+            "archiveTooLarge": "The archive is larger than {{size}} MiB.",
+            "installSummary": "{{name}} installed ({{version}})",
+            "removeSummary": "{{name}} removed",
+            "installFromUrl": "Install from URL…",
+            "installFromUrlTitle": "Install from a URL",
+            "installFromUrlMessage": "The server fetches the URL itself; no bytes are uploaded from the browser."
+        },
+        "filePicker": {
+            "title": "Browse server files",
+            "hint": "Browsing the computer running the Micro-Otter server. The selected path is sent to the server; no file contents leave the picker.",
+            "hintDirectory": "Choose a folder on the computer running the Micro-Otter server.",
+            "loading": "Loading…",
+            "empty": "No matching entries.",
+            "listFailed": "The directory could not be listed",
+            "noSelection": "Select an entry first.",
+            "symlinkNotSelectable": "Symbolic links cannot be selected.",
+            "parentDirectory": "..",
+            "roots": {
+                "home": "Home",
+                "workspace": "Workspace",
+                "root": "Root"
+            }
+        },
+        "offline": {
+            "body": "## Firmware server unavailable\n\nThe Firmware tab needs the local Micro-Otter server, which is not reachable right now.\n\n### What the server adds\n\n- Building and flashing firmware images\n- Importing a package by path or URL\n- Exporting a package into a folder you pick\n- Installing add-on packages\n\n### Start the server\n\n```bash\nuv run micro-otter serve\n```\n\nThe editor's other tabs keep working while the server is down.\n"
+        }
+    },
+    "form": {
+        "title": "Form",
+        "required": "Required",
+        "selectPlaceholder": "-- Select --"
+    },
+    "workspace": {
+        "changeLanguage": "Change Language",
+        "server": {
+            "offline": "Offline",
+            "offlineTitle": "The Micro-Otter server is not reachable — click to reconnect",
+            "reconnecting": "Reconnecting…",
+            "reconnectingTitle": "Trying to reach the Micro-Otter server…",
+            "dialogTitle": "Server connection lost",
+            "dialogMessage": "Micro-Otter cannot reach its local server, so building and deploying firmware is unavailable.",
+            "dialogDetail": "Your graphs are stored in this browser and keep working. Reconnect to use the firmware tools.",
+            "retry": "Reconnect",
+            "continue": "Continue without server"
+        },
+        "device": {
+            "title": "Device connection",
+            "connect": "Connect",
+            "connecting": "Connecting…",
+            "loading": "Loading {{percent}} %",
+            "connected": "Connected",
+            "disconnecting": "Disconnecting…",
+            "error": "Failed",
+            "connectTitle": "Connect a device — click to choose the provider and the port",
+            "connectingTitle": "Connecting to the device…",
+            "loadingTitle": "Reading the device information ({{percent}} %)",
+            "connectedTitle": "Device connected — click to manage the connection",
+            "disconnectingTitle": "Disconnecting from the device…",
+            "errorTitle": "The last connection attempt failed"
+        },
+        "selectLanguage": "Select Language",
+        "title": "Workspace",
+        "collectionLabel": "Collection:",
+        "targetLabel": "Target:",
+        "selectPlaceholder": "-- Select --",
+        "createCollection": "Create new collection",
+        "deleteCollection": "Delete current collection",
+        "exportCollection": "Export current collection",
+        "importCollection": "Import collection",
+        "createCollectionTitle": "Create Collection",
+        "createCollectionNameLabel": "Collection Name",
+        "createCollectionNamePlaceholder": "Enter collection name...",
+        "createCollectionNameRequired": "Collection name is required",
+        "createCollectionRuntimeLabel": "Device Runtime",
+        "createCollectionTargetLabel": "Target Device",
+        "createCollectionConfirm": "Create",
+        "createCollectionCancel": "Cancel",
+        "deleteCollectionTitle": "Delete Collection",
+        "deleteCollectionConfirm": "Delete",
+        "deleteCollectionCancel": "Cancel",
+        "deleteCollectionMessage": "Are you sure you want to delete \"{{title}}\"?",
+        "deleteCollectionDetail": "This action cannot be undone. All nodes and connections in this collection will be permanently deleted.",
+        "deleteLastCollectionTitle": "Cannot Delete",
+        "deleteLastCollectionMessage": "Cannot delete the last collection.",
+        "deleteLastCollectionDetail": "At least one collection must remain in the workspace.",
+        "deleteLastCollectionConfirm": "OK",
+        "importCollectionTitle": "Import Collection",
+        "importCollectionMessage": "Select a collection JSON file to import.",
+        "importCollectionConfirm": "Import",
+        "importCollectionCancel": "Cancel",
+        "importInvalidTitle": "Invalid Collection",
+        "importInvalidMessage": "The imported collection does not specify a device runtime.",
+        "importInvalidDetail": "This collection cannot be imported. Device runtime information is required.",
+        "importIncompatibleRuntimeTitle": "Incompatible Runtime",
+        "importIncompatibleRuntimeMessage": "The collection requires device runtime \"{{runtimeId}}\" which is not available.",
+        "importIncompatibleRuntimeDetail": "Available runtimes: {{runtimeList}}",
+        "importIncompatibleTargetTitle": "Incompatible Target",
+        "importIncompatibleTargetMessage": "The collection requires target \"{{targetId}}\" which is not available for runtime \"{{runtimeId}}\".",
+        "importIncompatibleTargetDetail": "Available targets: {{targetList}}",
+        "importFailedTitle": "Import Failed",
+        "importFailedMessage": "Failed to import the collection.",
+        "importCollisionTitle": "Collection Already Exists",
+        "importCollisionMessage": "A collection with ID \"{{id}}\" already exists.",
+        "importCollisionDetail": "Existing version: {{existingVersion}}\nImported version: {{importedVersion}}\n\nDo you want to overwrite the existing collection?",
+        "importCollisionConfirm": "Overwrite",
+        "importCollisionCancel": "Cancel",
+        "collectionRepairTitle": "Collection Data Repaired",
+        "collectionRepairMessageSingle": "One stored collection had inconsistent data and was repaired automatically.",
+        "collectionRepairMessageMultiple": "{{count}} stored collections had inconsistent data and were repaired automatically.",
+        "repairDetailActiveGraphIdx": "activeGraphIdx {{previousValue}} → {{nextValue}}",
+        "repairDetailUnknown": "{{field}} repaired",
+        "targetConfig": {
+            "uploadSuccess": {
+                "title": "Target Config Uploaded",
+                "message": "\"{{displayName}}\" has been uploaded successfully.",
+                "detail": "Target id: {{targetId}}. It is now available in target selection."
+            },
+            "conflict": {
+                "title": "Target Config Conflict",
+                "message": "A target config with the same {{conflictType}} already exists.",
+                "detail": "Incoming: {{incomingDisplayName}} (id: {{incomingId}}, version: {{incomingVersion}})\nExisting: {{existingDisplayName}} (id: {{existingId}}, version: {{existingVersion}})\n\nDo you want to overwrite the existing target config?",
+                "confirm": "Overwrite",
+                "cancel": "Cancel",
+                "conflictTypeDisplayName": "display name",
+                "conflictTypeId": "id"
+            }
+        },
+        "menu": {
+            "targetConfigDb": {
+                "backup": "Backup User Target Config DB",
+                "restore": "Restore User Target Config DB"
+            }
+        }
+    },
+    "collapsibleView": {
+        "collapse": "Collapse section",
+        "expand": "Expand section",
+        "solo": "Expand this section and collapse the others"
+    },
+    "settings": {
+        "all": {
+            "title": "Settings"
+        },
+        "section": {
+            "general": "General Settings",
+            "collection": "Collection Settings",
+            "graph": "Graph Settings"
+        },
+        "collapse": {
+            "tooltip": "Collapse section"
+        },
+        "expand": {
+            "tooltip": "Expand section"
+        },
+        "general": {
+            "title": "General Settings",
+            "theme": {
+                "label": "Theme",
+                "description": "Choose the editor theme."
+            },
+            "language": {
+                "label": "Language",
+                "description": "Choose the display language."
+            }
+        },
+        "collection": {
+            "title": "Collection Settings",
+            "name": {
+                "label": "Collection Name"
+            },
+            "runtime": {
+                "label": "Runtime",
+                "description": "Select the runtime profile for this collection."
+            },
+            "target": {
+                "label": "Target Device",
+                "description": "Select the device target for this collection."
+            },
+            "webAssetGenerationMode": {
+                "label": "Web Asset Format",
+                "compressed": "Compressed (.gz)",
+                "plain": "Plain text"
+            },
+            "version": {
+                "label": "Collection Version"
+            }
+        },
+        "graph": {
+            "title": "Graph Settings",
+            "name": {
+                "label": "Graph Name"
+            },
+            "enabled": {
+                "label": "Enabled"
+            },
+            "executionType": {
+                "label": "Execution Type",
+                "startup": "Run once on startup",
+                "continuous": "Run continuously in loop",
+                "irq": "Run once per interrupt",
+                "event": "Run on signal",
+                "function": "Provide as callable function"
+            },
+            "sleepDuration": {
+                "label": "Interval (ms)",
+                "description": "Time between the start of consecutive loop iterations. 0 yields without waiting."
+            },
+            "triggerName": {
+                "label": "Interrupt",
+                "description": "Interrupt input whose edges run this graph."
+            },
+            "signals": {
+                "label": "Signals",
+                "listLabel": "Watched signals",
+                "description": "Pick the signals that run this graph. Any = one picked signal runs it; All = every picked signal must have fired since the last run.",
+                "mode": {
+                    "label": "Trigger mode",
+                    "any": "Any",
+                    "all": "All"
+                },
+                "runOnStart": {
+                    "label": "Run once at startup",
+                    "description": "Also run the graph once when the device starts."
+                },
+                "emptyError": "Pick at least one signal for this event graph.",
+                "unknownProducer": "No signal-post node produces \"{{name}}\"."
+            },
+            "function": {
+                "category": {
+                    "label": "Category"
+                },
+                "icon": {
+                    "label": "Icon",
+                    "hint": "Type or pick an MDI icon, e.g. mdi:function"
+                },
+                "description": {
+                    "label": "Description",
+                    "placeholder": "Describe what this function does…"
+                },
+                "inputs": {
+                    "title": "Inputs",
+                    "add": "Add input",
+                    "empty": "No inputs declared. The function takes no arguments."
+                },
+                "outputs": {
+                    "title": "Outputs",
+                    "add": "Add output",
+                    "empty": "No outputs declared. The function returns nothing."
+                },
+                "port": {
+                    "name": {
+                        "label": "Name",
+                        "required": "A port name is required.",
+                        "duplicate": "Another port already uses this name."
+                    },
+                    "types": {
+                        "label": "Data types",
+                        "placeholder": "Pick data types",
+                        "anyHint": "\"Any\" accepts every data type."
+                    },
+                    "documentation": {
+                        "label": "Documentation",
+                        "placeholder": "Describe this port…"
+                    },
+                    "default": {
+                        "typeLabel": "Default type",
+                        "valueLabel": "Default value",
+                        "min": "Min",
+                        "max": "Max",
+                        "step": "Step (UI)",
+                        "invalidNumber": "Enter a number.",
+                        "invalidStep": "Step must be greater than 0.",
+                        "invalidBounds": "Min must not exceed max."
+                    },
+                    "moveUp": "Move up",
+                    "moveDown": "Move down",
+                    "remove": "Delete port",
+                    "untitled": "Untitled port",
+                    "limit": "A list holds at most {{max}} ports."
+                }
+            }
+        }
+    },
+    "collection": {
+        "defaultGraphName": "Graph",
+        "addGraph": "Add Graph",
+        "undo": "Undo",
+        "redo": "Redo",
+        "closeGraphTitle": "Remove Graph",
+        "closeGraphMessage": "Are you sure you want to remove \"{{name}}\"?",
+        "closeGraphDetail": "This action will remove the graph from this collection.",
+        "closeGraphConfirm": "Remove",
+        "tabContextMenu": {
+            "rename": "Rename Graph",
+            "enabled": "Enabled",
+            "copy": "Copy Graph",
+            "paste": "Paste Graph"
+        },
+        "error": {
+            "renameTitle": "Rename Failed",
+            "duplicateName": "A graph named \"{{name}}\" already exists."
+        }
+    },
+    "deviceConnection": {
+        "connectionToolbar": "Connections",
+        "deviceLog": "Device Log",
+        "dialogTitle": "Connect Device",
+        "progressTitle": "Connecting Device",
+        "hint": "Connecting reads the device information. A first connection may ask which target the device is.",
+        "portsLoading": "Loading devices...",
+        "portsEmpty": "No devices found",
+        "portsFailed": "Could not read the device list",
+        "provider": "Provider",
+        "providerTooltip": "Select connection type",
+        "endpoint": "Device",
+        "endpointTooltip": "Serial device path for the WebSocket bridge",
+        "endpointLoading": "Loading devices...",
+        "refreshEndpoints": "Refresh device list",
+        "connect": "Connect",
+        "connectTooltip": "Connect to device",
+        "connecting": "Connecting...",
+        "cancelConnecting": "Cancel connecting",
+        "disconnect": "Disconnect",
+        "disconnectTooltip": "Disconnect from device",
+        "disconnecting": "Disconnecting...",
+        "play": "Play",
+        "playTooltip": "Start code execution on device",
+        "stop": "Stop",
+        "stopTooltip": "Stop code execution on device",
+        "softReset": "Soft Reset",
+        "softResetTooltip": "Soft reset device (Ctrl+D)",
+        "hardReset": "Hard Reset",
+        "hardResetTooltip": "Hard reset device (machine.reset())",
+        "customView": "Custom View",
+        "clear": "Clear",
+        "clearTooltip": "Clear console log",
+        "settings": "Settings",
+        "settingsTooltip": "Connection settings",
+        "loadingDeviceInfo": "Loading device information...",
+        "initialized": "Device connection view initialized",
+        "connected": "Connected via {{provider}}",
+        "disconnected": "Disconnected from device",
+        "providerChanged": "Provider changed to {{provider}}",
+        "connectFailed": "Connection failed: {{error}}",
+        "disconnectFailed": "Disconnect failed: {{error}}",
+        "executionStarted": "Code execution started",
+        "executionStopped": "Code execution stopped",
+        "playFailed": "Start execution failed: {{error}}",
+        "stopFailed": "Stop execution failed: {{error}}",
+        "softResetComplete": "Device soft reset complete",
+        "softResetFailed": "Soft reset failed: {{error}}",
+        "hardResetComplete": "Device hard reset complete",
+        "hardResetReconnectRequired": "Reconnect required after hard reset",
+        "hardResetFailed": "Hard reset failed: {{error}}",
+        "logCleared": "Console log cleared",
+        "transferProgress": "{{operation}} {{filename}}: {{percent}}% ({{transferred}}/{{total}})",
+        "transferComplete": "{{operation}} {{filename}} complete: {{transferred}} in {{seconds}}s",
+        "error": "Device error: {{error}}",
+        "errorWithContext": "{{context}}: {{error}}",
+        "confirmHardReset": {
+            "title": "Confirm Hard Reset",
+            "message": "Hard reset will restart the MicroPython interpreter and reset device state. Continue?",
+            "confirm": "Hard Reset",
+            "cancel": "Cancel"
+        },
+        "errors": {
+            "changeWhileConnected": "Cannot change provider while connected. Disconnect first.",
+            "connectFailed": "Connection Failed",
+            "notConnected": "Device not connected",
+            "playFailed": "Start Execution Failed",
+            "stopFailed": "Stop Execution Failed",
+            "softResetFailed": "Soft Reset Failed",
+            "hardResetFailed": "Hard Reset Failed",
+            "critical": "Critical Device Error",
+            "notImplemented": "This feature is not yet implemented."
+        }
+    },
+    "customRuntimeView": {
+        "noViewAvailable": "No custom runtime settings available",
+        "setup": {
+            "loading": "Loading runtime settings from device...",
+            "error": "Failed to load runtime settings"
+        }
+    },
+    "customView": {
+        "executionError": "Function Execution Failed",
+        "functionFailed": "Failed to execute function",
+        "validationFailed": "Validation failed"
+    },
+    "deployment": {
+        "title": "Deployment",
+        "toolbarTitle": "Deployment Actions",
+        "deviceInfo": "Device Information",
+        "runtimeInfo": "Runtime Information",
+        "collectionInfo": "Collection on Device",
+        "compatibility": "Compatibility Check",
+        "connection": "Connection",
+        "microPythonStatus": "MicroPython",
+        "microPythonVersion": "MicroPython Version",
+        "target": "Target",
+        "userDescription": "Description",
+        "installed": "Installed",
+        "runtimeId": "Runtime ID",
+        "runtimeMode": "Runtime Mode",
+        "runtimeModeDynamic": "Dynamic",
+        "runtimeModeEmbedded": "Embedded",
+        "embeddedPackagesSummary": "Embedded Packages",
+        "dynamicLibrariesOnDevice": "Libraries on Device",
+        "fileCountOnDevice": "{{count}} file(s)",
+        "noneOnDevice": "none",
+        "firmwareFullVersion": "Firmware Full Version",
+        "runtimeFirmwareVersion": "Runtime Firmware Version",
+        "firmwareConstituentVersions": "Constituent Versions",
+        "runtimeSourceVersion": "Runtime Source",
+        "deviceToolsVersion": "Device Tools",
+        "nodePackages": "Node Packages",
+        "version": "Version",
+        "name": "Name",
+        "deployed": "Deployed",
+        "yes": "Yes",
+        "no": "No",
+        "unknown": "Unknown",
+        "connected": "Connected",
+        "disconnected": "Disconnected",
+        "noDeviceConnected": "No device connected",
+        "connectViaTitleBar": "Connect a device with the cable badge in the title bar to enable deployment.",
+        "helpTitle": "Deployment Help",
+        "noConnectionAvailable": "No device connection available",
+        "installRuntime": "Install Runtime",
+        "upgradeRuntime": "Upgrade Runtime",
+        "refreshRuntime": "Refresh Runtime",
+        "removeRuntime": "Remove Runtime",
+        "refreshDeviceInfo": "Refresh Device Info",
+        "editDeviceTarget": "Edit Device Target",
+        "deployCollection": "Deploy Collection",
+        "syncCollection": "Sync Collection",
+        "deployOrSyncCollection": "Deploy / Sync Collection",
+        "removeCollection": "Remove Collection",
+        "selectRuntime": "Select Runtime",
+        "runtimeLabel": "Runtime",
+        "install": "Install",
+        "upgrade": "Upgrade",
+        "refresh": "Refresh",
+        "remove": "Remove",
+        "deploy": "Deploy",
+        "sync": "Sync",
+        "confirmUpgrade": "Confirm Upgrade",
+        "confirmUpgradeMessage": "Upgrade runtime {{runtime}} from version {{currentVersion}}?",
+        "confirmRefresh": "Confirm Refresh",
+        "confirmRefreshMessage": "Refresh runtime {{runtime}}?",
+        "confirmRemoveRuntime": "Confirm Runtime Removal",
+        "confirmRemoveRuntimeMessage": "Remove runtime from device? This will delete runtime files.",
+        "confirmRemoveCollection": "Confirm Collection Removal",
+        "confirmRemoveCollectionMessage": "Remove collection from device? This will delete collection code and metadata.",
+        "deploymentOptions": "Deployment Options",
+        "syncOptions": "Sync Options",
+        "includeFullDefinition": "Include full collection definition",
+        "includeFullDefinitionHint": "Also stores the complete graph structure in the collection metadata on the device, so the collection can be read back later.",
+        "forceUpload": "Force upload (rewrite all deployed files)",
+        "forceUploadHint": "Writes every file of this deploy again, even when the device already has the same content: the generated collection code, its metadata and all library sources that are uploaded as source. Packages the firmware provides are not touched — use Upload firmware package source for those. Use this when the device still runs old code after a deploy that reported no changes.",
+        "overrideFirmwarePackages": "Upload firmware package source",
+        "overrideFirmwarePackagesHint": "The node packages in the device's firmware are out of date, so the device runs old package code. Uploading their source replaces the firmware copies; this uses extra RAM and can make the collection fail if memory is insufficient. You confirm the affected packages first.",
+        "preserveCollection": "Preserve collection data",
+        "deletePreservedFiles": "Delete preserved files",
+        "deleteFileSystem": "Delete entire filesystem",
+        "noRuntimeTitle": "No Runtime Detected",
+        "noRuntimeMessage": "No Micro-Otter runtime is installed on this device. Install a runtime to begin deploying collections.",
+        "runtimeNotInstalled": "No runtime installed on device.",
+        "runtimeUnavailable": "No runtimes available for installation.",
+        "runtimeActionDisabledEmbedded": "Runtime reinstall actions are disabled because this runtime is embedded in firmware.",
+        "noActiveCollection": "No active collection selected.",
+        "incompatible": "Incompatible Configuration",
+        "loadingDeviceInfo": "Loading device information...",
+        "errorLoadingDeviceInfo": "Failed to load device info: {{error}}",
+        "errorRefreshDeviceInfo": "Failed to refresh device info",
+        "compatibilityWaitingForInfo": "Waiting for device information...",
+        "compatibilityChecking": "Checking compatibility...",
+        "compatibilityDisconnected": "Connect to a device to run compatibility checks.",
+        "compatibilityOk": "Current collection compatible with device",
+        "compatibilityError": "Compatibility check failed: {{error}}",
+        "errorListHeading": "Errors",
+        "progressOverall": "Overall Progress",
+        "progressCurrentFile": "Current File",
+        "progressIdle": "No active operation",
+        "progressFileIdle": "No active file transfer",
+        "microPythonNotDetected": "MicroPython Not Detected",
+        "microPythonNotDetectedMessage": "MicroPython firmware was not detected on this device. Please install MicroPython before continuing.",
+        "microPythonInstallStep1": "Download the latest MicroPython firmware for your device.",
+        "microPythonInstallStep2": "Flash the firmware using esptool.py or a flashing tool.",
+        "microPythonInstallStep3": "Reconnect and try again.",
+        "errorTitle": "Deployment Error",
+        "errorGeneric": "Unexpected deployment error.",
+        "packageVersionWarningHeading": "Package version warnings",
+        "packageVersionOutdated": "{{packageId}}: firmware has v{{deviceVersion}}, host has v{{hostVersion}} — firmware update recommended",
+        "packageVersionUnknown": "{{packageId}}: the firmware does not report a package version — host v{{hostVersion}} will be uploaded as source",
+        "embeddedOverrideTitle": "Firmware packages will be shadowed by source",
+        "embeddedOverrideMessage": "The firmware cannot provide these packages up-to-date. Continuing uploads the complete source of each package ({{fileCount}} files), which takes precedence over the firmware copies. This increases RAM usage and the collection may fail to run if memory is insufficient.\n\nUpdate the firmware instead if possible.",
+        "embeddedOverridePackageLine": "{{packageId}}: firmware v{{deviceVersion}} → host v{{hostVersion}}",
+        "embeddedOverridePackageLineUnknown": "{{packageId}}: firmware version unknown → host v{{hostVersion}}",
+        "embeddedOverridePackageLineIncomplete": "{{packageId}}: firmware v{{deviceVersion}} does not provide every needed file → host v{{hostVersion}} will be uploaded",
+        "embeddedOverridePackageLineContent": "{{packageId}}: firmware v{{deviceVersion}} carries different file content → host v{{hostVersion}} will be uploaded",
+        "embeddedOverridePackageLineForced": "{{packageId}}: source upload requested even though the firmware reports v{{deviceVersion}} → host v{{hostVersion}} will be uploaded",
+        "embeddedOverrideConfirm": "Upload source anyway",
+        "embeddedOverrideRemember": "Remember for this version",
+        "embeddedOverrideTablePackage": "Package",
+        "embeddedOverrideTableFirmwareVersion": "Firmware version",
+        "embeddedOverrideTableHostVersion": "Host version",
+        "embeddedOverrideVersionUnknown": "unknown",
+        "undeterminedRuntimeTitle": "Runtime mode unknown",
+        "undeterminedRuntimeMessage": "The device's firmware metadata could not be read, so it is not clear whether this is a firmware (embedded) or uploaded (dynamic) runtime. Re-read the device information to try again?",
+        "undeterminedRuntimeRetry": "Retry detection",
+        "undeterminedRuntimeFailed": "Could not determine the device runtime mode after retrying. Please reconnect or reset the device and try again.",
+        "packageIncomplete": "{{packageId}}: the firmware does not provide every needed file — host v{{hostVersion}} will be uploaded as source",
+        "packageContentMismatch": "{{packageId}}: the firmware files of v{{deviceVersion}} differ from the host v{{hostVersion}} copy — host source will be uploaded",
+        "packageFileMissingFromHost": "{{path}}: required file is not available on the host — install the package or update the firmware",
+        "packageNotInFirmware": "{{packageId}}: not bundled in the firmware — its source is uploaded to the device, which uses more RAM and may fail to run if memory is insufficient",
+        "targetDialog": {
+            "title": "Select Device Target",
+            "message": "Choose the hardware configuration for this device. This determines which pins and capabilities are available. The 'Custom' target disables capability validation for non-standard hardware.",
+            "targetLabel": "Device Target",
+            "targetDescriptionLabel": "Target Description",
+            "userDescriptionLabel": "Your Description (Optional)",
+            "userDescriptionPlaceholder": "Add a custom description for this device (e.g., 'Workshop device - pin 5 broken')...",
+            "confirm": "Continue",
+            "cancel": "Cancel",
+            "customWarning": "Custom target selected. Capability validation will be disabled. Use only for non-standard hardware."
+        },
+        "errors": {
+            "title": "Deployment Error",
+            "noTargets": "No device targets available for selection",
+            "targetMismatch": "Collection target '{{collectionTarget}}' does not match device target '{{deviceTarget}}'",
+            "targetNotCompatible": "Target '{{targetId}}' cannot run on the connected device's firmware. Choose a target from the same board family, or flash firmware built for this target.",
+            "targetIncomplete": "Target '{{targetId}}' carries no pin configuration and cannot be used. Choose another target.",
+            "deviceTargetNotConfigured": "This device has no usable target configuration. Reconnect the device and select its target again.",
+            "deviceTargetIncompatible": "The target stored on this device does not match its firmware. Select a target from the same board family.",
+            "targetSelectionCancelled": "Target selection was cancelled. Runtime installation aborted."
+        }
+    },
+    "deviceCollection": {
+        "comparison": {
+            "title": "Collection Comparison"
+        },
+        "local": {
+            "title": "Current Collection (Local)",
+            "name": "Name",
+            "version": "Version",
+            "runtime": "Runtime",
+            "target": "Target"
+        },
+        "device": {
+            "title": "Device Collection",
+            "none": "No collection deployed",
+            "name": "Name",
+            "version": "Version",
+            "runtime": "Runtime",
+            "target": "Target",
+            "graphIncluded": "Full graph included",
+            "graphMetadataOnly": "Metadata only"
+        },
+        "status": {
+            "title": "Status",
+            "compatible": "Compatible",
+            "incompatible": "Incompatible",
+            "overrideWarning": "Upload will replace \"{{collectionName}}\""
+        },
+        "download": {
+            "button": "Download Collection from Device",
+            "success": {
+                "title": "Success",
+                "message": "Collection downloaded successfully"
+            },
+            "confirmOverwrite": {
+                "title": "Collection Already Exists",
+                "message": "A collection with this ID already exists:\n\nLocal: {{localName}} (v{{localVersion}})\nDevice: {{deviceName}} (v{{deviceVersion}})\n\nOverwrite local collection?",
+                "overwrite": "Overwrite Local",
+                "cancel": "Cancel"
+            },
+            "error": {
+                "title": "Download Failed",
+                "noData": "No collection data available on device",
+                "noFullDefinition": "Collection does not include full graph data",
+                "failed": "Failed to download collection: {{error}}"
+            }
+        }
+    },
+    "documentationArea": {
+        "untitled": "Untitled area",
+        "menuButton": "Documentation area menu",
+        "placeholder": "Write Markdown…  ($…$ for inline math)",
+        "duplicateTitle": "{title} copy",
+        "menu": {
+            "edit": "Edit",
+            "done": "Done",
+            "color": "Change Colour…",
+            "rename": "Rename…",
+            "alignTop": "Align Text Top",
+            "alignBottom": "Align Text Bottom",
+            "fontSize": "Font Size",
+            "fontSizeSmall": "Small",
+            "fontSizeNormal": "Normal",
+            "fontSizeLarge": "Large",
+            "cut": "Cut",
+            "copy": "Copy",
+            "paste": "Paste",
+            "duplicate": "Duplicate",
+            "fitToSelection": "Fit to Selection",
+            "delete": "Delete"
+        }
+    }
+}

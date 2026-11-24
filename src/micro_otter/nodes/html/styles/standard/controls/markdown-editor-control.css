@@ -1,0 +1,64 @@
+/* Reusable editable-Markdown control (rendered preview + Edit/Done buttons + textarea). */
+
+.markdown-editor {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--mo-padding, 1px) * 4);
+    min-width: 0;
+}
+
+.markdown-editor__label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--mo-text, #e5eaf3);
+}
+
+.markdown-editor__header {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--mo-padding, 1px) * 4);
+}
+
+.markdown-editor__action {
+    display: inline-flex;
+}
+
+.markdown-editor__body {
+    min-width: 0;
+}
+
+.markdown-editor__preview {
+    padding: calc(var(--mo-padding, 1px) * 4);
+    border: 1px solid var(--mo-border, #2a3140);
+    border-radius: 4px;
+    background: var(--mo-surface-1, #171d2b);
+    color: var(--mo-text, #e5eaf3);
+    overflow-wrap: break-word;
+}
+
+.markdown-editor__preview p {
+    margin: 0 0 0.5em;
+}
+
+.markdown-editor__preview p:last-child {
+    margin-bottom: 0;
+}
+
+.markdown-editor__empty {
+    padding: calc(var(--mo-padding, 1px) * 4);
+    color: var(--mo-text-muted, #8a93a5);
+    font-style: italic;
+}
+
+.markdown-editor__textarea {
+    width: 100%;
+    min-height: 72px;
+    box-sizing: border-box;
+    padding: calc(var(--mo-padding, 1px) * 4);
+    border: 1px solid var(--mo-border, #2a3140);
+    border-radius: 4px;
+    background: var(--mo-surface-1, #171d2b);
+    color: var(--mo-text, #e5eaf3);
+    font: inherit;
+    resize: vertical;
+}

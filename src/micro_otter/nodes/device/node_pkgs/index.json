@@ -1,0 +1,49 @@
+{
+  "version": 2,
+  "packages": [
+    {
+      "id": "core",
+      "manifest": "core/manifest.json"
+    },
+    {
+      "id": "stdmo",
+      "manifest": "stdmo/manifest.json"
+    },
+    {
+      "id": "webview",
+      "manifest": "webview/manifest.json"
+    },
+    {
+      "id": "audio",
+      "manifest": "audio/manifest.json"
+    },
+    {
+      "id": "power",
+      "manifest": "power/manifest.json"
+    },
+    {
+      "id": "mqtt",
+      "manifest": "mqtt/manifest.json"
+    },
+    {
+      "id": "hass",
+      "manifest": "hass/manifest.json"
+    },
+    {
+      "id": "vars",
+      "manifest": "vars/manifest.json"
+    },
+    {
+      "id": "led",
+      "manifest": "led/manifest.json"
+    },
+    {
+      "id": "time",
+      "manifest": "time/manifest.json"
+    },
+    {
+      "id": "irq",
+      "manifest": "irq/manifest.json"
+    }
+  ]
+}

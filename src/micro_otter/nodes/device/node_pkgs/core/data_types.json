@@ -1,0 +1,20 @@
+{
+    "types": {
+        "core.tuple": {
+            "name": {
+                "en": "Tuple",
+                "de": "Tupel"
+            },
+            "description": {
+                "en": "An immutable ordered group of heterogeneous values.",
+                "de": "Eine unveränderliche, geordnete Gruppe heterogener Werte."
+            },
+            "color": "#9b7ad6",
+            "kind": "value",
+            "connectionPolicy": {
+                "input": { "maxConnections": 1 },
+                "output": { "maxConnections": 0 }
+            }
+        }
+    }
+}

@@ -1,0 +1,1990 @@
+{
+  "lineage": {
+    "esp32-general": {
+      "0.1.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-04-24T00:00:00Z",
+        "deviceToolsVersion": "0.1.0",
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "core": "1.0.1",
+          "stdmo": "1.0.0",
+          "webview": "1.0.0"
+        },
+        "runtimeSourceVersion": "1.11.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.1.1": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-04-24T18:38:48.556864Z",
+        "deviceToolsVersion": "0.1.0",
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "core": "1.0.2",
+          "stdmo": "1.0.1",
+          "webview": "1.0.1"
+        },
+        "runtimeSourceVersion": "1.11.1",
+        "versionSource": "legacy-lineage"
+      },
+      "0.1.2": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-04-25T05:09:42.728779Z",
+        "deviceToolsVersion": "0.1.0",
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "core": "1.0.3",
+          "stdmo": "1.0.1",
+          "webview": "1.0.4"
+        },
+        "runtimeSourceVersion": "1.11.1",
+        "versionSource": "legacy-lineage"
+      },
+      "0.10.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-22T14:13:05.483679Z",
+        "deviceToolsVersion": "0.1.0",
+        "gitSource": {
+          "branch": "more-web-nodes",
+          "commitHash": "8c45e7d6db2b5bfbe28fe46fce190bc336e1532f",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "core": "1.0.3",
+          "stdmo": "1.0.1",
+          "webview": "1.15.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.15.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.11.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-22T14:56:21.021814Z",
+        "deviceToolsVersion": "0.1.0",
+        "gitSource": {
+          "branch": "more-web-nodes",
+          "commitHash": "dcba5839a54cd225c1dae4beaffb59dd43be90c0",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "core": "1.0.3",
+          "stdmo": "1.0.1",
+          "webview": "1.16.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.16.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.12.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-22T15:12:40.648834Z",
+        "deviceToolsVersion": "0.1.0",
+        "gitSource": {
+          "branch": "more-web-nodes",
+          "commitHash": "353e621baa1fb5434e02bc7f9817876df3219146",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "core": "1.0.3",
+          "stdmo": "1.0.1",
+          "webview": "1.16.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.17.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.13.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-22T15:44:10.660986Z",
+        "deviceToolsVersion": "0.1.0",
+        "gitSource": {
+          "branch": "more-web-nodes",
+          "commitHash": "2c0995a5a732298d74a6e450aeb10a67edb31715",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "core": "1.0.3",
+          "stdmo": "1.0.1",
+          "webview": "1.17.1"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.17.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.14.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-25T15:37:00.686272Z",
+        "deviceToolsVersion": "0.2.1",
+        "gitSource": {
+          "branch": "feat/new-nodes",
+          "commitHash": "4adb65f85d9e65eba04f31326d051c6804248e35",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "audio": "0.15.0",
+          "core": "1.5.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "webview": "1.19.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.18.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.15.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-25T16:54:57.911284Z",
+        "deviceToolsVersion": "0.2.1",
+        "gitSource": {
+          "branch": "feat/new-nodes",
+          "commitHash": "c5750b35181ab2a4fa88f883b1457340bf067724",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "audio": "0.17.0",
+          "core": "1.5.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "webview": "1.19.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.18.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.15.1": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-25T17:13:34.043839Z",
+        "deviceToolsVersion": "0.2.1",
+        "gitSource": {
+          "branch": "feat/new-nodes",
+          "commitHash": "70e358fada000c75a369764c4a881faed4c94c1b",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "audio": "0.17.1",
+          "core": "1.5.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "webview": "1.19.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.18.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.16.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-25T17:37:56.388846Z",
+        "deviceToolsVersion": "0.2.1",
+        "gitSource": {
+          "branch": "feat/new-nodes",
+          "commitHash": "61a44603fb4605a1efb2ade339920a9dc4d8dd2d",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "audio": "0.21.0",
+          "core": "1.5.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "webview": "1.19.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.18.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.17.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-25T18:18:16.497510Z",
+        "deviceToolsVersion": "0.2.1",
+        "gitSource": {
+          "branch": "feat/new-nodes",
+          "commitHash": "18fd9d3a12a68d1fcb8ee813999377470d261df8",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "audio": "0.26.0",
+          "core": "1.5.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "webview": "1.19.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.18.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.18.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-26T06:32:55.517626Z",
+        "deviceToolsVersion": "0.2.1",
+        "gitSource": {
+          "branch": "feat/new-nodes",
+          "commitHash": "39bab61c5b3b12b747e77b0a2590b8b6b2203616",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "audio": "0.27.0",
+          "core": "1.5.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "webview": "1.19.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.18.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.19.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-26T06:56:54.352479Z",
+        "deviceToolsVersion": "0.2.1",
+        "gitSource": {
+          "branch": "feat/new-nodes",
+          "commitHash": "6554eaa399a108bab79be2b9e3f6914ac8211c2b",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.27.0",
+          "core": "1.5.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "webview": "1.19.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.18.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.2.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-04-25T06:07:26.568335Z",
+        "deviceToolsVersion": "0.1.0",
+        "gitSource": {
+          "branch": "precompiled-runtime",
+          "commitHash": "e21032061f29eeb600ed633f6b8e4f26fd9e6fa8",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "core": "1.0.3",
+          "stdmo": "1.0.1",
+          "webview": "1.0.4"
+        },
+        "runtimeAssetsVersion": "1.2.0",
+        "runtimeSourceVersion": "1.11.1",
+        "versionSource": "legacy-lineage"
+      },
+      "0.2.1": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-04-25T09:30:24.208590Z",
+        "deviceToolsVersion": "0.1.0",
+        "gitSource": {
+          "branch": "device-web-opt",
+          "commitHash": "a45f1670172360f80e4d8bb463d553bff4f3aee1",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "core": "1.0.3",
+          "stdmo": "1.0.1",
+          "webview": "1.0.5"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.11.10",
+        "versionSource": "legacy-lineage"
+      },
+      "0.20.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-26T11:01:04.527273Z",
+        "deviceToolsVersion": "0.2.1",
+        "gitSource": {
+          "branch": "feat/new-nodes",
+          "commitHash": "eede42b605161e568042def4e296f6cb587e03d7",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.36.0",
+          "core": "1.5.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "webview": "1.19.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.18.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.21.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-27T20:54:28.977025Z",
+        "deviceToolsVersion": "0.2.1",
+        "gitSource": {
+          "branch": "feat/led-and-vars",
+          "commitHash": "7af5b61246237c37a86335925a496dc0d54328f9",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.36.0",
+          "core": "1.5.0",
+          "led": "0.4.0",
+          "mqtt": "0.3.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "vars": "0.4.0",
+          "webview": "1.19.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.19.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.22.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-11-01T13:04:11.182839Z",
+        "deviceToolsVersion": "0.8.0",
+        "gitSource": {
+          "branch": "feat/improved-ap",
+          "commitHash": "23e4e87067a8c23b19a0e5a9159d55f33a2b2e47",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.46.4",
+          "core": "1.5.1",
+          "led": "0.6.2",
+          "mqtt": "0.6.1",
+          "power": "0.5.1",
+          "stdmo": "1.0.2",
+          "vars": "0.16.1",
+          "webview": "1.34.1"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.46.1",
+        "versionSource": "legacy-lineage"
+      },
+      "0.3.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-04-25T16:15:30.775357Z",
+        "deviceToolsVersion": "0.1.0",
+        "gitSource": {
+          "branch": "more-web-nodes",
+          "commitHash": "cd7bdb05995aaa254c44523e9964125490a892ba",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "core": "1.0.3",
+          "stdmo": "1.0.1",
+          "webview": "1.3.1"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.11.10",
+        "versionSource": "legacy-lineage"
+      },
+      "0.4.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-05-25T12:14:39.491680Z",
+        "deviceToolsVersion": "0.1.0",
+        "gitSource": {
+          "branch": "more-web-nodes",
+          "commitHash": "f2da68600db9d3ba78bf060e51c0f1eb642bf212",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "core": "1.0.3",
+          "stdmo": "1.0.1",
+          "webview": "1.4.1"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.11.10",
+        "versionSource": "legacy-lineage"
+      },
+      "0.5.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-06-07T08:50:43.202892Z",
+        "deviceToolsVersion": "0.1.0",
+        "gitSource": {
+          "branch": "more-web-nodes",
+          "commitHash": "07ea509ac1e521ce4b543d983f6dad9c8f9be0f3",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "core": "1.0.3",
+          "stdmo": "1.0.1",
+          "webview": "1.5.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.11.10",
+        "versionSource": "legacy-lineage"
+      },
+      "0.6.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-22T05:47:15.329749Z",
+        "deviceToolsVersion": "0.1.0",
+        "gitSource": {
+          "branch": "more-web-nodes",
+          "commitHash": "b8f82c48979c2601aaae0aca2b26c25abc788836",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "core": "1.0.3",
+          "stdmo": "1.0.1",
+          "webview": "1.5.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.12.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.7.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-22T07:34:01.969961Z",
+        "deviceToolsVersion": "0.1.0",
+        "gitSource": {
+          "branch": "more-web-nodes",
+          "commitHash": "5f1001838f2db9b0a5ee3be9047ee1887d3450c7",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "core": "1.0.3",
+          "stdmo": "1.0.1",
+          "webview": "1.5.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.14.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.8.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-22T09:05:20.886256Z",
+        "deviceToolsVersion": "0.1.0",
+        "gitSource": {
+          "branch": "more-web-nodes",
+          "commitHash": "841d07cbdee20479607516e452e2b60c7caf9dd9",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "core": "1.0.3",
+          "stdmo": "1.0.1",
+          "webview": "1.9.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.14.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.8.1": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-22T11:57:15.712816Z",
+        "deviceToolsVersion": "0.1.0",
+        "gitSource": {
+          "branch": "more-web-nodes",
+          "commitHash": "0582df0ac6fb416dc416809f03ffe4db880c6594",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "core": "1.0.3",
+          "stdmo": "1.0.1",
+          "webview": "1.9.1"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.14.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.8.2": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-22T12:22:00.336814Z",
+        "deviceToolsVersion": "0.1.0",
+        "gitSource": {
+          "branch": "more-web-nodes",
+          "commitHash": "52a33010142720c8aac19d8251a5f60a0c2abe1f",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "core": "1.0.3",
+          "stdmo": "1.0.1",
+          "webview": "1.9.2"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.14.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.9.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-22T12:36:09.006196Z",
+        "deviceToolsVersion": "0.1.0",
+        "gitSource": {
+          "branch": "more-web-nodes",
+          "commitHash": "d4bd99f6a89d6977bd7d8816e079a0ff34883932",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "core": "1.0.3",
+          "stdmo": "1.0.1",
+          "webview": "1.10.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.14.0",
+        "versionSource": "legacy-lineage"
+      }
+    },
+    "esp32_generic_s3-general": {
+      "0.1.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-24T12:35:08.453382Z",
+        "deviceToolsVersion": "0.1.0",
+        "gitSource": {
+          "branch": "feat/new-nodes",
+          "commitHash": "9737cba07230b8ec01c9c91628a2974cdda99247",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "audio": "0.9.0",
+          "core": "1.5.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "webview": "1.18.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.18.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.10.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-26T06:57:30.805681Z",
+        "deviceToolsVersion": "0.2.1",
+        "gitSource": {
+          "branch": "feat/new-nodes",
+          "commitHash": "6554eaa399a108bab79be2b9e3f6914ac8211c2b",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.27.0",
+          "core": "1.5.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "webview": "1.19.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.18.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.11.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-26T11:01:41.430720Z",
+        "deviceToolsVersion": "0.2.1",
+        "gitSource": {
+          "branch": "feat/new-nodes",
+          "commitHash": "eede42b605161e568042def4e296f6cb587e03d7",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.36.0",
+          "core": "1.5.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "webview": "1.19.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.18.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.12.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-27T20:55:33.635840Z",
+        "deviceToolsVersion": "0.2.1",
+        "gitSource": {
+          "branch": "feat/led-and-vars",
+          "commitHash": "7af5b61246237c37a86335925a496dc0d54328f9",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.36.0",
+          "core": "1.5.0",
+          "led": "0.4.0",
+          "mqtt": "0.3.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "vars": "0.4.0",
+          "webview": "1.19.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.19.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.13.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-29T09:10:48.502512Z",
+        "deviceToolsVersion": "0.2.1",
+        "gitSource": {
+          "branch": "feat/led-and-vars",
+          "commitHash": "57c911f9c8445dba46c543fd63dc835c7c790a41",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.36.0",
+          "core": "1.5.0",
+          "led": "0.5.1",
+          "mqtt": "0.3.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "vars": "0.9.0",
+          "webview": "1.19.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.19.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.14.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-29T12:10:40.480514Z",
+        "deviceToolsVersion": "0.2.1",
+        "gitSource": {
+          "branch": "feat/led-and-vars",
+          "commitHash": "e6408826319bcf77a9c6d3a44ff784009252d161",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.36.0",
+          "core": "1.5.0",
+          "led": "0.5.1",
+          "mqtt": "0.3.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "vars": "0.11.0",
+          "webview": "1.19.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.19.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.15.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-29T17:11:53.476420Z",
+        "deviceToolsVersion": "0.2.1",
+        "gitSource": {
+          "branch": "feat/led-and-vars",
+          "commitHash": "033977925379b4686d2336c1a016275c72ac5658",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.37.0",
+          "core": "1.5.0",
+          "led": "0.5.1",
+          "mqtt": "0.3.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "vars": "0.11.0",
+          "webview": "1.19.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.19.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.16.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-29T19:01:47.610468Z",
+        "deviceToolsVersion": "0.2.1",
+        "gitSource": {
+          "branch": "feat/web-persist-ui",
+          "commitHash": "a7ebcd01f74c172e1ecbfd922ac0008dafb8d9ec",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.45.0",
+          "core": "1.5.0",
+          "led": "0.5.1",
+          "mqtt": "0.3.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "vars": "0.11.0",
+          "webview": "1.24.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.19.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.17.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-30T09:55:44.557424Z",
+        "deviceToolsVersion": "0.2.1",
+        "gitSource": {
+          "branch": "feat/web-persist-ui",
+          "commitHash": "08d6478d6773453b533f06d7de793b227036469f",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.46.1",
+          "core": "1.5.0",
+          "led": "0.6.0",
+          "mqtt": "0.3.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "vars": "0.15.0",
+          "webview": "1.26.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.19.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.18.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-30T10:50:47.408180Z",
+        "deviceToolsVersion": "0.2.1",
+        "gitSource": {
+          "branch": "feat/web-persist-ui",
+          "commitHash": "50a03db47af8969ee380c66aa20e5708d6dd7656",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.46.3",
+          "core": "1.5.0",
+          "led": "0.6.0",
+          "mqtt": "0.4.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "vars": "0.16.0",
+          "webview": "1.26.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.19.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.19.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-30T15:15:14.553319Z",
+        "deviceToolsVersion": "0.2.1",
+        "gitSource": {
+          "branch": "feat/web-persist-ui",
+          "commitHash": "1e710fca897c7720e86aeeea42e8e971e3225515",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.46.3",
+          "core": "1.5.0",
+          "led": "0.6.0",
+          "mqtt": "0.4.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "vars": "0.16.0",
+          "webview": "1.31.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.19.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.2.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-25T07:03:33.170572Z",
+        "deviceToolsVersion": "0.2.1",
+        "gitSource": {
+          "branch": "feat/new-nodes",
+          "commitHash": "57e2afbc522066241ac52f8dd41147d17c4514ed",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "audio": "0.9.0",
+          "core": "1.5.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "webview": "1.18.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.18.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.20.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-30T15:49:39.460842Z",
+        "deviceToolsVersion": "0.2.1",
+        "gitSource": {
+          "branch": "feat/web-persist-ui",
+          "commitHash": "7bea95b07c341bde896d4de18a9d53d019dd12b2",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.46.3",
+          "core": "1.5.0",
+          "led": "0.6.0",
+          "mqtt": "0.4.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "vars": "0.16.0",
+          "webview": "1.33.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.19.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.21.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-31T08:09:29.433193Z",
+        "deviceToolsVersion": "0.6.0",
+        "gitSource": {
+          "branch": "feat/wifi-sta-ap",
+          "commitHash": "f3879a1b6a15fc229de9f313e11489f171378f35",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.46.3",
+          "core": "1.5.0",
+          "led": "0.6.0",
+          "mqtt": "0.4.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "vars": "0.16.0",
+          "webview": "1.33.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.27.1",
+        "versionSource": "legacy-lineage"
+      },
+      "0.22.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-31T10:44:59.888497Z",
+        "deviceToolsVersion": "0.7.0",
+        "gitSource": {
+          "branch": "feat/wifi-sta-ap",
+          "commitHash": "3ec06856296f9700d0c5bb6d1e16fa5da22bec68",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.46.3",
+          "core": "1.5.0",
+          "led": "0.6.0",
+          "mqtt": "0.6.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "vars": "0.16.0",
+          "webview": "1.33.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.33.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.22.1": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-31T11:04:29.360335Z",
+        "deviceToolsVersion": "0.7.0",
+        "gitSource": {
+          "branch": "feat/wifi-sta-ap",
+          "commitHash": "6033fe6e455e0ac70bff4b7c4e82e496531107b2",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.46.3",
+          "core": "1.5.0",
+          "led": "0.6.0",
+          "mqtt": "0.6.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "vars": "0.16.0",
+          "webview": "1.33.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.33.1",
+        "versionSource": "legacy-lineage"
+      },
+      "0.23.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-31T14:11:07.710160Z",
+        "deviceToolsVersion": "0.7.0",
+        "gitSource": {
+          "branch": "feat/bugs-and-ui",
+          "commitHash": "b73b4cf14433c26aa26c6962e803c514346dd3f1",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.46.3",
+          "core": "1.5.0",
+          "led": "0.6.0",
+          "mqtt": "0.6.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "vars": "0.16.0",
+          "webview": "1.33.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.34.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.23.1": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-31T16:37:27.506462Z",
+        "deviceToolsVersion": "0.7.0",
+        "gitSource": {
+          "branch": "feat/bugs-and-ui",
+          "commitHash": "43c3bf126ecdb9807295361163181b44c59517d1",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.46.4",
+          "core": "1.5.1",
+          "led": "0.6.1",
+          "mqtt": "0.6.1",
+          "power": "0.5.1",
+          "stdmo": "1.0.2",
+          "vars": "0.16.1",
+          "webview": "1.33.1"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.34.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.24.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-11-01T13:00:12.420704Z",
+        "deviceToolsVersion": "0.8.0",
+        "gitSource": {
+          "branch": "feat/improved-ap",
+          "commitHash": "23e4e87067a8c23b19a0e5a9159d55f33a2b2e47",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.46.4",
+          "core": "1.5.1",
+          "led": "0.6.2",
+          "mqtt": "0.6.1",
+          "power": "0.5.1",
+          "stdmo": "1.0.2",
+          "vars": "0.16.1",
+          "webview": "1.34.1"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.46.1",
+        "versionSource": "legacy-lineage"
+      },
+      "0.25.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-11-01T13:32:24.244527Z",
+        "deviceToolsVersion": "0.8.0",
+        "gitSource": {
+          "branch": "feat/improved-ap",
+          "commitHash": "1aef70b064e99bab6352443d73ac58d42d6ee0c1",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.46.4",
+          "core": "1.5.1",
+          "led": "0.6.2",
+          "mqtt": "0.6.1",
+          "power": "0.5.1",
+          "stdmo": "1.0.2",
+          "vars": "0.16.1",
+          "webview": "1.35.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.47.1",
+        "versionSource": "legacy-lineage"
+      },
+      "0.25.1": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-11-01T14:22:14.726136Z",
+        "deviceToolsVersion": "0.8.0",
+        "gitSource": {
+          "branch": "feat/improved-ap",
+          "commitHash": "ae74b51480dd5bae694b168a89d7983c3fcfc8d5",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.46.4",
+          "core": "1.5.1",
+          "led": "0.6.2",
+          "mqtt": "0.6.1",
+          "power": "0.5.1",
+          "stdmo": "1.0.2",
+          "vars": "0.16.1",
+          "webview": "1.35.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.47.2",
+        "versionSource": "legacy-lineage"
+      },
+      "0.25.2": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-11-01T14:52:42.819629Z",
+        "deviceToolsVersion": "0.8.0",
+        "gitSource": {
+          "branch": "feat/improved-ap",
+          "commitHash": "ab79ed718180cfa79d7ae5c07603b139ed898297",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.46.4",
+          "core": "1.5.1",
+          "led": "0.6.2",
+          "mqtt": "0.6.1",
+          "power": "0.5.1",
+          "stdmo": "1.0.2",
+          "vars": "0.16.1",
+          "webview": "1.35.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.47.3",
+        "versionSource": "legacy-lineage"
+      },
+      "0.25.3": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-11-01T15:40:00.790217Z",
+        "deviceToolsVersion": "0.8.0",
+        "gitSource": {
+          "branch": "feat/improved-ap",
+          "commitHash": "29963a5c51c67a3f83b59164244a3c5eac9335b0",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.46.4",
+          "core": "1.5.1",
+          "led": "0.6.2",
+          "mqtt": "0.6.1",
+          "power": "0.5.1",
+          "stdmo": "1.0.2",
+          "vars": "0.16.1",
+          "webview": "1.35.1"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.47.3",
+        "versionSource": "legacy-lineage"
+      },
+      "0.25.4": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-11-01T16:20:16.287974Z",
+        "deviceToolsVersion": "0.8.0",
+        "gitSource": {
+          "branch": "feat/improved-ap",
+          "commitHash": "01a1d49e6a343155444bb3db75dab03726c06bf1",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.46.4",
+          "core": "1.5.1",
+          "led": "0.6.2",
+          "mqtt": "0.6.1",
+          "power": "0.5.1",
+          "stdmo": "1.0.2",
+          "vars": "0.16.1",
+          "webview": "1.35.2"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.47.4",
+        "versionSource": "legacy-lineage"
+      },
+      "0.26.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-11-02T09:14:34.144430Z",
+        "deviceToolsVersion": "0.8.0",
+        "gitSource": {
+          "branch": "feat/improve-ui",
+          "commitHash": "10365ece736763a07088366bdbdeee615df1920f",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.46.4",
+          "core": "1.5.1",
+          "led": "0.6.2",
+          "mqtt": "0.6.1",
+          "power": "0.5.1",
+          "stdmo": "1.0.2",
+          "vars": "0.19.0",
+          "webview": "1.35.3"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.47.5",
+        "versionSource": "legacy-lineage"
+      },
+      "0.27.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-11-03T15:36:45.180887Z",
+        "deviceToolsVersion": "0.8.0",
+        "gitSource": {
+          "branch": "feat/improve-ui",
+          "commitHash": "a1ea66789b9c5bf7fa024cd7164dc5ce9d25b468",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.46.4",
+          "core": "1.5.1",
+          "led": "0.8.4",
+          "mqtt": "0.6.1",
+          "power": "0.5.1",
+          "stdmo": "1.0.2",
+          "vars": "0.32.0",
+          "webview": "1.35.4"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.47.5",
+        "versionSource": "legacy-lineage"
+      },
+      "0.27.1": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-11-03T15:53:28.513017Z",
+        "deviceToolsVersion": "0.8.0",
+        "gitSource": {
+          "branch": "feat/improve-ui",
+          "commitHash": "c33467aed1533537a4448414909b2815f0e035bb",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.46.4",
+          "core": "1.5.2",
+          "led": "0.8.4",
+          "mqtt": "0.6.1",
+          "power": "0.5.1",
+          "stdmo": "1.0.2",
+          "vars": "0.32.0",
+          "webview": "1.35.4"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.47.5",
+        "versionSource": "legacy-lineage"
+      },
+      "0.27.2": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-11-03T15:54:19.814336Z",
+        "deviceToolsVersion": "0.8.0",
+        "gitSource": {
+          "branch": "feat/improve-ui",
+          "commitHash": "301d842481f0c88fee1a22236a70f6cbe59e59b8",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.46.4",
+          "core": "1.5.2",
+          "led": "0.8.4",
+          "mqtt": "0.6.1",
+          "power": "0.5.1",
+          "stdmo": "1.0.2",
+          "vars": "0.32.0",
+          "webview": "1.35.5"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.47.5",
+        "versionSource": "legacy-lineage"
+      },
+      "0.28.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-11-03T16:45:34.249406Z",
+        "deviceToolsVersion": "0.8.0",
+        "gitSource": {
+          "branch": "feat/improve-ui",
+          "commitHash": "ff974ce9c5b300d46d7c3185d40e1b70abf5234d",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.46.4",
+          "core": "1.6.0",
+          "led": "0.8.4",
+          "mqtt": "0.6.1",
+          "power": "0.5.1",
+          "stdmo": "1.0.2",
+          "vars": "0.32.0",
+          "webview": "1.35.5"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.47.5",
+        "versionSource": "legacy-lineage"
+      },
+      "0.29.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-11-03T17:49:38.861909Z",
+        "deviceToolsVersion": "0.8.0",
+        "gitSource": {
+          "branch": "feat/improve-ui",
+          "commitHash": "c40407dc18bd72fb56c2b39e279ee95df8422c8f",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.46.4",
+          "core": "1.6.0",
+          "led": "0.8.4",
+          "mqtt": "0.13.1",
+          "power": "0.5.1",
+          "stdmo": "1.0.2",
+          "vars": "0.32.0",
+          "webview": "1.35.5"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.47.5",
+        "versionSource": "legacy-lineage"
+      },
+      "0.3.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-25T11:38:42.393653Z",
+        "deviceToolsVersion": "0.2.1",
+        "gitSource": {
+          "branch": "feat/new-nodes",
+          "commitHash": "26c93557f178279b02e3411508dc06c6c9f81972",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "audio": "0.12.0",
+          "core": "1.5.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "webview": "1.18.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.18.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.30.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-11-03T18:32:48.217683Z",
+        "deviceToolsVersion": "0.8.0",
+        "gitSource": {
+          "branch": "feat/improve-ui",
+          "commitHash": "9700b3287198a331ad670dc08a9137ec77baf5c4",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.46.4",
+          "core": "1.6.0",
+          "led": "0.8.4",
+          "mqtt": "0.15.1",
+          "power": "0.5.1",
+          "stdmo": "1.0.2",
+          "vars": "0.32.0",
+          "webview": "1.35.5"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.48.1",
+        "versionSource": "legacy-lineage"
+      },
+      "0.30.1": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-11-03T18:36:31.409449Z",
+        "deviceToolsVersion": "0.8.0",
+        "gitSource": {
+          "branch": "feat/improve-ui",
+          "commitHash": "58189acc01b79a06584c28455281f77b99bba28d",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.46.4",
+          "core": "1.6.0",
+          "led": "0.8.4",
+          "mqtt": "0.15.2",
+          "power": "0.5.1",
+          "stdmo": "1.0.2",
+          "vars": "0.32.0",
+          "webview": "1.35.5"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.48.1",
+        "versionSource": "legacy-lineage"
+      },
+      "0.31.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-11-04T06:14:40.201344Z",
+        "deviceToolsVersion": "0.8.0",
+        "gitSource": {
+          "branch": "feat/improve-ui",
+          "commitHash": "f492be609c5128d4a3bee51514bde64c1bf3d9bc",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.46.4",
+          "core": "1.6.0",
+          "led": "0.8.4",
+          "mqtt": "0.17.1",
+          "power": "0.5.1",
+          "stdmo": "1.0.2",
+          "vars": "0.32.0",
+          "webview": "1.35.5"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.48.3",
+        "versionSource": "legacy-lineage"
+      },
+      "0.32.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-11-04T09:22:46.149363Z",
+        "deviceToolsVersion": "0.8.0",
+        "gitSource": {
+          "branch": "feat/mqtt-has",
+          "commitHash": "de0cfde09fd986a58e3b4505471673bb4b36ac9b",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.46.4",
+          "core": "1.7.0",
+          "hass": "0.2.1",
+          "led": "0.8.4",
+          "mqtt": "0.20.0",
+          "power": "0.5.1",
+          "stdmo": "1.0.2",
+          "vars": "0.32.0",
+          "webview": "1.35.5"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.48.3",
+        "versionSource": "legacy-lineage"
+      },
+      "0.33.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-11-05T07:28:14.331297Z",
+        "deviceToolsVersion": "0.8.0",
+        "gitSource": {
+          "branch": "feat/mqtt-has",
+          "commitHash": "c0fdc7eb3336e9798b5917ad3064ff9c65159349",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.46.4",
+          "core": "1.8.0",
+          "hass": "0.6.0",
+          "led": "0.8.4",
+          "mqtt": "0.21.0",
+          "power": "0.5.1",
+          "stdmo": "1.0.2",
+          "vars": "0.32.0",
+          "webview": "1.36.1"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.48.3",
+        "versionSource": "legacy-lineage"
+      },
+      "0.34.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-11-05T08:32:58.897021Z",
+        "deviceToolsVersion": "0.8.0",
+        "gitSource": {
+          "branch": "feat/mqtt-has",
+          "commitHash": "ff4077ea3aef3c3bd606ca0cc59339d723d75c58",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.46.4",
+          "core": "1.8.0",
+          "hass": "0.8.0",
+          "led": "0.8.4",
+          "mqtt": "0.21.0",
+          "power": "0.5.1",
+          "stdmo": "1.0.2",
+          "vars": "0.32.0",
+          "webview": "1.36.1"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.48.3",
+        "versionSource": "legacy-lineage"
+      },
+      "0.35.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-11-05T09:29:25.937814Z",
+        "deviceToolsVersion": "0.10.0",
+        "gitSource": {
+          "branch": "feat/mqtt-has",
+          "commitHash": "1858be7d96d9c9a4bfbe33afc1caabf98af3b06f",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.46.4",
+          "core": "1.8.0",
+          "hass": "0.9.0",
+          "led": "0.9.0",
+          "mqtt": "0.22.0",
+          "power": "0.5.1",
+          "stdmo": "1.1.0",
+          "vars": "0.32.0",
+          "webview": "1.37.0"
+        },
+        "runtimeAssetsVersion": "1.3.0",
+        "runtimeSourceVersion": "1.50.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.35.1": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-11-05T10:00:00.881335Z",
+        "deviceToolsVersion": "0.10.0",
+        "gitSource": {
+          "branch": "feat/mqtt-has",
+          "commitHash": "1858be7d96d9c9a4bfbe33afc1caabf98af3b06f",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.46.4",
+          "core": "1.8.0",
+          "hass": "0.9.1",
+          "led": "0.9.0",
+          "mqtt": "0.22.0",
+          "power": "0.5.1",
+          "stdmo": "1.1.0",
+          "vars": "0.32.0",
+          "webview": "1.37.0"
+        },
+        "runtimeAssetsVersion": "1.3.0",
+        "runtimeSourceVersion": "1.50.1",
+        "versionSource": "legacy-lineage"
+      },
+      "0.36.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-11-05T10:47:36.411847Z",
+        "deviceToolsVersion": "0.10.0",
+        "gitSource": {
+          "branch": "feat/mqtt-has",
+          "commitHash": "9435e6f1521575d4db41d5ed9cf3fd730b3d6591",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.46.4",
+          "core": "1.8.0",
+          "hass": "0.10.0",
+          "led": "0.9.0",
+          "mqtt": "0.22.0",
+          "power": "0.5.1",
+          "stdmo": "1.1.0",
+          "vars": "0.32.0",
+          "webview": "1.37.0"
+        },
+        "runtimeAssetsVersion": "1.3.0",
+        "runtimeSourceVersion": "1.50.1",
+        "versionSource": "legacy-lineage"
+      },
+      "0.37.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-11-05T11:12:12.280537Z",
+        "deviceToolsVersion": "0.10.0",
+        "gitSource": {
+          "branch": "feat/mqtt-has",
+          "commitHash": "9435e6f1521575d4db41d5ed9cf3fd730b3d6591",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.46.4",
+          "core": "1.8.0",
+          "hass": "0.11.0",
+          "led": "0.9.0",
+          "mqtt": "0.22.0",
+          "power": "0.5.1",
+          "stdmo": "1.1.0",
+          "vars": "0.32.0",
+          "webview": "1.37.0"
+        },
+        "runtimeAssetsVersion": "1.3.0",
+        "runtimeSourceVersion": "1.50.2",
+        "versionSource": "legacy-lineage"
+      },
+      "0.38.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": "33c81962f85f",
+        "createdAtUtc": "2026-11-08T18:45:16.422459Z",
+        "deviceToolsVersion": "0.10.0",
+        "gitSource": {
+          "branch": "feat/restructure-for-deploy",
+          "commitHash": "9c8c1998323fd3d210b2994f09f041d31956630d",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "core": "1.9.0",
+          "led": "0.9.0",
+          "power": "0.5.1",
+          "stdmo": "1.1.0",
+          "time": "0.13.1",
+          "vars": "0.39.0"
+        },
+        "runtimeAssetsVersion": "1.3.0",
+        "runtimeSourceVersion": "1.51.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.39.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": "6c55877e51d1",
+        "createdAtUtc": "2026-11-09T08:56:57.911813Z",
+        "deviceToolsVersion": "0.10.0",
+        "gitSource": {
+          "branch": "feat/restructure-for-deploy",
+          "commitHash": "838d0d2da3450dd11cb03dfbe734016a73c3abcb",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "audio": "0.46.4",
+          "core": "1.9.0",
+          "hass": "0.18.0",
+          "led": "0.9.0",
+          "mqtt": "0.22.0",
+          "power": "0.5.1",
+          "stdmo": "1.1.0",
+          "time": "0.13.1",
+          "vars": "0.39.0",
+          "webview": "1.37.0"
+        },
+        "runtimeAssetsVersion": "1.3.0",
+        "runtimeSourceVersion": "1.51.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.4.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-25T13:06:49.893745Z",
+        "deviceToolsVersion": "0.2.1",
+        "gitSource": {
+          "branch": "feat/new-nodes",
+          "commitHash": "f84600028c6d0c75309043d648c6f958392fc9cd",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "audio": "0.14.2",
+          "core": "1.5.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "webview": "1.18.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.18.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.4.1": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-25T14:03:17.583298Z",
+        "deviceToolsVersion": "0.2.1",
+        "gitSource": {
+          "branch": "feat/new-nodes",
+          "commitHash": "10de0f9f4f474202c4d5414f6d86437051bbafc2",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "audio": "0.14.3",
+          "core": "1.5.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "webview": "1.18.1"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.18.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.4.2": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-25T14:38:17.400966Z",
+        "deviceToolsVersion": "0.2.1",
+        "gitSource": {
+          "branch": "feat/new-nodes",
+          "commitHash": "6a1377eb82ea7c8848a8ebad49bff31602a9fef3",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "audio": "0.14.4",
+          "core": "1.5.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "webview": "1.18.1"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.18.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.40.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": "da58bfa25810",
+        "createdAtUtc": "2026-11-09T08:57:50.761226Z",
+        "deviceToolsVersion": "0.10.0",
+        "gitSource": {
+          "branch": "feat/restructure-for-deploy",
+          "commitHash": "838d0d2da3450dd11cb03dfbe734016a73c3abcb",
+          "shallow": false
+        },
+        "micropythonVersion": "1.29.0",
+        "nodePackages": {
+          "core": "1.9.0",
+          "hass": "0.18.0",
+          "mqtt": "0.22.0",
+          "vars": "0.39.0"
+        },
+        "runtimeAssetsVersion": "1.3.0",
+        "runtimeSourceVersion": "1.51.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.5.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-25T15:37:34.508428Z",
+        "deviceToolsVersion": "0.2.1",
+        "gitSource": {
+          "branch": "feat/new-nodes",
+          "commitHash": "4adb65f85d9e65eba04f31326d051c6804248e35",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "audio": "0.15.0",
+          "core": "1.5.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "webview": "1.19.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.18.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.6.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-25T16:55:31.591084Z",
+        "deviceToolsVersion": "0.2.1",
+        "gitSource": {
+          "branch": "feat/new-nodes",
+          "commitHash": "c5750b35181ab2a4fa88f883b1457340bf067724",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "audio": "0.17.0",
+          "core": "1.5.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "webview": "1.19.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.18.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.6.1": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-25T17:14:07.971691Z",
+        "deviceToolsVersion": "0.2.1",
+        "gitSource": {
+          "branch": "feat/new-nodes",
+          "commitHash": "70e358fada000c75a369764c4a881faed4c94c1b",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "audio": "0.17.1",
+          "core": "1.5.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "webview": "1.19.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.18.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.7.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-25T17:38:30.597646Z",
+        "deviceToolsVersion": "0.2.1",
+        "gitSource": {
+          "branch": "feat/new-nodes",
+          "commitHash": "61a44603fb4605a1efb2ade339920a9dc4d8dd2d",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "audio": "0.21.0",
+          "core": "1.5.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "webview": "1.19.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.18.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.7.1": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-25T17:43:43.388006Z",
+        "deviceToolsVersion": "0.2.1",
+        "gitSource": {
+          "branch": "feat/new-nodes",
+          "commitHash": "4390fdf5528fb7080ac2985ffd6ed97adda578fb",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "audio": "0.21.1",
+          "core": "1.5.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "webview": "1.19.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.18.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.7.2": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-25T18:03:03.363568Z",
+        "deviceToolsVersion": "0.2.1",
+        "gitSource": {
+          "branch": "feat/new-nodes",
+          "commitHash": "c835f2336f326c1c87c850c0a4a630709bb844ae",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "audio": "0.21.2",
+          "core": "1.5.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "webview": "1.19.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.18.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.8.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-25T18:18:50.730807Z",
+        "deviceToolsVersion": "0.2.1",
+        "gitSource": {
+          "branch": "feat/new-nodes",
+          "commitHash": "18fd9d3a12a68d1fcb8ee813999377470d261df8",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "audio": "0.26.0",
+          "core": "1.5.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "webview": "1.19.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.18.0",
+        "versionSource": "legacy-lineage"
+      },
+      "0.9.0": {
+        "addonPackages": {},
+        "channel": "dev",
+        "contentHash": null,
+        "createdAtUtc": "2026-10-26T06:33:28.723581Z",
+        "deviceToolsVersion": "0.2.1",
+        "gitSource": {
+          "branch": "feat/new-nodes",
+          "commitHash": "39bab61c5b3b12b747e77b0a2590b8b6b2203616",
+          "shallow": false
+        },
+        "micropythonVersion": "1.27.0",
+        "nodePackages": {
+          "audio": "0.27.0",
+          "core": "1.5.0",
+          "power": "0.5.0",
+          "stdmo": "1.0.1",
+          "webview": "1.19.0"
+        },
+        "runtimeAssetsVersion": "1.2.2",
+        "runtimeSourceVersion": "1.18.0",
+        "versionSource": "legacy-lineage"
+      }
+    }
+  },
+  "schemaVersion": 3
+}
