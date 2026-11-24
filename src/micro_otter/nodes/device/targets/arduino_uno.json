@@ -1,0 +1,148 @@
+{
+    "targetId": "arduino_uno",
+    "displayName": "Arduino Uno",
+    "description": "Proof-of-extensibility target: an ATmega328P Arduino Uno modeled with the existing capability schema (digital / pwm / adc / uart / i2c / spi), no new core code.",
+    "pinCapabilities": {
+        "0": {
+            "label": "D0",
+            "aliases": ["RX"],
+            "digital": { "input": true, "output": true },
+            "pull": [],
+            "uart": { "port": "uart0", "roles": ["rx"] },
+            "notes": ["Serial RX."]
+        },
+        "1": {
+            "label": "D1",
+            "aliases": ["TX"],
+            "digital": { "input": true, "output": true },
+            "pull": [],
+            "uart": { "port": "uart0", "roles": ["tx"] },
+            "notes": ["Serial TX."]
+        },
+        "2": { "label": "D2", "aliases": [], "digital": { "input": true, "output": true }, "pull": [] },
+        "3": {
+            "label": "D3",
+            "aliases": ["PWM"],
+            "digital": { "input": true, "output": true },
+            "pull": [],
+            "pwm": { "input": false, "output": true, "frequency_hz": { "min": 490, "max": 490 } },
+            "notes": ["PWM (analogWrite) capable."]
+        },
+        "4": { "label": "D4", "aliases": [], "digital": { "input": true, "output": true }, "pull": [] },
+        "5": {
+            "label": "D5",
+            "aliases": ["PWM"],
+            "digital": { "input": true, "output": true },
+            "pull": [],
+            "pwm": { "input": false, "output": true, "frequency_hz": { "min": 490, "max": 490 } }
+        },
+        "6": {
+            "label": "D6",
+            "aliases": ["PWM"],
+            "digital": { "input": true, "output": true },
+            "pull": [],
+            "pwm": { "input": false, "output": true, "frequency_hz": { "min": 490, "max": 490 } }
+        },
+        "7": { "label": "D7", "aliases": [], "digital": { "input": true, "output": true }, "pull": [] },
+        "8": { "label": "D8", "aliases": [], "digital": { "input": true, "output": true }, "pull": [] },
+        "9": {
+            "label": "D9",
+            "aliases": ["PWM"],
+            "digital": { "input": true, "output": true },
+            "pull": [],
+            "pwm": { "input": false, "output": true, "frequency_hz": { "min": 490, "max": 490 } }
+        },
+        "10": {
+            "label": "D10",
+            "aliases": ["SS", "PWM"],
+            "digital": { "input": true, "output": true },
+            "pull": [],
+            "spi": { "bus": "spi0", "roles": ["cs"] },
+            "pwm": { "input": false, "output": true, "frequency_hz": { "min": 490, "max": 490 } }
+        },
+        "11": {
+            "label": "D11",
+            "aliases": ["MOSI", "PWM"],
+            "digital": { "input": true, "output": true },
+            "pull": [],
+            "spi": { "bus": "spi0", "roles": ["mosi"] },
+            "pwm": { "input": false, "output": true, "frequency_hz": { "min": 490, "max": 490 } }
+        },
+        "12": {
+            "label": "D12",
+            "aliases": ["MISO"],
+            "digital": { "input": true, "output": true },
+            "pull": [],
+            "spi": { "bus": "spi0", "roles": ["miso"] }
+        },
+        "13": {
+            "label": "D13",
+            "aliases": ["SCK", "LED"],
+            "digital": { "input": true, "output": true },
+            "pull": [],
+            "spi": { "bus": "spi0", "roles": ["sck"] },
+            "claims": [{"role": "onboard.led", "conflicts": ["digital.output"], "severity": "info", "note": "Also drives the built-in LED indicator (with series resistor)."}]
+        },
+        "14": {
+            "label": "A0",
+            "aliases": ["ADC0"],
+            "digital": { "input": true, "output": true },
+            "pull": [],
+            "adc": { "channel": 0, "resolution_bits": 10 }
+        },
+        "15": {
+            "label": "A1",
+            "aliases": ["ADC1"],
+            "digital": { "input": true, "output": true },
+            "pull": [],
+            "adc": { "channel": 1, "resolution_bits": 10 }
+        },
+        "16": {
+            "label": "A2",
+            "aliases": ["ADC2"],
+            "digital": { "input": true, "output": true },
+            "pull": [],
+            "adc": { "channel": 2, "resolution_bits": 10 }
+        },
+        "17": {
+            "label": "A3",
+            "aliases": ["ADC3"],
+            "digital": { "input": true, "output": true },
+            "pull": [],
+            "adc": { "channel": 3, "resolution_bits": 10 }
+        },
+        "18": {
+            "label": "A4",
+            "aliases": ["SDA", "ADC4"],
+            "digital": { "input": true, "output": true },
+            "pull": ["up"],
+            "i2c": { "bus": "i2c0", "roles": ["sda"] },
+            "adc": { "channel": 4, "resolution_bits": 10 }
+        },
+        "19": {
+            "label": "A5",
+            "aliases": ["SCL", "ADC5"],
+            "digital": { "input": true, "output": true },
+            "pull": ["up"],
+            "i2c": { "bus": "i2c0", "roles": ["scl"] },
+            "adc": { "channel": 5, "resolution_bits": 10 }
+        }
+    },
+    "generalCapabilities": {
+        "math": {
+            "float": { "supported": true, "bits": 32, "hardware": false },
+            "double": { "supported": true, "bits": 64, "hardware": false },
+            "integer": { "signedBits": 16, "unsignedBits": 16 },
+            "complex": { "supported": false }
+        },
+        "wifi": { "supported": false },
+        "bluetooth": { "supported": false }
+    },
+    "metadata": {
+        "defaultI2cBus": "i2c0",
+        "defaultUart": "uart0",
+        "defaultSpiBus": "spi0",
+        "defaultPwmFrequencyHz": 490,
+        "supportsAnalog": true
+    }
+}

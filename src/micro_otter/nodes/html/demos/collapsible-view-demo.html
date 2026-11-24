@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CollapsibleView Demo</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            background: #0c0f16;
+            color: #e5eaf3;
+        }
+        #demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+            height: 600px;
+        }
+        h1 {
+            color: #63b5ff;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #a0a5af;
+            margin-bottom: 20px;
+        }
+        .demo-buttons {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .demo-button {
+            padding: 8px 16px;
+            background: #172133;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 6px;
+            color: #e5eaf3;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .demo-button:hover {
+            background: #1e2a3f;
+            border-color: #63b5ff;
+        }
+    </style>
+    <!-- Include theme CSS -->
+    <link rel="stylesheet" href="../styles/standard/view-system.css">
+    <link rel="stylesheet" href="../styles/standard/split-view.css">
+    <link rel="stylesheet" href="../styles/standard/text-view.css">
+    <link rel="stylesheet" href="../styles/standard/collapsible-view.css">
+</head>
+<body>
+    <h1>CollapsibleView Demo</h1>
+    <p>Three collapsible sections in a vertical SplitView. Click the chevron icons to collapse/expand.</p>
+    
+    <div class="demo-buttons">
+        <button class="demo-button" id="toggle-all">Toggle All</button>
+        <button class="demo-button" id="collapse-all">Collapse All</button>
+        <button class="demo-button" id="expand-all">Expand All</button>
+    </div>
+    
+    <div id="demo-container"></div>
+
+    <script type="module">
+        import { SplitView } from '../js/views/split-view.js';
+        import { CollapsibleView } from '../js/views/collapsible-view.js';
+        import { TextView } from '../js/views/text-view.js';
+
+        // Create three collapsible sections with text content
+        const section1 = new CollapsibleView({
+            headerTitle: 'Section 1 - Getting Started',
+            collapsed: false,
+            contentView: new TextView({
+                text: 'This is the first collapsible section. It starts expanded.\n\nYou can click the chevron icon in the header to collapse it. When collapsed, the section shrinks to just the header height, and the splitter locks in place.',
+                scrollable: true,
+            }),
+        });
+
+        const section2 = new CollapsibleView({
+            headerTitle: 'Section 2 - Features',
+            collapsed: true,
+            contentView: new TextView({
+                text: 'This section starts collapsed.\n\nFeatures:\n• Smooth chevron rotation animation\n• Height constraints for SplitView integration\n• Serialization support\n• i18n ready\n• Any ViewBase can be used as content',
+                scrollable: true,
+            }),
+        });
+
+        const section3 = new CollapsibleView({
+            headerTitle: 'Section 3 - Usage',
+            collapsed: false,
+            contentView: new TextView({
+                text: 'Example code:\n\nconst collapsible = new CollapsibleView({\n  headerTitle: "My Section",\n  collapsed: false,\n  contentView: new TextView({ text: "..." }),\n});\n\ncollapsible.attachTo(container);\n\n// Programmatic control:\ncollapsible.toggle();\ncollapsible.collapse();\ncollapsible.expand();',
+                scrollable: true,
+            }),
+        });
+
+        // Create vertical split with the three sections
+        const splitView = new SplitView({
+            orientation: 'vertical',
+            views: [section1, section2, section3],
+        });
+
+        // Attach to container
+        const container = document.getElementById('demo-container');
+        splitView.attachTo(container);
+
+        // Button event handlers
+        document.getElementById('toggle-all').addEventListener('click', () => {
+            section1.toggle();
+            section2.toggle();
+            section3.toggle();
+        });
+
+        document.getElementById('collapse-all').addEventListener('click', () => {
+            section1.collapse();
+            section2.collapse();
+            section3.collapse();
+        });
+
+        document.getElementById('expand-all').addEventListener('click', () => {
+            section1.expand();
+            section2.expand();
+            section3.expand();
+        });
+    </script>
+</body>
+</html>

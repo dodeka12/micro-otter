@@ -1,0 +1,20 @@
+{
+    "types": {
+        "audio.block": {
+            "name": {
+                "en": "Audio Block",
+                "de": "Audio-Block"
+            },
+            "description": {
+                "en": "A reusable, fixed-size block of audio samples flowing through the audio chain.",
+                "de": "Ein wiederverwendbarer, fest großer Block von Audio-Samples, der durch die Audio-Kette fließt."
+            },
+            "color": "#e0a458",
+            "kind": "structure",
+            "connectionPolicy": {
+                "input": { "maxConnections": 1 },
+                "output": { "maxConnections": 1 }
+            }
+        }
+    }
+}

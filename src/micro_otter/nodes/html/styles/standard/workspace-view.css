@@ -1,0 +1,148 @@
+/* Workspace View Styles - Standard Theme */
+
+.workspace-view {
+    padding: var(--mo-padding, 8px);
+    color: var(--mo-text, #e5eaf3);
+}
+
+.workspace-view__controls {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.workspace-view__control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.workspace-view__label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+}
+
+.workspace-view__select {
+    padding: 5px 8px;
+    background: var(--mo-surface-1, #121927);
+    color: var(--mo-text, #e5eaf3);
+    border: 1px solid var(--mo-border, rgba(255, 255, 255, 0.08));
+    border-radius: 6px;
+    font-size: 12px;
+}
+
+.workspace-view__button {
+    padding: 5px 8px;
+    background: var(--mo-surface-1, #121927);
+    color: var(--mo-text, #e5eaf3);
+    border: 1px solid var(--mo-border, rgba(255, 255, 255, 0.08));
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 120ms ease;
+}
+
+.workspace-view__button:hover {
+    background: var(--mo-surface-2, #172133);
+}
+
+.workspace-view__button--primary {
+    background: var(--mo-accent, #63b5ff);
+    color: #0c0f16;
+}
+
+.workspace-view__button--primary:hover {
+    background: var(--mo-accent-boost, #8bf0d2);
+}
+
+/* Server connection badge - hidden while the local server is reachable */
+.workspace-server-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border: 1px solid var(--mo-warning, #ff9800);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--mo-warning, #ff9800);
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.workspace-server-badge[hidden] {
+    display: none;
+}
+
+.workspace-server-badge[data-state='reconnecting'] {
+    border-color: var(--mo-border, rgba(255, 255, 255, 0.08));
+    color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+    cursor: progress;
+}
+
+.workspace-server-badge__label {
+    white-space: nowrap;
+}
+
+/* Device connection badge - always visible, the only place to connect */
+.workspace-device-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border: 1px solid var(--mo-border, rgba(255, 255, 255, 0.08));
+    border-radius: 4px;
+    background: transparent;
+    color: var(--mo-text, #e5eaf3);
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.workspace-device-badge[data-state='connected'] {
+    border-color: var(--mo-accent, #63b5ff);
+    color: var(--mo-accent, #63b5ff);
+}
+
+.workspace-device-badge[data-state='connecting'],
+.workspace-device-badge[data-state='loading'],
+.workspace-device-badge[data-state='disconnecting'] {
+    border-color: var(--mo-border, rgba(255, 255, 255, 0.08));
+    color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+    cursor: progress;
+}
+
+.workspace-device-badge[data-state='error'] {
+    border-color: var(--mo-warning, #ff9800);
+    color: var(--mo-warning, #ff9800);
+}
+
+.workspace-device-badge__label {
+    white-space: nowrap;
+}
+
+.workspace-device-badge__percent {
+    min-width: 4ch;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.workspace-device-badge__ring {
+    width: 12px;
+    height: 12px;
+    transform: rotate(-90deg);
+}
+
+.workspace-device-badge__ring[hidden] {
+    display: none;
+}
+
+.workspace-device-badge__ring-track {
+    stroke: var(--mo-border, rgba(255, 255, 255, 0.08));
+}
+
+.workspace-device-badge__ring-value {
+    stroke: var(--mo-accent, #63b5ff);
+    fill: none;
+    stroke-dasharray: 100;
+    transition: stroke-dashoffset 120ms linear;
+}

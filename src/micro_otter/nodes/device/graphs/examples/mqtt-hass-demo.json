@@ -1,0 +1,453 @@
+{
+  "version": 3,
+  "collection": {
+    "name": "MQTT + Home Assistant Demo",
+    "targetId": "generic_micropython"
+  },
+  "definitionId": "general",
+  "graphs": [
+    {
+      "id": "init-graph",
+      "name": "Init",
+      "executionType": "startup",
+      "triggerIntervalMs": 500,
+      "highlightColor": "#5b7fc7",
+      "nodeCounter": 2,
+      "nodes": [
+        {
+          "id": 1,
+          "type": "hass.hass-bridge",
+          "title": "HA Bridge 1",
+          "position": {
+            "x": 100,
+            "y": 120
+          },
+          "controlValues": {
+            "deviceId": "otter-demo",
+            "deviceName": "Otter Demo",
+            "discoveryPrefix": "homeassistant",
+            "topicPrefix": "otter",
+            "availability": true,
+            "will": true,
+            "manufacturer": "Micro-Otter",
+            "model": "",
+            "swVersion": ""
+          },
+          "inputDefaults": {},
+          "collapsed": false
+        }
+      ],
+      "connections": []
+    },
+    {
+      "id": "graph-1",
+      "name": "Graph 1",
+      "executionType": "continuous",
+      "triggerIntervalMs": 500,
+      "highlightColor": "#5b7fc7",
+      "nodeCounter": 19,
+      "nodes": [
+        {
+          "id": 1,
+          "type": "core.const",
+          "title": "Temperature 1",
+          "position": {
+            "x": 100,
+            "y": 120
+          },
+          "controlValues": {
+            "valueType": "float",
+            "floatValue": 21.5
+          },
+          "inputDefaults": {},
+          "collapsed": false
+        },
+        {
+          "id": 2,
+          "type": "hass.hass-sensor",
+          "title": "HA Sensor 2",
+          "position": {
+            "x": 320,
+            "y": 120
+          },
+          "controlValues": {
+            "objectId": "temperature",
+            "name": "Temperature",
+            "icon": "mdi:thermometer",
+            "availabilityMode": "all",
+            "availabilityFlags": [
+              "__device__",
+              "heating"
+            ],
+            "deviceClass": "temperature",
+            "unit": "C",
+            "stateClass": "measurement",
+            "expireAfter": 300
+          },
+          "inputDefaults": {},
+          "collapsed": false
+        },
+        {
+          "id": 3,
+          "type": "core.const",
+          "title": "Mode 3",
+          "position": {
+            "x": 100,
+            "y": 320
+          },
+          "controlValues": {
+            "valueType": "string",
+            "stringValue": "low"
+          },
+          "inputDefaults": {},
+          "collapsed": false
+        },
+        {
+          "id": 4,
+          "type": "core.select",
+          "title": "Select 4",
+          "position": {
+            "x": 320,
+            "y": 320
+          },
+          "controlValues": {},
+          "inputDefaults": {
+            "condition": true,
+            "trueValue": "high",
+            "falseValue": "low"
+          },
+          "collapsed": false
+        },
+        {
+          "id": 5,
+          "type": "hass.hass-select",
+          "title": "HA Select 5",
+          "position": {
+            "x": 540,
+            "y": 320
+          },
+          "controlValues": {
+            "objectId": "mode",
+            "name": "Mode",
+            "icon": "mdi:tune",
+            "availabilityFlags": [
+              "__device__"
+            ],
+            "options": "low,high"
+          },
+          "inputDefaults": {},
+          "collapsed": false
+        },
+        {
+          "id": 6,
+          "type": "mqtt.mqtt-read",
+          "title": "MQTT Read 6",
+          "position": {
+            "x": 100,
+            "y": 520
+          },
+          "controlValues": {
+            "topic": "home/otter-demo/state",
+            "customTopic": "",
+            "payloadMode": "json-store",
+            "storeNamespace": "demo",
+            "qos": 0,
+            "valueType": "string",
+            "jsonKey": "",
+            "defaultWhenDisconnected": false
+          },
+          "inputDefaults": {},
+          "collapsed": false
+        },
+        {
+          "id": 8,
+          "type": "mqtt.mqtt-write",
+          "title": "MQTT Write 8",
+          "position": {
+            "x": 540,
+            "y": 520
+          },
+          "controlValues": {
+            "topic": "home/otter-demo/state",
+            "customTopic": "",
+            "payloadMode": "json-store",
+            "storeNamespace": "demo",
+            "qos": 0,
+            "retain": true,
+            "publishMode": "on-change"
+          },
+          "inputDefaults": {},
+          "collapsed": false
+        },
+        {
+          "id": 9,
+          "type": "core.const",
+          "title": "Heating OK 9",
+          "position": {
+            "x": 320,
+            "y": 420
+          },
+          "controlValues": {
+            "valueType": "bool",
+            "boolValue": true
+          },
+          "inputDefaults": {},
+          "collapsed": false
+        },
+        {
+          "id": 10,
+          "type": "hass.hass-availability",
+          "title": "HA Availability 10",
+          "position": {
+            "x": 540,
+            "y": 420
+          },
+          "controlValues": {
+            "id": "heating"
+          },
+          "inputDefaults": {},
+          "collapsed": false
+        },
+        {
+          "id": 11,
+          "type": "core.const",
+          "title": "Label Text 11",
+          "position": {
+            "x": 100,
+            "y": 620
+          },
+          "controlValues": {
+            "valueType": "string",
+            "stringValue": "Kitchen"
+          },
+          "inputDefaults": {},
+          "collapsed": false
+        },
+        {
+          "id": 12,
+          "type": "hass.hass-text",
+          "title": "HA Text 12",
+          "position": {
+            "x": 320,
+            "y": 620
+          },
+          "controlValues": {
+            "objectId": "label",
+            "name": "Label",
+            "icon": "mdi:tag",
+            "authority": "device",
+            "reportState": true,
+            "min": 0,
+            "max": 32,
+            "pattern": "",
+            "mode": "text",
+            "availabilityMode": "all",
+            "availabilityFlags": [
+              "__device__"
+            ]
+          },
+          "inputDefaults": {},
+          "collapsed": false
+        },
+        {
+          "id": 16,
+          "type": "mqtt.mqtt-write",
+          "title": "Label Events 16",
+          "position": {
+            "x": 540,
+            "y": 620
+          },
+          "controlValues": {
+            "topic": "__new__",
+            "customTopic": "home/otter-demo/label",
+            "payloadMode": "value",
+            "storeNamespace": "",
+            "qos": 0,
+            "retain": true,
+            "publishMode": "on-change"
+          },
+          "inputDefaults": {},
+          "collapsed": false
+        },
+        {
+          "id": 13,
+          "type": "hass.hass-number",
+          "title": "HA Number 13",
+          "position": {
+            "x": 320,
+            "y": 720
+          },
+          "controlValues": {
+            "objectId": "target",
+            "name": "Target",
+            "icon": "mdi:thermometer",
+            "authority": "device",
+            "reportState": true,
+            "min": 0,
+            "max": 30,
+            "step": 0.5,
+            "mode": "auto",
+            "unit": "C",
+            "availabilityMode": "all",
+            "availabilityFlags": [
+              "__device__"
+            ]
+          },
+          "inputDefaults": {},
+          "collapsed": false
+        },
+        {
+          "id": 17,
+          "type": "mqtt.mqtt-write",
+          "title": "Target Events 17",
+          "position": {
+            "x": 540,
+            "y": 720
+          },
+          "controlValues": {
+            "topic": "__new__",
+            "customTopic": "home/otter-demo/target",
+            "payloadMode": "value",
+            "storeNamespace": "",
+            "qos": 0,
+            "retain": true,
+            "publishMode": "on-change"
+          },
+          "inputDefaults": {},
+          "collapsed": false
+        },
+        {
+          "id": 14,
+          "type": "hass.hass-number",
+          "title": "HA Number 14",
+          "position": {
+            "x": 320,
+            "y": 820
+          },
+          "controlValues": {
+            "objectId": "brightness",
+            "name": "Brightness",
+            "icon": "mdi:brightness-6",
+            "authority": "device",
+            "reportState": false,
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "mode": "slider",
+            "unit": "%",
+            "availabilityMode": "all",
+            "availabilityFlags": [
+              "__device__"
+            ]
+          },
+          "inputDefaults": {},
+          "collapsed": false
+        },
+        {
+          "id": 15,
+          "type": "hass.hass-button",
+          "title": "HA Button 15",
+          "position": {
+            "x": 100,
+            "y": 920
+          },
+          "controlValues": {
+            "objectId": "reset",
+            "name": "Reset",
+            "icon": "mdi:restart",
+            "payloadPress": "PRESS",
+            "availabilityMode": "all",
+            "availabilityFlags": [
+              "__device__"
+            ]
+          },
+          "inputDefaults": {},
+          "collapsed": false
+        },
+        {
+          "id": 18,
+          "type": "mqtt.mqtt-write",
+          "title": "Press Events 18",
+          "position": {
+            "x": 320,
+            "y": 920
+          },
+          "controlValues": {
+            "topic": "__new__",
+            "customTopic": "home/otter-demo/press",
+            "payloadMode": "value",
+            "storeNamespace": "",
+            "qos": 0,
+            "retain": true,
+            "publishMode": "on-change"
+          },
+          "inputDefaults": {},
+          "collapsed": false
+        }
+      ],
+      "connections": [
+        {
+          "fromNode": 1,
+          "fromIndex": 0,
+          "toNode": 2,
+          "toIndex": 1
+        },
+        {
+          "fromNode": 3,
+          "fromIndex": 0,
+          "toNode": 4,
+          "toIndex": 1
+        },
+        {
+          "fromNode": 4,
+          "fromIndex": 0,
+          "toNode": 5,
+          "toIndex": 1
+        },
+        {
+          "fromNode": 6,
+          "fromIndex": 0,
+          "toNode": 8,
+          "toIndex": 1
+        },
+        {
+          "fromNode": 9,
+          "fromIndex": 0,
+          "toNode": 10,
+          "toIndex": 1
+        },
+        {
+          "fromNode": 1,
+          "fromIndex": 0,
+          "toNode": 13,
+          "toIndex": 1
+        },
+        {
+          "fromNode": 11,
+          "fromIndex": 0,
+          "toNode": 12,
+          "toIndex": 1
+        },
+        {
+          "fromNode": 12,
+          "fromIndex": 2,
+          "toNode": 16,
+          "toIndex": 1
+        },
+        {
+          "fromNode": 13,
+          "fromIndex": 2,
+          "toNode": 17,
+          "toIndex": 1
+        },
+        {
+          "fromNode": 15,
+          "fromIndex": 0,
+          "toNode": 18,
+          "toIndex": 1
+        }
+      ]
+    }
+  ],
+  "activeGraphId": "graph-1"
+}

@@ -1,0 +1,259 @@
+:root {
+    color-scheme: dark;
+    --mo-bg: #0c0f16;
+    --mo-surface-0: #0f141f;
+    --mo-surface-1: #121927;
+    --mo-surface-2: #172133;
+    --mo-graph-canvas-bg: #0e141f;
+    --mo-graph-canvas-bg-disabled: #232830;
+    --mo-border: rgba(255, 255, 255, 0.08);
+    --mo-border-strong: rgba(118, 188, 255, 0.6);
+    --mo-text: #e5eaf3;
+    --mo-muted: rgba(229, 234, 243, 0.75);
+    --mo-accent: #63b5ff;
+    --mo-accent-boost: #8bf0d2;
+    /* Execution-type tab tints; themes can re-map these tokens in their own view-system.css. */
+    --mo-tab-execution-startup-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(99, 181, 255, 0.12));
+    --mo-tab-execution-startup-bg-hover: linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(99, 181, 255, 0.16));
+    --mo-tab-execution-startup-bg-active: linear-gradient(120deg, rgba(99, 181, 255, 0.38), rgba(51, 120, 196, 0.48));
+    --mo-tab-execution-startup-border: rgba(99, 181, 255, 0.6);
+    --mo-tab-execution-continuous-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(141, 220, 134, 0.12));
+    --mo-tab-execution-continuous-bg-hover: linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(141, 220, 134, 0.16));
+    --mo-tab-execution-continuous-bg-active: linear-gradient(120deg, rgba(141, 220, 134, 0.38), rgba(48, 132, 76, 0.48));
+    --mo-tab-execution-continuous-border: rgba(141, 220, 134, 0.6);
+    --mo-tab-execution-irq-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 143, 138, 0.12));
+    --mo-tab-execution-irq-bg-hover: linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 143, 138, 0.16));
+    --mo-tab-execution-irq-bg-active: linear-gradient(120deg, rgba(255, 143, 138, 0.38), rgba(166, 58, 58, 0.48));
+    --mo-tab-execution-irq-border: rgba(255, 143, 138, 0.6);
+    --mo-tab-execution-event-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(245, 210, 110, 0.12));
+    --mo-tab-execution-event-bg-hover: linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(245, 210, 110, 0.16));
+    --mo-tab-execution-event-bg-active: linear-gradient(120deg, rgba(245, 210, 110, 0.38), rgba(158, 124, 36, 0.48));
+    --mo-tab-execution-event-border: rgba(245, 210, 110, 0.6);
+    /* Function uses a broken-white ramp so it stays neutral beside the colored execution types. */
+    --mo-tab-execution-function-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(230, 225, 214, 0.22));
+    --mo-tab-execution-function-bg-hover: linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(230, 225, 214, 0.28));
+    --mo-tab-execution-function-bg-active: linear-gradient(120deg, rgba(230, 225, 214, 0.48), rgba(131, 126, 115, 0.56));
+    --mo-tab-execution-function-border: rgba(230, 225, 214, 0.72);
+    --mo-shadow: 0 8px 28px rgba(0, 0, 0, 0.32);
+    --mo-radius: 5px;
+    --mo-gap: 1px;
+    --mo-padding: 1px;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    font-size: 12px;
+    background: radial-gradient(circle at 30% 18%, #121b2c 0%, #0c111a 50%, #060912 100%);
+    color: var(--mo-text);
+    min-height: 100vh;
+}
+
+.target-config-view {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.target-config-view__toolbar-host {
+    flex: 0 0 auto;
+}
+
+.target-config-view__content {
+    flex: 1 1 auto;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 4px;
+}
+
+.target-config-view__header-host {
+    flex: 0 0 auto;
+}
+
+.target-config-view__split-host {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.target-config-view__section-content {
+    padding: 6px;
+}
+
+.target-config-view__section {
+    border: 1px solid var(--mo-border);
+    border-radius: var(--mo-radius);
+    background: rgba(255, 255, 255, 0.02);
+    padding: 6px;
+}
+
+.target-config-view__section-title {
+    margin: 0 0 6px 0;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--mo-text);
+}
+
+.target-config-view__general-list {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+}
+
+.target-config-view__general-status-wrap {
+    margin: 0 0 8px 0;
+}
+
+.target-config-view__general-status-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.target-config-view__general-status-icon {
+    width: 16px;
+    height: 16px;
+    opacity: 0.72;
+}
+
+.target-config-view__general-status-icon--on {
+    opacity: 1;
+}
+
+.target-config-view__general-status-icon--wifi.target-config-view__general-status-icon--on {
+    filter: brightness(0) saturate(100%) invert(67%) sepia(67%) saturate(541%)
+        hue-rotate(72deg) brightness(98%) contrast(95%);
+}
+
+.target-config-view__general-status-icon--bluetooth.target-config-view__general-status-icon--on {
+    filter: brightness(0) saturate(100%) invert(52%) sepia(89%) saturate(1899%)
+        hue-rotate(198deg) brightness(99%) contrast(102%);
+}
+
+.target-config-view__general-status-icon--off {
+    filter: grayscale(1) brightness(0.72);
+}
+
+.target-config-view__general-notes {
+    width: 100%;
+    min-height: 56px;
+    resize: vertical;
+    box-sizing: border-box;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--mo-border);
+    border-radius: 4px;
+    color: var(--mo-text);
+    padding: 4px 6px;
+    font: inherit;
+}
+
+.target-config-view__general-row {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    gap: 8px;
+    align-items: start;
+}
+
+.target-config-view__general-key {
+    margin: 0;
+    color: var(--mo-muted);
+}
+
+.target-config-view__general-key-icon {
+    width: 16px;
+    height: 16px;
+    display: block;
+    opacity: 0.9;
+}
+
+.target-config-view__general-value {
+    margin: 0;
+    min-width: 0;
+    color: var(--mo-text);
+    overflow-wrap: anywhere;
+}
+
+.target-config-view__table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.target-config-view__table th,
+.target-config-view__table td {
+    border: 1px solid var(--mo-border);
+    padding: 4px 6px;
+    text-align: left;
+    vertical-align: top;
+}
+
+.target-config-view__table th {
+    color: var(--mo-muted);
+    font-weight: 600;
+}
+
+.target-config-view__empty {
+    color: var(--mo-muted);
+}
+
+.target-config-view__capability-icon-list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.target-config-view__capability-icon {
+    width: 21px;
+    height: 21px;
+    display: inline-block;
+    opacity: 0.95;
+}
+
+.target-config-view__capability-icon--pwm {
+    filter: brightness(0) saturate(100%) invert(43%) sepia(98%) saturate(2768%)
+        hue-rotate(338deg) brightness(103%) contrast(103%)
+        drop-shadow(0 0 2px rgba(255, 91, 139, 0.95));
+}
+
+.target-config-view__capability-icon--digital {
+    filter: brightness(0) saturate(100%) invert(44%) sepia(99%) saturate(1735%)
+        hue-rotate(196deg) brightness(101%) contrast(101%)
+        drop-shadow(0 0 2px rgba(56, 164, 255, 0.95));
+}
+
+.target-config-view__capability-icon--pull {
+    filter: brightness(0) saturate(100%) invert(45%) sepia(63%) saturate(1671%)
+        hue-rotate(256deg) brightness(103%) contrast(101%)
+        drop-shadow(0 0 2px rgba(138, 96, 255, 0.95));
+}
+
+.target-config-view__capability-icon--adc {
+    filter: brightness(0) saturate(100%) invert(69%) sepia(74%) saturate(653%)
+        hue-rotate(351deg) brightness(99%) contrast(101%)
+        drop-shadow(0 0 2px rgba(255, 168, 92, 0.95));
+}
+
+.target-config-view__capability-icon--spi {
+    filter: brightness(0) saturate(100%) invert(71%) sepia(41%) saturate(938%)
+        hue-rotate(95deg) brightness(95%) contrast(93%)
+        drop-shadow(0 0 2px rgba(123, 222, 96, 0.95));
+}
+
+.target-config-view__capability-icon--i2c {
+    filter: brightness(0) saturate(100%) invert(89%) sepia(85%) saturate(1077%)
+        hue-rotate(328deg) brightness(99%) contrast(104%)
+        drop-shadow(0 0 2px rgba(250, 224, 76, 0.95));
+}
+
+.target-config-view__capability-icon--serial {
+    filter: brightness(0) saturate(100%) invert(62%) sepia(84%) saturate(2295%)
+        hue-rotate(158deg) brightness(96%) contrast(101%)
+        drop-shadow(0 0 2px rgba(34, 208, 174, 0.95));
+}

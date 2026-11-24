@@ -1,0 +1,27 @@
+#!/usr/bin/env sh
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+OSS_GENERATOR_SCRIPT="$ROOT_DIR/tools/generate-open-source-packages.mjs"
+OSS_GENERATED_FILE="$ROOT_DIR/src/micro_otter/nodes/html/js/core/open-source-packages.generated.js"
+
+run_node_script() {
+    script_path="$1"
+
+    if command -v node >/dev/null 2>&1; then
+        node "$script_path"
+        return
+    fi
+
+    echo "pre-commit: Node.js is required to generate web app metadata files" >&2
+    exit 1
+}
+
+echo "pre-commit: regenerating runtime web OSS package registry..."
+run_node_script "$OSS_GENERATOR_SCRIPT"
+
+if ! git diff --quiet -- "$OSS_GENERATED_FILE"; then
+    echo "pre-commit: staging updated OSS package registry"
+    git add "$OSS_GENERATED_FILE"
+fi

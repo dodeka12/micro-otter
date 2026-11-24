@@ -1,0 +1,3120 @@
+{
+    "nodeTypes": {
+        "var-read": {
+            "title": {
+                "en": "Variable Read",
+                "de": "Variable lesen"
+            },
+            "info": {
+                "en": "Reads the current value of a named store entry, or the fallback input when missing.",
+                "de": "Liest den aktuellen Wert eines benannten Store-Eintrags oder den Fallback-Eingang, wenn er fehlt."
+            },
+            "category": "data",
+            "color": "#4a6fa5",
+            "shape": "square",
+            "icon": "icons/login_24dp.svg",
+            "inputs": [
+                {
+                    "id": "store",
+                    "name": {
+                        "en": "Store",
+                        "de": "Store"
+                    },
+                    "description": {
+                        "en": "Name of the store namespace to read from.",
+                        "de": "Name des Store-Namespaces, aus dem gelesen wird."
+                    },
+                    "allowedTypes": [
+                        "string"
+                    ],
+                    "initialTypes": [
+                        "string"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "dropdown",
+                        "label": {
+                            "en": "Store",
+                            "de": "Store"
+                        },
+                        "default": "default",
+                        "affectsControls": true,
+                        "dynamicOptions": {
+                            "source": "varStores",
+                            "newStoreControls": [
+                                "customStore"
+                            ],
+                            "newLabel": {
+                                "en": "New store…",
+                                "de": "Neuer Store…"
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Default",
+                        "de": "Standardwert"
+                    },
+                    "description": {
+                        "en": "Value used when the store entry does not exist.",
+                        "de": "Wert, der verwendet wird, wenn der Store-Eintrag nicht existiert."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int",
+                        "bool",
+                        "string",
+                        "vars.array"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int",
+                        "bool",
+                        "string",
+                        "vars.array"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Default",
+                            "de": "Standardwert"
+                        },
+                        "min": -100000,
+                        "max": 100000,
+                        "step": 0.01,
+                        "default": 0
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "description": {
+                        "en": "Current value of the store entry.",
+                        "de": "Aktueller Wert des Store-Eintrags."
+                    },
+                    "outputType": "any",
+                    "initialTypes": [
+                        "any"
+                    ],
+                    "phase": "loop"
+                }
+            ],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "name",
+                    "label": {
+                        "en": "Name",
+                        "de": "Name"
+                    },
+                    "description": {
+                        "en": "Use an existing variable of the selected store, or declare a new one.",
+                        "de": "Vorhandene Variable des gewählten Stores verwenden oder eine neue deklarieren."
+                    },
+                    "required": true,
+                    "default": "",
+                    "affectsControls": true,
+                    "dynamicOptions": {
+                        "source": "varNames",
+                        "dependsOn": [
+                            "store"
+                        ],
+                        "newNameControls": [
+                            "customName"
+                        ],
+                        "newLabel": {
+                            "en": "Declare variable…",
+                            "de": "Variable deklarieren…"
+                        }
+                    }
+                },
+                {
+                    "type": "text",
+                    "id": "customStore",
+                    "label": {
+                        "en": "New store",
+                        "de": "Neuer Store"
+                    },
+                    "description": {
+                        "en": "Namespace used when “New store…” is selected above. Empty falls back to \"default\".",
+                        "de": "Namespace, der bei „Neuer Store…“ oben verwendet wird. Leer nutzt \"default\"."
+                    },
+                    "default": ""
+                },
+                {
+                    "type": "text",
+                    "id": "customName",
+                    "label": {
+                        "en": "Variable name",
+                        "de": "Variablenname"
+                    },
+                    "description": {
+                        "en": "Name of the variable this node declares, used when “Declare variable…” is selected above.",
+                        "de": "Name der Variable, die dieser Knoten deklariert; verwendet, wenn oben „Variable deklarieren…“ ausgewählt ist."
+                    },
+                    "default": ""
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.varRead"
+                }
+            }
+        },
+        "var-write": {
+            "title": {
+                "en": "Variable Write",
+                "de": "Variable schreiben"
+            },
+            "info": {
+                "en": "Writes a value to a named store entry, creating it on first write.",
+                "de": "Schreibt einen Wert in einen benannten Store-Eintrag und legt ihn beim ersten Schreiben an."
+            },
+            "category": "data",
+            "color": "#4a6fa5",
+            "shape": "square",
+            "icon": "icons/logout_24dp.svg",
+            "inputs": [
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    },
+                    "description": {
+                        "en": "When off, the variable store is not updated.",
+                        "de": "Wenn deaktiviert, wird der Variablenspeicher nicht aktualisiert."
+                    }
+                },
+                {
+                    "id": "store",
+                    "name": {
+                        "en": "Store",
+                        "de": "Store"
+                    },
+                    "description": {
+                        "en": "Name of the store namespace to write to.",
+                        "de": "Name des Store-Namespaces, in den geschrieben wird."
+                    },
+                    "allowedTypes": [
+                        "string"
+                    ],
+                    "initialTypes": [
+                        "string"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "dropdown",
+                        "label": {
+                            "en": "Store",
+                            "de": "Store"
+                        },
+                        "default": "default",
+                        "affectsControls": true,
+                        "dynamicOptions": {
+                            "source": "varStores",
+                            "newStoreControls": [
+                                "customStore"
+                            ],
+                            "newLabel": {
+                                "en": "New store…",
+                                "de": "Neuer Store…"
+                            }
+                        }
+                    }
+                },
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "description": {
+                        "en": "Value to store.",
+                        "de": "Zu speichernder Wert."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int",
+                        "bool",
+                        "string",
+                        "vars.array"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int",
+                        "bool",
+                        "string",
+                        "vars.array"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Value",
+                            "de": "Wert"
+                        },
+                        "min": -100000,
+                        "max": 100000,
+                        "step": 0.01,
+                        "default": 0
+                    }
+                }
+            ],
+            "outputs": [],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "name",
+                    "label": {
+                        "en": "Name",
+                        "de": "Name"
+                    },
+                    "description": {
+                        "en": "Use an existing variable of the selected store, or declare a new one.",
+                        "de": "Vorhandene Variable des gewählten Stores verwenden oder eine neue deklarieren."
+                    },
+                    "required": true,
+                    "default": "",
+                    "affectsControls": true,
+                    "dynamicOptions": {
+                        "source": "varNames",
+                        "dependsOn": [
+                            "store"
+                        ],
+                        "newNameControls": [
+                            "customName"
+                        ],
+                        "newLabel": {
+                            "en": "Declare variable…",
+                            "de": "Variable deklarieren…"
+                        }
+                    }
+                },
+                {
+                    "type": "text",
+                    "id": "customStore",
+                    "label": {
+                        "en": "New store",
+                        "de": "Neuer Store"
+                    },
+                    "description": {
+                        "en": "Namespace used when “New store…” is selected above. Empty falls back to \"default\".",
+                        "de": "Namespace, der bei „Neuer Store…“ oben verwendet wird. Leer nutzt \"default\"."
+                    },
+                    "default": ""
+                },
+                {
+                    "type": "text",
+                    "id": "customName",
+                    "label": {
+                        "en": "Variable name",
+                        "de": "Variablenname"
+                    },
+                    "description": {
+                        "en": "Name of the variable this node declares, used when “Declare variable…” is selected above.",
+                        "de": "Name der Variable, die dieser Knoten deklariert; verwendet, wenn oben „Variable deklarieren…“ ausgewählt ist."
+                    },
+                    "default": ""
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.varWrite"
+                }
+            }
+        },
+        "array-generate": {
+            "title": {
+                "en": "Array Generate",
+                "de": "Array erzeugen"
+            },
+            "info": {
+                "en": "Provides a float array of the given length and reuses its buffer between loop passes.",
+                "de": "Stellt ein Float-Array der angegebenen Länge bereit und verwendet seinen Puffer zwischen Durchläufen wieder."
+            },
+            "category": "data",
+            "color": "#4a6fa5",
+            "shape": "square",
+            "icon": "icons/data_array_24dp.svg",
+            "inputs": [
+                {
+                    "id": "count",
+                    "name": {
+                        "en": "Length",
+                        "de": "Länge"
+                    },
+                    "description": {
+                        "en": "Number of elements to generate.",
+                        "de": "Anzahl der zu erzeugenden Elemente."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Length",
+                            "de": "Länge"
+                        },
+                        "min": 1,
+                        "max": 4096,
+                        "step": 1,
+                        "default": 60
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "out",
+                    "name": {
+                        "en": "Array",
+                        "de": "Array"
+                    },
+                    "description": {
+                        "en": "Generated array.",
+                        "de": "Erzeugtes Array."
+                    },
+                    "outputType": "vars.array",
+                    "initialTypes": [
+                        "vars.array"
+                    ],
+                    "phase": "loop"
+                }
+            ],
+            "controls": [],
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.arrayGenerate"
+                }
+            },
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.arrayGenerate"
+                }
+            }
+        },
+        "array-math": {
+            "title": {
+                "en": "Array Math",
+                "de": "Array-Rechnen"
+            },
+            "info": {
+                "en": "Applies an element-wise operation or a reduction to scalar and/or array operands.",
+                "de": "Wendet eine elementweise Operation oder eine Reduktion auf Skalar- und/oder Array-Operanden an."
+            },
+            "category": "data",
+            "color": "#4a6fa5",
+            "shape": "square",
+            "icon": "icons/combine_columns_24dp.svg",
+            "inputs": [
+                {
+                    "id": "a",
+                    "name": {
+                        "en": "A",
+                        "de": "A"
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int",
+                        "bool",
+                        "vars.array"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int",
+                        "bool",
+                        "vars.array"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "A",
+                            "de": "A"
+                        },
+                        "min": -100000,
+                        "max": 100000,
+                        "step": 0.01,
+                        "default": 0
+                    },
+                    "description": {
+                        "en": "First operand (scalar or array).",
+                        "de": "Erster Operand (Skalar oder Array)."
+                    }
+                },
+                {
+                    "id": "b",
+                    "name": {
+                        "en": "B",
+                        "de": "B"
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int",
+                        "bool",
+                        "vars.array"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int",
+                        "bool",
+                        "vars.array"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "B",
+                            "de": "B"
+                        },
+                        "min": -100000,
+                        "max": 100000,
+                        "step": 0.01,
+                        "default": 0
+                    },
+                    "description": {
+                        "en": "Second operand (scalar or array).",
+                        "de": "Zweiter Operand (Skalar oder Array)."
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "out",
+                    "name": {
+                        "en": "Result",
+                        "de": "Ergebnis"
+                    },
+                    "description": {
+                        "en": "Result array or scalar reduction.",
+                        "de": "Ergebnis-Array oder skalare Reduktion."
+                    },
+                    "outputType": "vars.array",
+                    "initialTypes": [
+                        "vars.array"
+                    ],
+                    "phase": "loop"
+                }
+            ],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "operation",
+                    "label": {
+                        "en": "Operation",
+                        "de": "Operation"
+                    },
+                    "affectsInputs": true,
+                    "affectsControls": true,
+                    "options": [
+                        {
+                            "value": "add",
+                            "label": {
+                                "en": "Add",
+                                "de": "Addieren"
+                            },
+                            "activeInputs": [
+                                "a",
+                                "b"
+                            ],
+                            "activeControls": [
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "subtract",
+                            "label": {
+                                "en": "Subtract",
+                                "de": "Subtrahieren"
+                            },
+                            "activeInputs": [
+                                "a",
+                                "b"
+                            ],
+                            "activeControls": [
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "multiply",
+                            "label": {
+                                "en": "Multiply",
+                                "de": "Multiplizieren"
+                            },
+                            "activeInputs": [
+                                "a",
+                                "b"
+                            ],
+                            "activeControls": [
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "divide",
+                            "label": {
+                                "en": "Divide",
+                                "de": "Dividieren"
+                            },
+                            "activeInputs": [
+                                "a",
+                                "b"
+                            ],
+                            "activeControls": [
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "modulus",
+                            "label": {
+                                "en": "Modulus",
+                                "de": "Modulo"
+                            },
+                            "activeInputs": [
+                                "a",
+                                "b"
+                            ],
+                            "activeControls": [
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "power",
+                            "label": {
+                                "en": "Power",
+                                "de": "Potenz"
+                            },
+                            "activeInputs": [
+                                "a",
+                                "b"
+                            ],
+                            "activeControls": [
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "root",
+                            "label": {
+                                "en": "Nth Root",
+                                "de": "N-te Wurzel"
+                            },
+                            "activeInputs": [
+                                "a",
+                                "b"
+                            ],
+                            "activeControls": [
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "sqrt",
+                            "label": {
+                                "en": "Square Root",
+                                "de": "Quadratwurzel"
+                            },
+                            "activeInputs": [
+                                "a"
+                            ],
+                            "activeControls": [
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "square",
+                            "label": {
+                                "en": "Square",
+                                "de": "Quadrat"
+                            },
+                            "activeInputs": [
+                                "a"
+                            ],
+                            "activeControls": [
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "fraction",
+                            "label": {
+                                "en": "Fraction",
+                                "de": "Bruchteil"
+                            },
+                            "activeInputs": [
+                                "a"
+                            ],
+                            "activeControls": [
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "exp",
+                            "label": {
+                                "en": "Exponential",
+                                "de": "Exponentialfunktion"
+                            },
+                            "activeInputs": [
+                                "a"
+                            ],
+                            "activeControls": [
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "ln",
+                            "label": {
+                                "en": "Natural Log",
+                                "de": "Natürlicher Logarithmus"
+                            },
+                            "activeInputs": [
+                                "a"
+                            ],
+                            "activeControls": [
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "log",
+                            "label": {
+                                "en": "Logarithm",
+                                "de": "Logarithmus"
+                            },
+                            "activeInputs": [
+                                "a",
+                                "b"
+                            ],
+                            "activeControls": [
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "floor",
+                            "label": {
+                                "en": "Floor",
+                                "de": "Abrunden"
+                            },
+                            "activeInputs": [
+                                "a"
+                            ],
+                            "activeControls": [
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "ceil",
+                            "label": {
+                                "en": "Ceiling",
+                                "de": "Aufrunden"
+                            },
+                            "activeInputs": [
+                                "a"
+                            ],
+                            "activeControls": [
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "round",
+                            "label": {
+                                "en": "Round",
+                                "de": "Runden"
+                            },
+                            "activeInputs": [
+                                "a"
+                            ],
+                            "activeControls": [
+                                "clamp",
+                                "decimalPlaces"
+                            ]
+                        },
+                        {
+                            "value": "sin",
+                            "label": {
+                                "en": "sin",
+                                "de": "sin"
+                            },
+                            "activeInputs": [
+                                "a"
+                            ],
+                            "activeControls": [
+                                "clamp",
+                                "angleUnit"
+                            ]
+                        },
+                        {
+                            "value": "cos",
+                            "label": {
+                                "en": "cos",
+                                "de": "cos"
+                            },
+                            "activeInputs": [
+                                "a"
+                            ],
+                            "activeControls": [
+                                "clamp",
+                                "angleUnit"
+                            ]
+                        },
+                        {
+                            "value": "tan",
+                            "label": {
+                                "en": "tan",
+                                "de": "tan"
+                            },
+                            "activeInputs": [
+                                "a"
+                            ],
+                            "activeControls": [
+                                "clamp",
+                                "angleUnit"
+                            ]
+                        },
+                        {
+                            "value": "asin",
+                            "label": {
+                                "en": "asin",
+                                "de": "asin"
+                            },
+                            "activeInputs": [
+                                "a"
+                            ],
+                            "activeControls": [
+                                "clamp",
+                                "angleUnit"
+                            ]
+                        },
+                        {
+                            "value": "acos",
+                            "label": {
+                                "en": "acos",
+                                "de": "acos"
+                            },
+                            "activeInputs": [
+                                "a"
+                            ],
+                            "activeControls": [
+                                "clamp",
+                                "angleUnit"
+                            ]
+                        },
+                        {
+                            "value": "atan",
+                            "label": {
+                                "en": "atan",
+                                "de": "atan"
+                            },
+                            "activeInputs": [
+                                "a"
+                            ],
+                            "activeControls": [
+                                "clamp",
+                                "angleUnit"
+                            ]
+                        },
+                        {
+                            "value": "atan2",
+                            "label": {
+                                "en": "atan2",
+                                "de": "atan2"
+                            },
+                            "activeInputs": [
+                                "a",
+                                "b"
+                            ],
+                            "activeControls": [
+                                "clamp",
+                                "angleUnit"
+                            ]
+                        },
+                        {
+                            "value": "sinh",
+                            "label": {
+                                "en": "sinh",
+                                "de": "sinh"
+                            },
+                            "activeInputs": [
+                                "a"
+                            ],
+                            "activeControls": [
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "cosh",
+                            "label": {
+                                "en": "cosh",
+                                "de": "cosh"
+                            },
+                            "activeInputs": [
+                                "a"
+                            ],
+                            "activeControls": [
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "tanh",
+                            "label": {
+                                "en": "tanh",
+                                "de": "tanh"
+                            },
+                            "activeInputs": [
+                                "a"
+                            ],
+                            "activeControls": [
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "asinh",
+                            "label": {
+                                "en": "asinh",
+                                "de": "asinh"
+                            },
+                            "activeInputs": [
+                                "a"
+                            ],
+                            "activeControls": [
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "acosh",
+                            "label": {
+                                "en": "acosh",
+                                "de": "acosh"
+                            },
+                            "activeInputs": [
+                                "a"
+                            ],
+                            "activeControls": [
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "atanh",
+                            "label": {
+                                "en": "atanh",
+                                "de": "atanh"
+                            },
+                            "activeInputs": [
+                                "a"
+                            ],
+                            "activeControls": [
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "length",
+                            "label": {
+                                "en": "Length",
+                                "de": "Länge"
+                            },
+                            "activeInputs": [
+                                "a"
+                            ],
+                            "activeControls": [],
+                            "outputTypes": {
+                                "out": [
+                                    "int"
+                                ]
+                            }
+                        },
+                        {
+                            "value": "min",
+                            "label": {
+                                "en": "Minimum",
+                                "de": "Minimum"
+                            },
+                            "activeInputs": [
+                                "a"
+                            ],
+                            "activeControls": [
+                                "clamp",
+                                "percent"
+                            ],
+                            "outputTypes": {
+                                "out": [
+                                    "float"
+                                ]
+                            }
+                        },
+                        {
+                            "value": "max",
+                            "label": {
+                                "en": "Maximum",
+                                "de": "Maximum"
+                            },
+                            "activeInputs": [
+                                "a"
+                            ],
+                            "activeControls": [
+                                "clamp",
+                                "percent"
+                            ],
+                            "outputTypes": {
+                                "out": [
+                                    "float"
+                                ]
+                            }
+                        },
+                        {
+                            "value": "mean",
+                            "label": {
+                                "en": "Mean",
+                                "de": "Mittelwert"
+                            },
+                            "activeInputs": [
+                                "a"
+                            ],
+                            "activeControls": [
+                                "clamp"
+                            ],
+                            "outputTypes": {
+                                "out": [
+                                    "float"
+                                ]
+                            }
+                        },
+                        {
+                            "value": "median",
+                            "label": {
+                                "en": "Median",
+                                "de": "Median"
+                            },
+                            "activeInputs": [
+                                "a"
+                            ],
+                            "activeControls": [
+                                "clamp"
+                            ],
+                            "outputTypes": {
+                                "out": [
+                                    "float"
+                                ]
+                            }
+                        }
+                    ],
+                    "default": "add",
+                    "description": {
+                        "en": "Operation to apply (element-wise or reduction).",
+                        "de": "Anzuwendende Operation (elementweise oder Reduktion)."
+                    }
+                },
+                {
+                    "type": "dropdown",
+                    "id": "angleUnit",
+                    "label": {
+                        "en": "Angle Unit",
+                        "de": "Winkeleinheit"
+                    },
+                    "options": [
+                        {
+                            "value": "degrees",
+                            "label": {
+                                "en": "Degrees",
+                                "de": "Grad"
+                            }
+                        },
+                        {
+                            "value": "radians",
+                            "label": {
+                                "en": "Radians",
+                                "de": "Radiant"
+                            }
+                        },
+                        {
+                            "value": "percent",
+                            "label": {
+                                "en": "Percent (0-1)",
+                                "de": "Prozent (0-1)"
+                            }
+                        }
+                    ],
+                    "default": "degrees",
+                    "description": {
+                        "en": "Unit for trigonometric operations.",
+                        "de": "Einheit für trigonometrische Operationen."
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "decimalPlaces",
+                    "label": {
+                        "en": "Decimal Places",
+                        "de": "Dezimalstellen"
+                    },
+                    "default": 0,
+                    "min": 0,
+                    "max": 6,
+                    "step": 1,
+                    "description": {
+                        "en": "Number of decimal places kept by the Round operation.",
+                        "de": "Anzahl der Nachkommastellen, die die Operation Runden behält."
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "percent",
+                    "label": {
+                        "en": "Percent",
+                        "de": "Prozent"
+                    },
+                    "default": 100,
+                    "min": 0,
+                    "max": 100,
+                    "step": 1,
+                    "description": {
+                        "en": "Portion of the array used by Minimum/Maximum; 100 uses the full array and 0 selects one element.",
+                        "de": "Anteil des Arrays, den Minimum/Maximum verwendet; 100 nutzt das ganze Array und 0 wählt ein Element."
+                    }
+                },
+                {
+                    "type": "checkbox",
+                    "id": "clamp",
+                    "label": {
+                        "en": "Clamp to 0..1",
+                        "de": "Auf 0..1 begrenzen"
+                    },
+                    "default": false,
+                    "description": {
+                        "en": "Clamp the result to 0..1.",
+                        "de": "Ergebnis auf 0..1 begrenzen."
+                    }
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.arrayMath"
+                }
+            }
+        },
+        "var-store-save": {
+            "title": {
+                "en": "Store Save",
+                "de": "Store speichern"
+            },
+            "info": {
+                "en": "Saves a store namespace to var_store/<name>.json on a rising edge of the save input.",
+                "de": "Speichert einen Store-Namespace in var_store/<name>.json, sobald der Eingang Speichern von falsch auf wahr wechselt."
+            },
+            "category": "data",
+            "color": "#4a6fa5",
+            "shape": "square",
+            "icon": "icons/upload_24dp.svg",
+            "executionPhase": "loop",
+            "inputs": [
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    },
+                    "description": {
+                        "en": "When off, the variable store is not updated.",
+                        "de": "Wenn deaktiviert, wird der Variablenspeicher nicht aktualisiert."
+                    }
+                },
+                {
+                    "id": "save",
+                    "name": {
+                        "en": "Save",
+                        "de": "Speichern"
+                    },
+                    "description": {
+                        "en": "Trigger saving on a rising edge.",
+                        "de": "Löst das Speichern bei einer steigenden Flanke aus."
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "id": "save",
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Save",
+                            "de": "Speichern"
+                        },
+                        "default": false
+                    }
+                },
+                {
+                    "id": "name",
+                    "name": {
+                        "en": "Store",
+                        "de": "Store"
+                    },
+                    "description": {
+                        "en": "Name of the store namespace to save.",
+                        "de": "Name des zu speichernden Store-Namespaces."
+                    },
+                    "allowedTypes": [
+                        "string"
+                    ],
+                    "initialTypes": [
+                        "string"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "id": "name",
+                        "type": "text",
+                        "label": {
+                            "en": "Store",
+                            "de": "Store"
+                        },
+                        "default": "default"
+                    }
+                }
+            ],
+            "outputs": [],
+            "controls": [],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.varStoreSave"
+                }
+            }
+        },
+        "var-store-load": {
+            "title": {
+                "en": "Store Load",
+                "de": "Store laden"
+            },
+            "info": {
+                "en": "Loads a store namespace from var_store/<name>.json on a rising edge of the load input.",
+                "de": "Lädt einen Store-Namespace aus var_store/<name>.json, sobald der Eingang Laden von falsch auf wahr wechselt."
+            },
+            "category": "data",
+            "color": "#4a6fa5",
+            "shape": "square",
+            "icon": "icons/download_24dp.svg",
+            "executionPhase": "loop",
+            "inputs": [
+                {
+                    "id": "load",
+                    "name": {
+                        "en": "Load",
+                        "de": "Laden"
+                    },
+                    "description": {
+                        "en": "Trigger loading on a rising edge.",
+                        "de": "Löst das Laden bei einer steigenden Flanke aus."
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "id": "load",
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Load",
+                            "de": "Laden"
+                        },
+                        "default": false
+                    }
+                },
+                {
+                    "id": "name",
+                    "name": {
+                        "en": "Store",
+                        "de": "Store"
+                    },
+                    "description": {
+                        "en": "Name of the store namespace to load.",
+                        "de": "Name des zu ladenden Store-Namespaces."
+                    },
+                    "allowedTypes": [
+                        "string"
+                    ],
+                    "initialTypes": [
+                        "string"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "id": "name",
+                        "type": "text",
+                        "label": {
+                            "en": "Store",
+                            "de": "Store"
+                        },
+                        "default": "default"
+                    }
+                }
+            ],
+            "outputs": [],
+            "controls": [],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.varStoreLoad"
+                }
+            }
+        },
+        "array-modify": {
+            "title": {
+                "en": "Array Modify",
+                "de": "Array ändern"
+            },
+            "info": {
+                "en": "Shifts, repeats, ping-pongs, concatenates, or interlaces an array; shift can wrap or pad with zero, in place or on a copy.",
+                "de": "Verschiebt, wiederholt, spiegelt, hängt aneinander oder verflechtet ein Array; Verschieben kann umlaufen oder mit Null auffüllen, direkt oder als Kopie."
+            },
+            "category": "data",
+            "color": "#4a6fa5",
+            "shape": "square",
+            "icon": "icons/view_apps_24dp.svg",
+            "inputs": [
+                {
+                    "id": "in",
+                    "name": {
+                        "en": "Array",
+                        "de": "Array"
+                    },
+                    "allowedTypes": [
+                        "vars.array"
+                    ],
+                    "initialTypes": [
+                        "vars.array"
+                    ],
+                    "phase": "loop",
+                    "description": {
+                        "en": "Array to modify.",
+                        "de": "Zu änderndes Array."
+                    }
+                },
+                {
+                    "id": "amount",
+                    "name": {
+                        "en": "Amount",
+                        "de": "Betrag"
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "description": {
+                        "en": "Number of positions to shift (can be negative).",
+                        "de": "Anzahl der Verschiebepositionen (kann negativ sein)."
+                    },
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Amount",
+                            "de": "Betrag"
+                        },
+                        "min": -1000,
+                        "max": 1000,
+                        "step": 1,
+                        "default": 0
+                    }
+                },
+                {
+                    "id": "other",
+                    "name": {
+                        "en": "Other Array",
+                        "de": "Zweites Array"
+                    },
+                    "allowedTypes": [
+                        "vars.array"
+                    ],
+                    "initialTypes": [
+                        "vars.array"
+                    ],
+                    "phase": "loop",
+                    "description": {
+                        "en": "Array concatenated after or interleaved into the first array.",
+                        "de": "Array, das hinter das erste Array gehängt oder in es eingeflochten wird."
+                    }
+                },
+                {
+                    "id": "count",
+                    "name": {
+                        "en": "Count",
+                        "de": "Anzahl"
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "description": {
+                        "en": "Number of repetitions (repeat) or ping-pong blocks.",
+                        "de": "Anzahl der Wiederholungen (repeat) bzw. Ping-Pong-Blöcke."
+                    },
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Count",
+                            "de": "Anzahl"
+                        },
+                        "min": 0,
+                        "max": 1000,
+                        "step": 1,
+                        "default": 1
+                    }
+                },
+                {
+                    "id": "step",
+                    "name": {
+                        "en": "Step",
+                        "de": "Schrittweite"
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "description": {
+                        "en": "Insert one value of the other array every n positions.",
+                        "de": "Fügt an jeder n-ten Position einen Wert des zweiten Arrays ein."
+                    },
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Step",
+                            "de": "Schrittweite"
+                        },
+                        "min": 1,
+                        "max": 1000,
+                        "step": 1,
+                        "default": 2
+                    }
+                },
+                {
+                    "id": "offset",
+                    "name": {
+                        "en": "Offset",
+                        "de": "Offset"
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "description": {
+                        "en": "Output index of the first inserted value.",
+                        "de": "Ausgabeindex des ersten eingefügten Werts."
+                    },
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Offset",
+                            "de": "Offset"
+                        },
+                        "min": 0,
+                        "max": 1000,
+                        "step": 1,
+                        "default": 0
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "out",
+                    "name": {
+                        "en": "Array",
+                        "de": "Array"
+                    },
+                    "description": {
+                        "en": "Modified array.",
+                        "de": "Geändertes Array."
+                    },
+                    "outputType": "vars.array",
+                    "initialTypes": [
+                        "vars.array"
+                    ],
+                    "phase": "loop"
+                }
+            ],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "modifyType",
+                    "label": {
+                        "en": "Modify Type",
+                        "de": "Änderungstyp"
+                    },
+                    "affectsInputs": true,
+                    "affectsControls": true,
+                    "options": [
+                        {
+                            "value": "shift",
+                            "label": {
+                                "en": "Shift",
+                                "de": "Verschieben"
+                            },
+                            "activeInputs": [
+                                "in",
+                                "amount"
+                            ],
+                            "activeControls": [
+                                "wrap",
+                                "clamp",
+                                "inplace"
+                            ]
+                        },
+                        {
+                            "value": "repeat",
+                            "label": {
+                                "en": "Repeat",
+                                "de": "Wiederholen"
+                            },
+                            "activeInputs": [
+                                "in",
+                                "count"
+                            ],
+                            "activeControls": [
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "pingPong",
+                            "label": {
+                                "en": "Ping-Pong",
+                                "de": "Ping-Pong"
+                            },
+                            "activeInputs": [
+                                "in",
+                                "count"
+                            ],
+                            "activeControls": [
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "concat",
+                            "label": {
+                                "en": "Concat",
+                                "de": "Aneinanderhängen"
+                            },
+                            "activeInputs": [
+                                "in",
+                                "other"
+                            ],
+                            "activeControls": [
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "interlace",
+                            "label": {
+                                "en": "Interlace",
+                                "de": "Verflechten"
+                            },
+                            "activeInputs": [
+                                "in",
+                                "other",
+                                "step",
+                                "offset"
+                            ],
+                            "activeControls": [
+                                "clamp"
+                            ]
+                        }
+                    ],
+                    "default": "shift",
+                    "description": {
+                        "en": "How the array is modified.",
+                        "de": "Wie das Array geändert wird."
+                    }
+                },
+                {
+                    "type": "checkbox",
+                    "id": "wrap",
+                    "label": {
+                        "en": "Wrap",
+                        "de": "Umlauf"
+                    },
+                    "default": true,
+                    "description": {
+                        "en": "Wrap elements around the edges instead of filling with zero.",
+                        "de": "Elemente an den Rändern umlaufen lassen statt mit Null aufzufüllen."
+                    }
+                },
+                {
+                    "type": "checkbox",
+                    "id": "clamp",
+                    "label": {
+                        "en": "Clamp",
+                        "de": "Clamp"
+                    },
+                    "default": false,
+                    "description": {
+                        "en": "Clamp the result to 0..1.",
+                        "de": "Ergebnis auf 0..1 begrenzen."
+                    }
+                },
+                {
+                    "type": "checkbox",
+                    "id": "inplace",
+                    "label": {
+                        "en": "In-Place",
+                        "de": "In-Place"
+                    },
+                    "default": false,
+                    "description": {
+                        "en": "Write into the input array instead of modifying a copy.",
+                        "de": "In das Eingabe-Array schreiben statt in eine Kopie."
+                    }
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.arrayModify"
+                }
+            }
+        },
+        "array-select": {
+            "title": {
+                "en": "Array Select",
+                "de": "Array auswählen"
+            },
+            "info": {
+                "en": "Returns one array element, or resolves an out-of-range index through the Index Mode setting.",
+                "de": "Liefert ein Array-Element oder löst einen Index außerhalb des Bereichs über die Einstellung Index-Modus auf."
+            },
+            "category": "data",
+            "color": "#4a6fa5",
+            "shape": "square",
+            "icon": "icons/view_array_24dp.svg",
+            "inputs": [
+                {
+                    "id": "array",
+                    "name": {
+                        "en": "Array",
+                        "de": "Array"
+                    },
+                    "allowedTypes": [
+                        "vars.array"
+                    ],
+                    "initialTypes": [
+                        "vars.array"
+                    ],
+                    "phase": "loop",
+                    "description": {
+                        "en": "Array to read from.",
+                        "de": "Array, aus dem gelesen wird."
+                    }
+                },
+                {
+                    "id": "index",
+                    "name": {
+                        "en": "Index",
+                        "de": "Index"
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Index",
+                            "de": "Index"
+                        },
+                        "min": -100000,
+                        "max": 100000,
+                        "step": 1,
+                        "default": 0
+                    },
+                    "description": {
+                        "en": "Element position to read; fractions are truncated.",
+                        "de": "Position des zu lesenden Elements; Nachkommastellen werden abgeschnitten."
+                    }
+                },
+                {
+                    "id": "default",
+                    "name": {
+                        "en": "Default",
+                        "de": "Standardwert"
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Default",
+                            "de": "Standardwert"
+                        },
+                        "min": -100000,
+                        "max": 100000,
+                        "step": 0.01,
+                        "default": 0
+                    },
+                    "description": {
+                        "en": "Value returned for an out-of-range index when Index Mode is 'Default Value'.",
+                        "de": "Wert, der bei einem Index außerhalb des Bereichs zurückgegeben wird, wenn der Index-Modus 'Standardwert' ist."
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "description": {
+                        "en": "Element at the index, resolved according to Index Mode.",
+                        "de": "Element am Index, aufgelöst entsprechend dem Index-Modus."
+                    },
+                    "outputType": "float",
+                    "initialTypes": [
+                        "float"
+                    ],
+                    "phase": "loop"
+                }
+            ],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "indexMode",
+                    "label": {
+                        "en": "Index Mode",
+                        "de": "Index-Modus"
+                    },
+                    "affectsInputs": true,
+                    "options": [
+                        {
+                            "value": "default",
+                            "label": {
+                                "en": "Default Value",
+                                "de": "Standardwert"
+                            },
+                            "activeInputs": [
+                                "array",
+                                "index",
+                                "default"
+                            ]
+                        },
+                        {
+                            "value": "clamp",
+                            "label": {
+                                "en": "Clamp",
+                                "de": "Begrenzen"
+                            },
+                            "activeInputs": [
+                                "array",
+                                "index"
+                            ]
+                        },
+                        {
+                            "value": "wrap",
+                            "label": {
+                                "en": "Wrap",
+                                "de": "Umlauf"
+                            },
+                            "activeInputs": [
+                                "array",
+                                "index"
+                            ]
+                        }
+                    ],
+                    "default": "default",
+                    "description": {
+                        "en": "How an index outside 0..len-1 is resolved: read the default value, clamp to the first or last element, or wrap around the array.",
+                        "de": "Wie ein Index außerhalb 0..len-1 aufgelöst wird: Standardwert lesen, auf das erste oder letzte Element begrenzen oder im Array umlaufen."
+                    }
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.arraySelect"
+                }
+            }
+        },
+        "array-set": {
+            "title": {
+                "en": "Array Set",
+                "de": "Array setzen"
+            },
+            "info": {
+                "en": "Sets values into an array (set, set at indices, fill, ramp, steps, hat, sine, square, sawtooth, random uniform or random normal), either in place or on a copy.",
+                "de": "Setzt Werte in ein Array (Setzen, an Indizes setzen, Füllen, Rampe, Stufen, Hut, Sinus, Rechteck, Sägezahn, Zufallszahlen (gleichverteilt) oder Zufallszahlen (normalverteilt)), direkt oder als Kopie."
+            },
+            "category": "data",
+            "color": "#4a6fa5",
+            "shape": "square",
+            "icon": "icons/cell_merge_24dp.svg",
+            "inputs": [
+                {
+                    "id": "in",
+                    "name": {
+                        "en": "Array",
+                        "de": "Array"
+                    },
+                    "allowedTypes": [
+                        "vars.array"
+                    ],
+                    "initialTypes": [
+                        "vars.array"
+                    ],
+                    "phase": "loop",
+                    "description": {
+                        "en": "Array to write into.",
+                        "de": "Array, in das geschrieben wird."
+                    }
+                },
+                {
+                    "id": "index",
+                    "name": {
+                        "en": "Index",
+                        "de": "Index"
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "description": {
+                        "en": "Start index for the set operation.",
+                        "de": "Startindex für das Setzen."
+                    },
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Index",
+                            "de": "Index"
+                        },
+                        "min": -100000,
+                        "max": 100000,
+                        "step": 1,
+                        "default": 0
+                    }
+                },
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int",
+                        "vars.array"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int",
+                        "vars.array"
+                    ],
+                    "phase": "loop",
+                    "description": {
+                        "en": "Value or array of values to write.",
+                        "de": "Wert oder Array von Werten zum Schreiben."
+                    },
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Value",
+                            "de": "Wert"
+                        },
+                        "min": 0,
+                        "max": 1,
+                        "step": 0.01,
+                        "default": 0
+                    }
+                },
+                {
+                    "id": "indices",
+                    "name": {
+                        "en": "Indices",
+                        "de": "Indizes"
+                    },
+                    "allowedTypes": [
+                        "vars.array"
+                    ],
+                    "initialTypes": [
+                        "vars.array"
+                    ],
+                    "phase": "loop",
+                    "description": {
+                        "en": "Array of target indices (floored to integers).",
+                        "de": "Array von Zielindizes (auf ganze Zahlen abgerundet)."
+                    }
+                },
+                {
+                    "id": "start",
+                    "name": {
+                        "en": "Start",
+                        "de": "Start"
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "description": {
+                        "en": "First index of the range (floored to an integer).",
+                        "de": "Erster Index des Bereichs (auf eine ganze Zahl abgerundet)."
+                    },
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Start",
+                            "de": "Start"
+                        },
+                        "min": 0,
+                        "max": 4096,
+                        "step": 1,
+                        "default": 0
+                    }
+                },
+                {
+                    "id": "width",
+                    "name": {
+                        "en": "Width",
+                        "de": "Breite"
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "description": {
+                        "en": "Number of indices, or -1 for up to the last index, -2 for the penultimate, etc. (floored to an integer).",
+                        "de": "Anzahl der Indizes, oder -1 bis zum letzten Index, -2 bis zum vorletzten usw. (auf eine ganze Zahl abgerundet)."
+                    },
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Width",
+                            "de": "Breite"
+                        },
+                        "min": -4096,
+                        "max": 4096,
+                        "step": 1,
+                        "default": -1
+                    }
+                },
+                {
+                    "id": "stepWidth",
+                    "name": {
+                        "en": "Step Width",
+                        "de": "Schrittbreite"
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "description": {
+                        "en": "Width of each step in indices (floored to an integer).",
+                        "de": "Breite jeder Stufe in Indizes (auf eine ganze Zahl abgerundet)."
+                    },
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Step Width",
+                            "de": "Schrittbreite"
+                        },
+                        "min": 1,
+                        "max": 4096,
+                        "step": 1,
+                        "default": 1
+                    }
+                },
+                {
+                    "id": "numSteps",
+                    "name": {
+                        "en": "Steps",
+                        "de": "Stufen"
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "description": {
+                        "en": "Number of steps (floored to an integer).",
+                        "de": "Anzahl der Stufen (auf eine ganze Zahl abgerundet)."
+                    },
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Steps",
+                            "de": "Stufen"
+                        },
+                        "min": 1,
+                        "max": 4096,
+                        "step": 1,
+                        "default": 2
+                    }
+                },
+                {
+                    "id": "min",
+                    "name": {
+                        "en": "Min",
+                        "de": "Min"
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "description": {
+                        "en": "Lower value (ramp start, hat base, steps start or random range/cut).",
+                        "de": "Unterer Wert (Rampenstart, Hutbasis, Stufenstart oder Zufallsbereich/-grenze)."
+                    },
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Min",
+                            "de": "Min"
+                        },
+                        "min": -100000,
+                        "max": 100000,
+                        "step": 0.01,
+                        "default": 0
+                    }
+                },
+                {
+                    "id": "max",
+                    "name": {
+                        "en": "Max",
+                        "de": "Max"
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "description": {
+                        "en": "Upper value (ramp end, hat top, steps end or random range/cut).",
+                        "de": "Oberer Wert (Rampenende, Hutspitze, Stufenende oder Zufallsbereich/-grenze)."
+                    },
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Max",
+                            "de": "Max"
+                        },
+                        "min": -100000,
+                        "max": 100000,
+                        "step": 0.01,
+                        "default": 1
+                    }
+                },
+                {
+                    "id": "period",
+                    "name": {
+                        "en": "Period",
+                        "de": "Periode"
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "description": {
+                        "en": "Length of one period in samples (float, so partial periods are possible).",
+                        "de": "Länge einer Periode in Samples (Gleitkommazahl, daher Teilperioden möglich)."
+                    },
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Period",
+                            "de": "Periode"
+                        },
+                        "min": 0,
+                        "max": 100000,
+                        "step": 0.01,
+                        "default": 30
+                    }
+                },
+                {
+                    "id": "periodCount",
+                    "name": {
+                        "en": "Period Count",
+                        "de": "Periodenanzahl"
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Period Count",
+                            "de": "Periodenanzahl"
+                        },
+                        "min": 0,
+                        "max": 100000,
+                        "step": 0.01,
+                        "default": 1
+                    },
+                    "description": {
+                        "en": "Number of periods to generate (clamped to the length of the array).",
+                        "de": "Anzahl der zu erzeugenden Perioden (auf die Array-Länge begrenzt)."
+                    }
+                },
+                {
+                    "id": "phase",
+                    "name": {
+                        "en": "Phase",
+                        "de": "Phase"
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "description": {
+                        "en": "Wave phase offset in radians.",
+                        "de": "Phasenversatz der Welle in Radiant."
+                    },
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Phase",
+                            "de": "Phase"
+                        },
+                        "min": -100000,
+                        "max": 100000,
+                        "step": 0.01,
+                        "default": 0
+                    }
+                },
+                {
+                    "id": "amplitude",
+                    "name": {
+                        "en": "Amplitude",
+                        "de": "Amplitude"
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "description": {
+                        "en": "Wave amplitude around the offset.",
+                        "de": "Amplitude der Welle um den Offset."
+                    },
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Amplitude",
+                            "de": "Amplitude"
+                        },
+                        "min": 0,
+                        "max": 1,
+                        "step": 0.01,
+                        "default": 0.5
+                    }
+                },
+                {
+                    "id": "offset",
+                    "name": {
+                        "en": "Offset",
+                        "de": "Offset"
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "description": {
+                        "en": "Wave centre value.",
+                        "de": "Mittelwert der Welle."
+                    },
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Offset",
+                            "de": "Offset"
+                        },
+                        "min": 0,
+                        "max": 1,
+                        "step": 0.01,
+                        "default": 0.5
+                    }
+                },
+                {
+                    "id": "mean",
+                    "name": {
+                        "en": "Mean",
+                        "de": "Mittelwert"
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "description": {
+                        "en": "Mean of the normal distribution.",
+                        "de": "Mittelwert der Normalverteilung."
+                    },
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Mean",
+                            "de": "Mittelwert"
+                        },
+                        "min": -100000,
+                        "max": 100000,
+                        "step": 0.01,
+                        "default": 0.5
+                    }
+                },
+                {
+                    "id": "stdDev",
+                    "name": {
+                        "en": "Std. Dev.",
+                        "de": "Std.-Abw."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "description": {
+                        "en": "Standard deviation of the normal distribution.",
+                        "de": "Standardabweichung der Normalverteilung."
+                    },
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Std. Dev.",
+                            "de": "Std.-Abw."
+                        },
+                        "min": 0,
+                        "max": 100000,
+                        "step": 0.01,
+                        "default": 0.15
+                    }
+                },
+                {
+                    "id": "fillValue",
+                    "name": {
+                        "en": "Fill Value",
+                        "de": "Füllwert"
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "description": {
+                        "en": "Value written into the slots a multi-place shift vacates. Ignored unless Index Mode is Shift.",
+                        "de": "Wert, der in die von einer Verschiebung über mehrere Plätze freigegebenen Stellen geschrieben wird. Wird ignoriert, wenn der Index-Modus nicht Verschieben ist."
+                    },
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Fill Value",
+                            "de": "Füllwert"
+                        },
+                        "min": -100000,
+                        "max": 100000,
+                        "step": 0.01,
+                        "default": 0
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "out",
+                    "name": {
+                        "en": "Array",
+                        "de": "Array"
+                    },
+                    "description": {
+                        "en": "Array with values set.",
+                        "de": "Array mit gesetzten Werten."
+                    },
+                    "outputType": "vars.array",
+                    "initialTypes": [
+                        "vars.array"
+                    ],
+                    "phase": "loop"
+                }
+            ],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "setType",
+                    "label": {
+                        "en": "Set Type",
+                        "de": "Setz-Typ"
+                    },
+                    "affectsInputs": true,
+                    "affectsControls": true,
+                    "options": [
+                        {
+                            "value": "set",
+                            "label": {
+                                "en": "Set",
+                                "de": "Setzen"
+                            },
+                            "activeInputs": [
+                                "in",
+                                "index",
+                                "value",
+                                "fillValue"
+                            ],
+                            "activeControls": [
+                                "indexMode",
+                                "inplace",
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "setIndices",
+                            "label": {
+                                "en": "Set at Indices",
+                                "de": "An Indizes setzen"
+                            },
+                            "activeInputs": [
+                                "in",
+                                "indices",
+                                "value",
+                                "fillValue"
+                            ],
+                            "activeControls": [
+                                "indexMode",
+                                "inplace",
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "fill",
+                            "label": {
+                                "en": "Fill",
+                                "de": "Füllen"
+                            },
+                            "activeInputs": [
+                                "in",
+                                "value",
+                                "start",
+                                "width"
+                            ],
+                            "activeControls": [
+                                "inplace",
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "ramp",
+                            "label": {
+                                "en": "Ramp",
+                                "de": "Rampe"
+                            },
+                            "activeInputs": [
+                                "in",
+                                "start",
+                                "width",
+                                "min",
+                                "max"
+                            ],
+                            "activeControls": [
+                                "inplace",
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "steps",
+                            "label": {
+                                "en": "Steps",
+                                "de": "Stufen"
+                            },
+                            "activeInputs": [
+                                "in",
+                                "start",
+                                "stepWidth",
+                                "numSteps",
+                                "min",
+                                "max"
+                            ],
+                            "activeControls": [
+                                "inplace",
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "hat",
+                            "label": {
+                                "en": "Hat",
+                                "de": "Hut"
+                            },
+                            "activeInputs": [
+                                "in",
+                                "start",
+                                "width",
+                                "min",
+                                "max"
+                            ],
+                            "activeControls": [
+                                "inplace",
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "sin",
+                            "label": {
+                                "en": "Sine",
+                                "de": "Sinus"
+                            },
+                            "activeInputs": [
+                                "in",
+                                "start",
+                                "period",
+                                "periodCount",
+                                "phase",
+                                "amplitude",
+                                "offset"
+                            ],
+                            "activeControls": [
+                                "inplace",
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "square",
+                            "label": {
+                                "en": "Square",
+                                "de": "Rechteck"
+                            },
+                            "activeInputs": [
+                                "in",
+                                "start",
+                                "period",
+                                "periodCount",
+                                "phase",
+                                "amplitude",
+                                "offset"
+                            ],
+                            "activeControls": [
+                                "inplace",
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "sawtooth",
+                            "label": {
+                                "en": "Sawtooth",
+                                "de": "Sägezahn"
+                            },
+                            "activeInputs": [
+                                "in",
+                                "start",
+                                "period",
+                                "periodCount",
+                                "phase",
+                                "amplitude",
+                                "offset"
+                            ],
+                            "activeControls": [
+                                "inplace",
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "randomUniform",
+                            "label": {
+                                "en": "Random Uniform",
+                                "de": "Zufall (gleichverteilt)"
+                            },
+                            "activeInputs": [
+                                "in",
+                                "min",
+                                "max"
+                            ],
+                            "activeControls": [
+                                "inplace",
+                                "clamp"
+                            ]
+                        },
+                        {
+                            "value": "randomNormal",
+                            "label": {
+                                "en": "Random Normal",
+                                "de": "Zufall (normalverteilt)"
+                            },
+                            "activeInputs": [
+                                "in",
+                                "min",
+                                "max",
+                                "mean",
+                                "stdDev"
+                            ],
+                            "activeControls": [
+                                "inplace",
+                                "clamp"
+                            ]
+                        }
+                    ],
+                    "default": "set",
+                    "description": {
+                        "en": "How values are written into the array.",
+                        "de": "Wie Werte in das Array geschrieben werden."
+                    }
+                },
+                {
+                    "type": "dropdown",
+                    "id": "indexMode",
+                    "label": {
+                        "en": "Index Mode",
+                        "de": "Index-Modus"
+                    },
+                    "options": [
+                        {
+                            "value": "clamp",
+                            "label": {
+                                "en": "Clamp",
+                                "de": "Begrenzen"
+                            }
+                        },
+                        {
+                            "value": "wrap",
+                            "label": {
+                                "en": "Wrap",
+                                "de": "Umlauf"
+                            }
+                        },
+                        {
+                            "value": "shift",
+                            "label": {
+                                "en": "Shift",
+                                "de": "Verschieben"
+                            }
+                        }
+                    ],
+                    "default": "clamp",
+                    "description": {
+                        "en": "How an out-of-range index is resolved, and whether an overrunning sub-array wraps to the beginning or stops at the end. Shift slides the array by the full deficit of an out-of-range index, writes on the edge it slid towards, and fills only the slots the slide vacates with Fill Value.",
+                        "de": "Wie ein Index außerhalb des Bereichs aufgelöst wird und ob ein überlaufendes Teilarray an den Anfang umläuft oder am Ende stoppt. Verschieben verschiebt das Array um das volle Defizit eines Index außerhalb des Bereichs, schreibt auf der Kante, zu der verschoben wurde, und füllt nur die freigegebenen Stellen mit dem Füllwert."
+                    }
+                },
+                {
+                    "type": "checkbox",
+                    "id": "inplace",
+                    "label": {
+                        "en": "In-Place",
+                        "de": "In-Place"
+                    },
+                    "default": false,
+                    "description": {
+                        "en": "Write into the input array instead of modifying a copy.",
+                        "de": "In das Eingabe-Array schreiben statt in eine Kopie."
+                    }
+                },
+                {
+                    "type": "checkbox",
+                    "id": "clamp",
+                    "label": {
+                        "en": "Clamp",
+                        "de": "Clamp"
+                    },
+                    "default": false,
+                    "description": {
+                        "en": "Clamp the result to 0..1.",
+                        "de": "Ergebnis auf 0..1 begrenzen."
+                    }
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.arraySet"
+                }
+            }
+        },
+        "random-value": {
+            "title": {
+                "en": "Random Value",
+                "de": "Zufallswert"
+            },
+            "info": {
+                "en": "Emits one uniform or normal sample per pass, as a float or a rounded integer.",
+                "de": "Gibt pro Durchlauf einen gleich- oder normalverteilten Zufallswert als Gleitkommazahl oder gerundete Ganzzahl aus."
+            },
+            "category": "data",
+            "color": "#4a6fa5",
+            "shape": "square",
+            "icon": "icons/casino_24dp.svg",
+            "inputs": [
+                {
+                    "id": "min",
+                    "name": {
+                        "en": "Min",
+                        "de": "Min"
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "description": {
+                        "en": "Lowest output value (uniform range or normal cut).",
+                        "de": "Niedrigster Ausgabewert (Bereich der Gleichverteilung oder Grenze der Normalverteilung)."
+                    },
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Min",
+                            "de": "Min"
+                        },
+                        "min": -100000,
+                        "max": 100000,
+                        "step": 0.01,
+                        "default": 0
+                    }
+                },
+                {
+                    "id": "max",
+                    "name": {
+                        "en": "Max",
+                        "de": "Max"
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "description": {
+                        "en": "Highest output value (uniform range or normal cut).",
+                        "de": "Höchster Ausgabewert (Bereich der Gleichverteilung oder Grenze der Normalverteilung)."
+                    },
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Max",
+                            "de": "Max"
+                        },
+                        "min": -100000,
+                        "max": 100000,
+                        "step": 0.01,
+                        "default": 1
+                    }
+                },
+                {
+                    "id": "mean",
+                    "name": {
+                        "en": "Mean",
+                        "de": "Mittelwert"
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "description": {
+                        "en": "Mean of the normal distribution.",
+                        "de": "Mittelwert der Normalverteilung."
+                    },
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Mean",
+                            "de": "Mittelwert"
+                        },
+                        "min": -100000,
+                        "max": 100000,
+                        "step": 0.01,
+                        "default": 0.5
+                    }
+                },
+                {
+                    "id": "stdDev",
+                    "name": {
+                        "en": "Std. Dev.",
+                        "de": "Std.-Abw."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "description": {
+                        "en": "Standard deviation of the normal distribution.",
+                        "de": "Standardabweichung der Normalverteilung."
+                    },
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Std. Dev.",
+                            "de": "Std.-Abw."
+                        },
+                        "min": 0,
+                        "max": 100000,
+                        "step": 0.01,
+                        "default": 0.15
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "out",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "description": {
+                        "en": "One random sample per pass.",
+                        "de": "Ein Zufallswert pro Durchlauf."
+                    },
+                    "outputType": "float",
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "outputTypeControl": "valueType",
+                    "outputTypeByControlValue": {
+                        "float": "float",
+                        "int": "int"
+                    },
+                    "initialTypes": [
+                        "float"
+                    ],
+                    "phase": "loop"
+                }
+            ],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "distribution",
+                    "label": {
+                        "en": "Distribution",
+                        "de": "Verteilung"
+                    },
+                    "affectsInputs": true,
+                    "options": [
+                        {
+                            "value": "uniform",
+                            "label": {
+                                "en": "Uniform",
+                                "de": "Gleichverteilung"
+                            },
+                            "activeInputs": [
+                                "min",
+                                "max"
+                            ]
+                        },
+                        {
+                            "value": "normal",
+                            "label": {
+                                "en": "Normal",
+                                "de": "Normalverteilung"
+                            },
+                            "activeInputs": [
+                                "min",
+                                "max",
+                                "mean",
+                                "stdDev"
+                            ]
+                        }
+                    ],
+                    "default": "uniform",
+                    "description": {
+                        "en": "Distribution to sample from: a uniform range or a normal distribution cut to the range.",
+                        "de": "Verteilung, aus der gezogen wird: ein Gleichverteilungsbereich oder eine auf den Bereich begrenzte Normalverteilung."
+                    }
+                },
+                {
+                    "type": "dropdown",
+                    "id": "valueType",
+                    "label": {
+                        "en": "Value Type",
+                        "de": "Werttyp"
+                    },
+                    "options": [
+                        {
+                            "value": "float",
+                            "label": {
+                                "en": "Float",
+                                "de": "Gleitkomma"
+                            }
+                        },
+                        {
+                            "value": "int",
+                            "label": {
+                                "en": "Integer",
+                                "de": "Ganzzahl"
+                            }
+                        }
+                    ],
+                    "default": "float",
+                    "description": {
+                        "en": "Float returns the raw sample, Integer rounds it to the nearest whole number.",
+                        "de": "Gleitkomma liefert den Rohwert, Ganzzahl rundet auf die nächste ganze Zahl."
+                    }
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.randomValue"
+                }
+            }
+        },
+        "random-seed": {
+            "title": {
+                "en": "Random Seed",
+                "de": "Zufalls-Seed"
+            },
+            "info": {
+                "en": "Seeds the random generator all random nodes share, once per enabled/seed change.",
+                "de": "Setzt den Zufallsgenerator, den alle Zufallsknoten teilen, einmal pro Änderung von Aktivierung oder Seed."
+            },
+            "category": "data",
+            "color": "#4a6fa5",
+            "shape": "square",
+            "icon": "icons/key_24dp.svg",
+            "executionPhase": "loop",
+            "inputs": [
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiv"
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "description": {
+                        "en": "Applies the seed while enabled.",
+                        "de": "Setzt den Seed, solange der Eingang aktiviert ist."
+                    },
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    }
+                },
+                {
+                    "id": "seed",
+                    "name": {
+                        "en": "Seed",
+                        "de": "Seed"
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "description": {
+                        "en": "Seed value for the shared random generator.",
+                        "de": "Seed-Wert für den gemeinsamen Zufallsgenerator."
+                    },
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Seed",
+                            "de": "Seed"
+                        },
+                        "min": 0,
+                        "max": 100000,
+                        "step": 1,
+                        "default": 0
+                    }
+                }
+            ],
+            "outputs": [],
+            "controls": [],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.randomSeed"
+                }
+            }
+        },
+        "signal-post": {
+            "title": {
+                "en": "Post Signal",
+                "de": "Signal senden"
+            },
+            "info": {
+                "en": "Posts a named pulse signal that event-triggered graphs can wait on.",
+                "de": "Sendet ein benanntes Pulssignal, auf das ereignisgesteuerte Graphen warten können."
+            },
+            "category": "data",
+            "color": "#4a6fa5",
+            "shape": "square",
+            "icon": "icons/notifications_active_24dp.svg",
+            "inputs": [
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    },
+                    "description": {
+                        "en": "When off, the node neither posts nor advances its edge state.",
+                        "de": "Wenn deaktiviert, sendet der Knoten nichts und aktualisiert seinen Flankenzustand nicht."
+                    }
+                },
+                {
+                    "id": "fire",
+                    "name": {
+                        "en": "Fire",
+                        "de": "Auslösen"
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Fire",
+                            "de": "Auslösen"
+                        },
+                        "default": false
+                    },
+                    "description": {
+                        "en": "Value whose rising edge posts the signal.",
+                        "de": "Wert, dessen steigende Flanke das Signal sendet."
+                    }
+                }
+            ],
+            "outputs": [],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "signal",
+                    "label": {
+                        "en": "Signal",
+                        "de": "Signal"
+                    },
+                    "description": {
+                        "en": "Use an existing signal, leave it unset to disable the node, or define a new one.",
+                        "de": "Vorhandenes Signal verwenden, leer lassen zum Deaktivieren oder ein neues definieren."
+                    },
+                    "required": true,
+                    "default": "",
+                    "affectsControls": true,
+                    "dynamicOptions": {
+                        "source": "signalNames",
+                        "newNameControls": [
+                            "customSignal"
+                        ],
+                        "newLabel": {
+                            "en": "Define signal…",
+                            "de": "Signal definieren…"
+                        }
+                    }
+                },
+                {
+                    "type": "text",
+                    "id": "customSignal",
+                    "label": {
+                        "en": "Signal name",
+                        "de": "Signalname"
+                    },
+                    "description": {
+                        "en": "Signal name used when \"Define signal…\" is selected above.",
+                        "de": "Signalname, der verwendet wird, wenn oben „Signal definieren…“ ausgewählt ist."
+                    },
+                    "default": ""
+                },
+                {
+                    "type": "checkbox",
+                    "id": "once",
+                    "label": {
+                        "en": "Only on rising edge",
+                        "de": "Nur bei steigender Flanke"
+                    },
+                    "description": {
+                        "en": "When unchecked, the signal posts on every run while fire is true.",
+                        "de": "Wenn deaktiviert, wird das Signal bei jedem Durchlauf gesendet, solange „Auslösen“ aktiv ist."
+                    },
+                    "default": true
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.signalPost"
+                }
+            }
+        }
+    }
+}

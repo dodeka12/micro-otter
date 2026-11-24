@@ -1,0 +1,103 @@
+{
+  "cases": [
+    {
+      "name": "single general requirement satisfied",
+      "requirements": ["viper"],
+      "capabilities": { "viper": "general-supported" },
+      "satisfied": true,
+      "missing": []
+    },
+    {
+      "name": "single general requirement missing",
+      "requirements": ["viper"],
+      "capabilities": { "viper": "general-unsupported" },
+      "satisfied": false,
+      "missing": [["viper"]]
+    },
+    {
+      "name": "single pin requirement satisfied",
+      "requirements": ["i2s"],
+      "capabilities": { "i2s": "pin-present" },
+      "satisfied": true,
+      "missing": []
+    },
+    {
+      "name": "single pin requirement missing",
+      "requirements": ["i2s"],
+      "capabilities": { "i2s": "pin-absent" },
+      "satisfied": false,
+      "missing": [["i2s"]]
+    },
+    {
+      "name": "AND of two capabilities satisfied",
+      "requirements": ["viper", "i2s"],
+      "capabilities": { "viper": "general-supported", "i2s": "pin-present" },
+      "satisfied": true,
+      "missing": []
+    },
+    {
+      "name": "AND of two capabilities partially missing",
+      "requirements": ["viper", "i2s"],
+      "capabilities": { "viper": "general-supported", "i2s": "pin-absent" },
+      "satisfied": false,
+      "missing": [["i2s"]]
+    },
+    {
+      "name": "OR group satisfied by first alternative",
+      "requirements": [["wifi", "ethernet"]],
+      "capabilities": { "wifi": "general-supported", "ethernet": "general-unsupported" },
+      "satisfied": true,
+      "missing": []
+    },
+    {
+      "name": "OR group satisfied by second alternative",
+      "requirements": [["wifi", "ethernet"]],
+      "capabilities": { "wifi": "general-unsupported", "ethernet": "general-supported" },
+      "satisfied": true,
+      "missing": []
+    },
+    {
+      "name": "OR group unsatisfied when all alternatives missing",
+      "requirements": [["wifi", "ethernet"]],
+      "capabilities": { "wifi": "general-unsupported", "ethernet": "general-unsupported" },
+      "satisfied": false,
+      "missing": [["wifi", "ethernet"]]
+    },
+    {
+      "name": "mixed AND and OR satisfied",
+      "requirements": [["wifi", "ethernet"], "viper"],
+      "capabilities": {
+        "wifi": "general-supported",
+        "ethernet": "general-unsupported",
+        "viper": "general-supported"
+      },
+      "satisfied": true,
+      "missing": []
+    },
+    {
+      "name": "mixed AND and OR with OR group missing",
+      "requirements": [["wifi", "ethernet"], "viper"],
+      "capabilities": {
+        "wifi": "general-unsupported",
+        "ethernet": "general-unsupported",
+        "viper": "general-supported"
+      },
+      "satisfied": false,
+      "missing": [["wifi", "ethernet"]]
+    },
+    {
+      "name": "empty requirement list is satisfied",
+      "requirements": [],
+      "capabilities": {},
+      "satisfied": true,
+      "missing": []
+    },
+    {
+      "name": "empty OR group is ignored",
+      "requirements": ["viper", []],
+      "capabilities": { "viper": "general-supported" },
+      "satisfied": true,
+      "missing": []
+    }
+  ]
+}

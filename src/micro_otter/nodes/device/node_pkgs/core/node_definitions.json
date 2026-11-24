@@ -1,0 +1,3931 @@
+{
+    "nodeTypes": {
+        "const": {
+            "title": {
+                "en": "Constant",
+                "de": "Konstante"
+            },
+            "info": {
+                "en": "Emits a custom constant of the selected data type, or a built-in special constant such as Pi, Euler's number, or a degrees / radians conversion factor.",
+                "de": "Gibt eine eigene Konstante des ausgewählten Datentyps oder eine integrierte Spezialkonstante aus, etwa Pi, die Eulersche Zahl oder einen Umrechnungsfaktor zwischen Grad und Bogenmaß."
+            },
+            "category": "data",
+            "color": "#4a6fa5",
+            "shape": "square",
+            "icon": "icons/input_24dp.svg",
+            "inputs": [],
+            "outputs": [
+                {
+                    "id": "out0",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "outputType": "float",
+                    "initialTypes": [
+                        "float"
+                    ],
+                    "description": {
+                        "en": "Constant value of the selected data type or the selected special constant.",
+                        "de": "Konstanter Wert des gewählten Datentyps oder der gewählten Spezialkonstante."
+                    }
+                }
+            ],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "valueMode",
+                    "label": {
+                        "en": "Mode",
+                        "de": "Modus"
+                    },
+                    "affectsControls": true,
+                    "options": [
+                        {
+                            "value": "custom",
+                            "label": {
+                                "en": "Custom",
+                                "de": "Eigener Wert"
+                            },
+                            "activeControls": [
+                                "valueType",
+                                "floatValue",
+                                "intValue",
+                                "boolValue",
+                                "stringValue"
+                            ]
+                        },
+                        {
+                            "value": "special",
+                            "label": {
+                                "en": "Special",
+                                "de": "Spezialkonstante"
+                            },
+                            "activeControls": [
+                                "specialValue"
+                            ],
+                            "outputTypes": {
+                                "out0": [
+                                    "float"
+                                ]
+                            }
+                        }
+                    ],
+                    "default": "custom",
+                    "description": {
+                        "en": "Emit a custom value or a built-in special constant.",
+                        "de": "Gibt einen eigenen Wert oder eine integrierte Spezialkonstante aus."
+                    }
+                },
+                {
+                    "type": "dropdown",
+                    "id": "valueType",
+                    "label": {
+                        "en": "Data Type",
+                        "de": "Datentyp"
+                    },
+                    "affectsControls": true,
+                    "options": [
+                        {
+                            "value": "float",
+                            "label": {
+                                "en": "Float",
+                                "de": "Fließkomma"
+                            },
+                            "activeControls": [
+                                "floatValue"
+                            ],
+                            "outputTypes": {
+                                "out0": [
+                                    "float"
+                                ]
+                            }
+                        },
+                        {
+                            "value": "int",
+                            "label": {
+                                "en": "Int",
+                                "de": "Ganzzahl"
+                            },
+                            "activeControls": [
+                                "intValue"
+                            ],
+                            "outputTypes": {
+                                "out0": [
+                                    "int"
+                                ]
+                            }
+                        },
+                        {
+                            "value": "bool",
+                            "label": {
+                                "en": "Bool",
+                                "de": "Boolesch"
+                            },
+                            "activeControls": [
+                                "boolValue"
+                            ],
+                            "outputTypes": {
+                                "out0": [
+                                    "bool"
+                                ]
+                            }
+                        },
+                        {
+                            "value": "string",
+                            "label": {
+                                "en": "String",
+                                "de": "Text"
+                            },
+                            "activeControls": [
+                                "stringValue"
+                            ],
+                            "outputTypes": {
+                                "out0": [
+                                    "string"
+                                ]
+                            }
+                        }
+                    ],
+                    "default": "float",
+                    "description": {
+                        "en": "Data type of the emitted value.",
+                        "de": "Datentyp des ausgegebenen Werts."
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "floatValue",
+                    "layout": "stacked",
+                    "label": {
+                        "en": "Float Value",
+                        "de": "Fließkommawert"
+                    },
+                    "min": -100000,
+                    "max": 100000,
+                    "step": 0.01,
+                    "default": 50,
+                    "description": {
+                        "en": "Value emitted when Float is selected.",
+                        "de": "Ausgegebener Wert, wenn Fließkomma gewählt ist."
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "intValue",
+                    "layout": "stacked",
+                    "label": {
+                        "en": "Int Value",
+                        "de": "Ganzzahlwert"
+                    },
+                    "min": -100000,
+                    "max": 100000,
+                    "step": 1,
+                    "default": 50,
+                    "description": {
+                        "en": "Value emitted when Int is selected.",
+                        "de": "Ausgegebener Wert, wenn Ganzzahl gewählt ist."
+                    }
+                },
+                {
+                    "type": "checkbox",
+                    "id": "boolValue",
+                    "layout": "stacked",
+                    "label": {
+                        "en": "Bool Value",
+                        "de": "Boolescher Wert"
+                    },
+                    "default": false,
+                    "description": {
+                        "en": "Value emitted when Bool is selected.",
+                        "de": "Ausgegebener Wert, wenn Boolesch gewählt ist."
+                    }
+                },
+                {
+                    "type": "text",
+                    "id": "stringValue",
+                    "layout": "stacked",
+                    "label": {
+                        "en": "String Value",
+                        "de": "Textwert"
+                    },
+                    "default": "Hello",
+                    "description": {
+                        "en": "Value emitted when String is selected.",
+                        "de": "Ausgegebener Wert, wenn Text gewählt ist."
+                    }
+                },
+                {
+                    "type": "dropdown",
+                    "id": "specialValue",
+                    "label": {
+                        "en": "Special Value",
+                        "de": "Spezialwert"
+                    },
+                    "options": [
+                        {
+                            "value": "pi",
+                            "label": {
+                                "en": "Pi (π)",
+                                "de": "Pi (π)"
+                            }
+                        },
+                        {
+                            "value": "e",
+                            "label": {
+                                "en": "Euler's number (e)",
+                                "de": "Eulersche Zahl (e)"
+                            }
+                        },
+                        {
+                            "value": "deg_to_rad",
+                            "label": {
+                                "en": "Degrees → Radians (π/180)",
+                                "de": "Grad → Bogenmaß (π/180)"
+                            }
+                        },
+                        {
+                            "value": "rad_to_deg",
+                            "label": {
+                                "en": "Radians → Degrees (180/π)",
+                                "de": "Bogenmaß → Grad (180/π)"
+                            }
+                        }
+                    ],
+                    "default": "pi",
+                    "description": {
+                        "en": "Special constant emitted in Special mode.",
+                        "de": "Spezialkonstante, die im Modus Spezialkonstante ausgegeben wird."
+                    }
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.constNode"
+                }
+            },
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.constNode"
+                }
+            }
+        },
+        "print": {
+            "title": {
+                "en": "Print",
+                "de": "Ausgabe"
+            },
+            "info": {
+                "en": "Prints the latest value it receives to the console while Enabled is true.",
+                "de": "Gibt den zuletzt empfangenen Wert auf der Konsole aus, solange Aktiviert wahr ist."
+            },
+            "category": "debugging",
+            "color": "#a56c6f",
+            "shape": "square",
+            "icon": "icons/output_24dp.svg",
+            "inputs": [
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    },
+                    "description": {
+                        "en": "Print only while this input is true.",
+                        "de": "Gibt nur aus, solange dieser Eingang wahr ist."
+                    }
+                },
+                {
+                    "id": "title",
+                    "name": {
+                        "en": "Title",
+                        "de": "Titel"
+                    },
+                    "allowedTypes": [
+                        "string"
+                    ],
+                    "initialTypes": [
+                        "string"
+                    ],
+                    "defaultControl": {
+                        "id": "title",
+                        "type": "text",
+                        "label": {
+                            "en": "Title",
+                            "de": "Titel"
+                        },
+                        "default": "Value"
+                    },
+                    "description": {
+                        "en": "Text printed before the value.",
+                        "de": "Vor dem Wert ausgegebener Text."
+                    }
+                },
+                {
+                    "id": "in0",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "allowedTypes": [
+                        "any"
+                    ],
+                    "initialTypes": [
+                        "any"
+                    ],
+                    "description": {
+                        "en": "Value to print.",
+                        "de": "Auszugebender Wert."
+                    }
+                }
+            ],
+            "outputs": [],
+            "controls": [],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.printNode"
+                }
+            }
+        },
+        "math": {
+            "title": {
+                "en": "Math",
+                "de": "Mathe"
+            },
+            "info": {
+                "en": "Applies the selected math operation to the provided inputs.",
+                "de": "Wendet die gewählte mathematische Operation auf die Eingänge an."
+            },
+            "category": "calculation",
+            "color": "#6b8b9e",
+            "shape": "square",
+            "icon": "icons/calculate_24dp.svg",
+            "capabilityCheck": "NodeCapabilityChecks.mathNode",
+            "inputs": [
+                {
+                    "id": "in0",
+                    "name": {
+                        "en": "In 1",
+                        "de": "Eing. 1"
+                    },
+                    "allowedTypes": [
+                        "float"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "In 1",
+                            "de": "Eing. 1"
+                        },
+                        "min": -1000,
+                        "max": 1000,
+                        "step": 1,
+                        "default": 0
+                    },
+                    "description": {
+                        "en": "First operand.",
+                        "de": "Erster Operand."
+                    }
+                },
+                {
+                    "id": "in1",
+                    "name": {
+                        "en": "In 2",
+                        "de": "Eing. 2"
+                    },
+                    "allowedTypes": [
+                        "float"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "In 2",
+                            "de": "Eing. 2"
+                        },
+                        "min": -1000,
+                        "max": 1000,
+                        "step": 1,
+                        "default": 0
+                    },
+                    "description": {
+                        "en": "Second operand.",
+                        "de": "Zweiter Operand."
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "out0",
+                    "name": {
+                        "en": "Out",
+                        "de": "Ausg."
+                    },
+                    "outputType": "float",
+                    "description": {
+                        "en": "Result of the selected operation.",
+                        "de": "Ergebnis der gewählten Operation."
+                    }
+                }
+            ],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "operation",
+                    "label": {
+                        "en": "Operation",
+                        "de": "Operation"
+                    },
+                    "affectsInputs": true,
+                    "affectsControls": true,
+                    "options": [
+                        {
+                            "value": "add",
+                            "label": {
+                                "en": "Add",
+                                "de": "Addieren"
+                            },
+                            "activeInputs": [
+                                "in0",
+                                "in1"
+                            ]
+                        },
+                        {
+                            "value": "subtract",
+                            "label": {
+                                "en": "Subtract",
+                                "de": "Subtrahieren"
+                            },
+                            "activeInputs": [
+                                "in0",
+                                "in1"
+                            ]
+                        },
+                        {
+                            "value": "multiply",
+                            "label": {
+                                "en": "Multiply",
+                                "de": "Multiplizieren"
+                            },
+                            "activeInputs": [
+                                "in0",
+                                "in1"
+                            ]
+                        },
+                        {
+                            "value": "divide",
+                            "label": {
+                                "en": "Divide",
+                                "de": "Dividieren"
+                            },
+                            "activeInputs": [
+                                "in0",
+                                "in1"
+                            ]
+                        },
+                        {
+                            "value": "modulus",
+                            "label": {
+                                "en": "Modulus",
+                                "de": "Modulo"
+                            },
+                            "activeInputs": [
+                                "in0",
+                                "in1"
+                            ]
+                        },
+                        {
+                            "value": "power",
+                            "label": {
+                                "en": "Power",
+                                "de": "Potenz"
+                            },
+                            "activeInputs": [
+                                "in0",
+                                "in1"
+                            ],
+                            "activeControls": []
+                        },
+                        {
+                            "value": "root",
+                            "label": {
+                                "en": "Nth Root",
+                                "de": "N-te Wurzel"
+                            },
+                            "activeInputs": [
+                                "in0",
+                                "in1"
+                            ],
+                            "activeControls": []
+                        },
+                        {
+                            "value": "sqrt",
+                            "label": {
+                                "en": "Square Root",
+                                "de": "Quadratwurzel"
+                            },
+                            "activeInputs": [
+                                "in0"
+                            ],
+                            "activeControls": []
+                        },
+                        {
+                            "value": "square",
+                            "label": {
+                                "en": "Square",
+                                "de": "Quadrat"
+                            },
+                            "activeInputs": [
+                                "in0"
+                            ],
+                            "activeControls": []
+                        },
+                        {
+                            "value": "fraction",
+                            "label": {
+                                "en": "Fraction",
+                                "de": "Bruchteil"
+                            },
+                            "activeInputs": [
+                                "in0"
+                            ],
+                            "activeControls": []
+                        },
+                        {
+                            "value": "round",
+                            "label": {
+                                "en": "Round",
+                                "de": "Runden"
+                            },
+                            "activeInputs": [
+                                "in0"
+                            ],
+                            "activeControls": [
+                                "decimalPlaces"
+                            ]
+                        },
+                        {
+                            "value": "floor",
+                            "label": {
+                                "en": "Floor",
+                                "de": "Abrunden"
+                            },
+                            "activeInputs": [
+                                "in0"
+                            ],
+                            "activeControls": []
+                        },
+                        {
+                            "value": "ceil",
+                            "label": {
+                                "en": "Ceiling",
+                                "de": "Aufrunden"
+                            },
+                            "activeInputs": [
+                                "in0"
+                            ],
+                            "activeControls": []
+                        },
+                        {
+                            "value": "exp",
+                            "label": {
+                                "en": "Exponential",
+                                "de": "Exponentialfunktion"
+                            },
+                            "activeInputs": [
+                                "in0"
+                            ],
+                            "activeControls": []
+                        },
+                        {
+                            "value": "ln",
+                            "label": {
+                                "en": "Natural Log",
+                                "de": "Natürlicher Logarithmus"
+                            },
+                            "activeInputs": [
+                                "in0"
+                            ],
+                            "activeControls": []
+                        },
+                        {
+                            "value": "log",
+                            "label": {
+                                "en": "Logarithm",
+                                "de": "Logarithmus"
+                            },
+                            "activeInputs": [
+                                "in0",
+                                "in1"
+                            ],
+                            "activeControls": []
+                        },
+                        {
+                            "value": "sin",
+                            "label": {
+                                "en": "sin",
+                                "de": "sin"
+                            },
+                            "activeInputs": [
+                                "in0"
+                            ],
+                            "activeControls": [
+                                "angleUnit"
+                            ]
+                        },
+                        {
+                            "value": "cos",
+                            "label": {
+                                "en": "cos",
+                                "de": "cos"
+                            },
+                            "activeInputs": [
+                                "in0"
+                            ],
+                            "activeControls": [
+                                "angleUnit"
+                            ]
+                        },
+                        {
+                            "value": "tan",
+                            "label": {
+                                "en": "tan",
+                                "de": "tan"
+                            },
+                            "activeInputs": [
+                                "in0"
+                            ],
+                            "activeControls": [
+                                "angleUnit"
+                            ]
+                        },
+                        {
+                            "value": "asin",
+                            "label": {
+                                "en": "asin",
+                                "de": "asin"
+                            },
+                            "activeInputs": [
+                                "in0"
+                            ],
+                            "activeControls": [
+                                "angleUnit"
+                            ]
+                        },
+                        {
+                            "value": "acos",
+                            "label": {
+                                "en": "acos",
+                                "de": "acos"
+                            },
+                            "activeInputs": [
+                                "in0"
+                            ],
+                            "activeControls": [
+                                "angleUnit"
+                            ]
+                        },
+                        {
+                            "value": "atan",
+                            "label": {
+                                "en": "atan",
+                                "de": "atan"
+                            },
+                            "activeInputs": [
+                                "in0"
+                            ],
+                            "activeControls": [
+                                "angleUnit"
+                            ]
+                        },
+                        {
+                            "value": "atan2",
+                            "label": {
+                                "en": "atan2",
+                                "de": "atan2"
+                            },
+                            "activeInputs": [
+                                "in0",
+                                "in1"
+                            ],
+                            "activeControls": [
+                                "angleUnit"
+                            ]
+                        },
+                        {
+                            "value": "sinh",
+                            "label": {
+                                "en": "sinh",
+                                "de": "sinh"
+                            },
+                            "activeInputs": [
+                                "in0"
+                            ],
+                            "activeControls": []
+                        },
+                        {
+                            "value": "cosh",
+                            "label": {
+                                "en": "cosh",
+                                "de": "cosh"
+                            },
+                            "activeInputs": [
+                                "in0"
+                            ],
+                            "activeControls": []
+                        },
+                        {
+                            "value": "tanh",
+                            "label": {
+                                "en": "tanh",
+                                "de": "tanh"
+                            },
+                            "activeInputs": [
+                                "in0"
+                            ],
+                            "activeControls": []
+                        },
+                        {
+                            "value": "asinh",
+                            "label": {
+                                "en": "asinh",
+                                "de": "asinh"
+                            },
+                            "activeInputs": [
+                                "in0"
+                            ],
+                            "activeControls": []
+                        },
+                        {
+                            "value": "acosh",
+                            "label": {
+                                "en": "acosh",
+                                "de": "acosh"
+                            },
+                            "activeInputs": [
+                                "in0"
+                            ],
+                            "activeControls": []
+                        },
+                        {
+                            "value": "atanh",
+                            "label": {
+                                "en": "atanh",
+                                "de": "atanh"
+                            },
+                            "activeInputs": [
+                                "in0"
+                            ],
+                            "activeControls": []
+                        }
+                    ],
+                    "default": "add",
+                    "description": {
+                        "en": "Math operation to apply.",
+                        "de": "Anzuwendende Rechenoperation."
+                    }
+                },
+                {
+                    "type": "dropdown",
+                    "id": "angleUnit",
+                    "label": {
+                        "en": "Angle Unit",
+                        "de": "Winkeleinheit"
+                    },
+                    "options": [
+                        {
+                            "value": "degrees",
+                            "label": {
+                                "en": "Degrees",
+                                "de": "Grad"
+                            }
+                        },
+                        {
+                            "value": "radians",
+                            "label": {
+                                "en": "Radians",
+                                "de": "Radiant"
+                            }
+                        },
+                        {
+                            "value": "percent",
+                            "label": {
+                                "en": "Percent (0-1)",
+                                "de": "Prozent (0-1)"
+                            }
+                        }
+                    ],
+                    "default": "degrees",
+                    "description": {
+                        "en": "Unit for trigonometric operations.",
+                        "de": "Einheit für trigonometrische Operationen."
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "decimalPlaces",
+                    "label": {
+                        "en": "Decimal Places",
+                        "de": "Dezimalstellen"
+                    },
+                    "default": 0,
+                    "min": 0,
+                    "max": 6,
+                    "step": 1,
+                    "description": {
+                        "en": "Number of decimal places kept by the Round operation.",
+                        "de": "Anzahl der Nachkommastellen, die die Operation Runden behält."
+                    }
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.mathProcessor"
+                }
+            },
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.mathProcessor"
+                }
+            }
+        },
+        "range-adapt": {
+            "title": {
+                "en": "Range Adapt",
+                "de": "Bereich anpassen"
+            },
+            "info": {
+                "en": "Adapts a numeric value to a range using clamp, wrap, ping-pong, or to-default mode. Clamp, ping-pong, and to-default include both bounds; wrap maps the upper bound back to the lower bound. The Minimum, Maximum, and Invert inputs drive the range and the optional mirroring; the Default input is only read in To Default mode.",
+                "de": "Passt einen numerischen Wert mit den Modi Begrenzen, Umlaufen, Ping-Pong oder Auf Standard an einen Bereich an. Begrenzen, Ping-Pong und Auf Standard schließen beide Grenzen ein; Umlaufen bildet die obere Grenze auf die untere ab. Die Eingänge Minimum, Maximum und Invertieren steuern den Bereich und die optionale Spiegelung; der Eingang Standard wird nur im Modus Auf Standard gelesen."
+            },
+            "category": "calculation",
+            "color": "#6b8b9e",
+            "shape": "square",
+            "icon": "icons/linear_scale_24dp.svg",
+            "inputs": [
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "description": {
+                        "en": "Input value to adapt.",
+                        "de": "Eingabewert, der angepasst wird."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Value",
+                            "de": "Wert"
+                        },
+                        "min": -100000,
+                        "max": 100000,
+                        "step": 1,
+                        "default": 0
+                    }
+                },
+                {
+                    "id": "default",
+                    "name": {
+                        "en": "Default",
+                        "de": "Standard"
+                    },
+                    "description": {
+                        "en": "Fallback value for To Default mode.",
+                        "de": "Ersatzwert für den Modus Auf Standard."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Default",
+                            "de": "Standard"
+                        },
+                        "min": -100000,
+                        "max": 100000,
+                        "step": 1,
+                        "default": 0
+                    }
+                },
+                {
+                    "id": "min",
+                    "name": {
+                        "en": "Minimum",
+                        "de": "Minimum"
+                    },
+                    "description": {
+                        "en": "Lower bound of the output range.",
+                        "de": "Untere Grenze des Ausgabebereichs."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Minimum",
+                            "de": "Minimum"
+                        },
+                        "min": -100000,
+                        "max": 100000,
+                        "step": 1,
+                        "default": 0
+                    }
+                },
+                {
+                    "id": "max",
+                    "name": {
+                        "en": "Maximum",
+                        "de": "Maximum"
+                    },
+                    "description": {
+                        "en": "Upper bound of the output range.",
+                        "de": "Obere Grenze des Ausgabebereichs."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Maximum",
+                            "de": "Maximum"
+                        },
+                        "min": -100000,
+                        "max": 100000,
+                        "step": 1,
+                        "default": 100
+                    }
+                },
+                {
+                    "id": "invert",
+                    "name": {
+                        "en": "Invert",
+                        "de": "Invertieren"
+                    },
+                    "description": {
+                        "en": "Mirror the input across the range before applying the mode.",
+                        "de": "Spiegelt die Eingabe vor der Modusanwendung am Bereich."
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Invert",
+                            "de": "Invertieren"
+                        },
+                        "default": false
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "description": {
+                        "en": "Adapted output value.",
+                        "de": "Angepasster Ausgabewert."
+                    },
+                    "outputType": "float",
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "typeInputSources": [
+                        "value",
+                        "default"
+                    ]
+                }
+            ],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "mode",
+                    "label": {
+                        "en": "Mode",
+                        "de": "Modus"
+                    },
+                    "default": "clamp",
+                    "affectsInputs": true,
+                    "description": {
+                        "en": "How values outside the range are handled.",
+                        "de": "Wie Werte außerhalb des Bereichs behandelt werden."
+                    },
+                    "options": [
+                        {
+                            "value": "clamp",
+                            "label": {
+                                "en": "Clamp",
+                                "de": "Begrenzen"
+                            },
+                            "activeInputs": [
+                                "value",
+                                "min",
+                                "max",
+                                "invert"
+                            ]
+                        },
+                        {
+                            "value": "wrap",
+                            "label": {
+                                "en": "Wrap",
+                                "de": "Umlaufen"
+                            },
+                            "activeInputs": [
+                                "value",
+                                "min",
+                                "max",
+                                "invert"
+                            ]
+                        },
+                        {
+                            "value": "ping-pong",
+                            "label": {
+                                "en": "Ping-Pong",
+                                "de": "Ping-Pong"
+                            },
+                            "activeInputs": [
+                                "value",
+                                "min",
+                                "max",
+                                "invert"
+                            ]
+                        },
+                        {
+                            "value": "to-default",
+                            "label": {
+                                "en": "To Default",
+                                "de": "Auf Standard"
+                            },
+                            "activeInputs": [
+                                "value",
+                                "default",
+                                "min",
+                                "max",
+                                "invert"
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.rangeAdaptNode"
+                }
+            }
+        },
+        "range-convert": {
+            "title": {
+                "en": "Range Convert",
+                "de": "Bereich umrechnen"
+            },
+            "info": {
+                "en": "Maps a value from the input range to the output range with a linear, power (gamma), exponential, or stepped transfer. Values outside the input range are clamped, so the output never leaves the output range. Reversed bounds invert the transfer and equal input bounds map everything to Out Min. The stepped transfer keeps a level until the next one starts, switches to the nearest level, or switches to the next level early, as selected by Quantization.",
+                "de": "Bildet einen Wert vom Eingangsbereich linear, als Potenz (Gamma), exponentiell oder in Stufen auf den Ausgangsbereich ab. Werte außerhalb des Eingangsbereichs werden begrenzt, sodass die Ausgabe den Ausgangsbereich nie verlässt. Vertauschte Grenzen kehren die Übertragung um, gleiche Eingangsgrenzen bilden alles auf Ausgang Min ab. Die Stufenübertragung behält eine Stufe bis zum Beginn der nächsten, springt auf die nächste Stufe oder wechselt früher zur nächsten Stufe, je nach Quantisierung."
+            },
+            "category": "calculation",
+            "color": "#6b8b9e",
+            "shape": "square",
+            "icon": "icons/fit_page_width_24dp.svg",
+            "inputs": [
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "description": {
+                        "en": "Input value to convert.",
+                        "de": "Eingabewert, der umgerechnet wird."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Value",
+                            "de": "Wert"
+                        },
+                        "min": -100000,
+                        "max": 100000,
+                        "step": 1,
+                        "default": 0
+                    }
+                },
+                {
+                    "id": "inMin",
+                    "name": {
+                        "en": "In Min",
+                        "de": "Eingang Min"
+                    },
+                    "description": {
+                        "en": "Lower bound of the input range.",
+                        "de": "Untere Grenze des Eingangsbereichs."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "In Min",
+                            "de": "Eingang Min"
+                        },
+                        "min": -100000,
+                        "max": 100000,
+                        "step": 1,
+                        "default": 0
+                    }
+                },
+                {
+                    "id": "inMax",
+                    "name": {
+                        "en": "In Max",
+                        "de": "Eingang Max"
+                    },
+                    "description": {
+                        "en": "Upper bound of the input range.",
+                        "de": "Obere Grenze des Eingangsbereichs."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "In Max",
+                            "de": "Eingang Max"
+                        },
+                        "min": -100000,
+                        "max": 100000,
+                        "step": 1,
+                        "default": 100
+                    }
+                },
+                {
+                    "id": "outMin",
+                    "name": {
+                        "en": "Out Min",
+                        "de": "Ausgang Min"
+                    },
+                    "description": {
+                        "en": "Lower bound of the output range.",
+                        "de": "Untere Grenze des Ausgangsbereichs."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Out Min",
+                            "de": "Ausgang Min"
+                        },
+                        "min": -100000,
+                        "max": 100000,
+                        "step": 1,
+                        "default": 0
+                    }
+                },
+                {
+                    "id": "outMax",
+                    "name": {
+                        "en": "Out Max",
+                        "de": "Ausgang Max"
+                    },
+                    "description": {
+                        "en": "Upper bound of the output range.",
+                        "de": "Obere Grenze des Ausgangsbereichs."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Out Max",
+                            "de": "Ausgang Max"
+                        },
+                        "min": -100000,
+                        "max": 100000,
+                        "step": 1,
+                        "default": 100
+                    }
+                },
+                {
+                    "id": "power",
+                    "name": {
+                        "en": "Exponent",
+                        "de": "Exponent"
+                    },
+                    "description": {
+                        "en": "Exponent applied to the normalized position, which gives gamma correction.",
+                        "de": "Exponent, der auf die normierte Position angewendet wird, also eine Gamma-Korrektur."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Exponent",
+                            "de": "Exponent"
+                        },
+                        "min": 0.1,
+                        "max": 16,
+                        "step": 0.1,
+                        "default": 2
+                    }
+                },
+                {
+                    "id": "sigma",
+                    "name": {
+                        "en": "Sigma",
+                        "de": "Sigma"
+                    },
+                    "description": {
+                        "en": "Steepness of the exponential transfer. Small values concentrate the change near the lower bound.",
+                        "de": "Steilheit der exponentiellen Übertragung. Kleine Werte konzentrieren die Änderung nahe der unteren Grenze."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Sigma",
+                            "de": "Sigma"
+                        },
+                        "min": 0.01,
+                        "max": 100,
+                        "step": 0.05,
+                        "default": 0.5
+                    }
+                },
+                {
+                    "id": "steps",
+                    "name": {
+                        "en": "Steps",
+                        "de": "Stufen"
+                    },
+                    "description": {
+                        "en": "Number of discrete steps between the output bounds.",
+                        "de": "Anzahl der diskreten Stufen zwischen den Ausgangsgrenzen."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Steps",
+                            "de": "Stufen"
+                        },
+                        "min": 1,
+                        "max": 1000,
+                        "step": 1,
+                        "default": 4
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "description": {
+                        "en": "Converted output value.",
+                        "de": "Umgerechneter Ausgabewert."
+                    },
+                    "outputType": "float",
+                    "initialTypes": [
+                        "float"
+                    ]
+                }
+            ],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "conversion",
+                    "label": {
+                        "en": "Conversion",
+                        "de": "Umrechnung"
+                    },
+                    "default": "linear",
+                    "affectsInputs": true,
+                    "affectsControls": true,
+                    "description": {
+                        "en": "Transfer function used to map the input range onto the output range.",
+                        "de": "Übertragungsfunktion, die den Eingangsbereich auf den Ausgangsbereich abbildet."
+                    },
+                    "options": [
+                        {
+                            "value": "linear",
+                            "label": {
+                                "en": "Linear",
+                                "de": "Linear"
+                            },
+                            "activeInputs": [
+                                "value",
+                                "inMin",
+                                "inMax",
+                                "outMin",
+                                "outMax"
+                            ]
+                        },
+                        {
+                            "value": "power",
+                            "label": {
+                                "en": "Power",
+                                "de": "Potenz"
+                            },
+                            "activeInputs": [
+                                "value",
+                                "inMin",
+                                "inMax",
+                                "outMin",
+                                "outMax",
+                                "power"
+                            ]
+                        },
+                        {
+                            "value": "exponential",
+                            "label": {
+                                "en": "Exponential",
+                                "de": "Exponentiell"
+                            },
+                            "activeInputs": [
+                                "value",
+                                "inMin",
+                                "inMax",
+                                "outMin",
+                                "outMax",
+                                "sigma"
+                            ]
+                        },
+                        {
+                            "value": "stepped",
+                            "label": {
+                                "en": "Stepped",
+                                "de": "Stufen"
+                            },
+                            "activeInputs": [
+                                "value",
+                                "inMin",
+                                "inMax",
+                                "outMin",
+                                "outMax",
+                                "steps"
+                            ],
+                            "activeControls": [
+                                "quantization"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "dropdown",
+                    "id": "quantization",
+                    "label": {
+                        "en": "Quantization",
+                        "de": "Quantisierung"
+                    },
+                    "default": "floor",
+                    "description": {
+                        "en": "Level selection for the stepped transfer. Floor keeps a level until the next step starts, Nearest picks the closest level, and Ceiling switches to the next level as soon as the step starts.",
+                        "de": "Stufenauswahl für die Stufenübertragung. Abrunden behält eine Stufe bis zum Beginn der nächsten, Nächster Wert wählt die nächstgelegene Stufe und Aufrunden wechselt bereits beim Beginn der nächsten Stufe."
+                    },
+                    "options": [
+                        {
+                            "value": "floor",
+                            "label": {
+                                "en": "Floor",
+                                "de": "Abrunden"
+                            }
+                        },
+                        {
+                            "value": "nearest",
+                            "label": {
+                                "en": "Nearest",
+                                "de": "Nächster Wert"
+                            }
+                        },
+                        {
+                            "value": "ceil",
+                            "label": {
+                                "en": "Ceiling",
+                                "de": "Aufrunden"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.rangeConvertNode"
+                }
+            }
+        },
+        "compare": {
+            "title": {
+                "en": "Compare",
+                "de": "Vergleich"
+            },
+            "info": {
+                "en": "Compares two numeric inputs with the selected comparison operator.",
+                "de": "Vergleicht zwei numerische Eingänge mit dem gewählten Vergleichsoperator."
+            },
+            "category": "logic",
+            "color": "#7ba3d6",
+            "shape": "square",
+            "icon": "icons/compare_arrows_24dp.svg",
+            "inputs": [
+                {
+                    "id": "in0",
+                    "name": {
+                        "en": "A",
+                        "de": "A"
+                    },
+                    "allowedTypes": [
+                        "int",
+                        "float",
+                        "double"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "A",
+                            "de": "A"
+                        },
+                        "min": -1000,
+                        "max": 1000,
+                        "step": 1,
+                        "default": 0
+                    },
+                    "description": {
+                        "en": "First value to compare.",
+                        "de": "Erster zu vergleichender Wert."
+                    }
+                },
+                {
+                    "id": "in1",
+                    "name": {
+                        "en": "B",
+                        "de": "B"
+                    },
+                    "allowedTypes": [
+                        "int",
+                        "float",
+                        "double"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "B",
+                            "de": "B"
+                        },
+                        "min": -1000,
+                        "max": 1000,
+                        "step": 1,
+                        "default": 0
+                    },
+                    "description": {
+                        "en": "Second value to compare.",
+                        "de": "Zweiter zu vergleichender Wert."
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "out0",
+                    "name": {
+                        "en": "Result",
+                        "de": "Ergebnis"
+                    },
+                    "outputType": "bool",
+                    "description": {
+                        "en": "True when the comparison is satisfied.",
+                        "de": "True, wenn der Vergleich erfüllt ist."
+                    }
+                }
+            ],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "operation",
+                    "label": {
+                        "en": "Op.",
+                        "de": "Op."
+                    },
+                    "options": [
+                        {
+                            "value": "less_than",
+                            "label": {
+                                "en": "Less Than",
+                                "de": "Kleiner als"
+                            }
+                        },
+                        {
+                            "value": "less_than_equal",
+                            "label": {
+                                "en": "Less Than Equal",
+                                "de": "Kleiner gleich"
+                            }
+                        },
+                        {
+                            "value": "equal",
+                            "label": {
+                                "en": "Equal",
+                                "de": "Gleich"
+                            }
+                        },
+                        {
+                            "value": "greater_than",
+                            "label": {
+                                "en": "Greater Than",
+                                "de": "Größer als"
+                            }
+                        },
+                        {
+                            "value": "greater_than_equal",
+                            "label": {
+                                "en": "Greater Than Equal",
+                                "de": "Größer gleich"
+                            }
+                        }
+                    ],
+                    "default": "equal",
+                    "description": {
+                        "en": "Comparison operator.",
+                        "de": "Vergleichsoperator."
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "epsilon",
+                    "label": {
+                        "en": "Epsilon",
+                        "de": "Epsilon"
+                    },
+                    "min": 0,
+                    "max": 100000,
+                    "step": 0.0001,
+                    "default": 0,
+                    "description": {
+                        "en": "Tolerance for equality comparisons.",
+                        "de": "Toleranz für Gleichheitsvergleiche."
+                    }
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.compareNode"
+                }
+            }
+        },
+        "logic": {
+            "title": {
+                "en": "Logic",
+                "de": "Logik"
+            },
+            "info": {
+                "en": "Applies boolean logic operations to input values.",
+                "de": "Wendet boolesche Logikoperationen auf Eingangswerte an."
+            },
+            "category": "logic",
+            "color": "#6d8fbf",
+            "shape": "square",
+            "icon": "icons/logic_ampersand_24dp.svg",
+            "inputs": [
+                {
+                    "id": "in0",
+                    "name": {
+                        "en": "A",
+                        "de": "A"
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "defaultControl": {
+                        "type": "dropdown",
+                        "label": {
+                            "en": "A",
+                            "de": "A"
+                        },
+                        "options": [
+                            {
+                                "value": true,
+                                "label": {
+                                    "en": "True",
+                                    "de": "Wahr"
+                                }
+                            },
+                            {
+                                "value": false,
+                                "label": {
+                                    "en": "False",
+                                    "de": "Falsch"
+                                }
+                            }
+                        ],
+                        "default": false
+                    },
+                    "description": {
+                        "en": "First boolean operand.",
+                        "de": "Erster boolescher Operand."
+                    }
+                },
+                {
+                    "id": "in1",
+                    "name": {
+                        "en": "B",
+                        "de": "B"
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "defaultControl": {
+                        "type": "dropdown",
+                        "label": {
+                            "en": "B",
+                            "de": "B"
+                        },
+                        "options": [
+                            {
+                                "value": true,
+                                "label": {
+                                    "en": "True",
+                                    "de": "Wahr"
+                                }
+                            },
+                            {
+                                "value": false,
+                                "label": {
+                                    "en": "False",
+                                    "de": "Falsch"
+                                }
+                            }
+                        ],
+                        "default": false
+                    },
+                    "description": {
+                        "en": "Second boolean operand.",
+                        "de": "Zweiter boolescher Operand."
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "out0",
+                    "name": {
+                        "en": "Result",
+                        "de": "Ergebnis"
+                    },
+                    "outputType": "bool",
+                    "description": {
+                        "en": "Result of the selected logic operation.",
+                        "de": "Ergebnis der gewählten logischen Operation."
+                    }
+                }
+            ],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "operation",
+                    "label": {
+                        "en": "Operation",
+                        "de": "Operation"
+                    },
+                    "affectsInputs": true,
+                    "options": [
+                        {
+                            "value": "and",
+                            "label": {
+                                "en": "AND",
+                                "de": "UND"
+                            },
+                            "activeInputs": [
+                                "in0",
+                                "in1"
+                            ]
+                        },
+                        {
+                            "value": "or",
+                            "label": {
+                                "en": "OR",
+                                "de": "ODER"
+                            },
+                            "activeInputs": [
+                                "in0",
+                                "in1"
+                            ]
+                        },
+                        {
+                            "value": "not",
+                            "label": {
+                                "en": "NOT",
+                                "de": "NICHT"
+                            },
+                            "activeInputs": [
+                                "in0"
+                            ]
+                        },
+                        {
+                            "value": "nor",
+                            "label": {
+                                "en": "NOR",
+                                "de": "NOR"
+                            },
+                            "activeInputs": [
+                                "in0",
+                                "in1"
+                            ]
+                        },
+                        {
+                            "value": "nand",
+                            "label": {
+                                "en": "NAND",
+                                "de": "NAND"
+                            },
+                            "activeInputs": [
+                                "in0",
+                                "in1"
+                            ]
+                        },
+                        {
+                            "value": "xor",
+                            "label": {
+                                "en": "XOR",
+                                "de": "XOR"
+                            },
+                            "activeInputs": [
+                                "in0",
+                                "in1"
+                            ]
+                        }
+                    ],
+                    "default": "and",
+                    "description": {
+                        "en": "Logic operation to apply.",
+                        "de": "Anzuwendende logische Operation."
+                    }
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.logicNode"
+                }
+            }
+        },
+        "time": {
+            "title": {
+                "en": "Time",
+                "de": "Zeit"
+            },
+            "info": {
+                "en": "Emits uptime and delta time in selected units.",
+                "de": "Gibt Laufzeit und Delta-Zeit in der gewählten Einheit aus."
+            },
+            "category": "time",
+            "color": "#5b7fc7",
+            "shape": "square",
+            "icon": "icons/time_24dp.svg",
+            "inputs": [],
+            "outputs": [
+                {
+                    "id": "out0",
+                    "name": {
+                        "en": "Now",
+                        "de": "Jetzt"
+                    },
+                    "outputType": "float",
+                    "description": {
+                        "en": "Uptime since startup.",
+                        "de": "Laufzeit seit dem Start."
+                    }
+                },
+                {
+                    "id": "out1",
+                    "name": {
+                        "en": "Delta",
+                        "de": "Delta"
+                    },
+                    "outputType": "float",
+                    "description": {
+                        "en": "Time since the previous loop.",
+                        "de": "Zeit seit dem vorherigen Schleifendurchlauf."
+                    }
+                }
+            ],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "unit",
+                    "label": {
+                        "en": "Unit",
+                        "de": "Einheit"
+                    },
+                    "options": [
+                        {
+                            "value": "seconds",
+                            "label": {
+                                "en": "Seconds",
+                                "de": "Sekunden"
+                            }
+                        },
+                        {
+                            "value": "milliseconds",
+                            "label": {
+                                "en": "Milliseconds",
+                                "de": "Millisekunden"
+                            }
+                        },
+                        {
+                            "value": "microseconds",
+                            "label": {
+                                "en": "Microseconds",
+                                "de": "Mikrosekunden"
+                            }
+                        }
+                    ],
+                    "default": "seconds",
+                    "description": {
+                        "en": "Time unit of the outputs.",
+                        "de": "Zeiteinheit der Ausgänge."
+                    }
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.timeNode"
+                }
+            },
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.timeNode"
+                }
+            }
+        },
+        "memoryInfo": {
+            "title": {
+                "en": "Memory Info",
+                "de": "Speicherinfo"
+            },
+            "info": {
+                "en": "Reports free heap memory in KB and optionally triggers GC before reading.",
+                "de": "Gibt freien Heap-Speicher in KB aus und kann optional vor dem Lesen GC ausführen."
+            },
+            "category": "debugging",
+            "color": "#5b7fc7",
+            "shape": "square",
+            "icon": "icons/memory_24dp.svg",
+            "inputs": [],
+            "outputs": [
+                {
+                    "id": "out0",
+                    "name": {
+                        "en": "Free KB",
+                        "de": "Frei KB"
+                    },
+                    "outputType": "int",
+                    "initialTypes": [
+                        "int"
+                    ],
+                    "description": {
+                        "en": "Free heap memory in kilobytes.",
+                        "de": "Freier Heap-Speicher in Kilobyte."
+                    }
+                }
+            ],
+            "controls": [
+                {
+                    "type": "checkbox",
+                    "id": "runGcBeforeRead",
+                    "label": {
+                        "en": "Run GC before read",
+                        "de": "GC vor Lesen ausführen"
+                    },
+                    "default": true,
+                    "description": {
+                        "en": "Run garbage collection before reading.",
+                        "de": "Vor dem Lesen eine Garbage Collection ausführen."
+                    }
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.memoryInfo"
+                }
+            }
+        },
+        "adc-input": {
+            "title": {
+                "en": "ADC Input",
+                "de": "ADC-Eingang"
+            },
+            "info": {
+                "en": "Reads an analog pin via the ADC and outputs the measured voltage (0-3.3 V).",
+                "de": "Liest einen analogen Pin über den ADC und gibt die gemessene Spannung (0–3,3 V) aus."
+            },
+            "category": "hardware",
+            "executionPhase": "both",
+            "color": "#5b7fc7",
+            "shape": "square",
+            "icon": "icons/pwm_input_24dp.svg",
+            "inputs": [],
+            "outputs": [
+                {
+                    "id": "voltage",
+                    "name": {
+                        "en": "Voltage",
+                        "de": "Spannung"
+                    },
+                    "description": {
+                        "en": "Measured voltage at the ADC pin (0-3.3 V).",
+                        "de": "Gemessene Spannung am ADC-Pin (0–3,3 V)."
+                    },
+                    "outputType": "float",
+                    "initialTypes": [
+                        "float"
+                    ]
+                }
+            ],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "pin",
+                    "label": {
+                        "en": "ADC Pin",
+                        "de": "ADC-Pin"
+                    },
+                    "description": {
+                        "en": "ADC pin to read.",
+                        "de": "Zu lesender ADC-Pin."
+                    },
+                    "default": 1,
+                    "dynamicOptions": {
+                        "source": "targetPinsForCapability",
+                        "capabilityKey": "adc.wifiSafe"
+                    }
+                }
+            ],
+            "resourceUsage": [
+                {
+                    "kind": "pin",
+                    "controlId": "pin",
+                    "capability": "adc.wifiSafe"
+                }
+            ],
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.adcInput"
+                }
+            },
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.adcInput"
+                }
+            }
+        },
+        "adc-array": {
+            "title": {
+                "en": "ADC Block",
+                "de": "ADC-Block"
+            },
+            "info": {
+                "en": "Captures a block of ADC samples at a fixed rate and outputs the block as an array. The capture blocks the rest of the graph for samples / rate seconds (64 samples at 5 kHz ≈ 13 ms); keep the block short for a responsive Web View.",
+                "de": "Erfasst einen Block von ADC-Samples mit fester Rate und gibt den Block als Array aus. Die Erfassung blockiert den übrigen Graphen für Samples / Rate Sekunden (64 Samples bei 5 kHz ≈ 13 ms); für eine reaktionsfähige Web-Ansicht den Block kurz halten."
+            },
+            "category": "hardware",
+            "executionPhase": "both",
+            "color": "#5b7fc7",
+            "shape": "square",
+            "icon": "icons/pwm_input_24dp.svg",
+            "inputs": [],
+            "outputs": [
+                {
+                    "id": "samples",
+                    "name": {
+                        "en": "Samples",
+                        "de": "Messwerte"
+                    },
+                    "description": {
+                        "en": "Captured voltages (0-3.3 V), oldest sample first.",
+                        "de": "Erfasste Spannungen (0–3,3 V), ältestes Sample zuerst."
+                    },
+                    "outputType": "vars.array",
+                    "initialTypes": [
+                        "vars.array"
+                    ],
+                    "phase": "loop"
+                }
+            ],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "pin",
+                    "label": {
+                        "en": "ADC Pin",
+                        "de": "ADC-Pin"
+                    },
+                    "description": {
+                        "en": "ADC pin to sample.",
+                        "de": "Zu erfassender ADC-Pin."
+                    },
+                    "default": 1,
+                    "dynamicOptions": {
+                        "source": "targetPinsForCapability",
+                        "capabilityKey": "adc.wifiSafe"
+                    }
+                },
+                {
+                    "type": "dropdown",
+                    "id": "sampleRate",
+                    "label": {
+                        "en": "Sample Rate",
+                        "de": "Abtastrate"
+                    },
+                    "description": {
+                        "en": "Samples per second. Block time = samples / rate.",
+                        "de": "Samples pro Sekunde. Blockdauer = Samples / Rate."
+                    },
+                    "options": [
+                        {
+                            "value": 1000,
+                            "label": {
+                                "en": "1 kHz",
+                                "de": "1 kHz"
+                            }
+                        },
+                        {
+                            "value": 2000,
+                            "label": {
+                                "en": "2 kHz",
+                                "de": "2 kHz"
+                            }
+                        },
+                        {
+                            "value": 5000,
+                            "label": {
+                                "en": "5 kHz",
+                                "de": "5 kHz"
+                            }
+                        },
+                        {
+                            "value": 10000,
+                            "label": {
+                                "en": "10 kHz",
+                                "de": "10 kHz"
+                            }
+                        }
+                    ],
+                    "default": 5000
+                },
+                {
+                    "type": "dropdown",
+                    "id": "blockSamples",
+                    "label": {
+                        "en": "Samples per Block",
+                        "de": "Samples pro Block"
+                    },
+                    "description": {
+                        "en": "Array length. Long blocks block the graph longer.",
+                        "de": "Array-Länge. Lange Blöcke blockieren den Graphen länger."
+                    },
+                    "options": [
+                        {
+                            "value": 16,
+                            "label": {
+                                "en": "16",
+                                "de": "16"
+                            }
+                        },
+                        {
+                            "value": 32,
+                            "label": {
+                                "en": "32",
+                                "de": "32"
+                            }
+                        },
+                        {
+                            "value": 64,
+                            "label": {
+                                "en": "64",
+                                "de": "64"
+                            }
+                        },
+                        {
+                            "value": 128,
+                            "label": {
+                                "en": "128",
+                                "de": "128"
+                            }
+                        }
+                    ],
+                    "default": 64
+                }
+            ],
+            "resourceUsage": [
+                {
+                    "kind": "pin",
+                    "controlId": "pin",
+                    "capability": "adc.wifiSafe"
+                }
+            ],
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.adcArray"
+                }
+            },
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.adcArray"
+                }
+            }
+        },
+        "dac-output": {
+            "title": {
+                "en": "DAC Output",
+                "de": "DAC-Ausgang"
+            },
+            "info": {
+                "en": "Writes an analog voltage (0-3.3 V) to a DAC pin.",
+                "de": "Schreibt eine analoge Spannung (0–3,3 V) auf einen DAC-Pin."
+            },
+            "category": "hardware",
+            "executionPhase": "both",
+            "color": "#5b7fc7",
+            "shape": "square",
+            "icon": "icons/pwm_output_24dp.svg",
+            "inputs": [
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    },
+                    "description": {
+                        "en": "When off, the DAC output is not updated.",
+                        "de": "Wenn deaktiviert, wird der DAC-Ausgang nicht aktualisiert."
+                    }
+                },
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "description": {
+                        "en": "Voltage to write (0-3.3 V).",
+                        "de": "Zu schreibende Spannung (0–3,3 V)."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int",
+                        "double"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Value",
+                            "de": "Wert"
+                        },
+                        "min": 0,
+                        "max": 3.3,
+                        "step": 0.01,
+                        "default": 0
+                    }
+                }
+            ],
+            "outputs": [],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "pin",
+                    "label": {
+                        "en": "DAC Pin",
+                        "de": "DAC-Pin"
+                    },
+                    "description": {
+                        "en": "DAC pin to write.",
+                        "de": "Zu schreibender DAC-Pin."
+                    },
+                    "default": 25,
+                    "dynamicOptions": {
+                        "source": "targetPinsForCapability",
+                        "capabilityKey": "dac"
+                    }
+                }
+            ],
+            "resourceUsage": [
+                {
+                    "kind": "pin",
+                    "controlId": "pin",
+                    "capability": "dac"
+                }
+            ],
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.dacOutput"
+                }
+            },
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.dacOutput"
+                }
+            }
+        },
+        "digital-input": {
+            "title": {
+                "en": "Digital Input",
+                "de": "Digital-Eingang"
+            },
+            "info": {
+                "en": "Reads a digital pin and outputs its boolean value.",
+                "de": "Liest einen digitalen Pin und gibt seinen booleschen Wert aus."
+            },
+            "category": "hardware",
+            "executionPhase": "both",
+            "color": "#5b7fc7",
+            "shape": "square",
+            "icon": "icons/digital_input_24dp.svg",
+            "inputs": [],
+            "outputs": [
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "description": {
+                        "en": "Current digital pin value.",
+                        "de": "Aktueller Wert des digitalen Pins."
+                    },
+                    "outputType": "bool",
+                    "initialTypes": [
+                        "bool"
+                    ]
+                }
+            ],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "pin",
+                    "label": {
+                        "en": "Pin",
+                        "de": "Pin"
+                    },
+                    "description": {
+                        "en": "Digital pin to read.",
+                        "de": "Zu lesender digitaler Pin."
+                    },
+                    "default": 0,
+                    "dynamicOptions": {
+                        "source": "targetPinsForCapability",
+                        "capabilityKey": "digital.input"
+                    }
+                },
+                {
+                    "type": "dropdown",
+                    "id": "pull",
+                    "label": {
+                        "en": "Pull Resistor",
+                        "de": "Pull-Widerstand"
+                    },
+                    "description": {
+                        "en": "Optional internal pull resistor.",
+                        "de": "Optionaler interner Pull-Widerstand."
+                    },
+                    "default": null,
+                    "dynamicOptions": {
+                        "source": "targetPinPull",
+                        "dependsOn": [
+                            "pin"
+                        ],
+                        "includeUndefined": true
+                    }
+                }
+            ],
+            "resourceUsage": [
+                {
+                    "kind": "pin",
+                    "controlId": "pin",
+                    "capability": "digital.input"
+                }
+            ],
+            "capabilityCheck": "NodeCapabilityChecks.digitalInput",
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.digitalInput"
+                }
+            },
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.digitalInput"
+                }
+            }
+        },
+        "digital-output": {
+            "title": {
+                "en": "Digital Output",
+                "de": "Digital-Ausgang"
+            },
+            "info": {
+                "en": "Writes a boolean value to a digital output pin.",
+                "de": "Schreibt einen booleschen Wert auf einen digitalen Ausgangspin."
+            },
+            "category": "hardware",
+            "executionPhase": "both",
+            "color": "#5b7fc7",
+            "shape": "square",
+            "icon": "icons/digital_output_24dp.svg",
+            "inputs": [
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    },
+                    "description": {
+                        "en": "When off, the digital output is not driven.",
+                        "de": "Wenn deaktiviert, wird der digitale Ausgang nicht angesteuert."
+                    }
+                },
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "description": {
+                        "en": "Value to write to the pin.",
+                        "de": "Auf den Pin zu schreibender Wert."
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Value",
+                            "de": "Wert"
+                        },
+                        "default": false
+                    }
+                }
+            ],
+            "outputs": [],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "pin",
+                    "label": {
+                        "en": "Pin",
+                        "de": "Pin"
+                    },
+                    "description": {
+                        "en": "Digital pin to write.",
+                        "de": "Zu schreibender digitaler Pin."
+                    },
+                    "default": 2,
+                    "dynamicOptions": {
+                        "source": "targetPinsForCapability",
+                        "capabilityKey": "digital.output"
+                    }
+                }
+            ],
+            "resourceUsage": [
+                {
+                    "kind": "pin",
+                    "controlId": "pin",
+                    "capability": "digital.output"
+                }
+            ],
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.digitalOutput"
+                }
+            },
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.digitalOutput"
+                }
+            }
+        },
+        "voltage-divider": {
+            "title": {
+                "en": "Voltage Divider",
+                "de": "Spannungsteiler"
+            },
+            "info": {
+                "en": "Scales an input voltage by a resistor divider ratio to recover the source voltage.",
+                "de": "Skaliert eine Eingangsspannung mit dem Teilerverhältnis, um die Quellspannung zu rekonstruieren."
+            },
+            "category": "calculation",
+            "color": "#5b7fc7",
+            "shape": "square",
+            "icon": "icons/division_24dp.svg",
+            "inputs": [
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "description": {
+                        "en": "Measured voltage at the divider midpoint.",
+                        "de": "Gemessene Spannung am Teiler-Mittelpunkt."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int",
+                        "double"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Value",
+                            "de": "Wert"
+                        },
+                        "min": -1000,
+                        "max": 1000,
+                        "step": 0.01,
+                        "default": 0
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "voltage",
+                    "name": {
+                        "en": "Voltage",
+                        "de": "Spannung"
+                    },
+                    "description": {
+                        "en": "Recovered source voltage.",
+                        "de": "Rekonstruierte Quellspannung."
+                    },
+                    "outputType": "float",
+                    "initialTypes": [
+                        "float"
+                    ]
+                }
+            ],
+            "controls": [
+                {
+                    "type": "number",
+                    "id": "topK",
+                    "label": {
+                        "en": "Top Resistor (kΩ)",
+                        "de": "Oberer Widerstand (kΩ)"
+                    },
+                    "description": {
+                        "en": "Top divider resistor in kΩ (toward the source).",
+                        "de": "Oberer Teilerwiderstand in kΩ (zur Quelle hin)."
+                    },
+                    "min": 1,
+                    "max": 1000,
+                    "step": 1,
+                    "default": 100
+                },
+                {
+                    "type": "number",
+                    "id": "bottomK",
+                    "label": {
+                        "en": "Bottom Resistor (kΩ)",
+                        "de": "Unterer Widerstand (kΩ)"
+                    },
+                    "description": {
+                        "en": "Bottom divider resistor in kΩ (toward ground).",
+                        "de": "Unterer Teilerwiderstand in kΩ (zur Masse hin)."
+                    },
+                    "min": 1,
+                    "max": 1000,
+                    "step": 1,
+                    "default": 22
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.voltageDivider"
+                }
+            }
+        },
+        "select": {
+            "title": {
+                "en": "Select",
+                "de": "Auswahl"
+            },
+            "info": {
+                "en": "Chooses one of two values from a boolean condition; unconnected values become None.",
+                "de": "Wählt abhängig von einer booleschen Bedingung einen von zwei Werten; nicht verbundene Werte werden zu None."
+            },
+            "category": "logic",
+            "color": "#5e7bb0",
+            "shape": "square",
+            "icon": "icons/arrow_split_24dp.svg",
+            "inputs": [
+                {
+                    "id": "condition",
+                    "name": {
+                        "en": "Condition",
+                        "de": "Bedingung"
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Condition",
+                            "de": "Bedingung"
+                        },
+                        "default": true
+                    },
+                    "description": {
+                        "en": "True picks the true value, false picks the false value.",
+                        "de": "Wahr wählt den Wahr-Wert, falsch den Falsch-Wert."
+                    }
+                },
+                {
+                    "id": "trueValue",
+                    "name": {
+                        "en": "True Value",
+                        "de": "Wahr-Wert"
+                    },
+                    "allowedTypes": [
+                        "any"
+                    ],
+                    "initialTypes": [
+                        "any"
+                    ],
+                    "defaultControl": {
+                        "type": "text",
+                        "label": {
+                            "en": "True Value",
+                            "de": "Wahr-Wert"
+                        },
+                        "default": "ON"
+                    },
+                    "description": {
+                        "en": "Value used while the condition is true.",
+                        "de": "Wert, der gilt, solange die Bedingung wahr ist."
+                    }
+                },
+                {
+                    "id": "falseValue",
+                    "name": {
+                        "en": "False Value",
+                        "de": "Falsch-Wert"
+                    },
+                    "allowedTypes": [
+                        "any"
+                    ],
+                    "initialTypes": [
+                        "any"
+                    ],
+                    "defaultControl": {
+                        "type": "text",
+                        "label": {
+                            "en": "False Value",
+                            "de": "Falsch-Wert"
+                        },
+                        "default": "OFF"
+                    },
+                    "description": {
+                        "en": "Value used while the condition is false.",
+                        "de": "Wert, der gilt, solange die Bedingung falsch ist."
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "outputType": "any",
+                    "initialTypes": [
+                        "bool",
+                        "int",
+                        "float",
+                        "string",
+                        "core.tuple"
+                    ],
+                    "typeInputSources": [
+                        "trueValue",
+                        "falseValue"
+                    ]
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.selectNode"
+                }
+            }
+        },
+        "select-index": {
+            "title": {
+                "en": "Select by Index",
+                "de": "Auswahl nach Index"
+            },
+            "info": {
+                "en": "Forwards one of up to eight values chosen by a zero-based index; an index outside the active range becomes None and an unconnected value forwards its integer default.",
+                "de": "Leitet einen von bis zu acht Werten weiter, der durch einen nullbasierten Index gewählt wird; ein Index außerhalb des aktiven Bereichs wird zu None und ein nicht verbundener Wert leitet seinen ganzzahligen Standardwert weiter."
+            },
+            "category": "logic",
+            "color": "#5e7bb0",
+            "shape": "square",
+            "icon": "icons/format_list_numbered_24dp.svg",
+            "inputs": [
+                {
+                    "id": "index",
+                    "name": {
+                        "en": "Index",
+                        "de": "Index"
+                    },
+                    "allowedTypes": [
+                        "int",
+                        "float"
+                    ],
+                    "initialTypes": [
+                        "int",
+                        "float"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Index",
+                            "de": "Index"
+                        },
+                        "min": 0,
+                        "max": 7,
+                        "step": 1,
+                        "default": 0
+                    },
+                    "description": {
+                        "en": "Zero-based index of the value to forward; fractions are truncated and an index below 0 or at/above the active value count yields None.",
+                        "de": "Nullbasierter Index des weiterzuleitenden Werts; Brüche werden abgeschnitten und ein Index unter 0 oder ab der Anzahl der aktiven Werte ergibt None."
+                    }
+                },
+                {
+                    "id": "value_1",
+                    "name": {
+                        "en": "Value 1",
+                        "de": "Wert 1"
+                    },
+                    "allowedTypes": [
+                        "any"
+                    ],
+                    "initialTypes": [
+                        "any"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Value 1",
+                            "de": "Wert 1"
+                        },
+                        "min": 0,
+                        "max": 255,
+                        "step": 1,
+                        "default": 0
+                    },
+                    "description": {
+                        "en": "Value forwarded at index 0; unconnected it forwards its integer default (0 unless changed).",
+                        "de": "Wert, der bei Index 0 weitergeleitet wird; ohne Verbindung wird sein ganzzahliger Standardwert (0, sofern nicht geändert) weitergeleitet."
+                    }
+                },
+                {
+                    "id": "value_2",
+                    "name": {
+                        "en": "Value 2",
+                        "de": "Wert 2"
+                    },
+                    "allowedTypes": [
+                        "any"
+                    ],
+                    "initialTypes": [
+                        "any"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Value 2",
+                            "de": "Wert 2"
+                        },
+                        "min": 0,
+                        "max": 255,
+                        "step": 1,
+                        "default": 0
+                    },
+                    "description": {
+                        "en": "Value forwarded at index 1; unconnected it forwards its integer default (0 unless changed).",
+                        "de": "Wert, der bei Index 1 weitergeleitet wird; ohne Verbindung wird sein ganzzahliger Standardwert (0, sofern nicht geändert) weitergeleitet."
+                    }
+                },
+                {
+                    "id": "value_3",
+                    "name": {
+                        "en": "Value 3",
+                        "de": "Wert 3"
+                    },
+                    "allowedTypes": [
+                        "any"
+                    ],
+                    "initialTypes": [
+                        "any"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Value 3",
+                            "de": "Wert 3"
+                        },
+                        "min": 0,
+                        "max": 255,
+                        "step": 1,
+                        "default": 0
+                    },
+                    "description": {
+                        "en": "Value forwarded at index 2; unconnected it forwards its integer default (0 unless changed).",
+                        "de": "Wert, der bei Index 2 weitergeleitet wird; ohne Verbindung wird sein ganzzahliger Standardwert (0, sofern nicht geändert) weitergeleitet."
+                    }
+                },
+                {
+                    "id": "value_4",
+                    "name": {
+                        "en": "Value 4",
+                        "de": "Wert 4"
+                    },
+                    "allowedTypes": [
+                        "any"
+                    ],
+                    "initialTypes": [
+                        "any"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Value 4",
+                            "de": "Wert 4"
+                        },
+                        "min": 0,
+                        "max": 255,
+                        "step": 1,
+                        "default": 0
+                    },
+                    "description": {
+                        "en": "Value forwarded at index 3; unconnected it forwards its integer default (0 unless changed).",
+                        "de": "Wert, der bei Index 3 weitergeleitet wird; ohne Verbindung wird sein ganzzahliger Standardwert (0, sofern nicht geändert) weitergeleitet."
+                    }
+                },
+                {
+                    "id": "value_5",
+                    "name": {
+                        "en": "Value 5",
+                        "de": "Wert 5"
+                    },
+                    "allowedTypes": [
+                        "any"
+                    ],
+                    "initialTypes": [
+                        "any"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Value 5",
+                            "de": "Wert 5"
+                        },
+                        "min": 0,
+                        "max": 255,
+                        "step": 1,
+                        "default": 0
+                    },
+                    "description": {
+                        "en": "Value forwarded at index 4; unconnected it forwards its integer default (0 unless changed).",
+                        "de": "Wert, der bei Index 4 weitergeleitet wird; ohne Verbindung wird sein ganzzahliger Standardwert (0, sofern nicht geändert) weitergeleitet."
+                    }
+                },
+                {
+                    "id": "value_6",
+                    "name": {
+                        "en": "Value 6",
+                        "de": "Wert 6"
+                    },
+                    "allowedTypes": [
+                        "any"
+                    ],
+                    "initialTypes": [
+                        "any"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Value 6",
+                            "de": "Wert 6"
+                        },
+                        "min": 0,
+                        "max": 255,
+                        "step": 1,
+                        "default": 0
+                    },
+                    "description": {
+                        "en": "Value forwarded at index 5; unconnected it forwards its integer default (0 unless changed).",
+                        "de": "Wert, der bei Index 5 weitergeleitet wird; ohne Verbindung wird sein ganzzahliger Standardwert (0, sofern nicht geändert) weitergeleitet."
+                    }
+                },
+                {
+                    "id": "value_7",
+                    "name": {
+                        "en": "Value 7",
+                        "de": "Wert 7"
+                    },
+                    "allowedTypes": [
+                        "any"
+                    ],
+                    "initialTypes": [
+                        "any"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Value 7",
+                            "de": "Wert 7"
+                        },
+                        "min": 0,
+                        "max": 255,
+                        "step": 1,
+                        "default": 0
+                    },
+                    "description": {
+                        "en": "Value forwarded at index 6; unconnected it forwards its integer default (0 unless changed).",
+                        "de": "Wert, der bei Index 6 weitergeleitet wird; ohne Verbindung wird sein ganzzahliger Standardwert (0, sofern nicht geändert) weitergeleitet."
+                    }
+                },
+                {
+                    "id": "value_8",
+                    "name": {
+                        "en": "Value 8",
+                        "de": "Wert 8"
+                    },
+                    "allowedTypes": [
+                        "any"
+                    ],
+                    "initialTypes": [
+                        "any"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Value 8",
+                            "de": "Wert 8"
+                        },
+                        "min": 0,
+                        "max": 255,
+                        "step": 1,
+                        "default": 0
+                    },
+                    "description": {
+                        "en": "Value forwarded at index 7; unconnected it forwards its integer default (0 unless changed).",
+                        "de": "Wert, der bei Index 7 weitergeleitet wird; ohne Verbindung wird sein ganzzahliger Standardwert (0, sofern nicht geändert) weitergeleitet."
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "outputType": "any",
+                    "initialTypes": [
+                        "bool",
+                        "int",
+                        "float",
+                        "string",
+                        "core.tuple"
+                    ],
+                    "typeInputSources": [
+                        "value_1",
+                        "value_2",
+                        "value_3",
+                        "value_4",
+                        "value_5",
+                        "value_6",
+                        "value_7",
+                        "value_8"
+                    ],
+                    "description": {
+                        "en": "Value at the selected index; None when the index is out of range and the integer default when that value is unconnected.",
+                        "de": "Wert am gewählten Index; None, wenn der Index außerhalb des Bereichs liegt, und der ganzzahlige Standardwert, wenn der Wert nicht verbunden ist."
+                    }
+                }
+            ],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "count",
+                    "label": {
+                        "en": "Values",
+                        "de": "Werte"
+                    },
+                    "default": 2,
+                    "affectsInputs": true,
+                    "options": [
+                        {
+                            "value": 2,
+                            "label": {
+                                "en": "2",
+                                "de": "2"
+                            },
+                            "activeInputs": [
+                                "index",
+                                "value_1",
+                                "value_2"
+                            ]
+                        },
+                        {
+                            "value": 3,
+                            "label": {
+                                "en": "3",
+                                "de": "3"
+                            },
+                            "activeInputs": [
+                                "index",
+                                "value_1",
+                                "value_2",
+                                "value_3"
+                            ]
+                        },
+                        {
+                            "value": 4,
+                            "label": {
+                                "en": "4",
+                                "de": "4"
+                            },
+                            "activeInputs": [
+                                "index",
+                                "value_1",
+                                "value_2",
+                                "value_3",
+                                "value_4"
+                            ]
+                        },
+                        {
+                            "value": 5,
+                            "label": {
+                                "en": "5",
+                                "de": "5"
+                            },
+                            "activeInputs": [
+                                "index",
+                                "value_1",
+                                "value_2",
+                                "value_3",
+                                "value_4",
+                                "value_5"
+                            ]
+                        },
+                        {
+                            "value": 6,
+                            "label": {
+                                "en": "6",
+                                "de": "6"
+                            },
+                            "activeInputs": [
+                                "index",
+                                "value_1",
+                                "value_2",
+                                "value_3",
+                                "value_4",
+                                "value_5",
+                                "value_6"
+                            ]
+                        },
+                        {
+                            "value": 7,
+                            "label": {
+                                "en": "7",
+                                "de": "7"
+                            },
+                            "activeInputs": [
+                                "index",
+                                "value_1",
+                                "value_2",
+                                "value_3",
+                                "value_4",
+                                "value_5",
+                                "value_6",
+                                "value_7"
+                            ]
+                        },
+                        {
+                            "value": 8,
+                            "label": {
+                                "en": "8",
+                                "de": "8"
+                            },
+                            "activeInputs": [
+                                "index",
+                                "value_1",
+                                "value_2",
+                                "value_3",
+                                "value_4",
+                                "value_5",
+                                "value_6",
+                                "value_7",
+                                "value_8"
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.selectIndexNode"
+                }
+            }
+        },
+        "compose": {
+            "title": {
+                "en": "Compose",
+                "de": "Zusammensetzen"
+            },
+            "info": {
+                "en": "Collects connected values into one immutable heterogeneous tuple; unconnected positions become None.",
+                "de": "Sammelt verbundene Werte in einem unveränderlichen heterogenen Tupel; nicht verbundene Positionen werden zu None."
+            },
+            "category": "data",
+            "color": "#4a6fa5",
+            "shape": "square",
+            "icon": "icons/call_merge_24dp.svg",
+            "inputs": [
+                {
+                    "id": "item_1",
+                    "name": {
+                        "en": "Item 1",
+                        "de": "Element 1"
+                    },
+                    "allowedTypes": [
+                        "any"
+                    ],
+                    "initialTypes": [
+                        "any"
+                    ],
+                    "description": {
+                        "en": "Value placed at tuple position 1; left unconnected it becomes None.",
+                        "de": "Wert an Tupelposition 1; ohne Verbindung wird daraus None."
+                    }
+                },
+                {
+                    "id": "item_2",
+                    "name": {
+                        "en": "Item 2",
+                        "de": "Element 2"
+                    },
+                    "allowedTypes": [
+                        "any"
+                    ],
+                    "initialTypes": [
+                        "any"
+                    ],
+                    "description": {
+                        "en": "Value placed at tuple position 2; left unconnected it becomes None.",
+                        "de": "Wert an Tupelposition 2; ohne Verbindung wird daraus None."
+                    }
+                },
+                {
+                    "id": "item_3",
+                    "name": {
+                        "en": "Item 3",
+                        "de": "Element 3"
+                    },
+                    "allowedTypes": [
+                        "any"
+                    ],
+                    "initialTypes": [
+                        "any"
+                    ],
+                    "description": {
+                        "en": "Value placed at tuple position 3; left unconnected it becomes None.",
+                        "de": "Wert an Tupelposition 3; ohne Verbindung wird daraus None."
+                    }
+                },
+                {
+                    "id": "item_4",
+                    "name": {
+                        "en": "Item 4",
+                        "de": "Element 4"
+                    },
+                    "allowedTypes": [
+                        "any"
+                    ],
+                    "initialTypes": [
+                        "any"
+                    ],
+                    "description": {
+                        "en": "Value placed at tuple position 4; left unconnected it becomes None.",
+                        "de": "Wert an Tupelposition 4; ohne Verbindung wird daraus None."
+                    }
+                },
+                {
+                    "id": "item_5",
+                    "name": {
+                        "en": "Item 5",
+                        "de": "Element 5"
+                    },
+                    "allowedTypes": [
+                        "any"
+                    ],
+                    "initialTypes": [
+                        "any"
+                    ],
+                    "description": {
+                        "en": "Value placed at tuple position 5; left unconnected it becomes None.",
+                        "de": "Wert an Tupelposition 5; ohne Verbindung wird daraus None."
+                    }
+                },
+                {
+                    "id": "item_6",
+                    "name": {
+                        "en": "Item 6",
+                        "de": "Element 6"
+                    },
+                    "allowedTypes": [
+                        "any"
+                    ],
+                    "initialTypes": [
+                        "any"
+                    ],
+                    "description": {
+                        "en": "Value placed at tuple position 6; left unconnected it becomes None.",
+                        "de": "Wert an Tupelposition 6; ohne Verbindung wird daraus None."
+                    }
+                },
+                {
+                    "id": "item_7",
+                    "name": {
+                        "en": "Item 7",
+                        "de": "Element 7"
+                    },
+                    "allowedTypes": [
+                        "any"
+                    ],
+                    "initialTypes": [
+                        "any"
+                    ],
+                    "description": {
+                        "en": "Value placed at tuple position 7; left unconnected it becomes None.",
+                        "de": "Wert an Tupelposition 7; ohne Verbindung wird daraus None."
+                    }
+                },
+                {
+                    "id": "item_8",
+                    "name": {
+                        "en": "Item 8",
+                        "de": "Element 8"
+                    },
+                    "allowedTypes": [
+                        "any"
+                    ],
+                    "initialTypes": [
+                        "any"
+                    ],
+                    "description": {
+                        "en": "Value placed at tuple position 8; left unconnected it becomes None.",
+                        "de": "Wert an Tupelposition 8; ohne Verbindung wird daraus None."
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "tuple",
+                    "name": {
+                        "en": "Tuple",
+                        "de": "Tupel"
+                    },
+                    "outputType": "core.tuple",
+                    "initialTypes": [
+                        "core.tuple"
+                    ],
+                    "description": {
+                        "en": "The composed tuple holding the selected number of positions.",
+                        "de": "Das zusammengesetzte Tupel mit der gewählten Anzahl an Positionen."
+                    }
+                }
+            ],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "count",
+                    "label": {
+                        "en": "Positions",
+                        "de": "Positionen"
+                    },
+                    "default": 2,
+                    "affectsInputs": true,
+                    "options": [
+                        {
+                            "value": 2,
+                            "label": {
+                                "en": "2",
+                                "de": "2"
+                            },
+                            "activeInputs": [
+                                "item_1",
+                                "item_2"
+                            ]
+                        },
+                        {
+                            "value": 3,
+                            "label": {
+                                "en": "3",
+                                "de": "3"
+                            },
+                            "activeInputs": [
+                                "item_1",
+                                "item_2",
+                                "item_3"
+                            ]
+                        },
+                        {
+                            "value": 4,
+                            "label": {
+                                "en": "4",
+                                "de": "4"
+                            },
+                            "activeInputs": [
+                                "item_1",
+                                "item_2",
+                                "item_3",
+                                "item_4"
+                            ]
+                        },
+                        {
+                            "value": 5,
+                            "label": {
+                                "en": "5",
+                                "de": "5"
+                            },
+                            "activeInputs": [
+                                "item_1",
+                                "item_2",
+                                "item_3",
+                                "item_4",
+                                "item_5"
+                            ]
+                        },
+                        {
+                            "value": 6,
+                            "label": {
+                                "en": "6",
+                                "de": "6"
+                            },
+                            "activeInputs": [
+                                "item_1",
+                                "item_2",
+                                "item_3",
+                                "item_4",
+                                "item_5",
+                                "item_6"
+                            ]
+                        },
+                        {
+                            "value": 7,
+                            "label": {
+                                "en": "7",
+                                "de": "7"
+                            },
+                            "activeInputs": [
+                                "item_1",
+                                "item_2",
+                                "item_3",
+                                "item_4",
+                                "item_5",
+                                "item_6",
+                                "item_7"
+                            ]
+                        },
+                        {
+                            "value": 8,
+                            "label": {
+                                "en": "8",
+                                "de": "8"
+                            },
+                            "activeInputs": [
+                                "item_1",
+                                "item_2",
+                                "item_3",
+                                "item_4",
+                                "item_5",
+                                "item_6",
+                                "item_7",
+                                "item_8"
+                            ]
+                        }
+                    ],
+                    "description": {
+                        "en": "Number of active tuple positions.",
+                        "de": "Anzahl der aktiven Tupelpositionen."
+                    }
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.composeNode"
+                }
+            }
+        },
+        "decompose": {
+            "title": {
+                "en": "Decompose",
+                "de": "Zerlegen"
+            },
+            "info": {
+                "en": "Reads one tuple position by position; positions the tuple does not have become None.",
+                "de": "Liest ein Tupel Position für Position; Positionen, die das Tupel nicht hat, werden zu None."
+            },
+            "category": "data",
+            "color": "#4a6fa5",
+            "shape": "square",
+            "icon": "icons/call_split_24dp.svg",
+            "inputs": [
+                {
+                    "id": "tuple",
+                    "name": {
+                        "en": "Tuple",
+                        "de": "Tupel"
+                    },
+                    "allowedTypes": [
+                        "core.tuple"
+                    ],
+                    "initialTypes": [
+                        "core.tuple"
+                    ],
+                    "description": {
+                        "en": "Tuple whose positions are read.",
+                        "de": "Tupel, dessen Positionen gelesen werden."
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "item_1",
+                    "name": {
+                        "en": "Item 1",
+                        "de": "Element 1"
+                    },
+                    "outputType": "any",
+                    "initialTypes": [
+                        "any"
+                    ],
+                    "description": {
+                        "en": "Position 1 of the tuple, or None when the tuple is shorter.",
+                        "de": "Position 1 des Tupels oder None, wenn das Tupel kürzer ist."
+                    }
+                },
+                {
+                    "id": "item_2",
+                    "name": {
+                        "en": "Item 2",
+                        "de": "Element 2"
+                    },
+                    "outputType": "any",
+                    "initialTypes": [
+                        "any"
+                    ],
+                    "description": {
+                        "en": "Position 2 of the tuple, or None when the tuple is shorter.",
+                        "de": "Position 2 des Tupels oder None, wenn das Tupel kürzer ist."
+                    }
+                },
+                {
+                    "id": "item_3",
+                    "name": {
+                        "en": "Item 3",
+                        "de": "Element 3"
+                    },
+                    "outputType": "any",
+                    "initialTypes": [
+                        "any"
+                    ],
+                    "description": {
+                        "en": "Position 3 of the tuple, or None when the tuple is shorter.",
+                        "de": "Position 3 des Tupels oder None, wenn das Tupel kürzer ist."
+                    }
+                },
+                {
+                    "id": "item_4",
+                    "name": {
+                        "en": "Item 4",
+                        "de": "Element 4"
+                    },
+                    "outputType": "any",
+                    "initialTypes": [
+                        "any"
+                    ],
+                    "description": {
+                        "en": "Position 4 of the tuple, or None when the tuple is shorter.",
+                        "de": "Position 4 des Tupels oder None, wenn das Tupel kürzer ist."
+                    }
+                },
+                {
+                    "id": "item_5",
+                    "name": {
+                        "en": "Item 5",
+                        "de": "Element 5"
+                    },
+                    "outputType": "any",
+                    "initialTypes": [
+                        "any"
+                    ],
+                    "description": {
+                        "en": "Position 5 of the tuple, or None when the tuple is shorter.",
+                        "de": "Position 5 des Tupels oder None, wenn das Tupel kürzer ist."
+                    }
+                },
+                {
+                    "id": "item_6",
+                    "name": {
+                        "en": "Item 6",
+                        "de": "Element 6"
+                    },
+                    "outputType": "any",
+                    "initialTypes": [
+                        "any"
+                    ],
+                    "description": {
+                        "en": "Position 6 of the tuple, or None when the tuple is shorter.",
+                        "de": "Position 6 des Tupels oder None, wenn das Tupel kürzer ist."
+                    }
+                },
+                {
+                    "id": "item_7",
+                    "name": {
+                        "en": "Item 7",
+                        "de": "Element 7"
+                    },
+                    "outputType": "any",
+                    "initialTypes": [
+                        "any"
+                    ],
+                    "description": {
+                        "en": "Position 7 of the tuple, or None when the tuple is shorter.",
+                        "de": "Position 7 des Tupels oder None, wenn das Tupel kürzer ist."
+                    }
+                },
+                {
+                    "id": "item_8",
+                    "name": {
+                        "en": "Item 8",
+                        "de": "Element 8"
+                    },
+                    "outputType": "any",
+                    "initialTypes": [
+                        "any"
+                    ],
+                    "description": {
+                        "en": "Position 8 of the tuple, or None when the tuple is shorter.",
+                        "de": "Position 8 des Tupels oder None, wenn das Tupel kürzer ist."
+                    }
+                }
+            ],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "count",
+                    "label": {
+                        "en": "Positions",
+                        "de": "Positionen"
+                    },
+                    "default": 2,
+                    "affectsOutputs": true,
+                    "options": [
+                        {
+                            "value": 2,
+                            "label": {
+                                "en": "2",
+                                "de": "2"
+                            },
+                            "activeOutputs": [
+                                "item_1",
+                                "item_2"
+                            ]
+                        },
+                        {
+                            "value": 3,
+                            "label": {
+                                "en": "3",
+                                "de": "3"
+                            },
+                            "activeOutputs": [
+                                "item_1",
+                                "item_2",
+                                "item_3"
+                            ]
+                        },
+                        {
+                            "value": 4,
+                            "label": {
+                                "en": "4",
+                                "de": "4"
+                            },
+                            "activeOutputs": [
+                                "item_1",
+                                "item_2",
+                                "item_3",
+                                "item_4"
+                            ]
+                        },
+                        {
+                            "value": 5,
+                            "label": {
+                                "en": "5",
+                                "de": "5"
+                            },
+                            "activeOutputs": [
+                                "item_1",
+                                "item_2",
+                                "item_3",
+                                "item_4",
+                                "item_5"
+                            ]
+                        },
+                        {
+                            "value": 6,
+                            "label": {
+                                "en": "6",
+                                "de": "6"
+                            },
+                            "activeOutputs": [
+                                "item_1",
+                                "item_2",
+                                "item_3",
+                                "item_4",
+                                "item_5",
+                                "item_6"
+                            ]
+                        },
+                        {
+                            "value": 7,
+                            "label": {
+                                "en": "7",
+                                "de": "7"
+                            },
+                            "activeOutputs": [
+                                "item_1",
+                                "item_2",
+                                "item_3",
+                                "item_4",
+                                "item_5",
+                                "item_6",
+                                "item_7"
+                            ]
+                        },
+                        {
+                            "value": 8,
+                            "label": {
+                                "en": "8",
+                                "de": "8"
+                            },
+                            "activeOutputs": [
+                                "item_1",
+                                "item_2",
+                                "item_3",
+                                "item_4",
+                                "item_5",
+                                "item_6",
+                                "item_7",
+                                "item_8"
+                            ]
+                        }
+                    ],
+                    "description": {
+                        "en": "Number of active tuple positions.",
+                        "de": "Anzahl der aktiven Tupelpositionen."
+                    }
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.decomposeNode"
+                }
+            }
+        },
+        "tuple-select": {
+            "title": {
+                "en": "Tuple Select",
+                "de": "Tupel-Auswahl"
+            },
+            "info": {
+                "en": "Returns the value at one zero-based tuple position; the selected index mode decides what an out-of-range position reads.",
+                "de": "Gibt den Wert an einer nullbasierten Tupelposition zurück; der gewählte Index-Modus entscheidet, was eine Position außerhalb des Tupels liest."
+            },
+            "category": "data",
+            "color": "#4a6fa5",
+            "shape": "square",
+            "icon": "icons/format_list_numbered_24dp.svg",
+            "inputs": [
+                {
+                    "id": "tuple",
+                    "name": {
+                        "en": "Tuple",
+                        "de": "Tupel"
+                    },
+                    "allowedTypes": [
+                        "core.tuple"
+                    ],
+                    "initialTypes": [
+                        "core.tuple"
+                    ],
+                    "description": {
+                        "en": "Tuple whose position is read.",
+                        "de": "Tupel, dessen Position gelesen wird."
+                    }
+                },
+                {
+                    "id": "index",
+                    "name": {
+                        "en": "Index",
+                        "de": "Index"
+                    },
+                    "allowedTypes": [
+                        "int",
+                        "float"
+                    ],
+                    "initialTypes": [
+                        "int",
+                        "float"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Index",
+                            "de": "Index"
+                        },
+                        "min": 0,
+                        "max": 100000,
+                        "step": 1,
+                        "default": 0
+                    },
+                    "description": {
+                        "en": "Zero-based position to read; fractions are truncated and the selected index mode decides how a position outside the tuple is resolved.",
+                        "de": "Nullbasierte zu lesende Position; Brüche werden abgeschnitten und der gewählte Index-Modus entscheidet, wie eine Position außerhalb des Tupels aufgelöst wird."
+                    }
+                },
+                {
+                    "id": "default",
+                    "name": {
+                        "en": "Default",
+                        "de": "Standardwert"
+                    },
+                    "allowedTypes": [
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "int"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Default",
+                            "de": "Standardwert"
+                        },
+                        "min": -100000,
+                        "max": 100000,
+                        "step": 1,
+                        "default": 0
+                    },
+                    "description": {
+                        "en": "Value read instead of the element when the position is out of range in Default Value mode.",
+                        "de": "Wert, der im Modus Standardwert statt des Elements gelesen wird, wenn die Position außerhalb liegt."
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "outputType": "any",
+                    "initialTypes": [
+                        "any"
+                    ],
+                    "description": {
+                        "en": "Value at the selected position; Default Value mode falls back to the Default connector when the tuple is missing, not a tuple, or too short.",
+                        "de": "Wert an der gewählten Position; im Modus Standardwert wird auf den Standardwert-Eingang zurückgegriffen, wenn das Tupel fehlt, kein Tupel ist oder zu kurz ist."
+                    }
+                }
+            ],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "indexMode",
+                    "label": {
+                        "en": "Index Mode",
+                        "de": "Index-Modus"
+                    },
+                    "affectsInputs": true,
+                    "options": [
+                        {
+                            "value": "default",
+                            "label": {
+                                "en": "Default Value",
+                                "de": "Standardwert"
+                            },
+                            "activeInputs": [
+                                "tuple",
+                                "index",
+                                "default"
+                            ]
+                        },
+                        {
+                            "value": "clamp",
+                            "label": {
+                                "en": "Clamp",
+                                "de": "Begrenzen"
+                            },
+                            "activeInputs": [
+                                "tuple",
+                                "index"
+                            ]
+                        },
+                        {
+                            "value": "wrap",
+                            "label": {
+                                "en": "Wrap",
+                                "de": "Umlauf"
+                            },
+                            "activeInputs": [
+                                "tuple",
+                                "index"
+                            ]
+                        }
+                    ],
+                    "default": "default",
+                    "description": {
+                        "en": "How a position outside 0..len-1 is resolved: return the default value, clamp to the first or last position, or wrap around the tuple.",
+                        "de": "Wie eine Position außerhalb 0..len-1 aufgelöst wird: Standardwert zurückgeben, auf die erste oder letzte Position begrenzen oder im Tupel umlaufen."
+                    }
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.tupleSelectNode"
+                }
+            }
+        }
+    }
+}

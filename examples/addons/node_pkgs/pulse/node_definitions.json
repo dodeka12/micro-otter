@@ -1,0 +1,140 @@
+{
+    "nodeTypes": {
+        "tick": {
+            "title": {
+                "en": "Pulse",
+                "de": "Impuls"
+            },
+            "info": {
+                "en": "Emits a value while a square wave is high and 0 while it is low.\n\nThe phase comes from `time.ticks_ms()`, so the wave restarts on boot and two Pulse nodes with the same interval stay in step.\n\n- **Interval** — full period in milliseconds.\n- **Duty** — share of the period spent high (percent).\n- **Invert** — swap the high and low phases.\n- **Value** — the value emitted while the wave is high; 0 is emitted while it is low.\n\nTry it: set **Interval** to 1000 and **Duty** to 50, wire **Out** to a Single LED, then deploy. The LED lights for half a second and stays dark for half a second.\n\nBoth implementations share the same API. The default implementation calls `moa_pulse.high()`; the viper variant calls `moa_pulse_viper.high()`, and the generated program imports whichever module the firmware staged.\n\nLicence: GPL-3.0-only. The full licence text ships as `LICENSE` in this add-on package.",
+                "de": "Gibt einen Wert aus, während eine Rechteckwelle high ist, und 0, während sie low ist.\n\nDie Phase wird aus `time.ticks_ms()` abgeleitet: Die Welle startet bei jedem Gerätestart neu, und zwei Pulse-Knoten mit gleichem Intervall laufen im Gleichschritt.\n\n- **Intervall** — volle Periodendauer in Millisekunden.\n- **Tastgrad** — Anteil der Periode, der high ist (Prozent).\n- **Invertieren** — vertauscht die high- und low-Phase.\n- **Wert** — der Wert, der ausgegeben wird, solange die Welle high ist; während der low-Phase wird 0 ausgegeben.\n\nAusprobieren: **Intervall** auf 1000 und **Tastgrad** auf 50 setzen, **Ausgang** mit einer Einzel-LED verbinden und bereitstellen. Die LED leuchtet eine halbe Sekunde und bleibt eine halbe Sekunde dunkel.\n\nBeide Implementierungen nutzen dieselbe API. Die Basis-Implementierung ruft `moa_pulse.high()` auf; die Viper-Variante ruft `moa_pulse_viper.high()` auf, und das generierte Programm importiert das Modul, das die Firmware bereitgestellt hat.\n\nLizenz: GPL-3.0-only. Der vollständige Lizenztext liegt als `LICENSE` im Paket dieses Add-ons."
+            },
+            "category": "time",
+            "color": "#5b7fc7",
+            "shape": "square",
+            "icon": "icons/vital_signs_24dp.svg",
+            "executionPhase": "both",
+            "inputs": [
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "description": {
+                        "en": "The value emitted while the wave is high.",
+                        "de": "Der Wert, der ausgegeben wird, solange die Welle high ist."
+                    },
+                    "allowedTypes": [
+                        "int",
+                        "float",
+                        "double",
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Value",
+                            "de": "Wert"
+                        },
+                        "min": 0,
+                        "max": 100,
+                        "step": 1,
+                        "default": 1
+                    }
+                },
+                {
+                    "id": "interval",
+                    "name": {
+                        "en": "Interval",
+                        "de": "Intervall"
+                    },
+                    "description": {
+                        "en": "Full period of the square wave in milliseconds.",
+                        "de": "Volle Periodendauer der Rechteckwelle in Millisekunden."
+                    },
+                    "allowedTypes": [
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Interval",
+                            "de": "Intervall"
+                        },
+                        "min": 1,
+                        "max": 60000,
+                        "step": 1,
+                        "default": 1000
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "out",
+                    "name": {
+                        "en": "Out",
+                        "de": "Ausgang"
+                    },
+                    "description": {
+                        "en": "The value while the wave is high, or 0 while it is low.",
+                        "de": "Der Wert, solange die Welle high ist, oder 0, solange sie low ist."
+                    },
+                    "outputType": "int",
+                    "initialTypes": [
+                        "int"
+                    ],
+                    "typeInputSources": [
+                        "value"
+                    ],
+                    "phase": "loop"
+                }
+            ],
+            "controls": [
+                {
+                    "type": "number",
+                    "id": "duty",
+                    "label": {
+                        "en": "Duty",
+                        "de": "Tastgrad"
+                    },
+                    "min": 0,
+                    "max": 100,
+                    "step": 1,
+                    "default": 50,
+                    "description": {
+                        "en": "Share of the period spent high, as a percentage.",
+                        "de": "Anteil der Periode, der high ist, in Prozent."
+                    }
+                },
+                {
+                    "type": "checkbox",
+                    "id": "invert",
+                    "label": {
+                        "en": "Invert",
+                        "de": "Invertieren"
+                    },
+                    "default": false,
+                    "description": {
+                        "en": "Swap the high and low phases of the wave.",
+                        "de": "Vertauscht die high- und low-Phase der Welle."
+                    }
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.moaPulseTick"
+                }
+            }
+        }
+    }
+}

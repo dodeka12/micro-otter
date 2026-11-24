@@ -1,0 +1,347 @@
+/*
+ * Documentation areas ("group boxes").
+ *
+ * Two stacked layers per graph panel:
+ *
+ * - `.graph-panel-view__documentation` — the readable content (title + Markdown body), sandwiched
+ *   between the background and the node canvases, so text never covers a node.
+ * - `.graph-panel-view__documentation-chrome` — the interactive chrome (burger, inline editors),
+ *   above the node canvas. It must be above the canvas: a control underneath a canvas never
+ *   receives a click, which would make the burger unclickable and the editors untypeable.
+ *
+ * Colour contract: the three `--doc-area-*` variables are written per element by
+ * `graph-panel-documentation-layer.ts` via `rgbaFromHex()`, so the stored `#rrggbb` value and the
+ * fixed alphas are the only source of colour. Nothing here may hard-code an opacity.
+ */
+
+.graph-panel-view__documentation {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    transform-origin: 0 0;
+    will-change: transform;
+}
+
+/* Chrome layer: same box and same transform as the content layer, but above the node canvas. */
+.graph-panel-view__documentation-chrome {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    transform-origin: 0 0;
+    will-change: transform;
+}
+
+.graph-panel-doc-area {
+    position: absolute;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--doc-area-fill, rgba(74, 144, 217, 0.16));
+    border: 1.5px solid var(--doc-area-border, rgba(74, 144, 217, 0.65));
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+/*
+ * Text-size presets. Both roots carry the same `data-font-size`, so the rendered body and the
+ * inline Markdown editor inherit one variable. The title does not use it and stays at 16px.
+ */
+.graph-panel-doc-area,
+.graph-panel-doc-chrome {
+    --doc-area-font-size: 11px;
+}
+
+.graph-panel-doc-area[data-font-size='small'],
+.graph-panel-doc-chrome[data-font-size='small'] {
+    --doc-area-font-size: 9px;
+}
+
+.graph-panel-doc-area[data-font-size='normal'],
+.graph-panel-doc-chrome[data-font-size='normal'] {
+    --doc-area-font-size: 11px;
+}
+
+.graph-panel-doc-area[data-font-size='large'],
+.graph-panel-doc-chrome[data-font-size='large'] {
+    --doc-area-font-size: 14px;
+}
+
+.graph-panel-doc-area--active {
+    border-width: 2.5px;
+}
+
+.graph-panel-doc-area__header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Symmetric padding leaves the title centred while the burger overlays the left gutter. */
+    padding: 4px 32px;
+    min-height: 32px;
+    box-sizing: border-box;
+    pointer-events: none;
+    flex: 0 0 auto;
+}
+
+.graph-panel-doc-area__title {
+    margin: 0;
+    flex: 1 1 auto;
+    min-width: 0;
+    text-align: center;
+    /* A title, not body text: this is the only large type in a documentation area. */
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 22px;
+    color: var(--doc-area-color, #4a90d9);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.graph-panel-doc-area[data-untitled='true'] .graph-panel-doc-area__title {
+    font-style: italic;
+    opacity: 0.7;
+}
+
+.graph-panel-doc-area[data-renaming='true'] .graph-panel-doc-area__title {
+    visibility: hidden;
+}
+
+/* Chrome root: an invisible, click-through box that carries the area's absolute geometry. */
+.graph-panel-doc-chrome {
+    position: absolute;
+    pointer-events: none;
+}
+
+.graph-panel-doc-chrome__menu {
+    position: absolute;
+    /* The chrome root spans the whole box; 4px centres the 24px button in the 32px header row. */
+    top: 4px;
+    left: 4px;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: none;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--doc-area-color, #4a90d9);
+    cursor: pointer;
+    /* The only always-visible control: it has to catch the left click itself. */
+    pointer-events: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.graph-panel-doc-chrome__menu:hover {
+    background: var(--mo-hover-bg, rgba(255, 255, 255, 0.12));
+}
+
+.graph-panel-doc-chrome__menu img,
+.graph-panel-doc-chrome__menu svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+.graph-panel-doc-area__body {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 0 8px 8px;
+    overflow: auto;
+    font-size: var(--doc-area-font-size, 11px);
+    line-height: 1.45;
+    color: var(--mo-text-primary, #d7dde7);
+    pointer-events: none;
+}
+
+/*
+ * An empty body stays laid out (it is empty, so there is nothing to see): the inline editor is
+ * placed from its offsets, and `display: none` would collapse those to zero and shrink the editor.
+ */
+.graph-panel-doc-area__body[data-empty='true'] {
+    visibility: hidden;
+}
+
+.graph-panel-doc-area__content {
+    flex: 0 0 auto;
+}
+
+/*
+ * Body alignment: `auto` margins push the content block to the bottom of the box. When the text is
+ * taller than the box the free space is negative, the auto margin resolves to 0 and the body
+ * scrolls from the top instead of clipping the first lines.
+ */
+.graph-panel-doc-area[data-align='bottom'] .graph-panel-doc-area__content {
+    margin-top: auto;
+}
+
+/* Inline editors: absolutely placed over the content they cover, in the chrome layer. */
+.graph-panel-doc-chrome__editor,
+.graph-panel-doc-chrome__title-editor {
+    position: absolute;
+    box-sizing: border-box;
+    margin: 0;
+    color: var(--mo-text-primary, #d7dde7);
+    background: var(--mo-surface-sunken, rgba(0, 0, 0, 0.75));
+    border: 1px solid var(--doc-area-border, rgba(74, 144, 217, 0.65));
+    border-radius: 4px;
+    pointer-events: auto;
+}
+
+/*
+ * Inset defaults mirror the header/body geometry. `#placeOver()` overrides them with the measured
+ * offsets of the content element; if that measurement is degenerate (a collapsed box) these stay in
+ * force and the editor still covers the whole body instead of shrinking to a 10x10 sliver.
+ */
+.graph-panel-doc-chrome__editor {
+    top: 32px;
+    right: 8px;
+    bottom: 8px;
+    left: 8px;
+    resize: none;
+    padding: 4px;
+    font-family: var(--mo-font-mono, monospace);
+    font-size: var(--doc-area-font-size, 11px);
+    line-height: 1.45;
+}
+
+.graph-panel-doc-chrome__title-editor {
+    top: 5px;
+    right: 32px;
+    left: 32px;
+    height: 22px;
+    padding: 0 4px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 22px;
+    color: var(--doc-area-color, #4a90d9);
+}
+
+/* Keep the focus ring, but in the area's colour instead of the browser default. */
+.graph-panel-doc-chrome__editor:focus,
+.graph-panel-doc-chrome__title-editor:focus {
+    outline: 1px solid var(--doc-area-color, #4a90d9);
+    outline-offset: 0;
+}
+
+.graph-panel-doc-area__resize {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 14px;
+    height: 14px;
+    pointer-events: none;
+    background-image: linear-gradient(
+        135deg,
+        transparent 0 55%,
+        var(--doc-area-border, rgba(74, 144, 217, 0.65)) 55% 70%,
+        transparent 70% 80%,
+        var(--doc-area-border, rgba(74, 144, 217, 0.65)) 80% 95%,
+        transparent 95%
+    );
+}
+
+/* Markdown element styles, scoped to a documentation-area body. */
+.graph-panel-doc-area__body p {
+    margin: 0 0 4px;
+}
+
+.graph-panel-doc-area__body ul,
+.graph-panel-doc-area__body ol {
+    margin: 0 0 4px;
+    padding-left: 16px;
+}
+
+.graph-panel-doc-area__body blockquote {
+    margin: 0 0 4px;
+    padding-left: 6px;
+    border-left: 2px solid var(--doc-area-border, rgba(74, 144, 217, 0.65));
+    opacity: 0.85;
+}
+
+.graph-panel-doc-area__body code {
+    padding: 0 2px;
+    border-radius: 2px;
+    background: var(--mo-surface-sunken, rgba(0, 0, 0, 0.3));
+    font-family: var(--mo-font-mono, monospace);
+}
+
+.graph-panel-doc-area__body .doc-area__code {
+    margin: 0 0 4px;
+    padding: 4px;
+    overflow: auto;
+    border-radius: 3px;
+    background: var(--mo-surface-sunken, rgba(0, 0, 0, 0.3));
+}
+
+.graph-panel-doc-area__body .doc-area__code code {
+    padding: 0;
+    background: none;
+}
+
+.graph-panel-doc-area__body a {
+    color: var(--doc-area-color, #4a90d9);
+    text-decoration: underline;
+}
+
+.graph-panel-doc-area__body h1,
+.graph-panel-doc-area__body h2,
+.graph-panel-doc-area__body h3,
+.graph-panel-doc-area__body h4,
+.graph-panel-doc-area__body h5,
+.graph-panel-doc-area__body h6 {
+    margin: 0 0 4px;
+    line-height: 1.3;
+    color: var(--doc-area-color, #4a90d9);
+}
+
+/* Headings stay one step above body text at every preset, preserving the Normal sizes. */
+.graph-panel-doc-area__body h1 {
+    font-size: calc(var(--doc-area-font-size, 11px) + 4px);
+}
+
+.graph-panel-doc-area__body h2 {
+    font-size: calc(var(--doc-area-font-size, 11px) + 3px);
+}
+
+.graph-panel-doc-area__body h3 {
+    font-size: calc(var(--doc-area-font-size, 11px) + 2px);
+}
+
+.graph-panel-doc-area__body h4,
+.graph-panel-doc-area__body h5,
+.graph-panel-doc-area__body h6 {
+    font-size: var(--doc-area-font-size, 11px);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.graph-panel-doc-area__body hr {
+    border: none;
+    border-top: 1px solid var(--doc-area-border, rgba(74, 144, 217, 0.65));
+    margin: 4px 0;
+}
+
+.graph-panel-doc-area__body .doc-area__math-fallback {
+    font-style: italic;
+    font-family: var(--mo-font-mono, monospace);
+    opacity: 0.75;
+}
+
+.graph-panel-doc-area__body .doc-area__raw {
+    margin: 0;
+    white-space: pre-wrap;
+    font-family: var(--mo-font-mono, monospace);
+    opacity: 0.8;
+}
+
+/* Hover feedback: the border switches from translucent to the full stored colour. */
+.graph-panel-doc-area[data-hover='true'] {
+    border-color: var(--doc-area-color, #4a90d9);
+}

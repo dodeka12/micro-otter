@@ -1,0 +1,966 @@
+{
+    "nodeTypes": {
+        "mqtt-read": {
+            "title": {
+                "en": "MQTT Read",
+                "de": "MQTT lesen"
+            },
+            "info": {
+                "en": "Reads the latest value from a subscribed MQTT topic.",
+                "de": "Liest den letzten Wert eines abonnierten MQTT-Topics."
+            },
+            "category": "mqtt",
+            "color": "#4a6fa5",
+            "shape": "square",
+            "icon": "icons/cloud_download_24dp.svg",
+            "inputs": [
+                {
+                    "id": "default",
+                    "name": {
+                        "en": "Default",
+                        "de": "Standard"
+                    },
+                    "description": {
+                        "en": "Value emitted while no usable message is available.",
+                        "de": "Wert, der ausgegeben wird, solange keine nutzbare Nachricht vorliegt."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int",
+                        "bool",
+                        "string"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Default",
+                            "de": "Standard"
+                        },
+                        "min": -100000,
+                        "max": 100000,
+                        "step": 0.01,
+                        "default": 0
+                    }
+                }
+            ],
+            "outputs": [
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "description": {
+                        "en": "Latest value received from the topic.",
+                        "de": "Zuletzt vom Topic empfangener Wert."
+                    },
+                    "outputType": "string",
+                    "initialTypes": [
+                        "float",
+                        "int",
+                        "bool",
+                        "string"
+                    ],
+                    "outputTypeControl": "valueType",
+                    "outputTypeByControlValue": {
+                        "float": "float",
+                        "int": "int",
+                        "bool": "bool",
+                        "string": "string"
+                    }
+                },
+                {
+                    "id": "updated",
+                    "name": {
+                        "en": "Updated",
+                        "de": "Aktualisiert"
+                    },
+                    "description": {
+                        "en": "True when a new usable message arrived this cycle.",
+                        "de": "True, wenn in diesem Zyklus eine neue nutzbare Nachricht ankam."
+                    },
+                    "outputType": "bool",
+                    "initialTypes": [
+                        "bool"
+                    ]
+                }
+            ],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "topic",
+                    "label": {
+                        "en": "Topic",
+                        "de": "Topic"
+                    },
+                    "description": {
+                        "en": "Topic already used in this graph, or create a new one.",
+                        "de": "Bereits im Graphen verwendetes Topic oder ein neues anlegen."
+                    },
+                    "required": true,
+                    "affectsControls": true,
+                    "default": "",
+                    "dynamicOptions": {
+                        "source": "graphTopics",
+                        "newTopicControls": [
+                            "customTopic"
+                        ]
+                    }
+                },
+                {
+                    "type": "text",
+                    "id": "customTopic",
+                    "label": {
+                        "en": "New topic",
+                        "de": "Neues Topic"
+                    },
+                    "description": {
+                        "en": "Full topic path to read from, e.g. home/sensor/temperature.",
+                        "de": "Vollständiger Topic-Pfad, z. B. home/sensor/temperature."
+                    },
+                    "default": ""
+                },
+                {
+                    "type": "dropdown",
+                    "id": "payloadMode",
+                    "label": {
+                        "en": "Payload Mode",
+                        "de": "Nutzlastmodus"
+                    },
+                    "description": {
+                        "en": "Single value or one JSON object written into a variable store.",
+                        "de": "Einzelwert oder ein JSON-Objekt, das in einen Variablenspeicher geschrieben wird."
+                    },
+                    "default": "value",
+                    "affectsControls": true,
+                    "options": [
+                        {
+                            "value": "value",
+                            "label": {
+                                "en": "Single value",
+                                "de": "Einzelwert"
+                            },
+                            "activeControls": [
+                                "valueType",
+                                "jsonKey"
+                            ]
+                        },
+                        {
+                            "value": "json-store",
+                            "label": {
+                                "en": "JSON to store",
+                                "de": "JSON in Speicher"
+                            },
+                            "activeControls": [
+                                "storeNamespace"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "text",
+                    "id": "storeNamespace",
+                    "label": {
+                        "en": "Store",
+                        "de": "Speicher"
+                    },
+                    "description": {
+                        "en": "Variables namespace that receives one entry per JSON key. Keys are created as needed.",
+                        "de": "Variablen-Namespace, der pro JSON-Schlüssel einen Eintrag erhält. Schlüssel werden bei Bedarf angelegt."
+                    },
+                    "default": ""
+                },
+                {
+                    "type": "dropdown",
+                    "id": "qos",
+                    "label": {
+                        "en": "QoS",
+                        "de": "QoS"
+                    },
+                    "description": {
+                        "en": "Subscription quality of service.",
+                        "de": "Quality of Service des Abonnements."
+                    },
+                    "default": 0,
+                    "options": [
+                        {
+                            "value": 0,
+                            "label": {
+                                "en": "0 — At most once",
+                                "de": "0 — höchstens einmal"
+                            }
+                        },
+                        {
+                            "value": 1,
+                            "label": {
+                                "en": "1 — At least once",
+                                "de": "1 — mindestens einmal"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "dropdown",
+                    "id": "valueType",
+                    "label": {
+                        "en": "Value Type",
+                        "de": "Werttyp"
+                    },
+                    "description": {
+                        "en": "How the incoming payload is interpreted.",
+                        "de": "Wie die eingehende Nutzlast interpretiert wird."
+                    },
+                    "default": "string",
+                    "options": [
+                        {
+                            "value": "string",
+                            "label": {
+                                "en": "String",
+                                "de": "Text"
+                            }
+                        },
+                        {
+                            "value": "float",
+                            "label": {
+                                "en": "Float",
+                                "de": "Fließkomma"
+                            }
+                        },
+                        {
+                            "value": "int",
+                            "label": {
+                                "en": "Int",
+                                "de": "Ganzzahl"
+                            }
+                        },
+                        {
+                            "value": "bool",
+                            "label": {
+                                "en": "Bool",
+                                "de": "Boolesch"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "text",
+                    "id": "jsonKey",
+                    "label": {
+                        "en": "JSON Key",
+                        "de": "JSON-Schlüssel"
+                    },
+                    "description": {
+                        "en": "Optional key to extract from a JSON payload.",
+                        "de": "Optionaler Schlüssel, der aus einer JSON-Nutzlast extrahiert wird."
+                    },
+                    "default": ""
+                },
+                {
+                    "type": "checkbox",
+                    "id": "defaultWhenDisconnected",
+                    "label": {
+                        "en": "Default on Dis.",
+                        "de": "Standard bei Trennung"
+                    },
+                    "description": {
+                        "en": "Emit the default value whenever no usable message arrived since the current connection was established.",
+                        "de": "Den Standardwert ausgeben, solange seit dem aktuellen Verbindungsaufbau keine nutzbare Nachricht ankam."
+                    },
+                    "default": false
+                }
+            ],
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.mqttRead"
+                }
+            },
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.mqttRead"
+                }
+            },
+            "initFunction": "init_mqtt"
+        },
+        "mqtt-status": {
+            "title": {
+                "en": "MQTT Status",
+                "de": "MQTT-Status"
+            },
+            "info": {
+                "en": "True while the MQTT connection to the broker is up.",
+                "de": "True, solange die MQTT-Verbindung zum Broker steht."
+            },
+            "category": "mqtt",
+            "color": "#4a6fa5",
+            "shape": "square",
+            "icon": "icons/cloud_check_24dp.svg",
+            "inputs": [],
+            "outputs": [
+                {
+                    "id": "connected",
+                    "name": {
+                        "en": "Connected",
+                        "de": "Verbunden"
+                    },
+                    "description": {
+                        "en": "True while the broker connection is established.",
+                        "de": "True, solange die Broker-Verbindung besteht."
+                    },
+                    "outputType": "bool",
+                    "initialTypes": [
+                        "bool"
+                    ]
+                }
+            ],
+            "controls": [],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.mqttStatus"
+                }
+            }
+        },
+        "mqtt-write": {
+            "title": {
+                "en": "MQTT Write",
+                "de": "MQTT schreiben"
+            },
+            "info": {
+                "en": "Publishes a value to an MQTT topic.",
+                "de": "Veröffentlicht einen Wert auf einem MQTT-Topic."
+            },
+            "category": "mqtt",
+            "color": "#5b7fc7",
+            "shape": "square",
+            "icon": "icons/cloud_upload_24dp.svg",
+            "inputs": [
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    },
+                    "description": {
+                        "en": "When off, no MQTT message is published.",
+                        "de": "Wenn deaktiviert, wird keine MQTT-Nachricht gesendet."
+                    }
+                },
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "description": {
+                        "en": "Value to publish.",
+                        "de": "Zu veröffentlichender Wert."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int",
+                        "bool",
+                        "string"
+                    ],
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Value",
+                            "de": "Wert"
+                        },
+                        "min": -100000,
+                        "max": 100000,
+                        "step": 0.01,
+                        "default": 0
+                    }
+                }
+            ],
+            "outputs": [],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "topic",
+                    "label": {
+                        "en": "Topic",
+                        "de": "Topic"
+                    },
+                    "description": {
+                        "en": "Topic already used in this graph, or create a new one.",
+                        "de": "Bereits im Graphen verwendetes Topic oder ein neues anlegen."
+                    },
+                    "required": true,
+                    "affectsControls": true,
+                    "default": "",
+                    "dynamicOptions": {
+                        "source": "graphTopics",
+                        "newTopicControls": [
+                            "customTopic"
+                        ]
+                    }
+                },
+                {
+                    "type": "text",
+                    "id": "customTopic",
+                    "label": {
+                        "en": "New topic",
+                        "de": "Neues Topic"
+                    },
+                    "description": {
+                        "en": "Full topic path to publish to, e.g. home/sensor/temperature.",
+                        "de": "Vollständiger Topic-Pfad, z. B. home/sensor/temperature."
+                    },
+                    "default": ""
+                },
+                {
+                    "type": "dropdown",
+                    "id": "payloadMode",
+                    "label": {
+                        "en": "Payload Mode",
+                        "de": "Nutzlastmodus"
+                    },
+                    "description": {
+                        "en": "Publish the input value, or the whole variable store as one JSON object.",
+                        "de": "Den Eingabewert oder den gesamten Variablenspeicher als ein JSON-Objekt veröffentlichen."
+                    },
+                    "default": "value",
+                    "affectsControls": true,
+                    "options": [
+                        {
+                            "value": "value",
+                            "label": {
+                                "en": "Single value",
+                                "de": "Einzelwert"
+                            }
+                        },
+                        {
+                            "value": "json-store",
+                            "label": {
+                                "en": "JSON from store",
+                                "de": "JSON aus Speicher"
+                            },
+                            "activeControls": [
+                                "storeNamespace"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "text",
+                    "id": "storeNamespace",
+                    "label": {
+                        "en": "Store",
+                        "de": "Speicher"
+                    },
+                    "description": {
+                        "en": "Variables namespace whose entries are published as one JSON object.",
+                        "de": "Variablen-Namespace, dessen Einträge als ein JSON-Objekt veröffentlicht werden."
+                    },
+                    "default": ""
+                },
+                {
+                    "type": "dropdown",
+                    "id": "qos",
+                    "label": {
+                        "en": "QoS",
+                        "de": "QoS"
+                    },
+                    "description": {
+                        "en": "Publish quality of service.",
+                        "de": "Quality of Service der Veröffentlichung."
+                    },
+                    "default": 0,
+                    "options": [
+                        {
+                            "value": 0,
+                            "label": {
+                                "en": "0 — At most once",
+                                "de": "0 — höchstens einmal"
+                            }
+                        },
+                        {
+                            "value": 1,
+                            "label": {
+                                "en": "1 — At least once",
+                                "de": "1 — mindestens einmal"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "checkbox",
+                    "id": "retain",
+                    "label": {
+                        "en": "Retain",
+                        "de": "Behalten"
+                    },
+                    "description": {
+                        "en": "Publish the message as retained. Recommended for state topics, since brokers keep the last value for new subscribers.",
+                        "de": "Nachricht als retained veröffentlichen. Empfohlen für Status-Topics, da der Broker den letzten Wert für neue Abonnenten vorhält."
+                    },
+                    "default": true
+                },
+                {
+                    "type": "dropdown",
+                    "id": "publishMode",
+                    "label": {
+                        "en": "Publish Mode",
+                        "de": "Veröffentlichungsmodus"
+                    },
+                    "description": {
+                        "en": "Publish only when the value changes, or every loop.",
+                        "de": "Nur bei Wertänderung oder in jeder Schleife veröffentlichen."
+                    },
+                    "default": "on-change",
+                    "options": [
+                        {
+                            "value": "on-change",
+                            "label": {
+                                "en": "On change",
+                                "de": "Bei Änderung"
+                            }
+                        },
+                        {
+                            "value": "every-loop",
+                            "label": {
+                                "en": "Every loop",
+                                "de": "Jede Schleife"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.mqttWrite"
+                }
+            },
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.mqttWrite"
+                }
+            },
+            "initFunction": "init_mqtt"
+        },
+        "mqtt-will": {
+            "title": {
+                "en": "MQTT Will",
+                "de": "MQTT-Testament"
+            },
+            "info": {
+                "en": "Let the broker publish a payload if this device disconnects uncleanly.",
+                "de": "Lässt den Broker eine Nutzlast senden, wenn dieses Gerät die Verbindung unsauber verliert."
+            },
+            "category": "mqtt",
+            "color": "#4a6fa5",
+            "shape": "square",
+            "icon": "icons/cloud_off_24dp.svg",
+            "inputs": [],
+            "outputs": [],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "willTopic",
+                    "label": {
+                        "en": "Topic",
+                        "de": "Topic"
+                    },
+                    "description": {
+                        "en": "Topic the broker publishes the will to, e.g. home/device/status.",
+                        "de": "Topic, auf dem der Broker das Testament veröffentlicht, z. B. home/device/status."
+                    },
+                    "required": true,
+                    "affectsControls": true,
+                    "default": "",
+                    "dynamicOptions": {
+                        "source": "graphTopics",
+                        "newTopicControls": [
+                            "customWillTopic"
+                        ]
+                    }
+                },
+                {
+                    "type": "text",
+                    "id": "customWillTopic",
+                    "label": {
+                        "en": "New topic",
+                        "de": "Neues Topic"
+                    },
+                    "description": {
+                        "en": "Full topic path for the will, e.g. home/device/status.",
+                        "de": "Vollständiger Topic-Pfad für das Testament, z. B. home/device/status."
+                    },
+                    "default": ""
+                },
+                {
+                    "type": "text",
+                    "id": "willPayload",
+                    "label": {
+                        "en": "Payload",
+                        "de": "Nutzlast"
+                    },
+                    "description": {
+                        "en": "Payload the broker publishes when the link dies uncleanly.",
+                        "de": "Nutzlast, die der Broker veröffentlicht, wenn die Verbindung unsauber abbricht."
+                    },
+                    "default": "offline"
+                },
+                {
+                    "type": "checkbox",
+                    "id": "willRetain",
+                    "label": {
+                        "en": "Retain",
+                        "de": "Behalten"
+                    },
+                    "description": {
+                        "en": "Keep the will as the retained value of the topic.",
+                        "de": "Das Testament als retained Wert des Topics behalten."
+                    },
+                    "default": true
+                },
+                {
+                    "type": "dropdown",
+                    "id": "willQos",
+                    "label": {
+                        "en": "QoS",
+                        "de": "QoS"
+                    },
+                    "description": {
+                        "en": "Quality of service of the will delivery.",
+                        "de": "Quality of Service der Testament-Zustellung."
+                    },
+                    "default": 0,
+                    "options": [
+                        {
+                            "value": 0,
+                            "label": {
+                                "en": "0 — At most once",
+                                "de": "0 — höchstens einmal"
+                            }
+                        },
+                        {
+                            "value": 1,
+                            "label": {
+                                "en": "1 — At least once",
+                                "de": "1 — mindestens einmal"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.mqttWill"
+                }
+            },
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.mqttWill"
+                }
+            },
+            "initFunction": "init_mqtt"
+        },
+        "mqtt-announce": {
+            "title": {
+                "en": "MQTT Announce",
+                "de": "MQTT-Ankündigung"
+            },
+            "info": {
+                "en": "Publish a retained payload now, again after every reconnect and when a trigger topic fires.",
+                "de": "Veröffentlicht eine retained Nutzlast jetzt, erneut nach jedem Verbindungsaufbau und wenn ein Auslöser-Topic eintrifft."
+            },
+            "category": "mqtt",
+            "color": "#4a6fa5",
+            "shape": "round",
+            "icon": "icons/campaign_24dp.svg",
+            "inputs": [
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    },
+                    "description": {
+                        "en": "When off, no MQTT message is published.",
+                        "de": "Wenn deaktiviert, wird keine MQTT-Nachricht gesendet."
+                    }
+                },
+                {
+                    "id": "payload",
+                    "name": {
+                        "en": "Payload",
+                        "de": "Nutzlast"
+                    },
+                    "description": {
+                        "en": "Value to announce. Replaces the Payload control when connected.",
+                        "de": "Auszukündigender Wert. Ersetzt die Nutzlast-Steuerung, wenn verbunden."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int",
+                        "bool",
+                        "string"
+                    ]
+                }
+            ],
+            "outputs": [],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "announceTopic",
+                    "label": {
+                        "en": "Topic",
+                        "de": "Topic"
+                    },
+                    "description": {
+                        "en": "Topic the retained announcement is published to.",
+                        "de": "Topic, auf dem die retained Ankündigung veröffentlicht wird."
+                    },
+                    "required": true,
+                    "affectsControls": true,
+                    "default": "",
+                    "dynamicOptions": {
+                        "source": "graphTopics",
+                        "newTopicControls": [
+                            "customAnnounceTopic"
+                        ]
+                    }
+                },
+                {
+                    "type": "text",
+                    "id": "customAnnounceTopic",
+                    "label": {
+                        "en": "New topic",
+                        "de": "Neues Topic"
+                    },
+                    "description": {
+                        "en": "Full topic path for the announcement, e.g. homeassistant/sensor/kitchen/config.",
+                        "de": "Vollständiger Topic-Pfad für die Ankündigung, z. B. homeassistant/sensor/kitchen/config."
+                    },
+                    "default": ""
+                },
+                {
+                    "type": "dropdown",
+                    "id": "payloadMode",
+                    "label": {
+                        "en": "Payload Mode",
+                        "de": "Nutzlastmodus"
+                    },
+                    "description": {
+                        "en": "Publish the payload value, or the whole variable store as one JSON object.",
+                        "de": "Den Nutzlast-Wert oder den gesamten Variablenspeicher als ein JSON-Objekt veröffentlichen."
+                    },
+                    "default": "value",
+                    "affectsControls": true,
+                    "options": [
+                        {
+                            "value": "value",
+                            "label": {
+                                "en": "Single value",
+                                "de": "Einzelwert"
+                            }
+                        },
+                        {
+                            "value": "json-store",
+                            "label": {
+                                "en": "JSON from store",
+                                "de": "JSON aus Speicher"
+                            },
+                            "activeControls": [
+                                "storeNamespace"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "text",
+                    "id": "storeNamespace",
+                    "label": {
+                        "en": "Store",
+                        "de": "Speicher"
+                    },
+                    "description": {
+                        "en": "Variables namespace published as one JSON object.",
+                        "de": "Variablen-Namespace, der als ein JSON-Objekt veröffentlicht wird."
+                    },
+                    "default": ""
+                },
+                {
+                    "type": "text",
+                    "id": "payload",
+                    "label": {
+                        "en": "Payload",
+                        "de": "Nutzlast"
+                    },
+                    "description": {
+                        "en": "Payload announced while the Payload input is not connected.",
+                        "de": "Nutzlast, die angekündigt wird, solange der Nutzlast-Eingang nicht verbunden ist."
+                    },
+                    "default": ""
+                },
+                {
+                    "type": "checkbox",
+                    "id": "retain",
+                    "label": {
+                        "en": "Retain",
+                        "de": "Behalten"
+                    },
+                    "description": {
+                        "en": "Keep the announcement as the retained value of the topic.",
+                        "de": "Die Ankündigung als retained Wert des Topics behalten."
+                    },
+                    "default": true
+                },
+                {
+                    "type": "dropdown",
+                    "id": "qos",
+                    "label": {
+                        "en": "QoS",
+                        "de": "QoS"
+                    },
+                    "description": {
+                        "en": "Publish quality of service.",
+                        "de": "Quality of Service der Veröffentlichung."
+                    },
+                    "default": 0,
+                    "options": [
+                        {
+                            "value": 0,
+                            "label": {
+                                "en": "0 — At most once",
+                                "de": "0 — höchstens einmal"
+                            }
+                        },
+                        {
+                            "value": 1,
+                            "label": {
+                                "en": "1 — At least once",
+                                "de": "1 — mindestens einmal"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "dropdown",
+                    "id": "publishMode",
+                    "label": {
+                        "en": "Publish Mode",
+                        "de": "Veröffentlichungsmodus"
+                    },
+                    "description": {
+                        "en": "Publish only when the payload changes, or every loop.",
+                        "de": "Nur bei Änderung der Nutzlast oder in jeder Schleife veröffentlichen."
+                    },
+                    "default": "on-change",
+                    "options": [
+                        {
+                            "value": "on-change",
+                            "label": {
+                                "en": "On change",
+                                "de": "Bei Änderung"
+                            }
+                        },
+                        {
+                            "value": "every-loop",
+                            "label": {
+                                "en": "Every loop",
+                                "de": "Jede Schleife"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "dropdown",
+                    "id": "triggerTopic",
+                    "label": {
+                        "en": "Trigger Topic",
+                        "de": "Auslöser-Topic"
+                    },
+                    "description": {
+                        "en": "Optional topic whose messages re-assert the announcement, e.g. homeassistant/status.",
+                        "de": "Optionales Topic, dessen Nachrichten die Ankündigung erneut senden, z. B. homeassistant/status."
+                    },
+                    "affectsControls": true,
+                    "default": "",
+                    "dynamicOptions": {
+                        "source": "graphTopics",
+                        "newTopicControls": [
+                            "customTriggerTopic"
+                        ]
+                    }
+                },
+                {
+                    "type": "text",
+                    "id": "customTriggerTopic",
+                    "label": {
+                        "en": "New topic",
+                        "de": "Neues Topic"
+                    },
+                    "description": {
+                        "en": "Full topic path of the trigger, e.g. homeassistant/status.",
+                        "de": "Vollständiger Topic-Pfad des Auslösers, z. B. homeassistant/status."
+                    },
+                    "default": ""
+                },
+                {
+                    "type": "text",
+                    "id": "triggerValue",
+                    "label": {
+                        "en": "Trigger Value",
+                        "de": "Auslöser-Wert"
+                    },
+                    "description": {
+                        "en": "Only re-announce when the trigger payload equals this value. Empty means any message triggers.",
+                        "de": "Nur erneut ankündigen, wenn die Auslöser-Nutzlast diesem Wert entspricht. Leer bedeutet: jede Nachricht löst aus."
+                    },
+                    "default": "online"
+                }
+            ],
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.mqttAnnounce"
+                }
+            },
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.mqttAnnounce"
+                }
+            },
+            "initFunction": "init_mqtt"
+        }
+    }
+}

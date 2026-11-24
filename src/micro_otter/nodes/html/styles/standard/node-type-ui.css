@@ -1,0 +1,176 @@
+/* Copyright (c) 2025 Christian Perwass; SPDX-License-Identifier: GPL-3.0-only */
+
+/**
+ * NodeTypeUi Styles: Visual appearance for node type items in palette.
+ * 
+ * Supports:
+ * - Small and large display modes
+ * - Drag & drop visual feedback
+ * - Custom colors with contrasting text
+ * - Icon and name layout
+ */
+
+/* Base node type UI */
+.node-type-ui {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    border-radius: 6px;
+    cursor: grab;
+    user-select: none;
+    transition: opacity 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+.node-type-ui:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-1px);
+}
+
+.node-type-ui:active {
+    cursor: grabbing;
+    transform: scale(0.98);
+}
+
+/* Dragging state */
+.node-type-ui.is-dragging {
+    opacity: 0.5;
+}
+
+/* Ghost preview during drag */
+.node-type-ui--ghost {
+    opacity: 0.7;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Small mode (icon only) */
+.node-type-ui--small {
+    width: 100%;
+    aspect-ratio: 1;
+    justify-content: center;
+    padding: 4px;
+    min-width: 0;
+    min-height: 0;
+}
+
+.node-type-ui--small .node-type-ui__icon {
+    width: 100%;
+    height: 100%;
+    /* Same 24px glyph as the large card: the palette tiles are clamped to 32-36px, so
+       growing the icon any further would only crowd the tile. */
+    max-width: 24px;
+    max-height: 24px;
+}
+
+.node-type-ui--small .node-type-ui__name {
+    display: none;
+}
+
+/* Large mode (icon + name) */
+.node-type-ui--large {
+    width: min(100%, var(--mo-node-palette-large-card-width, 168px));
+    max-width: var(--mo-node-palette-large-card-width, 168px);
+    min-width: 0;
+    position: relative;
+    padding: 10px 32px 10px 12px;
+}
+
+.node-type-ui--large .node-type-ui__icon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.node-type-ui--large .node-type-ui__name {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.node-type-ui__info-indicator {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.8;
+    pointer-events: auto;
+    cursor: help;
+}
+
+.node-type-ui__info-icon {
+    width: 100%;
+    height: 100%;
+}
+
+.node-type-ui__info-icon--fallback {
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.node-type-ui__info-tooltip {
+    position: fixed;
+    z-index: 1200;
+    max-width: 280px;
+    padding: 6px 8px;
+    border-radius: 4px;
+    background: rgba(15, 15, 18, 0.96);
+    color: #f4f4f4;
+    font-size: 12px;
+    line-height: 1.25;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+    pointer-events: none;
+    white-space: normal;
+}
+
+/* Icon container */
+.node-type-ui__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.node-type-ui__icon-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* MDI and text glyphs painted by NodeTypeUi for semantic icon values. */
+.node-type-ui__icon-glyph {
+    font-family: 'micro-otter-mdi', sans-serif;
+    font-size: 22px;
+    line-height: 1;
+    text-align: center;
+    color: inherit;
+    min-width: 22px;
+    overflow: hidden;
+}
+
+.node-type-ui__icon-fallback {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Color adjustments for contrast */
+.node-type-ui[style*="color: #ffffff"] {
+    /* Light text on dark background */
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.node-type-ui[style*="color: #000000"] {
+    /* Dark text on light background */
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+}

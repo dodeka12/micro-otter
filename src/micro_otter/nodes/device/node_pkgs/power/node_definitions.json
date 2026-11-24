@@ -1,0 +1,185 @@
+{
+    "nodeTypes": {
+        "battery-monitor": {
+            "title": {
+                "en": "Battery Monitor",
+                "de": "Batterieüberwachung"
+            },
+            "info": {
+                "en": "Reads a resistor-divided pack voltage via ADC and outputs the pack voltage plus warning and low-battery flags.",
+                "de": "Liest die über einen Spannungsteiler geführte Packspannung per ADC und gibt die Packspannung sowie Warn- und Unterspannungsflags aus."
+            },
+            "category": "power",
+            "executionPhase": "both",
+            "color": "#5b7fc7",
+            "shape": "square",
+            "icon": "icons/battery_4_bar_24dp.svg",
+            "inputs": [],
+            "outputs": [
+                {
+                    "id": "voltage",
+                    "name": {
+                        "en": "Voltage",
+                        "de": "Spannung"
+                    },
+                    "description": {
+                        "en": "Measured pack voltage in volts.",
+                        "de": "Gemessene Packspannung in Volt."
+                    },
+                    "outputType": "float",
+                    "initialTypes": [
+                        "float"
+                    ]
+                },
+                {
+                    "id": "warn",
+                    "name": {
+                        "en": "Warn",
+                        "de": "Warnung"
+                    },
+                    "description": {
+                        "en": "True when the pack is at or below the warning threshold (per-cell).",
+                        "de": "True, wenn der Akku die Warnschwelle (pro Zelle) erreicht oder unterschreitet."
+                    },
+                    "outputType": "bool",
+                    "initialTypes": [
+                        "bool"
+                    ]
+                },
+                {
+                    "id": "low",
+                    "name": {
+                        "en": "Low",
+                        "de": "Niedrig"
+                    },
+                    "description": {
+                        "en": "True when the pack is at or below the cutoff threshold.",
+                        "de": "True, wenn der Akku die Abschaltschwelle erreicht oder unterschreitet."
+                    },
+                    "outputType": "bool",
+                    "initialTypes": [
+                        "bool"
+                    ]
+                }
+            ],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "adcPin",
+                    "label": {
+                        "en": "ADC Pin",
+                        "de": "ADC-Pin"
+                    },
+                    "description": {
+                        "en": "ADC pin connected to the voltage-divider midpoint.",
+                        "de": "Mit dem Spannungsteiler-Mittelpunkt verbundener ADC-Pin."
+                    },
+                    "default": 1,
+                    "dynamicOptions": {
+                        "source": "targetPinsForCapability",
+                        "capabilityKey": "adc.wifiSafe"
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "topK",
+                    "label": {
+                        "en": "Top Resistor (kΩ)",
+                        "de": "Oberer Widerstand (kΩ)"
+                    },
+                    "description": {
+                        "en": "Top divider resistor in kΩ (toward the pack).",
+                        "de": "Oberer Teilerwiderstand in kΩ (zum Akku hin)."
+                    },
+                    "min": 1,
+                    "max": 1000,
+                    "step": 1,
+                    "default": 100
+                },
+                {
+                    "type": "number",
+                    "id": "bottomK",
+                    "label": {
+                        "en": "Bottom Resistor (kΩ)",
+                        "de": "Unterer Widerstand (kΩ)"
+                    },
+                    "description": {
+                        "en": "Bottom divider resistor in kΩ (toward ground).",
+                        "de": "Unterer Teilerwiderstand in kΩ (zur Masse hin)."
+                    },
+                    "min": 1,
+                    "max": 1000,
+                    "step": 1,
+                    "default": 22
+                },
+                {
+                    "type": "number",
+                    "id": "cells",
+                    "label": {
+                        "en": "Cells",
+                        "de": "Zellen"
+                    },
+                    "description": {
+                        "en": "Number of series cells in the pack.",
+                        "de": "Anzahl der in Reihe geschalteten Zellen im Akku."
+                    },
+                    "min": 1,
+                    "max": 8,
+                    "step": 1,
+                    "default": 4
+                },
+                {
+                    "type": "number",
+                    "id": "warnVPerCell",
+                    "label": {
+                        "en": "Warn V/cell",
+                        "de": "Warnung V/Zelle"
+                    },
+                    "description": {
+                        "en": "Per-cell voltage below which the pack is flagged low (warning).",
+                        "de": "Spannung pro Zelle, unterhalb derer der Akku als niedrig markiert wird (Warnung)."
+                    },
+                    "min": 2.5,
+                    "max": 4.5,
+                    "step": 0.05,
+                    "default": 3.4
+                },
+                {
+                    "type": "number",
+                    "id": "cutVPerCell",
+                    "label": {
+                        "en": "Cutoff V/cell",
+                        "de": "Abschaltspannung V/Zelle"
+                    },
+                    "description": {
+                        "en": "Per-cell voltage at which the pack is considered empty (cutoff).",
+                        "de": "Spannung pro Zelle, bei der der Akku als leer gilt (Abschaltung)."
+                    },
+                    "min": 2.5,
+                    "max": 4.5,
+                    "step": 0.05,
+                    "default": 3.1
+                }
+            ],
+            "resourceUsage": [
+                {
+                    "kind": "pin",
+                    "controlId": "adcPin",
+                    "capability": "adc.wifiSafe"
+                }
+            ],
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.batteryMonitor"
+                }
+            },
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.batteryMonitor"
+                }
+            }
+        }
+    }
+}

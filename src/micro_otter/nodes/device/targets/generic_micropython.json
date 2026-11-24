@@ -1,0 +1,81 @@
+{
+    "targetId": "generic_micropython",
+    "displayName": "Generic",
+    "description": "Open pin set for boards that expose ESP32-like GPIO numbering. Any pin index may be selected for any function; correctness is the user\u2019s responsibility.",
+    "openPins": {
+        "min": 0,
+        "max": 255
+    },
+    "generalCapabilities": {
+        "math": {
+            "float": {
+                "supported": true,
+                "bits": 32,
+                "hardware": false
+            },
+            "double": {
+                "supported": true,
+                "bits": 64,
+                "hardware": false
+            },
+            "integer": {
+                "signedBits": 32,
+                "unsignedBits": 32
+            },
+            "complex": {
+                "supported": false
+            },
+            "notes": [
+                "Generic profile assumes software floating point; performance and precision may vary per MCU.",
+                "Treat this profile as a conservative baseline; override per concrete target for hardware FPU details."
+            ]
+        },
+        "wifi": {
+            "supported": false
+        },
+        "bluetooth": {
+            "supported": false
+        }
+    },
+    "metadata": {
+        "defaultI2cBus": "i2c0",
+        "defaultUart": "uart0",
+        "defaultPwmFrequencyHz": 5000,
+        "supportsAnalog": true,
+        "notes": [
+            "Open pin set: any pin index 0..255 may be selected for any function.",
+            "Capability validation is bypassed for this target; correctness is the user\u2019s responsibility."
+        ]
+    },
+    "resources": {
+        "pwm": {
+            "channels": 16,
+            "timers": 8
+        },
+        "adc": {
+            "units": 2,
+            "channelsPerUnit": 10,
+            "wifiConflictedUnits": [
+                2
+            ]
+        },
+        "dac": {
+            "channels": 0
+        },
+        "touch": {
+            "channels": 10
+        },
+        "uart": {
+            "ports": 3
+        },
+        "i2c": {
+            "buses": 2
+        },
+        "spi": {
+            "buses": 2
+        },
+        "i2s": {
+            "controllers": 2
+        }
+    }
+}

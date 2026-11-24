@@ -1,0 +1,41 @@
+{
+    "version": 1,
+    "targets": [
+        {
+            "id": "generic_micropython",
+            "file": "generic_micropython.json",
+            "displayName": "Generic",
+            "description": "Reference capability map for generic MicroPython boards.",
+            "runtimeModes": ["dynamic"]
+        },
+        {
+            "id": "esp32_wroom",
+            "file": "esp32_wroom.json",
+            "displayName": "ESP32-WROOM",
+            "description": "ESP32-WROOM module (classic ESP32). Pin/capability map for typical MicroPython builds.",
+            "runtimeModes": ["embedded"]
+        },
+        {
+            "id": "esp32_s2",
+            "file": "esp32_s2.json",
+            "displayName": "ESP32-S2",
+            "description": "ESP32-S2 chip-level pin/capability map. Pin/capability map for typical MicroPython builds.",
+            "runtimeModes": ["embedded"]
+        },
+        {
+            "id": "esp32_s3",
+            "file": "esp32_s3.json",
+            "displayName": "ESP32-S3",
+            "description": "ESP32-S3 chip-level pin/capability map (quad PSRAM). Pin/capability map for typical MicroPython builds.",
+            "runtimeModes": ["embedded"]
+        },
+        {
+            "id": "esp32_s3_mini",
+            "file": "esp32_s3_mini.json",
+            "displayName": "ESP32-S3 Mini",
+            "description": "ESP32-S3 Mini (FH4R2: 4 MB flash + 2 MB PSRAM). Pin/capability map for the ESP32-S3 Mini board.",
+            "runtimeModes": ["embedded"]
+        }
+    ],
+    "defaultTargetId": "generic_micropython"
+}

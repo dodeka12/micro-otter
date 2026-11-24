@@ -1,0 +1,55 @@
+{
+  "id": "pulse",
+  "name": "Pulse",
+  "description": "Example add-on with a base and a viper variant implementation.",
+  "version": "1.0.0",
+  "author": "Micro-Otter",
+  "assetsRoot": "./",
+  "nodeDefs": "node_definitions.json",
+  "generators": [
+    "node_generators.js"
+  ],
+  "manifestVersion": 2,
+  "variants": {
+    "py": {
+      "mpAssets": {
+        "*": [
+          "moa_pulse/__init__.py"
+        ]
+      },
+      "title": {
+        "en": "Py",
+        "de": "Py"
+      },
+      "description": {
+        "en": "Plain MicroPython implementation of the example node.",
+        "de": "Reine MicroPython-Implementierung des Beispielknotens."
+      },
+      "precedence": 0,
+      "requiredCapabilities": []
+    },
+    "viper": {
+      "mpAssets": {
+        "*": [
+          "moa_pulse_viper/__init__.py"
+        ]
+      },
+      "title": {
+        "en": "Viper",
+        "de": "Viper"
+      },
+      "description": {
+        "en": "Viper implementation: emits the same node as a Viper routine.",
+        "de": "Viper-Implementierung: erzeugt denselben Knoten als Viper-Routine."
+      },
+      "hardware": {
+        "en": "ESP32 / ESP32-S3 Xtensa with the viper code emitter.",
+        "de": "ESP32 / ESP32-S3 Xtensa mit dem Viper-Code-Emiter."
+      },
+      "requiredCapabilities": [
+        "viper"
+      ],
+      "precedence": 10
+    }
+  }
+}

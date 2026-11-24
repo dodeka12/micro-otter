@@ -1,0 +1,27 @@
+// Copyright (c) 2025 Christian Perwass; SPDX-License-Identifier: GPL-3.0-only
+
+import { getDataTypeColor } from './data-type-colors.js';
+
+export const PREVIEW_INPUT_CONNECTOR_STROKE_COLOR = getDataTypeColor('bool');
+export const PREVIEW_OUTPUT_CONNECTOR_STROKE_COLOR = getDataTypeColor('string');
+
+export const PREVIEW_INPUT_CONNECTOR_FILL_COLOR = '#d4d7e3';
+export const PREVIEW_OUTPUT_CONNECTOR_FILL_COLOR = '#95b89a';
+
+export const TEMP_CONNECTION_FROM_INPUT_COLOR = PREVIEW_INPUT_CONNECTOR_STROKE_COLOR;
+export const TEMP_CONNECTION_FROM_OUTPUT_COLOR = PREVIEW_OUTPUT_CONNECTOR_STROKE_COLOR;
+
+export const HOVER_CONNECTION_GRADIENT_START_COLOR = '#f0d858';
+export const HOVER_CONNECTION_GRADIENT_END_COLOR = '#f5de74';
+
+export const HOVER_CONNECTION_SHADOW_COLOR = 'rgba(240,216,88,0.45)';
+export const TEMP_CONNECTION_SHADOW_COLOR = 'rgba(240,216,88,0.4)';
+export const TRANSPARENT_CONNECTION_SHADOW_COLOR = 'rgba(0,0,0,0)';
+
+export const RELATED_CONNECTION_GLOW_COLOR = 'rgba(240, 216, 88, 0.28)';
+export const RELATED_CONNECTION_SHADOW_COLOR = 'rgba(240, 216, 88, 0.5)';
+
+export const INVALID_CONNECTION_SHADOW_COLOR = 'rgba(239, 68, 68, 0.65)';
+export const INVALID_CONNECTION_LABEL_BACKGROUND_COLOR = 'rgba(127, 29, 29, 0.88)';
+export const INVALID_CONNECTION_LABEL_BORDER_COLOR = 'rgba(254, 202, 202, 0.95)';
+export const INVALID_CONNECTION_LABEL_TEXT_COLOR = '#fecaca';

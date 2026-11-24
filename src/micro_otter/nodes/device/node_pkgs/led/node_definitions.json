@@ -1,0 +1,596 @@
+{
+    "nodeTypes": {
+        "led-neopixel-output": {
+            "title": {
+                "en": "LED Strip (NeoPixel)",
+                "de": "LED-Streifen (NeoPixel)"
+            },
+            "info": {
+                "en": "Drives an addressable WS2812/SK6812 (NeoPixel) strip from a single data pin.\n\nSet Count to match the physical number of LEDs and set Color Order and Color Model to match the hardware. For RGBW strips the white byte is sent last, so a three-letter Color Order is extended with W automatically. Unconnected channels are treated as 0. Single color uses Channel 0 for all three color bytes (a scalar or an array of length Count); RGB uses Channels 0–2; RGBW uses Channels 0–3. To drive a single multi-color addressable LED such as a board's onboard RGB LED, set Count to 1 and feed the channels with vars.array values of length Count in the 0..1 range.",
+                "de": "Steuert einen adressierbaren WS2812/SK6812-Streifen (NeoPixel) über einen einzelnen Daten-Pin.\n\nAnzahl auf die tatsächliche LED-Anzahl setzen und Farbreihenfolge und Farbmodell an die Hardware anpassen. Bei RGBW-Streifen wird das Weiß-Byte zuletzt gesendet; eine dreibuchstabige Farbreihenfolge wird daher automatisch um W ergänzt. Nicht verbundene Kanäle werden als 0 behandelt. Einzeln verwendet Kanal 0 für alle drei Farbbytes (Skalar oder Array der Länge Anzahl); RGB verwendet Kanäle 0–2; RGBW verwendet Kanäle 0–3. Für eine einzelne mehrfarbige adressierbare LED, z. B. die eingebaute RGB-LED eines Boards, Anzahl auf 1 setzen und die Kanäle mit vars.array-Werten der Länge Anzahl im Bereich 0..1 speisen."
+            },
+            "category": "led",
+            "color": "#5b7fc7",
+            "shape": "square",
+            "icon": "icons/lightstrip_24dp.svg",
+            "executionPhase": "both",
+            "inputs": [
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    },
+                    "description": {
+                        "en": "When off, the LED output is not updated.",
+                        "de": "Wenn deaktiviert, wird die LED-Ausgabe nicht aktualisiert."
+                    }
+                },
+                {
+                    "id": "channel0",
+                    "name": {
+                        "en": "Channel 0",
+                        "de": "Kanal 0"
+                    },
+                    "description": {
+                        "en": "Single-color intensity or red channel.",
+                        "de": "Einfarbige Helligkeit oder Rot-Kanal."
+                    },
+                    "allowedTypes": [
+                        "vars.array"
+                    ],
+                    "initialTypes": [
+                        "vars.array"
+                    ],
+                    "phase": "loop"
+                },
+                {
+                    "id": "channel1",
+                    "name": {
+                        "en": "Channel 1",
+                        "de": "Kanal 1"
+                    },
+                    "description": {
+                        "en": "Green channel.",
+                        "de": "Grün-Kanal."
+                    },
+                    "allowedTypes": [
+                        "vars.array"
+                    ],
+                    "initialTypes": [
+                        "vars.array"
+                    ],
+                    "phase": "loop"
+                },
+                {
+                    "id": "channel2",
+                    "name": {
+                        "en": "Channel 2",
+                        "de": "Kanal 2"
+                    },
+                    "description": {
+                        "en": "Blue channel.",
+                        "de": "Blau-Kanal."
+                    },
+                    "allowedTypes": [
+                        "vars.array"
+                    ],
+                    "initialTypes": [
+                        "vars.array"
+                    ],
+                    "phase": "loop"
+                },
+                {
+                    "id": "channel3",
+                    "name": {
+                        "en": "Channel 3",
+                        "de": "Kanal 3"
+                    },
+                    "description": {
+                        "en": "White channel (RGBW only).",
+                        "de": "Weiß-Kanal (nur RGBW)."
+                    },
+                    "allowedTypes": [
+                        "vars.array"
+                    ],
+                    "initialTypes": [
+                        "vars.array"
+                    ],
+                    "phase": "loop"
+                }
+            ],
+            "outputs": [],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "pin",
+                    "label": {
+                        "en": "Data Pin",
+                        "de": "Daten-Pin"
+                    },
+                    "default": 2,
+                    "dynamicOptions": {
+                        "source": "targetPinsForCapability",
+                        "capabilityKey": "digital.output"
+                    },
+                    "description": {
+                        "en": "Data pin driving the strip.",
+                        "de": "Daten-Pin, der den Streifen ansteuert."
+                    }
+                },
+                {
+                    "type": "number",
+                    "id": "count",
+                    "label": {
+                        "en": "Count",
+                        "de": "Anzahl"
+                    },
+                    "min": 1,
+                    "max": 4096,
+                    "step": 1,
+                    "default": 60,
+                    "description": {
+                        "en": "Number of LEDs in the strip. Count must match the physical LED count; array values beyond Count are truncated and missing values stay dark.",
+                        "de": "Anzahl der LEDs im Streifen. Anzahl muss der tatsächlichen LED-Anzahl entsprechen; Array-Werte über Anzahl hinaus werden abgeschnitten und fehlende Werte bleiben dunkel."
+                    }
+                },
+                {
+                    "type": "dropdown",
+                    "id": "order",
+                    "label": {
+                        "en": "Color Order",
+                        "de": "Farbreihenfolge"
+                    },
+                    "default": "GRB",
+                    "options": [
+                        {
+                            "value": "GRB",
+                            "label": {
+                                "en": "GRB",
+                                "de": "GRB"
+                            }
+                        },
+                        {
+                            "value": "RGB",
+                            "label": {
+                                "en": "RGB",
+                                "de": "RGB"
+                            }
+                        },
+                        {
+                            "value": "BRG",
+                            "label": {
+                                "en": "BRG",
+                                "de": "BRG"
+                            }
+                        },
+                        {
+                            "value": "RBG",
+                            "label": {
+                                "en": "RBG",
+                                "de": "RBG"
+                            }
+                        },
+                        {
+                            "value": "GBR",
+                            "label": {
+                                "en": "GBR",
+                                "de": "GBR"
+                            }
+                        },
+                        {
+                            "value": "BGR",
+                            "label": {
+                                "en": "BGR",
+                                "de": "BGR"
+                            }
+                        }
+                    ],
+                    "description": {
+                        "en": "Color order of the strip protocol. For Color Model = RGBW the white byte (W) is appended automatically as the fourth byte.",
+                        "de": "Farbreihenfolge des Streifenprotokolls. Bei Farbmodell = RGBW wird das Weiß-Byte (W) automatisch als viertes Byte angehängt."
+                    }
+                },
+                {
+                    "type": "dropdown",
+                    "id": "colorModel",
+                    "label": {
+                        "en": "Color Model",
+                        "de": "Farbmodell"
+                    },
+                    "default": "rgb",
+                    "options": [
+                        {
+                            "value": "single",
+                            "label": {
+                                "en": "Single color",
+                                "de": "Einzeln"
+                            }
+                        },
+                        {
+                            "value": "rgb",
+                            "label": {
+                                "en": "RGB",
+                                "de": "RGB"
+                            }
+                        },
+                        {
+                            "value": "rgbw",
+                            "label": {
+                                "en": "RGBW",
+                                "de": "RGBW"
+                            }
+                        }
+                    ],
+                    "description": {
+                        "en": "How channel values are interpreted: Single color uses Channel 0 for all three color bytes (a scalar or an array of length Count); RGB uses Channels 0–2; RGBW uses Channels 0–3.",
+                        "de": "Wie Kanalwerte interpretiert werden: Einzeln verwendet Kanal 0 für alle drei Farbbytes (Skalar oder Array der Länge Anzahl); RGB verwendet Kanäle 0–2; RGBW verwendet Kanäle 0–3."
+                    }
+                }
+            ],
+            "resourceUsage": [
+                {
+                    "kind": "pin",
+                    "controlId": "pin",
+                    "capability": "digital.output"
+                }
+            ],
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.ledNeopixelOutput"
+                }
+            },
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.ledNeopixelOutput"
+                }
+            }
+        },
+        "led-pwm-strip-output": {
+            "title": {
+                "en": "LED RGB Strip (PWM)",
+                "de": "LED-RGB-Streifen (PWM)"
+            },
+            "info": {
+                "en": "Drives a non-addressable RGB LED or strip whose red, green, and blue channels are wired to three separate PWM pins.\n\nFeed the R, G, and B inputs with levels in the 0..1 range. Use this for common-anode or common-cathode RGB LEDs; for addressable WS2812/SK6812 LEDs use the NeoPixel node instead.",
+                "de": "Steuert eine nicht-adressierbare RGB-LED oder einen RGB-Streifen, deren Rot-, Grün- und Blau-Kanäle an drei separate PWM-Pins angeschlossen sind.\n\nDie Eingänge R, G und B mit Werten im Bereich 0..1 speisen. Geeignet für gemeinsame Anode oder gemeinsame Kathode; für adressierbare WS2812/SK6812-LEDs stattdessen den NeoPixel-Knoten verwenden."
+            },
+            "category": "led",
+            "color": "#5b7fc7",
+            "shape": "square",
+            "icon": "icons/table_large_24dp.svg",
+            "executionPhase": "both",
+            "inputs": [
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    },
+                    "description": {
+                        "en": "When off, the LED output is not updated.",
+                        "de": "Wenn deaktiviert, wird die LED-Ausgabe nicht aktualisiert."
+                    }
+                },
+                {
+                    "id": "r",
+                    "name": {
+                        "en": "Red",
+                        "de": "Rot"
+                    },
+                    "description": {
+                        "en": "Red level (0..1).",
+                        "de": "Rot-Pegel (0..1)."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Red",
+                            "de": "Rot"
+                        },
+                        "min": 0,
+                        "max": 1,
+                        "step": 0.01,
+                        "default": 0
+                    }
+                },
+                {
+                    "id": "g",
+                    "name": {
+                        "en": "Green",
+                        "de": "Grün"
+                    },
+                    "description": {
+                        "en": "Green level (0..1).",
+                        "de": "Grün-Pegel (0..1)."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Green",
+                            "de": "Grün"
+                        },
+                        "min": 0,
+                        "max": 1,
+                        "step": 0.01,
+                        "default": 0
+                    }
+                },
+                {
+                    "id": "b",
+                    "name": {
+                        "en": "Blue",
+                        "de": "Blau"
+                    },
+                    "description": {
+                        "en": "Blue level (0..1).",
+                        "de": "Blau-Pegel (0..1)."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Blue",
+                            "de": "Blau"
+                        },
+                        "min": 0,
+                        "max": 1,
+                        "step": 0.01,
+                        "default": 0
+                    }
+                }
+            ],
+            "outputs": [],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "redPin",
+                    "label": {
+                        "en": "Red Pin",
+                        "de": "Rot-Pin"
+                    },
+                    "default": 0,
+                    "dynamicOptions": {
+                        "source": "targetPinsForCapability",
+                        "capabilityKey": "pwm.output"
+                    },
+                    "description": {
+                        "en": "PWM pin for the red channel.",
+                        "de": "PWM-Pin für den Rot-Kanal."
+                    }
+                },
+                {
+                    "type": "dropdown",
+                    "id": "greenPin",
+                    "label": {
+                        "en": "Green Pin",
+                        "de": "Grün-Pin"
+                    },
+                    "default": 1,
+                    "dynamicOptions": {
+                        "source": "targetPinsForCapability",
+                        "capabilityKey": "pwm.output"
+                    },
+                    "description": {
+                        "en": "PWM pin for the green channel.",
+                        "de": "PWM-Pin für den Grün-Kanal."
+                    }
+                },
+                {
+                    "type": "dropdown",
+                    "id": "bluePin",
+                    "label": {
+                        "en": "Blue Pin",
+                        "de": "Blau-Pin"
+                    },
+                    "default": 2,
+                    "dynamicOptions": {
+                        "source": "targetPinsForCapability",
+                        "capabilityKey": "pwm.output"
+                    },
+                    "description": {
+                        "en": "PWM pin for the blue channel.",
+                        "de": "PWM-Pin für den Blau-Kanal."
+                    }
+                }
+            ],
+            "resourceUsage": [
+                {
+                    "kind": "pin",
+                    "controlId": "redPin",
+                    "capability": "pwm.output"
+                },
+                {
+                    "kind": "pin",
+                    "controlId": "greenPin",
+                    "capability": "pwm.output"
+                },
+                {
+                    "kind": "pin",
+                    "controlId": "bluePin",
+                    "capability": "pwm.output"
+                }
+            ],
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.ledPwmStripOutput"
+                }
+            },
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.ledPwmStripOutput"
+                }
+            }
+        },
+        "led-single-output": {
+            "title": {
+                "en": "Single LED",
+                "de": "Einzel-LED"
+            },
+            "info": {
+                "en": "Drives a single-color LED from one PWM pin.\n\nValue sets the brightness in the 0..1 range. For a multi-color LED use the PWM RGB Strip node (three pins), or for an addressable LED use the NeoPixel node with Count 1.",
+                "de": "Steuert eine einzelne einfarbige LED über einen PWM-Pin.\n\nWert setzt die Helligkeit im Bereich 0..1. Für eine mehrfarbige LED den RGB-PWM-Streifen-Knoten (drei Pins) oder, für eine adressierbare LED, den NeoPixel-Knoten mit Anzahl 1 verwenden."
+            },
+            "category": "led",
+            "color": "#5b7fc7",
+            "shape": "square",
+            "icon": "icons/lightbulb_24dp.svg",
+            "executionPhase": "both",
+            "inputs": [
+                {
+                    "id": "enabled",
+                    "name": {
+                        "en": "Enabled",
+                        "de": "Aktiviert"
+                    },
+                    "allowedTypes": [
+                        "bool"
+                    ],
+                    "initialTypes": [
+                        "bool"
+                    ],
+                    "defaultControl": {
+                        "type": "checkbox",
+                        "label": {
+                            "en": "Enabled",
+                            "de": "Aktiviert"
+                        },
+                        "default": true
+                    },
+                    "description": {
+                        "en": "When off, the LED output is not updated.",
+                        "de": "Wenn deaktiviert, wird die LED-Ausgabe nicht aktualisiert."
+                    }
+                },
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "description": {
+                        "en": "Brightness (0..1).",
+                        "de": "Helligkeit (0..1)."
+                    },
+                    "allowedTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "initialTypes": [
+                        "float",
+                        "int"
+                    ],
+                    "phase": "loop",
+                    "defaultControl": {
+                        "type": "number",
+                        "label": {
+                            "en": "Value",
+                            "de": "Wert"
+                        },
+                        "min": 0,
+                        "max": 1,
+                        "step": 0.01,
+                        "default": 0
+                    }
+                }
+            ],
+            "outputs": [],
+            "controls": [
+                {
+                    "type": "dropdown",
+                    "id": "pin",
+                    "label": {
+                        "en": "PWM Pin",
+                        "de": "PWM-Pin"
+                    },
+                    "default": 2,
+                    "dynamicOptions": {
+                        "source": "targetPinsForCapability",
+                        "capabilityKey": "pwm.output"
+                    },
+                    "description": {
+                        "en": "PWM pin driving the LED.",
+                        "de": "PWM-Pin, der die LED ansteuert."
+                    }
+                }
+            ],
+            "resourceUsage": [
+                {
+                    "kind": "pin",
+                    "controlId": "pin",
+                    "capability": "pwm.output"
+                }
+            ],
+            "initImplementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeInitGenerators.ledSingleOutput"
+                }
+            },
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.ledSingleOutput"
+                }
+            }
+        }
+    }
+}

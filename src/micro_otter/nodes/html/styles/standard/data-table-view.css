@@ -1,0 +1,51 @@
+/* DataTableView - Standard Compact Dark Theme */
+/* Copyright (c) 2025 Christian Perwass; SPDX-License-Identifier: GPL-3.0-only */
+
+.data-table-view {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    color: var(--mo-text, #e5eaf3);
+}
+
+.data-table-view caption {
+    padding: 2px 6px;
+    text-align: start;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    color: var(--mo-accent, #63b5ff);
+}
+
+.data-table-view th,
+.data-table-view td {
+    padding: 2px 6px;
+    text-align: start;
+    vertical-align: top;
+    border-bottom: 1px solid var(--mo-border, rgba(255, 255, 255, 0.08));
+}
+
+.data-table-view th {
+    color: var(--mo-accent, #63b5ff);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.data-table-view td {
+    color: var(--mo-text, #e5eaf3);
+}
+
+.data-table-view__cell--label {
+    color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+    white-space: nowrap;
+}
+
+.data-table-view--dense th,
+.data-table-view--dense td {
+    padding: 1px 6px;
+}
+
+.data-table-view--striped tbody tr:nth-child(even) {
+    background: var(--mo-surface-1, #121927);
+}

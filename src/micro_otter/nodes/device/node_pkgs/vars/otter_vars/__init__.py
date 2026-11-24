@@ -1,0 +1,6 @@
+# Copyright (c) 2025 Christian Perwass; SPDX-License-Identifier: GPL-3.0-only
+# NOTE: This module is intended to run on a MicroPython-enabled microcontroller.
+
+from .store import VarStore, ensure_store, load, save
+
+__all__ = ["VarStore", "ensure_store", "load", "save"]

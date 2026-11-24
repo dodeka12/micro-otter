@@ -1,0 +1,34 @@
+/* TranspilerView Styles - Standard Theme */
+
+/* 
+ * TranspilerView now uses composition pattern:
+ * - SplitView container (vertical orientation)
+ * - ToolbarView for controls (handled by toolbar-view.css)
+ * - CodeView for code display (handled by code-view.css)
+ * 
+ * Only custom styles specific to TranspilerView's buttons are defined here.
+ */
+
+/* Transpile button highlighted when transpile needed */
+.view-toolbar__btn.transpile-needed {
+    border-color: #ffb400;
+    background: rgba(255, 180, 0, 0.15);
+    color: #ffb400;
+    box-shadow: 0 0 0 2px rgba(255, 180, 0, 0.1);
+}
+
+.view-toolbar__btn.transpile-needed:hover {
+    background: rgba(255, 180, 0, 0.25);
+    border-color: #ffcc33;
+}
+
+/* Keep disabled transpile-needed state looking consistent */
+.view-toolbar__btn.transpile-needed:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.view-toolbar__btn.transpile-needed:disabled:hover {
+    background: rgba(255, 180, 0, 0.15);
+    border-color: #ffb400;
+}

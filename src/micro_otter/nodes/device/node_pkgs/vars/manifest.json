@@ -1,0 +1,46 @@
+{
+  "id": "vars",
+  "name": "Variables",
+  "description": "Collection-wide named variable store with a general array data type, scalar random value generation, and named pulse signals for cross-graph triggers.",
+  "version": "0.70.0",
+  "author": "Micro-Otter",
+  "assetsRoot": "./",
+  "nodeDefs": "node_definitions.json",
+  "generators": [
+    "node_generators.js"
+  ],
+  "capabilityChecks": "node_capabilities.js",
+  "dataTypes": "data_types.json",
+  "mpModuleRoots": [
+    ""
+  ],
+  "mpyCompileProfiles": {
+    "052d85852e60": {
+      "mpyCrossVersion": "MicroPython v1.27.0-dirty on 2026-04-08; mpy-cross emitting mpy v6.3",
+      "emit": "bytecode",
+      "smallIntBits": 31,
+      "march": null,
+      "marchFlags": null
+    },
+    "7d963b547334": {
+      "mpyCrossVersion": "MicroPython v1.27.0 on 2026-04-25; mpy-cross emitting mpy v6.3",
+      "emit": "bytecode",
+      "smallIntBits": 31,
+      "march": null,
+      "marchFlags": null
+    }
+  },
+  "manifestVersion": 2,
+  "variants": {
+    "py": {
+      "mpAssets": {
+        "*": [
+          "otter_vars/__init__.py",
+          "otter_vars/store.py",
+          "otter_vars/signals.py",
+          "otter_vars/arrays.py"
+        ]
+      }
+    }
+  }
+}

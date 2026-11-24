@@ -1,0 +1,213 @@
+/* Copyright (c) 2025 Christian Perwass; SPDX-License-Identifier: GPL-3.0-only */
+
+/**
+ * ToolbarView - Generic control panel container
+ * 
+ * Styles for ToolbarView component with flexible horizontal layout.
+ * Features borderless, flat buttons with hover states for single-row display.
+ * Uses theme variables for consistency with Standard Compact Dark theme.
+ */
+
+.view-toolbar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--mo-gap, 6px);
+    padding: 0 var(--mo-padding, 8px);
+    background: var(--mo-surface-0, #0f141f);
+    overflow: hidden;
+    width: 100%; /* Respect parent pane width */
+    max-width: 100%; /* Prevent content from forcing expansion */
+    min-width: 0; /* Allow shrinking below content width */
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.view-toolbar--multi-line {
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.view-toolbar__controls {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--mo-gap, 6px);
+    flex: 1;
+    min-width: 0;
+}
+
+.view-toolbar__controls--scroll {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.view-toolbar__controls--multi-line {
+    flex: 1 1 100%;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    overflow: visible;
+}
+
+.view-toolbar__group {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--mo-gap, 6px);
+    min-width: 0;
+}
+
+/* Wrapper created by ToolbarView.addControl() for a self-rendering control. */
+.view-toolbar__control {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+}
+
+/*
+ * Checkbox controls carry no horizontal padding of their own, unlike a toolbar
+ * button (6px 10px) or a text input (6px 8px). Without padding a checkbox label
+ * therefore sits flush against the control on its left, separated only by the
+ * row gap (--mo-gap, 1px by default). Give it symmetric horizontal padding so
+ * the space on both sides matches the optical margin a button provides.
+ */
+.view-toolbar__controls .custom-control--checkbox {
+    padding: 0 6px;
+}
+
+/* Borderless, flat buttons with hover state */
+.view-toolbar__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 6px;
+    border: none;
+    background: transparent;
+    color: var(--mo-text, #e5eaf3);
+    cursor: pointer;
+    border-radius: var(--mo-radius, 8px);
+    transition:
+        background 120ms ease,
+        color 120ms ease,
+        opacity 120ms ease;
+    opacity: 0.9;
+}
+
+.view-toolbar__btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    opacity: 1;
+}
+
+.view-toolbar__btn:active {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.view-toolbar__btn:focus-visible {
+    outline: 2px solid var(--mo-accent, #63b5ff);
+    outline-offset: 2px;
+}
+
+.view-toolbar__btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    color: var(--mo-muted, rgba(229, 234, 243, 0.8));
+}
+
+.view-toolbar__btn:disabled:hover {
+    background: transparent;
+}
+
+.view-toolbar__btn:disabled .view-toolbar__btn-icon img {
+    filter: grayscale(1) brightness(0.5) !important;
+    opacity: 0.6;
+}
+
+/* Highlighted buttons (e.g., primary actions) */
+.view-toolbar__btn--highlight {
+    color: var(--mo-accent, #63b5ff);
+    opacity: 1;
+}
+
+/* Toggle buttons (on/off state) */
+.view-toolbar__btn.is-active {
+    color: var(--mo-accent, #63b5ff);
+    background: rgba(99, 181, 255, 0.08);
+}
+
+.view-toolbar__btn.is-active:hover {
+    background: rgba(99, 181, 255, 0.12);
+}
+
+.view-toolbar__btn.is-active .view-toolbar__btn-icon img {
+    filter: brightness(1.2);
+}
+
+.view-toolbar__btn--highlight:hover {
+    background: rgba(99, 181, 255, 0.12);
+}
+
+.view-toolbar__btn--highlight:active {
+    background: rgba(99, 181, 255, 0.18);
+}
+
+/* Icon container */
+.view-toolbar__btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+}
+
+.view-toolbar__btn-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: brightness(1.1);
+}
+
+/* Separator */
+.view-toolbar__separator {
+    width: 1px;
+    height: 24px;
+    background: var(--mo-border, rgba(229, 234, 243, 0.15));
+    margin: 0 4px;
+    flex-shrink: 0;
+}
+
+/* Progress bar */
+.view-toolbar__progress {
+    width: 100px;
+    height: 6px;
+    border: none;
+    border-radius: 3px;
+    background: var(--mo-surface-2, #172133);
+    overflow: hidden;
+}
+
+.view-toolbar__progress::-webkit-progress-bar {
+    background: var(--mo-surface-2, #172133);
+    border-radius: 3px;
+}
+
+.view-toolbar__progress::-webkit-progress-value {
+    background: var(--mo-accent, #63b5ff);
+    border-radius: 3px;
+}
+
+.view-toolbar__progress::-moz-progress-bar {
+    background: var(--mo-accent, #63b5ff);
+    border-radius: 3px;
+}
+
+/* Status message */
+.view-toolbar__status {
+    font-size: 11px;
+    color: var(--mo-muted, rgba(229, 234, 243, 0.75));
+    margin-left: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}

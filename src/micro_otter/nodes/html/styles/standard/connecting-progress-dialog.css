@@ -1,0 +1,37 @@
+/*
+ * The one connect-progress dialog (`js/views/connecting-progress-dialog-view.ts`).
+ *
+ * Header, modal surface, scrim, border, footer button and focus behaviour come from
+ * `modal-dialog.css`. This sheet owns only the status line and the slot for the hosted
+ * `ProgressDetailView`; it adds no second background, border, radius or padding.
+ *
+ * The determinate bar itself is styled by `progress-detail-view.css`. The hosted component always
+ * builds two tiers, so this dialog hides the unused detail tier and its divider: the connect
+ * tracker reports one overall percentage and has no file-level step.
+ */
+
+.connecting-progress-dialog {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.connecting-progress-dialog__status {
+    font-size: 11px;
+    color: var(--mo-text, #e5eaf3);
+}
+
+.connecting-progress-dialog__detail {
+    width: 100%;
+}
+
+.connecting-progress-dialog__detail[hidden] {
+    display: none;
+}
+
+.connecting-progress-dialog__detail .progress-detail-view__divider,
+.connecting-progress-dialog__detail .progress-detail-view__tier:last-child {
+    display: none;
+}

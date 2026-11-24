@@ -1,0 +1,80 @@
+{
+  "generalRuntime": {
+    "customView": {
+      "title": "Allgemeine Runtime-Konfiguration",
+      "description": "WiFi- und Webserver-Einstellungen für Ihr Gerät konfigurieren",
+      "upload": "Änderungen hochladen",
+      "download": "Vom Gerät neu laden",
+      "status": "Status",
+      "uploadSuccess": "WiFi-Einstellungen gespeichert. Hard-Reset erforderlich.",
+      "downloadSuccess": "WiFi-Einstellungen geladen.",
+      "uploadError": "Fehler beim Speichern der Runtime-Einstellungen",
+      "downloadError": "Fehler beim Laden der Runtime-Einstellungen",
+      "disabledSectionTitle": "Gespeichert, aber nicht aktiviert",
+      "wifiStaDisabledWarning": "SSID und Passwort der Station wurden gespeichert, aber „Station (STA) aktivieren“ ist aus – das Gerät verbindet sich nicht mit diesem Netzwerk. Kontrollkästchen in den WiFi-Einstellungen aktivieren und erneut hochladen.",
+      "wifiApDisabledWarning": "Das Passwort des Zugangspunkts wurde gespeichert, aber „Zugangspunkt (AP) aktivieren“ ist aus – der Zugangspunkt startet nicht. Kontrollkästchen in den WiFi-Einstellungen aktivieren und erneut hochladen.",
+      "mqttDisabledWarning": "Die MQTT-Einstellungen wurden gespeichert, aber „MQTT aktivieren“ ist aus – es wird nichts gesendet oder empfangen und Home Assistant bleibt leer. Abschnitt „MQTT-Einstellungen“ aufklappen, „MQTT aktivieren“ anhaken und erneut hochladen."
+    },
+    "wifiSettings": {
+      "title": "WiFi-Einstellungen",
+      "status": "Verbindungsstatus",
+      "statusUnknown": "Auf „Status prüfen“ klicken, um das Gerät abzufragen",
+      "checkButton": "Status prüfen",
+      "checkError": "WiFi-Status konnte nicht geprüft werden",
+      "staEnabled": "Station (STA) aktivieren",
+      "staSsid": "Netzwerkname der Station (SSID)",
+      "staSsidPlaceholder": "Netzwerknamen der Station eingeben",
+      "staSsidError": "SSID muss 1-32 druckbare ASCII-Zeichen sein",
+      "staPassword": "Passwort der Station",
+      "staPasswordPlaceholder": "Passwort der Station eingeben (8-63 Zeichen)",
+      "staPasswordError": "Passwort muss 8-63 Zeichen lang sein",
+      "apEnabled": "Zugangspunkt (AP) aktivieren",
+      "apSsid": "Name des Zugangspunkts (SSID)",
+      "apSsidPlaceholder": "Namen des Zugangspunkts eingeben",
+      "apSsidError": "Name des Zugangspunkts muss 1-32 druckbare ASCII-Zeichen sein",
+      "apPassword": "Passwort des Zugangspunkts",
+      "apPasswordPlaceholder": "Passwort des Zugangspunkts eingeben (8-63 Zeichen, leer für einen offenen Zugangspunkt)",
+      "apPasswordError": "Passwort des Zugangspunkts muss 8-63 Zeichen lang oder leer sein (offener Zugangspunkt)",
+      "apChannel": "Zugangspunkt-Kanal",
+      "apMaxClients": "Maximale Clients",
+      "reconnectInterval": "Wiederverbindungsintervall der Station (s)",
+      "loadButton": "Vom Gerät laden",
+      "saveButton": "Auf Gerät speichern",
+      "loadSuccess": "WiFi-Einstellungen erfolgreich geladen",
+      "loadError": "Fehler beim Laden der WiFi-Einstellungen",
+      "saveSuccess": "WiFi-Einstellungen erfolgreich gespeichert",
+      "saveError": "Fehler beim Speichern der WiFi-Einstellungen",
+      "restartRequiredTitle": "Neustart erforderlich",
+      "restartRequiredMessage": "Die WiFi-Einstellungen wurden gespeichert. Bitte führen Sie einen Hard-Reset aus und verbinden Sie das Gerät erneut, um die Änderungen anzuwenden.",
+      "notConfigured": "WLAN ist nicht konfiguriert oder vollständig deaktiviert. Geben Sie die SSID und das Passwort der Station und/oder die Zugangsdaten des Zugangspunkts ein, klicken Sie auf „Änderungen hochladen“ und setzen Sie das Gerät hart zurück."
+    },
+    "webserverSettings": {
+      "title": "Webserver-Einstellungen",
+      "enable": "Webserver aktivieren",
+      "port": "HTTP-Port",
+      "loadButton": "Vom Gerät laden",
+      "saveButton": "Auf Gerät speichern",
+      "saveSuccess": "Webserver-Einstellungen erfolgreich gespeichert"
+    },
+    "mqttSettings": {
+      "title": "MQTT-Einstellungen",
+      "enabled": "MQTT aktivieren",
+      "host": "Broker-Host",
+      "hostPlaceholder": "z. B. broker.local",
+      "port": "Port",
+      "keepalive": "Keepalive (s)",
+      "pumpDelayMs": "Pump-Intervall (ms)",
+      "resyncInterval": "Resync-Intervall (s)",
+      "clientId": "Client-ID",
+      "clientIdPlaceholder": "Automatisch generiert, wenn leer",
+      "user": "Benutzername",
+      "password": "Passwort"
+    }
+  },
+  "customView": {
+    "validationFailed": "Bitte korrigieren Sie die Validierungsfehler vor dem Speichern",
+    "functionError": "Operation fehlgeschlagen: {error}",
+    "operationSuccess": "Operation erfolgreich abgeschlossen",
+    "operationError": "Operation fehlgeschlagen: {error}"
+  }
+}

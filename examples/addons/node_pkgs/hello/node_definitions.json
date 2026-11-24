@@ -1,0 +1,41 @@
+{
+    "nodeTypes": {
+        "greet": {
+            "title": {
+                "en": "Greet",
+                "de": "Begrüßen"
+            },
+            "info": {
+                "en": "Emits a fixed greeting string from the hello add-on.\n\nThis is the smallest possible add-on node: a single implementation (`moa_hello`) with one string output and no inputs or controls.\n\nTry it: wire **Value** into a print/log node (or any node that accepts a string) and deploy. The greeting `hello from the example add-on` appears on every loop iteration.\n\nLicence: GPL-3.0-only. The full licence text ships as `LICENSE` in this add-on package.",
+                "de": "Gibt eine feste Gruß-Zeichenkette vom hello-Add-on aus.\n\nDies ist der kleinstmögliche Add-on-Knoten: eine einzelne Implementierung (`moa_hello`) mit einem Zeichenketten-Ausgang und ohne Eingänge oder Steuerelemente.\n\nAusprobieren: **Wert** mit einem Ausgabe-/Log-Knoten (oder einem anderen Knoten, der eine Zeichenkette akzeptiert) verbinden und bereitstellen. Der Gruß `hello from the example add-on` erscheint in jeder Schleifeniteration.\n\nLizenz: GPL-3.0-only. Der vollständige Lizenztext liegt als `LICENSE` im Paket dieses Add-ons."
+            },
+            "category": "debugging",
+            "color": "#5b7fc7",
+            "shape": "square",
+            "icon": "icons/waving_hand_24dp.svg",
+            "executionPhase": "both",
+            "outputs": [
+                {
+                    "id": "value",
+                    "name": {
+                        "en": "Value",
+                        "de": "Wert"
+                    },
+                    "description": {
+                        "en": "The greeting string.",
+                        "de": "Die Gruß-Zeichenkette."
+                    },
+                    "outputType": "string",
+                    "initialTypes": ["string"],
+                    "phase": "loop"
+                }
+            ],
+            "implementations": {
+                "python": {
+                    "type": "code-generator",
+                    "value": "NodeCodeGenerators.moaHelloGreet"
+                }
+            }
+        }
+    }
+}
