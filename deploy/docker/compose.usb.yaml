@@ -1,0 +1,18 @@
+# Linux USB-serial passthrough overlay for the runtime service.
+#
+# Usage: docker compose -f compose.yaml -f compose.usb.yaml up
+#
+# Docker Desktop on macOS/Windows cannot pass USB serial through to a container;
+# use the native wheel or WSL/usbipd instead. The compile service is
+# intentionally not overlaid.
+
+services:
+  micro-otter:
+    group_add:
+      - dialout
+    device_cgroup_rules:
+      - "c 188:* rmw"
+      - "c 166:* rmw"
+    devices:
+      - /dev/ttyACM*
+      - /dev/ttyUSB*

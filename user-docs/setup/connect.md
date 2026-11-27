@@ -7,7 +7,7 @@ dialog, which also holds the only **Disconnect** action. Nothing else in the app
 
 | Provider | What it does | Needs |
 |---|---|---|
-| **Web Serial** (default) | the browser opens the USB serial port itself | a Chromium-based desktop browser (Chrome, Edge, …) on a secure context — `http://localhost` or `https://` |
+| **Web Serial** (default) | the browser opens the USB serial port itself | a Chromium-based desktop browser (Chrome, Edge, …) on a secure context — `http://localhost` or `https://`; the published hosted app qualifies |
 | **WebSocket (Bridge)** | the app asks the local server to open the port and talks to it over a WebSocket | `micro-otter serve` running on the machine the board is plugged into |
 
 Web Serial is the simplest choice on a desktop with the board plugged in. Use the bridge when the

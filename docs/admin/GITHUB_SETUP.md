@@ -159,24 +159,49 @@ npx prettier --check "**/*.{js,jsx,ts,tsx,json,css,md}"
 
 ## Continuous Integration
 
-GitHub Actions workflow ([.github/workflows/ci.yml](.github/workflows/ci.yml)) runs on:
+GitHub Actions workflow ([.github/workflows/ci.yml](../../.github/workflows/ci.yml)) runs on:
 
-- All pull requests to `main`
-- Direct pushes to `main` (once disabled via branch protection)
+- All pull requests to `main` in the published repository `dodeka12/micro-otter`
+- Direct pushes to `main` of that repository (once disabled via branch protection)
+- Manual **Run workflow** in either repository
+
+Every automatic job carries `if: github.repository == 'dodeka12/micro-otter' || github.event_name ==
+'workflow_dispatch'`, so a pull request or merge in the development repository skips all jobs and
+spends no runner minutes. `tests/test_ci_workflow.py` pins that guard on every automatic job.
 
 ### CI Jobs
 
-1. **lint-python**: Checks Python code with black and ruff
-2. **lint-javascript**: Checks JavaScript code with ESLint and Prettier
+1. **`python`**: `uv run ruff check src/ tools/ tests/` plus `uv run pytest`
+2. **`web`**: `npm ci`, the generated-file and payload gates, ESLint, Prettier, `typecheck`,
+   `test:vitest`, and `npm run build` (which needs the Python install that writes
+   `src/micro_otter/_version.py`)
+3. **`docs`**: `uv run mkdocs build --strict`, `npm run check:docs-links`, uploads `site/`
+4. **`packaging`**: `bash deploy/packaging/build-wheel.sh` and `verify-wheel.sh`, uploads the wheel
+5. **`docker`**: builds `deploy/docker/Dockerfile.runtime`, smokes the container, validates the
+   compose profiles
+6. **`windows`**: **manual only** (`if: github.event_name == 'workflow_dispatch'`):
+   `pwsh -File deploy/packaging/build-exe.ps1`, smokes the exe, uploads it. The exe is built when a
+   release is assembled by hand ([docs/workflow/release.md](../workflow/release.md)), never on a pull
+   request; the job id stays in the required-check set, where a skipped job satisfies the check.
+
+`bump-version.yml` is likewise `workflow_dispatch` only: nothing tags a merge any more.
+
+`npm run test:node` is suspended in CI for now; it was 386 s of the ~400 s `web` job. Run it locally
+before a publication and before merging anything under `tools/`, `tests/`, `src/micro_otter/` or
+`deploy/` — see
+[testing-architecture.md](../dev/guides/testing-architecture.md#temporary-ci-split).
+
+The job ids are the required status-check names; the local equivalents are listed in
+[CONTRIBUTING.md](../../CONTRIBUTING.md#continuous-integration).
 
 ## Configuration Files
 
 The following files configure the code style standards:
 
-- [pyproject.toml](pyproject.toml) - Python tools configuration (black, ruff)
-- [.eslintrc.json](.eslintrc.json) - JavaScript linting rules
-- [.prettierrc.json](.prettierrc.json) - JavaScript formatting rules
-- [.github/PULL_REQUEST_TEMPLATE.md](.github/PULL_REQUEST_TEMPLATE.md) - PR template with DCO reminder
+- [pyproject.toml](../../pyproject.toml) - Python tools configuration (black, ruff)
+- [eslint.config.js](../../eslint.config.js) - JavaScript and TypeScript linting rules
+- [.prettierrc](../../.prettierrc) - JavaScript formatting rules
+- [.github/PULL_REQUEST_TEMPLATE.md](../../.github/PULL_REQUEST_TEMPLATE.md) - PR template with DCO reminder
 
 ## Pull Request Process
 
@@ -217,7 +242,7 @@ After these settings are applied:
 
 ## Questions?
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines or open an issue if you have questions about the process.
+See [CONTRIBUTING.md](../../CONTRIBUTING.md) for contribution guidelines or open an issue if you have questions about the process.
 
 ---
 
@@ -259,10 +284,17 @@ GitHub now offers **Rulesets** as a more flexible alternative to classic branch 
 - Prevents broken code from merging into main
 - Leverages existing test infrastructure
 - **Required checks to configure:**
-    - `lint-python` - Python code quality
-    - `lint-javascript` - JavaScript code quality
-    - Test suite (if configured)
-    - Build verification (if configured)
+    - `python` - `uv run ruff check` plus `uv run pytest` (job in `.github/workflows/ci.yml`)
+    - `web` - generated-file gates, lint, typecheck, `test:vitest`, and `npm run build`
+      (`npm run test:node` is suspended in CI; see [CI Jobs](#ci-jobs))
+    - `docs` - `uv run mkdocs build --strict`
+    - These are the workflow **job ids**, not the workflow names; the ids are identical in both
+      repositories. Only the published repository runs them: the development repository skips every
+      job through the repository guard, and skipped checks do not block a merge there.
+    - A single maintainer cannot satisfy the one-approval rule for a publication PR (GitHub forbids
+      self-approval), so the release procedure merges with the ruleset bypass:
+      `gh pr merge <n> --squash --admin`. See
+      [release-sync.md](release-sync.md#first-publication-2026-11-24).
 - **Options:**
     - ✅ Require branches to be up to date before merging
 
@@ -335,11 +367,21 @@ Main Branch Ruleset:
 │   └─ Require conversation resolution before merging
 ├─ ✅ Require status checks to pass
 │   ├─ Require branches to be up to date
-│   ├─ Required checks: lint-python
-│   └─ Required checks: lint-javascript
+│   ├─ Required checks: python
+│   ├─ Required checks: web
+│   └─ Required checks: docs
 ├─ ✅ Require signed commits
 ├─ ✅ Block force pushes
 └─ ⚠️ Require linear history
+```
+
+Tag rule (separate ruleset, `v*`):
+
+```yaml
+Release Tag Ruleset:
+├─ Target: tags matching v*
+├─ ✅ Restrict deletions
+└─ ✅ Restrict updates   # a release tag is never moved
 ```
 
 ### Implementation Order
@@ -381,7 +423,24 @@ Ruleset bypass permissions allow specific users or teams to bypass rules when ne
 - Emergency response team (if applicable)
 - Never grant blanket bypass permissions
 
-### Monitoring and Enforcement
+### Tags, artifacts and the two repositories
+
+Two repositories carry this project: the private development repository (the trunk of record) and
+`micro-otter` (public, published through squashed publication pull requests). Configure the branch and
+tag rulesets described here in **both**; the three required check ids are identical because both run
+the same `.github/workflows/ci.yml`. The topology, the publication commands, the guard list and the
+sync-down merge are documented in [release-sync.md](release-sync.md) and, for developers, in
+[docs/dev/guides/repository-workflow.md](../dev/guides/repository-workflow.md).
+
+Package tags are `v<major>.<minor>.<patch>` and are created **only in `micro-otter`**, as signed
+annotated tags on the publication merge commit; the private tree mirrors them with
+`git fetch upstream --tags`. Nothing is published from the private repository, so a `v*` tag there
+would only compete with the `archive/v*` history that `git describe` already walks. The `v*` ruleset
+must therefore block deletion and updates: moving a release tag would invalidate every wheel built from
+it. Firmware tags (`firmware-v<base>`) follow the same rule and are documented in
+[docs/workflow/release.md](../workflow/release.md).
+
+
 
 After applying the ruleset:
 

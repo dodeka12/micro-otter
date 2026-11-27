@@ -390,11 +390,11 @@ class Workspace {
 
 ## API Reference
 
-See [View API Reference](view-api-reference.md#viewmanager-api-reference) for complete API documentation.
+See [View API Reference](view-api-reference.md) for complete API documentation.
 
 ## Related Documentation
 
 - [View System Overview](view-system-overview.md) - Architecture overview
-- [ViewBase Lifecycle](viewbase-lifecycle.md) - View lifecycle management
+- [ViewBase Lifecycle](view-api-reference.md) - View lifecycle management
 - [Event System](view-events.md) - Communication patterns
 - [Serialization](view-serialization.md) - State persistence

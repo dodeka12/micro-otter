@@ -510,7 +510,7 @@ Control that appears when the input is not connected. See [Control Schema](#cont
 - NodeUi renders default controls at 75% scale directly next to disconnected input connectors
 - Default controls are hidden when input is connected; connector label is shown instead
 
-See [Node UI Module Structure - Input Default Controls Architecture](node-ui-module-structure.md#input-default-controls-architecture) for implementation details.
+See [Node UI Module Structure - Input Default Controls Architecture](../view-system/node-ui-module-structure.md#input-default-controls-architecture) for implementation details.
 
 #### `enabled` gate inputs for side-effect nodes
 
@@ -1976,9 +1976,9 @@ definitions only.
 
 ## Related Documentation
 
-- **[Data Backbone Architecture](data-backbone-architecture.md)** - Data model and event system
-- **[View System Architecture](view-system-architecture.md)** - UI integration and lifecycle
-- **[I18n System Architecture](i18n-architecture.md)** - Translation system
+- **[Data Backbone Architecture](../core/data-backbone-architecture.md)** - Data model and event system
+- **[View System Architecture](../view-system/view-system-architecture.md)** - UI integration and lifecycle
+- **[I18n System Architecture](../core/i18n-architecture.md)** - Translation system
 
 ---
 
@@ -2020,4 +2020,4 @@ Features planned for future versions:
 - **Connection Constraints**: Type checking and validation rules
 - **Custom Validation**: Per-control validation functions
 
-See [Node UI Implementation Plan](../../../ldev/todos/v2/node-ui-plan/00-overview.md) for roadmap details.
+See Node UI Implementation Plan for roadmap details.

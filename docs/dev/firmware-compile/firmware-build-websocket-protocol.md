@@ -6,7 +6,7 @@ is its only implementation, and `tests/test_firmware_contract_invariants.py` fai
 below and the module's `ERROR_CODES` ever disagree.
 
 The endpoint extends the frame contract introduced by
-[firmware-build-deploy-view phase 6](../../../ldev/todos/firmware-build-deploy-view/phase-6-firmware-websocket-handler.md)
+firmware-build-deploy-view phase 6
 **additively**: no frame `type` is removed or renamed and every added frame carries only new fields,
 so a client written against the parent contract keeps working. `firmware.import` (M4o) and
 `addon.install` / `addon.uninstall` (M4p) were added this way.

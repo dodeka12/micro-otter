@@ -262,7 +262,7 @@ defined in `src/micro_otter/nodes/device/firmware/boards.json` and resolved by
 source upload, which does not run through this command at all.
 
 The `--firmware` path routes through
-[firmware_deploy.py](../../../src/micro_otter/tools/firmware_compile/firmware_deploy.py) whenever
+[firmware_deploy.py](../../src/micro_otter/tools/firmware_compile/firmware_deploy.py) whenever
 `--json-output`, `--flash-backend`, or `--timeout-seconds` is present, because only that path can
 honour backend selection and a tool timeout. A plain `mo dr --firmware <path>` (none of the three)
 keeps the historical inline `esptool` invocation, so its messages and exit codes are unchanged.

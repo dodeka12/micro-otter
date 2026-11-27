@@ -72,41 +72,36 @@ const checkCustomElements: FeatureChecker = () => {
     };
 };
 
+// These three probes date from the 2015 browser baseline, when a feature could be missing and a
+// dynamically evaluated string was the only way to test it without breaking the module. Dynamic
+// evaluation is forbidden by the hosted bundle's Content-Security-Policy (see
+// `tools/vite-hosted-csp.mjs`), and a direct syntax check is the stronger test anyway: this module
+// only parses and runs if the syntax it probes for is supported.
 const checkAsyncAwait: FeatureChecker = () => {
-    try {
-        // Try to create an async function
-        eval('(async () => {})');
-        return { available: true };
-    } catch {
-        return {
-            available: false,
-            reason: 'Async/await not supported',
-        };
-    }
+    const probe = async () => {};
+    const available = typeof probe === 'function';
+    return {
+        available,
+        reason: !available ? 'Async/await not supported' : undefined,
+    };
 };
 
 const checkES6Classes: FeatureChecker = () => {
-    try {
-        eval('class Test {}');
-        return { available: true };
-    } catch {
-        return {
-            available: false,
-            reason: 'ES6 classes not supported',
-        };
-    }
+    class ProbeClass {}
+    const available = typeof ProbeClass === 'function';
+    return {
+        available,
+        reason: !available ? 'ES6 classes not supported' : undefined,
+    };
 };
 
 const checkArrowFunctions: FeatureChecker = () => {
-    try {
-        eval('(() => {})');
-        return { available: true };
-    } catch {
-        return {
-            available: false,
-            reason: 'Arrow functions not supported',
-        };
-    }
+    const probe = () => {};
+    const available = typeof probe === 'function';
+    return {
+        available,
+        reason: !available ? 'Arrow functions not supported' : undefined,
+    };
 };
 
 // ============================================================================

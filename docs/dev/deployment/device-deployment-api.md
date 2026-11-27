@@ -1022,8 +1022,8 @@ console.log(`Uploaded ${uploadCount} tools files`);
 
 **See Also**:
 
-- [deployment-utils.ts](../../src/micro_otter/nodes/html/js/deployment/deployment-utils.ts) - Shared hashing utilities
-- [Deployment System Architecture](deployment-system-architecture.md#tools-folder-deployment) - Tools deployment architecture
+- [deployment-utils.ts](../../../src/micro_otter/nodes/html/js/deployment/deployment-utils.ts) - Shared hashing utilities
+- [Deployment System Architecture](deployment-system-architecture.md) - Tools deployment architecture
 
 ---
 
@@ -1200,7 +1200,7 @@ deviceDeployment.addEventListener('operation-error', (event) => {
 
 DeviceDeployment integrates with **ProgressEventBus** for operation tracking.
 
-**See**: [Progress Event System Documentation](progress-event-system.md)
+**See**: [Progress Event System Documentation](../core/progress-event-system.md)
 
 **Progress Sources**:
 
@@ -1338,10 +1338,10 @@ console.log('Backup:', new TextDecoder().decode(backup));
 ## Related Documentation
 
 - **[Deployment System Architecture](deployment-system-architecture.md)** - High-level overview
-- **[WebSerial Architecture](webserial-architecture.md)** - DeviceConnection API
-- **[Progress Event System](progress-event-system.md)** - Progress tracking
-- **[Phase 1 Implementation Plan](../../ldev/todos/deployment/phase1-core-infrastructure.md)** - File operations details
-- **[Phase 2 Implementation Plan](../../ldev/todos/deployment/phase2-runtime-deployment.md)** - Runtime lifecycle details
+- **[WebSerial Architecture](../device-communication/webserial-architecture.md)** - DeviceConnection API
+- **[Progress Event System](../core/progress-event-system.md)** - Progress tracking
+- **Phase 1 Implementation Plan** - File operations details
+- **Phase 2 Implementation Plan** - Runtime lifecycle details
 
 ---
 
@@ -1349,4 +1349,4 @@ console.log('Backup:', new TextDecoder().decode(backup));
 
 **Unit Tests**: `tests/deployment/device-deployment.test.js`  
 **Manual Tests**: `src/micro_otter/nodes/tests/deployment-manual-test.html`  
-**Test Guide**: [Deployment Testing Guide](../../ldev/manual_tests/deployment-phase1-phase2-testing.md)
+**Test Guide**: Deployment Testing Guide

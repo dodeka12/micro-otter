@@ -1,0 +1,30 @@
+# Build-context filter for the Docker images. The context is the repository root;
+# only what `deploy/packaging/build-wheel.sh` (and the compile image's toolchain
+# install) reads needs to ship. Everything else is excluded so a build never
+# depends on a checkout and never leaks a private path.
+#
+# `_dist/webapp` is rebuilt inside the builder by `npm run build`, so the
+# checked-out bundle is excluded; `deploy/toolchain` must stay in the context
+# because Hatch force-includes it into the wheel, and `deploy/packaging` holds
+# the build script.
+
+.git/
+.devcontainer/
+.github/
+.vscode/
+ldev/
+dev/
+docs/
+user-docs/
+site/
+ai/
+.cline/
+_dist/
+dist/
+node_modules/
+.venv/
+tests/
+examples/
+hooks/
+playwright.config.*
+test-output.txt

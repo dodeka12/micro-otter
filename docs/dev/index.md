@@ -12,6 +12,10 @@ General development guides including architecture overview, build system, and co
 
 - **[build-and-deployment.md](guides/build-and-deployment.md)** - Build system configuration, development workflows, dependency management, and production deployment strategies.
 
+- **[devcontainer.md](guides/devcontainer.md)** - The VS Code dev container: bundled tooling, Windows USB forwarding, in-container GPG commit signing, Cline history persistence, and troubleshooting.
+
+- **[git-hooks.md](guides/git-hooks.md)** - The `hooks/` directory: `core.hooksPath`, the commit-msg device manifest bump rules, the pre-commit generated-file refresh, and the pre-push `check:ci-local` gate.
+
 - **[testing-architecture.md](guides/testing-architecture.md)** - Canonical test architecture and framework usage across Node.js, browser, and Python test suites.
 
 - **[coding-style-guide.md](guides/coding-style-guide.md)** - Coding standards for Python (PEP 8) and TypeScript, including critical encapsulation rules and naming conventions.
@@ -52,7 +56,7 @@ View architecture and UI components documentation.
 
 - **[view-system-overview.md](view-system/view-system-overview.md)** - Architecture overview, class hierarchy, view categories, and quick start examples.
 
-- **[viewbase-lifecycle.md](view-system/viewbase-lifecycle.md)** - ViewBase lifecycle management, attachment flow, and hooks.
+- **[view-api-reference.md](view-system/view-api-reference.md)** - ViewBase lifecycle management, attachment flow, and hooks.
 
 - **[view-manager.md](view-system/view-manager.md)** - ViewManager layer management, modal dialogs, themes, and context integration.
 

@@ -20,9 +20,9 @@ How to create and maintain changelog entries for this repository.
 
 ## Title
 
-- Do **not** predict the next release version number — it is assigned later by
-  the `bump-version.yml` GitHub workflow (semantic versioning). Hard-coding a
-  version here is fragile.
+- Do **not** predict the next release version number — the maintainer assigns it when
+  the release is assembled and tagged by hand (semantic versioning, see
+  [release.md](release.md)). Hard-coding a version here is fragile.
 - Use the current-tag-relative form:
 
   ```
@@ -93,7 +93,7 @@ The entry is added when the PR is opened. When adding a changelog:
 
 ## Release flow (for later)
 
-- When the `bump-version.yml` workflow actually cuts a version/tag, the
+- When the release is cut by hand ([release.md](release.md)), the
   "since <version>" labels may optionally be retrofitted to the concrete
   released version number, but this is a separate step and not done when
   authoring the changelog.

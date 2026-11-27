@@ -1,0 +1,7 @@
+[
+  {
+    "path": "ai/skills/create-plan/references/plan-templates.md",
+    "target": "./phase-*.md",
+    "reason": "template phase filenames are written relative to the generated plan folder, not to the template file"
+  }
+]

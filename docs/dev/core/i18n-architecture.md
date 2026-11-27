@@ -656,6 +656,6 @@ class NodePaletteView extends ViewBase {
 
 ## Related Documentation
 
-- [View System Architecture](view-system-architecture.md) - View lifecycle and integration
+- [View System Architecture](../view-system/view-system-architecture.md) - View lifecycle and integration
 - [Data Backbone Architecture](data-backbone-architecture.md) - Data model and events
-- [Node UI Implementation Plan](../../../ldev/todos/v2/node-ui-plan/00-overview.md) - UI roadmap
+- Node UI Implementation Plan - UI roadmap

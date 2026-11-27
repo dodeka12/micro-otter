@@ -91,7 +91,7 @@ See [ViewManager](view-manager.md) for layer management details.
 - **Bottom-Up**: Events bubble from children to parents
 - **Cross-Panel**: Messages sent via SplitView message channel
 
-See [Event System](view-events.md) and [Data Flow](view-integration.md#data-flow) for details.
+See [Event System](view-events.md) and [Data Flow](#data-flow) for details.
 
 ## Quick Start
 

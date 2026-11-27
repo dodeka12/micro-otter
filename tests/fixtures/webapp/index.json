@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-26T00:00:00Z",
+  "generatedBy": { "name": "micro-otter", "version": "1.43.0" },
+  "release": { "version": "1.0.0", "tag": "firmware-v1.0.0", "kind": "stable" },
+  "firmware": [
+    {
+      "board": "esp32",
+      "boardName": "ESP32 (WROOM / generic)",
+      "chip": "esp32",
+      "flashOffset": "0x1000",
+      "runtime": "general",
+      "version": "1.0.0",
+      "channel": "release",
+      "micropythonVersion": "1.26.0",
+      "sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "size": 1468928,
+      "url": "https://example.invalid/firmware-v1.0.0/esp32-general-1.0.0-micropython-1.26.0.bin",
+      "package": {
+        "sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+        "size": 1503221,
+        "url": "https://example.invalid/firmware-v1.0.0/esp32-general-1.0.0-micropython-1.26.0.firmware.zip"
+      },
+      "includedPackages": { "core": "1.29.0" }
+    },
+    {
+      "board": "esp32_generic_s3",
+      "boardName": "<script>alert(1)</script>",
+      "chip": "esp32s3",
+      "flashOffset": "0",
+      "runtime": "general",
+      "version": "1.0.0",
+      "channel": "release",
+      "micropythonVersion": "1.26.0",
+      "sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+      "size": 4194304,
+      "url": "https://example.invalid/firmware-v1.0.0/esp32_generic_s3-general-1.0.0-micropython-1.26.0.bin",
+      "includedPackages": { "core": "1.29.0" }
+    }
+  ]
+}

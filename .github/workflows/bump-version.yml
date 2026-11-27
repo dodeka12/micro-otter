@@ -1,15 +1,21 @@
-name: Auto Tag Version
+name: Tag Version (manual)
 
-# Post-merge release tagging, not part of the CI baseline. ci.yml holds only
-# `contents: read` and publishes nothing; this workflow needs `contents: write`
-# solely to push the version tag and is replaced by the release workflow (M8).
+# Manual release-tagging helper, not part of any automatic gate. The automatic
+# `pull_request: closed` trigger is disabled: a release is prepared and published by
+# the maintainer (`docs/workflow/release.md` — bump `release.json`, tag, build the
+# images and the exe, upload the assets), so nothing may mint a tag on its own. The
+# job is kept for a **manual** run only, and it is still public-repository-only,
+# because that is where the product tag history lives.
+#
+# This file is published verbatim, and a run in a tree without `v*` tags rests on
+# the action's `0.0.0` baseline instead: it would mint `v0.0.1` on a merge that
+# releases nothing (twice so far, 2026-11-24 and 2026-11-25). A `v*` tag shared by
+# both repositories also makes the sync-down fail with `would clobber existing tag`.
+# The guard names the public repository, so moving or renaming it needs this line
+# updated.
 
 on:
-  pull_request:
-    types:
-      - closed
-    branches:
-      - main
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -17,7 +23,9 @@ permissions:
 
 jobs:
   bump-version:
-    if: github.event.pull_request.merged == true
+    # Public repository only: see the header. A manual **Run workflow** is the only
+    # trigger now, so the tag is minted on demand instead of on every merge.
+    if: github.repository == 'dodeka12/micro-otter'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -25,6 +33,19 @@ jobs:
         with:
           fetch-depth: 0
           ref: main
+
+      - name: Require a version baseline
+        # `github-tag-action` derives the next version from the existing `v*` tags alone and falls
+        # back to `0.0.0` when there is none. Fail loudly instead of publishing a tag that
+        # corresponds to no release; the baseline is restored by creating the missing tag by hand.
+        run: |
+          git fetch --tags --quiet origin
+          baseline="$(git tag --list 'v[0-9]*' | sort -V | tail -n 1)"
+          if [ -z "$baseline" ]; then
+            echo "::error::No 'v*' tag exists, so the next tag would be v0.0.1. Restore the release-tag baseline first."
+            exit 1
+          fi
+          echo "Version baseline: ${baseline}"
 
       - name: Determine semver bump from commit titles
         id: determine-bump

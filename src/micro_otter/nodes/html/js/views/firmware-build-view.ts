@@ -3,6 +3,7 @@
 import { ViewBase } from './view-base.js';
 import { IconProvider } from './icon-provider.js';
 import { isTargetCompatibleWithImage } from '../data/target-compatibility.js';
+import { isHostedBuild, getHostedDocsUrl } from '../core/build-mode.js';
 import { CollapsibleView } from './collapsible-view.js';
 import { ContentView } from './content-view.js';
 import { DataTableView } from './data-table-view.js';
@@ -3048,6 +3049,38 @@ export class FirmwareBuildView extends ViewBase {
     }
 
     /**
+     * Locale key of the offline explainer body.
+     *
+     * The hosted bundle has no server to diagnose, so it explains a different situation in the
+     * same explainer: the local-server features are missing on purpose and where to get them. This
+     * method is the only place that choice is made.
+     * @private
+     */
+    _offlineBodyKey(): string {
+        return isHostedBuild() ? 'firmwareBuild.hosted.body' : 'firmwareBuild.offline.body';
+    }
+
+    /**
+     * Markdown for the offline explainer: the locale body plus, in a hosted bundle that was built
+     * with a docs URL, one line linking the desktop install.
+     *
+     * No URL is invented here: without `--docs-url` the body ends after the explanation (decision:
+     * the build never names a host).
+     * @private
+     */
+    _offlineBodyMarkdown(): string {
+        const body = this.t(this._offlineBodyKey());
+        if (!isHostedBuild()) {
+            return body;
+        }
+        const docsUrl = getHostedDocsUrl();
+        if (!docsUrl) {
+            return body;
+        }
+        return `${body}\n\n${this.t('firmwareBuild.hosted.installLink', { url: docsUrl })}`;
+    }
+
+    /**
      * Refresh every locale-dependent text outside the panes: the Help pane, the
      * offline section's header title, its explainer and its diagnostic rows.
      *
@@ -3060,7 +3093,7 @@ export class FirmwareBuildView extends ViewBase {
         if (this._offlineCollapsible) {
             this._offlineCollapsible.headerTitle = this.t('firmwareBuild.help.title');
         }
-        this._offlineMarkdownView?.setMarkdown(this.t('firmwareBuild.offline.body'));
+        this._offlineMarkdownView?.setMarkdown(this._offlineBodyMarkdown());
         this._renderOfflineDiagnostics();
     }
 
@@ -3117,7 +3150,7 @@ export class FirmwareBuildView extends ViewBase {
         body.appendChild(markdownHost);
 
         this._offlineMarkdownView = new MarkdownView({
-            markdown: this.t('firmwareBuild.offline.body'),
+            markdown: this._offlineBodyMarkdown(),
             title: this.t('firmwareBuild.help.title'),
             i18nService: this._i18nService,
             logger: this._logger,
@@ -3136,6 +3169,9 @@ export class FirmwareBuildView extends ViewBase {
      * Render the diagnostic rows under the offline explainer from the retained
      * capability diagnostics, hiding the list when there is nothing to report
      * (which is the normal case: an unreachable server reports no backends).
+     *
+     * A hosted bundle renders no rows at all: there is no backend to diagnose, and the hosted
+     * body carries the whole explanation.
      */
     _renderOfflineDiagnostics(): void {
         const host = this._offlineDiagnosticsEl;
@@ -3143,6 +3179,10 @@ export class FirmwareBuildView extends ViewBase {
             return;
         }
         host.replaceChildren();
+        if (isHostedBuild()) {
+            host.hidden = true;
+            return;
+        }
         for (const text of this._diagnosticTexts) {
             const row = document.createElement('div');
             row.className = 'firmware-build-view__diagnostic';
@@ -3170,7 +3210,7 @@ export class FirmwareBuildView extends ViewBase {
         const entering = offline && !this._offlineMode;
         this._offlineMode = offline;
         if (offline) {
-            this._offlineMarkdownView?.setMarkdown(this.t('firmwareBuild.offline.body'));
+            this._offlineMarkdownView?.setMarkdown(this._offlineBodyMarkdown());
             if (entering) {
                 this._offlineCollapsible?.expand();
             }

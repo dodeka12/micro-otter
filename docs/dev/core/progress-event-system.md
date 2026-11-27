@@ -914,4 +914,4 @@ The Progress Event System provides a flexible, reusable foundation for tracking 
 - Include context in error events
 - Test progress tracking in isolation
 
-For questions or improvements, see the main implementation plan at [`ldev/todos/v2/load-progress-events.md`](../../../ldev/todos/v2/load-progress-events.md).
+For questions or improvements, see the main implementation plan at `ldev/todos/v2/load-progress-events.md`.

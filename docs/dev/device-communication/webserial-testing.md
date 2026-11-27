@@ -642,6 +642,6 @@ import esp; esp.flash_size()
 
 ## Related Documentation
 
-- [Phase 2 Implementation Plan](../../../ldev/todos/v2/webserial-refactor/02-webserial-implementation.md)
+- Phase 2 Implementation Plan
 - [Web Serial API Specification](https://wicg.github.io/serial/)
-- [Coding Style Guide](../v2/dev/coding-style-guide.md)
+- [Coding Style Guide](../guides/coding-style-guide.md)

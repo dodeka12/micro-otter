@@ -1,6 +1,7 @@
 # Deployment System Documentation
 
 This folder contains documentation about the deployment system architecture, access control, and device deployment APIs.
+It also covers the hosted (browser-only) build: it runs without the local server but keeps the source-upload deploy path.
 
 **Canonical invariant:** node-package **source upload** is independent of firmware images, feature flags,
 and package selection. The `missing` / `override-required` fallback that uploads source is decided by the
@@ -27,7 +28,11 @@ firmware-side statement of the same rule.
 
 - **[deploy-layout.md](deploy-layout.md)** - Ownership contract for the top-level `deploy/` tree (toolchain, docker, release, packaging), the shared toolchain pin source, and the boundary that keeps node-package source upload out of the build/flash backends.
 
+- **[docker-images.md](docker-images.md)** - The runtime and compile images, the compose profiles and USB overlay, the `/data` volume and `/opt` toolchain, and the verification status.
+
 - **[configuration.md](configuration.md)** - Configuration reference: precedence chain (`CLI flag > environment > micro-otter.toml > platform default`), TOML schema, platform defaults, state-directory location, and the `toolchain`/`doctor`/`serve` contracts with their JSON payloads and exit codes.
+
+- **[hosted-webapp.md](hosted-webapp.md)** - The browser-only hosted build: `mo webapp build` and its environment seam, the surfaces hosted mode turns off, the shipped CSP, the `/firmware/` page rendered from a release index, `webapp-build.json`, and `mo webapp upload` with its publication order, prune safety and verification.
 
 ## Environment Checks
 
