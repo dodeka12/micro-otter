@@ -77,6 +77,9 @@ Deployment system architecture, access control, and device deployment APIs.
   `doctor` / `serve` contracts.
 - [deployment/deployment-system-architecture.md](deployment/deployment-system-architecture.md) -
   End-to-end deployment architecture.
+- [deployment/hosted-webapp.md](deployment/hosted-webapp.md) - The browser-only hosted build: the
+  Vite hosted mode and its env seam, what `/api` and the Firmware tab lose, the CSP, the generated
+  `/firmware/` page, `webapp-build.json`, and `mo webapp build` / `mo webapp upload`.
 
 ### [⚙️ mpy-precompilation/](mpy-precompilation/)
 
@@ -114,6 +117,9 @@ Developer documentation for firmware-embedded runtime compile contracts, packagi
   codes, cancel/timeout/cleanup.
 - [firmware-compile/firmware-deploy-contract.md](firmware-compile/firmware-deploy-contract.md) -
   The headless deploy helper: request/report types, image resolution, deploy payload, `flash-*` codes.
+- [firmware-compile/firmware-index.md](firmware-compile/firmware-index.md) -
+  `tools/make_release_index.py`: the `index.json` and release-body shape a manual firmware release
+  publishes, why the `--base-url` is required, and the `release-index-*` failure codes.
 
 ## 📚 Additional Resources
 
@@ -136,12 +142,21 @@ Developer documentation for firmware-embedded runtime compile contracts, packagi
 
 ### Tools
 
+- [../admin/two-repository-model.md](../admin/two-repository-model.md) - The one-page mental model:
+  two independent repositories, why a private merge changes nothing public, and what "product" means
+  by path
+- [../workflow/two-repository-workflow.md](../workflow/two-repository-workflow.md) - The routing
+  procedure: classify the changed paths, branch, PR A, publish (`status`/`prepare`/`publish`), PR B,
+  sync down, and the guard-to-fix troubleshooting table
 - [../admin/release-sync.md](../admin/release-sync.md) - Repository administration guide: the
   two-repository topology, the `dev/` vs `ldev/` split, `node ldev/tools/publish.mjs`
   `status`/`prepare`/`publish`, the guard list, the sync-down rule, and tag/artifact expectations
+- [guides/repository-workflow.md](guides/repository-workflow.md) - The developer-facing view of the
+  same workflow: tree roles, the private `agents-local.md`, the version producers, the tool's flags and
+  guards, and what the sdist and the wheel contain
 - [../tools/mpy-runtime-workflow.md](../tools/mpy-runtime-workflow.md) - MPY tooling workflow for probing device ABI, compiling runtime profiles, and deploying .mpy files.
 - [mpy-precompilation/hash-spec.md](mpy-precompilation/hash-spec.md) - Canonical compile-profile hash specification for Python and JavaScript parity.
-- [../workflow/release.md](../workflow/release.md) - How to cut a firmware release: bump `release.json`, tag `firmware-v<base>` (never move it), and publish.
+- [../workflow/release.md](../workflow/release.md) - The manual release procedure: bump `release.json`, build and export per board in the compile image, generate the index and release body, tag `firmware-v<base>` (never move it), and upload with `gh release create --verify-tag`.
 
 ## 🤝 Contributing
 

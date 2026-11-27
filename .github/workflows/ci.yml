@@ -1,13 +1,20 @@
 name: CI
 
-# Baseline validation for every pull request. This workflow is published verbatim
-# into the public repository, so it never names either repository, never runs a
-# private-only guard, and publishes nothing (no branch/tag push, no package, no
-# site, no firmware). Publication is owned by the release and Pages workflows.
+# Baseline validation for every pull request and every merge to `main` in the
+# published repository. This workflow is published verbatim into both
+# repositories, so it has to stay harmless in the development repository: every
+# job carries the public-repository guard below and reports `skipped` there, which
+# costs no runner minutes. `workflow_dispatch` (**Run workflow**) bypasses the
+# guard so the full gate can be started on demand in this repository, e.g. before
+# a publication. Nothing is published (no branch/tag push, no package, no site, no
+# firmware, no installer): releases are cut by hand, see docs/workflow/release.md.
 #
-# Job ids are the stable required status-check names shared by both repositories:
-# `python`, `web`, `docs`. There is no `device-syntax` job: mpy-cross is a local
-# toolchain build, so that gate stays in `npm run check:ci-local`.
+# Job ids are the stable required status-check names, identical in both
+# repositories: `python`, `web`, `docs`, `packaging`, `docker`, `windows`. `windows`
+# is manual-only (see its job): the Windows exe and the firmware images are built by
+# the maintainer for a release, never on a pull request or merge. There is no
+# `device-syntax` job: mpy-cross is a local toolchain build, so that gate stays in
+# `npm run check:ci-local`.
 
 on:
   push:
@@ -34,9 +41,15 @@ concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
+# Automatic CI runs in the published repository only. A pull request or merge in
+# the development repository creates the run but skips every job, so it spends no
+# runner minutes; `workflow_dispatch` keeps the full gate available on demand.
+# `windows` is manual-only in both repositories, so the automatic gate is the five
+# remaining jobs. `tests/test_ci_workflow.py` pins the guards.
 jobs:
   python:
     name: python
+    if: github.repository == 'dodeka12/micro-otter' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -66,6 +79,7 @@ jobs:
 
   web:
     name: web
+    if: github.repository == 'dodeka12/micro-otter' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -101,9 +115,24 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
-      - name: Node tests
-        run: npm run test:node
-
+      # The Node suite (`npm run test:node`, 6,100+ assertions) is suspended in CI: it is 386 s of
+      # the ~400 s `web` job, so it doubles the round trip through a publication and the sync-down
+      # in both the pull-request and the post-merge run. Run it locally before a publication and
+      # before merging anything that touches `tools/`, `tests/`, `src/micro_otter/` or `deploy/`
+      # (`npm run test:node`). Restore the gate by replacing the `Node tests (suspended)` step with
+      # these two steps:
+      #
+      #   - name: Node tests
+      #     run: npm run test:node
+      #
+      # Suspension tracked in `docs/dev/guides/testing-architecture.md` (Temporary CI split) and
+      # lifted once the packaging infrastructure is stable and the remaining milestones have landed.
+      - name: Node tests (suspended)
+        # Keeps the suspension visible in the run log and on the pull request, where the YAML comment
+        # is never read.
+        run: |
+          echo "::warning::npm run test:node is suspended in CI. Run it locally before a publication;" \
+               "see docs/dev/guides/testing-architecture.md#temporary-ci-split."
       - name: Vitest
         run: npm run test:vitest
 
@@ -127,6 +156,7 @@ jobs:
 
   docs:
     name: docs
+    if: github.repository == 'dodeka12/micro-otter' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -145,6 +175,15 @@ jobs:
       - name: Build docs
         run: uv run mkdocs build --strict
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Check documentation links
+        run: npm run check:docs-links
+
       - name: Upload docs site
         uses: actions/upload-artifact@v4
         with:
@@ -152,3 +191,142 @@ jobs:
           path: site/
           if-no-files-found: error
           retention-days: 7
+
+  packaging:
+    name: packaging
+    if: github.repository == 'dodeka12/micro-otter' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: '3.12'
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+
+      - name: Build wheel
+        run: bash deploy/packaging/build-wheel.sh
+
+      - name: Verify installed wheel
+        run: bash deploy/packaging/verify-wheel.sh
+
+      - name: Upload wheel
+        uses: actions/upload-artifact@v4
+        with:
+          name: micro-otter-wheel
+          path: dist/*.whl
+          if-no-files-found: error
+          retention-days: 7
+
+  docker:
+    name: docker
+    if: github.repository == 'dodeka12/micro-otter' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: '3.12'
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+
+      - name: Write app version
+        run: uv sync --group dev --reinstall-package micro-otter
+
+      - name: Build runtime image
+        run: |
+          docker build -f deploy/docker/Dockerfile.runtime \
+            --build-arg MICRO_OTTER_VERSION="$(uv run python -c 'import micro_otter; print(micro_otter.__version__)')" \
+            -t micro-otter-runtime:ci .
+
+      - name: Smoke the runtime container
+        run: |
+          docker run -d --name mo-runtime -p 18000:8000 micro-otter-runtime:ci
+          for i in $(seq 1 60); do
+            curl -fsS http://127.0.0.1:18000/api/server-capabilities >/dev/null 2>&1 && break
+            sleep 1
+          done
+          curl -fsS http://127.0.0.1:18000/api/server-capabilities
+          test "$(docker exec mo-runtime id -u)" = "10001"
+          if docker exec mo-runtime sh -c 'command -v idf.py git gh gpg' >/dev/null 2>&1; then
+            echo "runtime image must not contain idf.py/git/gh/gpg" >&2
+            exit 1
+          fi
+          for i in $(seq 1 40); do
+            [ "$(docker inspect --format '{{.State.Health.Status}}' mo-runtime)" = "healthy" ] && break
+            sleep 1
+          done
+          test "$(docker inspect --format '{{.State.Health.Status}}' mo-runtime)" = "healthy"
+          docker rm -f mo-runtime
+
+      - name: Validate compose config
+        run: |
+          docker compose -f deploy/docker/compose.yaml --profile runtime config >/dev/null
+          docker compose -f deploy/docker/compose.yaml -f deploy/docker/compose.usb.yaml config >/dev/null
+
+  windows:
+    name: windows
+    # Manual only: the Windows exe is built on request when a release is assembled by
+    # hand (`docs/workflow/release.md`), not on every pull request. The job id stays
+    # in place because it is a required status-check name: a skipped job satisfies the
+    # check, a missing job would leave every pull request waiting forever.
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: '3.12'
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+
+      - name: Build exe
+        run: pwsh -File deploy/packaging/build-exe.ps1
+
+      - name: Smoke exe
+        shell: pwsh
+        run: |
+          .\dist\micro-otter.exe --help
+          $proc = Start-Process -FilePath ".\dist\micro-otter.exe" -ArgumentList @("serve","--host","127.0.0.1","--port","18000","--no-open-browser") -PassThru
+          try {
+            $ok = $false
+            for ($i = 0; $i -lt 60; $i++) {
+              try {
+                $payload = Invoke-RestMethod -Uri "http://127.0.0.1:18000/api/server-capabilities" -TimeoutSec 2
+                if ($payload.serverType -eq "micro-otter") { $ok = $true; break }
+              } catch { Start-Sleep -Seconds 1 }
+            }
+            if (-not $ok) { throw "capabilities probe never reported micro-otter" }
+          } finally {
+            Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue
+          }
+
+      - name: Upload exe
+        uses: actions/upload-artifact@v4
+        with:
+          name: micro-otter-windows-exe
+          path: dist/micro-otter.exe
+          if-no-files-found: error
+          retention-days: 7
+

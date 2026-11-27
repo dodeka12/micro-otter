@@ -57,9 +57,37 @@ If a PR mixes multiple types, the highest priority wins: `major > minor > patch`
 - Squash merge is recommended so the PR title becomes the default commit message.
 - Keep summaries short (≤72 characters) and bodies wrapped at 72 characters.
 - Reference issues using `Fixes #123` or `Refs #456` in the footer when applicable.
-- Test runner behavior (including `.test.js` against `.ts` source) is documented in [README.md](README.md#testing-js-tests-with-ts-source).
+- Test runner behavior (including `.test.js` against `.ts` source) is documented in [docs/dev/guides/testing-architecture.md](docs/dev/guides/testing-architecture.md#commands).
 
-Following these conventions keeps the changelog readable and ensures automatic tagging works smoothly. Happy hacking!
+Following these conventions keeps the changelog, the release notes and the manual release procedure
+consistent. Happy hacking!
+
+## Repository layout and publication
+
+Development happens in the private repository; `micro-otter` is the published repository. Three paths
+need care:
+
+- **Plans** live in the plan tree: `ldev/todos/` here, `todos/` in the published `dev/` scaffold. To
+  propose a plan, add a folder under `ldev/todos/` with the usual `overview.md` plus phase files; see
+  `agents-local.md` → **Private plan tree** for the structure.
+- **`dev/`** is published verbatim and holds only its `README.md` and empty folders — never put a plan
+  file there.
+- **`agents-local.md`** holds the maintainer-only rules (the private plan tree and the publication
+  procedure). It is listed in `excludedPaths`, so it never publishes and `AGENTS.md` is identical in
+  both repositories.
+
+Everything else is byte-identical apart from the declared devcontainer variant
+(`ldev/devcontainer/devcontainer.public.json` drops the maintainer's public-clone bind mount), and
+public changes reach `micro-otter` only through a publication pull request:
+`node ldev/tools/publish.mjs status` → `prepare` → `publish --create-pr`, followed by
+the merge and the release tag. The commands, flags, guards and the sync-down merge are documented in
+[docs/dev/guides/repository-workflow.md](docs/dev/guides/repository-workflow.md); the guard suite runs
+with `node --test 'ldev/tools/tests/**/*.test.mjs'`.
+
+In the published repository the required checks are the three CI jobs below (`python`, `web`,
+`docs`); in this development repository every job is skipped (see *Continuous Integration*). Run
+`npm run check:ci-local`, `npm run test:node`, `npm run typecheck`, and `uv run pytest -q` before
+considering a change complete.
 
 ## User documentation
 
@@ -71,6 +99,9 @@ versioning). The developer markdown under `docs/` stays in the repository and is
   setting or message is described on the page that covers it.
 - `npm run check:docs` (`uv run mkdocs build --strict`) must pass. It runs inside
   `npm run check:ci-local`, so the pre-push hook enforces it.
+- `npm run check:docs-links` (`node tools/check_docs_links.mjs`) must pass: it scans every published
+  markdown tree for broken relative links and fails closed on an unused allowlist entry. It also runs
+  inside `npm run check:ci-local`.
 - Preview with `uv sync --group docs && uv run mkdocs serve`; see
   [README.md](README.md#documentation) for the versioned preview.
 
@@ -121,15 +152,29 @@ covers it; the `push` trigger exists for the post-merge check of `main`, which t
 pushes. It holds `contents: read` only, cancels superseded runs on the same ref, caches
 dependencies, and publishes nothing: no tag, package, release or site.
 
+Automatic runs are scoped to the published repository: every job carries
+`if: github.repository == 'dodeka12/micro-otter' || github.event_name == 'workflow_dispatch'`. A pull
+request or merge in this development repository therefore creates the run but skips every job, so no
+wheel, Docker image, or Windows exe is built and no runner minutes are spent; the full gate is one
+**Run workflow** click away, e.g. before a publication. In `micro-otter` the guard is always true, so
+CI runs exactly as the table describes, and `tests/test_ci_workflow.py` pins the guard on every job.
+
 | Job | What it runs | Local equivalent |
 | --- | --- | --- |
 | `python` | `uv sync --group dev`, `uv run ruff check src/ tools/ tests/`, `uv run pytest` | `npm run lint:python && uv run pytest -q` |
-| `web` | `npm ci`, `npm run check:lockfile-sync`, `check:oss-generated`, `check:mdi-generated`, `check:payload-docs`, `check:event-payload-emissions`, `lint`, `typecheck`, `test:node`, `test:vitest`, `build` | `npm run check:ci-local:web && npm run typecheck && npm run test:node && npm run test:vitest && npm run build` |
-| `docs` | `uv sync --group docs`, `uv run mkdocs build --strict`, upload `site/` as the `docs-site` artifact | `npm run check:docs` |
+| `web` | `npm ci`, `npm run check:lockfile-sync`, `check:oss-generated`, `check:mdi-generated`, `check:payload-docs`, `check:event-payload-emissions`, `lint`, `typecheck`, `test:vitest`, `uv sync --group dev --reinstall-package micro-otter`, `build` | `npm run check:ci-local:web && npm run typecheck && npm run test:node && npm run test:vitest && npm run build` |
+| `docs` | `uv sync --group docs`, `uv run mkdocs build --strict`, `npm run check:docs-links`, upload `site/` as the `docs-site` artifact | `npm run check:docs && npm run check:docs-links` |
+| `packaging` | `bash deploy/packaging/build-wheel.sh`, `bash deploy/packaging/verify-wheel.sh`, upload `dist/*.whl` | `bash deploy/packaging/build-wheel.sh && bash deploy/packaging/verify-wheel.sh` |
+| `docker` | build `deploy/docker/Dockerfile.runtime`, start + smoke (uid `10001`, no idf.py/git/gh/gpg, `healthy`), `docker compose … config` | a host with a Docker daemon |
+| `windows` | `pwsh -File deploy/packaging/build-exe.ps1`, smoke `--help` + `serve`, upload `dist/micro-otter.exe` | a Windows host |
 
 The job ids are the required status-check names and are identical in the public repository
-`micro-otter`. `test:node` includes `tests/deployment/`, so a firmware or packaging regression blocks
-the pull request even when the change does not touch the web app. There is no `device-syntax` CI job:
+`micro-otter`. The Node suite (`npm run test:node`) is suspended in CI for now: it was 386 s of the
+~400 s `web` job. Run it locally before a publication and before merging anything that touches `tools/`,
+`tests/`, `src/micro_otter/` or `deploy/`; it includes `tests/deployment/`, so a firmware or packaging
+regression is caught there. See
+[testing-architecture.md](docs/dev/guides/testing-architecture.md#temporary-ci-split). There is no
+`device-syntax` CI job:
 mpy-cross is a local toolchain build, so that gate stays in `npm run check:ci-local` and runs in the
 firmware compile image instead. A status badge is added once the repository is public.
 

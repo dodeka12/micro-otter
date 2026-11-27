@@ -18,7 +18,7 @@ The data layer implements a hierarchical model: **Workspace → Collection → N
 - NodeData: Individual node instances with properties and controls
 - NodeControl: UI control values (number, text, dropdown, checkbox, color)
 
-**See:** [data-backbone-architecture.md](data-backbone-architecture.md)
+**See:** [data-backbone-architecture.md](../core/data-backbone-architecture.md)
 
 ### 2. View System
 
@@ -30,7 +30,7 @@ All UI components extend **ViewBase**, which provides lifecycle management (atta
 
 Views are serializable for layout persistence and receive dependencies via context injection.
 
-**See:** [view-system-architecture.md](view-system-architecture.md)
+**See:** [view-system-architecture.md](../view-system/view-system-architecture.md)
 
 ### 3. Node UI System
 
@@ -42,7 +42,7 @@ Node rendering is split into modular components:
 - **Hit Testing Module**: Mouse interaction detection
 - **Input Default Controls**: Inline controls for disconnected inputs
 
-**See:** [node-ui-module-structure.md](node-ui-module-structure.md)
+**See:** [node-ui-module-structure.md](../view-system/node-ui-module-structure.md)
 
 ### 4. Code Generation & Deployment
 
@@ -52,7 +52,7 @@ The **Transpiler** converts node graphs to Python code for ESP32 deployment:
 - **Capability System**: Validates device support before deployment
 - **Web Serial Integration**: Direct deployment to ESP32 devices via browser API
 
-**See:** [transpiler-architecture.md](transpiler-architecture.md)
+**See:** [transpiler-architecture.md](../nodes/transpiler-architecture.md)
 
 ### 5. Web Serial Communication
 
@@ -66,7 +66,7 @@ The **WebSerial System** provides browser-based serial communication with ESP32 
 - **ConsoleLogView**: Message display with type icons and circular buffer
 - **DeviceConnectionView**: Composite UI with collapsible connection controls, runtime settings, and device log panes
 
-**See:** [webserial-architecture.md](webserial-architecture.md), [deployment-system-architecture.md](deployment-system-architecture.md), [device-deployment-api.md](device-deployment-api.md)
+**See:** [webserial-architecture.md](../device-communication/webserial-architecture.md), [deployment-system-architecture.md](../deployment/deployment-system-architecture.md), [device-deployment-api.md](../deployment/device-deployment-api.md)
 
 ### 6. Runtime & Package System
 
@@ -75,7 +75,7 @@ The **WebSerial System** provides browser-based serial communication with ESP32 
 - **CollectionManager**: Single-source-of-truth for runtime-aware data access
 - **Target Definitions**: Device capability maps for validation
 
-**See:** [device-folder-structure.md](device-folder-structure.md)
+**See:** [device-folder-structure.md](../device-communication/device-folder-structure.md)
 
 ## Key Design Patterns
 
@@ -201,7 +201,7 @@ npm run build  # Creates _dist/webapp/
 
 ## Related Documentation
 
-For detailed information on specific subsystems, see the [Documentation Index](README.md).
+For detailed information on specific subsystems, see the [Documentation Index](../README.md).
 
 ## Future Enhancements
 
@@ -211,4 +211,4 @@ For detailed information on specific subsystems, see the [Documentation Index](R
 - Touch gesture support for tablets
 - Accessibility features (keyboard navigation, screen readers)
 
-See [ldev/todos/future-ideas.md](../../ldev/todos/future-ideas.md) for complete roadmap.
+See ldev/todos/future-ideas.md for complete roadmap.

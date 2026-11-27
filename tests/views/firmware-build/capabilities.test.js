@@ -42,6 +42,38 @@ function firingI18nService() {
     };
 }
 
+/**
+ * Minimal `marked` stand-in: turns every absolute URL in the source into a link token, which is
+ * what GFM autolinking produces in the browser. Without a provider the Markdown view renders the
+ * source as escaped text and no anchor exists to assert on.
+ * @returns {{lexer: (source: string) => object[]}} Provider for `window.marked`.
+ */
+function autolinkMarked() {
+    return {
+        lexer(source) {
+            const tokens = [];
+            const pattern = /(https?:\/\/\S+)/g;
+            let last = 0;
+            let match;
+            while ((match = pattern.exec(source)) !== null) {
+                if (match.index > last) {
+                    tokens.push({ type: 'text', text: source.slice(last, match.index) });
+                }
+                tokens.push({
+                    type: 'link',
+                    href: match[0],
+                    tokens: [{ type: 'text', text: match[0] }],
+                });
+                last = match.index + match[0].length;
+            }
+            if (last < source.length) {
+                tokens.push({ type: 'text', text: source.slice(last) });
+            }
+            return [{ type: 'paragraph', tokens }];
+        },
+    };
+}
+
 describe('FirmwareBuildView capabilities', () => {
     let dom;
     let container;
@@ -53,6 +85,9 @@ describe('FirmwareBuildView capabilities', () => {
 
     afterEach(() => {
         teardownDom({ dom, container });
+        // The hosted cases below set these; `teardownDom` only clears the DOM globals.
+        delete globalThis.__MICRO_OTTER_HOSTED__;
+        delete globalThis.__MICRO_OTTER_DOCS_URL__;
     });
 
     /** The Build pane's icon-only Build control. */
@@ -250,5 +285,57 @@ describe('FirmwareBuildView capabilities', () => {
 
         view.detach();
         assert.equal(store.listeners.size, 0);
+    });
+
+    it('explains the hosted editor instead of the server outage', async () => {
+        globalThis.__MICRO_OTTER_HOSTED__ = true;
+        globalThis.__MICRO_OTTER_DOCS_URL__ = 'https://example.invalid/install';
+        window.marked = autolinkMarked();
+
+        const store = createStore(unavailableSnapshot('unreachable'));
+        const view = new FirmwareBuildView(createOptions({ store, runtime: createRuntime() }));
+        view.attachTo(container);
+        await tick();
+
+        const host = offline();
+        assert.equal(host.hidden, false, 'the hosted notice is shown');
+        assert.match(host.textContent, /firmwareBuild\.hosted\.body/);
+        assert.doesNotMatch(host.textContent, /firmwareBuild\.offline\.body/);
+        assert.equal(
+            host.querySelectorAll('.firmware-build-view__diagnostic').length,
+            0,
+            'nothing to diagnose without a server'
+        );
+        const anchors = host.querySelectorAll('a');
+        assert.equal(anchors.length, 1, 'one install link');
+        assert.equal(anchors[0].getAttribute('href'), 'https://example.invalid/install');
+        view.detach();
+    });
+
+    it('invents no install link when the build carried no docs url', async () => {
+        globalThis.__MICRO_OTTER_HOSTED__ = true;
+        window.marked = autolinkMarked();
+
+        const store = createStore(unavailableSnapshot('unreachable'));
+        const view = new FirmwareBuildView(createOptions({ store, runtime: createRuntime() }));
+        view.attachTo(container);
+        await tick();
+
+        const host = offline();
+        assert.match(host.textContent, /firmwareBuild\.hosted\.body/);
+        assert.equal(host.querySelectorAll('a').length, 0, 'no default host anywhere');
+        view.detach();
+    });
+
+    it('keeps the server-outage body in a local build', async () => {
+        const store = createStore(unavailableSnapshot('unreachable'));
+        const view = new FirmwareBuildView(createOptions({ store, runtime: createRuntime() }));
+        view.attachTo(container);
+        await tick();
+
+        const host = offline();
+        assert.match(host.textContent, /firmwareBuild\.offline\.body/);
+        assert.doesNotMatch(host.textContent, /firmwareBuild\.hosted\.body/);
+        view.detach();
     });
 });

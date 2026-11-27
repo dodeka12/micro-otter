@@ -1531,12 +1531,12 @@ the descriptor into a concrete `{ options, disabled, value }` result at render t
   button for disabled controls; disabled controls do not emit change events. The popup menu is
   capped at `maxVisibleItems` rows with `overflow-y: auto` so long option lists scroll.
 
-See [Node Definition Reference](node-definition-reference.md#dynamic-options-target-derived) for the
+See [Node Definition Reference](../nodes/node-definition-reference.md#dynamic-options-target-derived) for the
 descriptor schema.
 
 ## Related Documentation
 
-- **[Node Definition Reference](node-definition-reference.md)** - JSON schema for control definitions
+- **[Node Definition Reference](../nodes/node-definition-reference.md)** - JSON schema for control definitions
 - **[View System Architecture](view-system-architecture.md)** - View lifecycle and integration
-- **[Data Backbone Architecture](data-backbone-architecture.md)** - Data model and events
-- **[Phase 2 Control Architecture Plan](../node-ui-plan/03-phase2-fixes-control-architecture/phase2-fixes-control-architecture.md)** - Detailed implementation plan
+- **[Data Backbone Architecture](../core/data-backbone-architecture.md)** - Data model and events
+- **Phase 2 Control Architecture Plan** - Detailed implementation plan

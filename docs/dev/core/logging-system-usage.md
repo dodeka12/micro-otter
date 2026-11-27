@@ -14,7 +14,7 @@ To see any log output, all of these must be true:
 
 If one is missing, log calls are silently dropped by design.
 
-For this web app, the master switch is set in [src/micro_otter/nodes/html/js/app/main.ts](src/micro_otter/nodes/html/js/app/main.ts) in the startup logging block:
+For this web app, the master switch is set in [src/micro_otter/nodes/html/js/app/main.ts](../../../src/micro_otter/nodes/html/js/app/main.ts) in the startup logging block:
 
 ```ts
 if (globalThis.__microOtterLog) {
@@ -517,7 +517,7 @@ this._log('message', 'debug', data);
 
 ## See Also
 
-- [ldev/todos/v2/node-ui-plan/09-viewbase-logging-system.md](../../ldev/todos/v2/node-ui-plan/09-viewbase-logging-system.md) - Full implementation plan
-- [src/micro_otter/nodes/html/js/core/log.ts](../../src/micro_otter/nodes/html/js/core/log.ts) - Implementation
-- [tests/core/log.test.js](../../tests/core/log.test.js) - Unit tests
+- ldev/todos/v2/node-ui-plan/09-viewbase-logging-system.md - Full implementation plan
+- [src/micro_otter/nodes/html/js/core/log.ts](../../../src/micro_otter/nodes/html/js/core/log.ts) - Implementation
+- [tests/core/log.test.js](../../../tests/core/log.test.js) - Unit tests
 - [../device-communication/log-prefix-conventions.md](../device-communication/log-prefix-conventions.md) - The **device** log prefix taxonomy (`[info]`, `[error]`, `[data]`, ...). This page is about the browser-side `logger`; device lines are tagged by the runtime before they ever reach the browser, and that taxonomy is what the device console filters on.

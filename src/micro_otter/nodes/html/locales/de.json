@@ -1240,6 +1240,10 @@
         },
         "offline": {
             "body": "## Firmware-Server nicht erreichbar\n\nDer Firmware-Tab benötigt den lokalen Micro-Otter-Server, der gerade nicht erreichbar ist.\n\n### Was der Server ermöglicht\n\n- Firmware-Images bauen und flashen\n- Ein Paket per Pfad oder URL importieren\n- Ein Paket in einen gewählten Ordner exportieren\n- Add-on-Pakete installieren\n\n### Server starten\n\n```bash\nuv run micro-otter serve\n```\n\nDie übrigen Tabs des Editors funktionieren weiter, solange der Server nicht läuft.\n"
+        },
+        "hosted": {
+            "body": "## Gehosteter Editor\n\nDies ist der gehostete Micro-Otter-Editor. Er läuft im Browser ohne den lokalen Micro-Otter-Server; deshalb funktioniert alles weiter, was direkt mit dem Gerät spricht:\n\n- Graphen und Sammlungen bearbeiten\n- Verbindung zu einer MicroPython-Platine über WebSerial\n- **Deploy**, einschließlich des Quelltext-Uploads für Pakete, die nicht in der Firmware enthalten sind\n\nFirmware bauen, Images flashen und die Image-Übersicht benötigen die Desktop-Installation, die die Toolchain mitbringt.\n\nVorgefertigte Firmware-Images stehen unter `/firmware` zum Herunterladen bereit.\n",
+            "installLink": "Micro-Otter für den Desktop herunterladen: {{url}}"
         }
     },
     "form": {

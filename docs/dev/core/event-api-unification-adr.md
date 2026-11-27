@@ -82,6 +82,6 @@ Reason: preserves ambiguity and inconsistency, making future maintenance and con
 ## References
 
 - [App event envelope standard](app-event-envelope.md)
-- [Event payload standardization overview](../../../ldev/todos/2026-02-19-event-payload-standardization/00-overview.md)
-- [View event structure spec](../../../ldev/todos/2026-02-19-event-payload-standardization/01-view-event-structure-spec.md)
-- [Phase 0 full sweep inventory](../../../ldev/todos/2026-02-19-event-payload-standardization/07-phase0-inventory-full-sweep.md)
+- Event payload standardization overview
+- View event structure spec
+- Phase 0 full sweep inventory

@@ -6,8 +6,8 @@ same editor and the same node packages.
 | Mode | What it is | How you get it | Documentation |
 |---|---|---|---|
 | Hosted web app | the editor in a browser tab; connects to the board through Web Serial only | open the hosted URL, no install | lands with M9 |
-| Local install | Micro-Otter served from your own machine as a wheel, a `uv tool` install, or a Docker runtime image | install the package or pull the image, then start the server | lands with M7 |
-| Developer install | a checkout plus the ESP-IDF toolchain, so you can build firmware images as well as run the editor | clone the repository and set up both toolchains | lands with M7 (compile image) on M2 |
+| Local install | Micro-Otter served from your own machine as a wheel, a `uv tool` install, or a Docker runtime image | install the package or pull the image, then start the server | [Linux](../install-linux.md), [macOS](../install-macos.md), [Windows](../install-windows.md) |
+| Developer install | a checkout plus the ESP-IDF toolchain, so you can build firmware images as well as run the editor | clone the repository and set up both toolchains | the [Linux](../install-linux.md) compile profile or the [developer docs](../developer-docs.md) |
 
 What each mode gives you:
 
@@ -20,9 +20,10 @@ What each mode gives you:
 The connection types are described in [Connect a device](connect.md); firmware building is part of the
 Firmware tab, described in [Firmware view](../app/firmware-view.md).
 
-The installation commands are not written yet. Until the packaging and hosted releases land, the
-developer documentation under `docs/dev/` in the repository is the only place with real build
-instructions — see [Developer documentation](../developer-docs.md).
+The installation commands are on the per-platform pages: [Linux](../install-linux.md),
+[macOS](../install-macos.md), and [Windows](../install-windows.md). Until the hosted app lands (M9),
+the developer documentation under `docs/dev/` in the repository carries the build instructions — see
+[Developer documentation](../developer-docs.md).
 
 ## Related
 

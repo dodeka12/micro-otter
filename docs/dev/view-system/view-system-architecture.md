@@ -11,7 +11,7 @@ The View System documentation is now organized as follows:
 ### Core Documentation
 
 - **[View System Overview](view-system-overview.md)** - Start here for architecture overview, class hierarchy, and quick start
-- **[ViewBase Lifecycle](viewbase-lifecycle.md)** - Lifecycle management, attachment flow, and hooks
+- **[ViewBase Lifecycle](view-api-reference.md)** - Lifecycle management, attachment flow, and hooks
 - **[ViewManager](view-manager.md)** - Layer management, dialogs, themes, and context
 - **[Event System](view-events.md)** - Communication patterns and data flow
 - **[Size Constraints](view-constraints.md)** - Constraint propagation and enforcement
@@ -54,7 +54,7 @@ If you're looking for specific content from the old unified document:
 | Old Section                 | New Location                                                                |
 | --------------------------- | --------------------------------------------------------------------------- |
 | Overview & Class Hierarchy  | [View System Overview](view-system-overview.md)                             |
-| ViewBase Lifecycle          | [ViewBase Lifecycle](viewbase-lifecycle.md)                                 |
+| ViewBase Lifecycle          | [ViewBase Lifecycle](view-api-reference.md)                                 |
 | ViewManager                 | [ViewManager](view-manager.md)                                              |
 | Event System                | [Event System](view-events.md)                                              |
 | Size Constraint Propagation | [Size Constraints](view-constraints.md)                                     |
@@ -71,7 +71,7 @@ If you're looking for specific content from the old unified document:
 
 **Getting Started?** Start with [View System Overview](view-system-overview.md)
 
-**Building a Custom View?** See [ViewBase Lifecycle](viewbase-lifecycle.md) and [Serialization](view-serialization.md)
+**Building a Custom View?** See [ViewBase Lifecycle](view-api-reference.md) and [Serialization](view-serialization.md)
 
 **Managing Layouts?** See [ViewManager](view-manager.md)
 

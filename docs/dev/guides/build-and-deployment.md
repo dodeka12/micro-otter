@@ -466,6 +466,13 @@ is `html/icons/LICENSE`, which names the covered directories and the one modific
 
 ### Static Web Hosting
 
+Two static outputs exist and are not interchangeable. `_dist/webapp` is built by `npm run build`
+(every wheel build runs it), ships inside the wheel and is served by `mo serve`, so `/api/*` works.
+`_dist/webapp-hosted` is built by `uv run mo webapp build` — no local server, WebSerial as the only
+device path — and published with `uv run mo webapp upload`; its mode, CSP and generated `/firmware/`
+page are documented in [hosted-webapp.md](../deployment/hosted-webapp.md). The snippets below serve
+either directory.
+
 The `_dist/webapp/` output is a **fully static site** deployable to any web server:
 
 #### Nginx
@@ -520,6 +527,25 @@ These platforms automatically detect Vite and apply optimizations (CDN, HTTP/2, 
 
 ---
 
+## Packaging
+
+The installable artifacts are the wheel, the runtime/compile images, and the Windows exe:
+
+- `bash deploy/packaging/build-wheel.sh` builds the self-contained wheel (web app + toolchain assets)
+  and inspects it with `tools/inspect_wheel.py`.
+- `bash deploy/packaging/verify-wheel.sh` installs it into a throwaway venv and smokes `serve`.
+- `deploy/packaging/build-exe.ps1` builds `micro-otter.exe` on Windows (PyInstaller).
+- `deploy/docker/Dockerfile.runtime` / `Dockerfile.compile` + `compose.yaml` build the images; see
+  [docker-images.md](../deployment/docker-images.md).
+
+None of these artifacts carries a firmware image: the wheel, the exe and the images ship the web app,
+the device tree and the toolchain assets only, and `tools/inspect_wheel.py` enforces that list. A
+release is assembled by hand — the maintainer builds the images and the exe, tags, and uploads the
+assets to the GitHub Release; see [release.md](../../workflow/release.md). CI builds neither the exe
+nor firmware automatically.
+
+---
+
 ## CI/CD Integration
 
 ### Repository CI baseline
@@ -531,16 +557,42 @@ the post-merge check of `main`, which takes no direct pushes. It holds `contents
 cancels superseded runs on the same ref, caches `uv.lock` and `package-lock.json`, and publishes
 nothing; the deployment example below is not wired into it.
 
+Automatic runs are scoped to the published repository: every automatic job carries
+`if: github.repository == 'dodeka12/micro-otter' || github.event_name == 'workflow_dispatch'`, so a
+pull request or merge in the development repository skips all five of them — no wheel or image is
+built and no runner minutes are spent. `workflow_dispatch` (**Run workflow**) runs the full gate
+there on demand, e.g. before a publication, and `tests/test_ci_workflow.py` pins the guard.
+
+The `windows` job is the one manual-only job: it builds the exe when someone asks for it
+(`if: github.event_name == 'workflow_dispatch'`), because a Windows release is assembled by hand.
+Its id stays in the required status-check set, where a skipped job satisfies the check. The same
+applies to `bump-version.yml`, which no longer tags on a merge: it is a manual helper only.
+
 | Job | What it runs | Local equivalent |
 | --- | --- | --- |
 | `python` | `uv sync --group dev`, `uv run ruff check src/ tools/ tests/`, `uv run pytest` | `npm run lint:python && uv run pytest -q` |
-| `web` | `npm ci`, `npm run check:lockfile-sync`, `check:oss-generated`, `check:mdi-generated`, `check:payload-docs`, `check:event-payload-emissions`, `lint`, `typecheck`, `test:node`, `test:vitest`, `build` | `npm run check:ci-local:web && npm run typecheck && npm run test:node && npm run test:vitest && npm run build` |
-| `docs` | `uv sync --group docs`, `uv run mkdocs build --strict`, upload `site/` as the `docs-site` artifact | `npm run check:docs` |
+| `web` | `npm ci`, `npm run check:lockfile-sync`, `check:oss-generated`, `check:mdi-generated`, `check:payload-docs`, `check:event-payload-emissions`, `lint`, `typecheck`, `test:vitest`, `uv sync --group dev --reinstall-package micro-otter`, `build` | `npm run check:ci-local:web && npm run typecheck && npm run test:node && npm run test:vitest && npm run build` |
+| `docs` | `uv sync --group docs`, `uv run mkdocs build --strict`, `npm run check:docs-links`, upload `site/` as the `docs-site` artifact | `npm run check:docs && npm run check:docs-links` |
+| `packaging` | `bash deploy/packaging/build-wheel.sh`, `bash deploy/packaging/verify-wheel.sh`, upload `dist/*.whl` | `bash deploy/packaging/build-wheel.sh && bash deploy/packaging/verify-wheel.sh` |
+| `docker` | build `deploy/docker/Dockerfile.runtime`, start + smoke (uid `10001`, no idf.py/git/gh/gpg, `healthy`), `docker compose … config` | a host with a Docker daemon (see [docker-images.md](../deployment/docker-images.md)) |
+| `windows` | **manual only**: `pwsh -File deploy/packaging/build-exe.ps1`, smoke `--help` + `serve`, upload `dist/micro-otter.exe` | a Windows host (see [release.md](../../workflow/release.md)) |
 
-`test:node` includes `tests/deployment/`, so a firmware or packaging regression blocks the pull
-request even when the change does not touch the web app. The `web` job never runs
+The Node suite (`npm run test:node`) is **suspended in CI**, temporarily: it was 386 s of the ~400 s
+`web` job, so every merge paid it twice — once on the pull request, once in the post-merge `push` run —
+and a change that came back through a publication and the sync-down paid it four times before the work
+could continue. Run it locally before a publication and before merging anything that touches `tools/`,
+`tests/`, `src/micro_otter/` or `deploy/`. It is the only coverage for `tests/deployment/`, so a
+firmware or packaging regression is now caught by that local run instead of the pull request. The exit
+condition is recorded in
+[testing-architecture.md](testing-architecture.md#temporary-ci-split). The `web` job never runs
 `check:device-syntax`: mpy-cross is only available from the local toolchain build, so that gate stays
 in `npm run check:ci-local` in the devcontainer and runs in the firmware compile image.
+
+`npm run build` reads `src/micro_otter/_version.py`, which hatch-vcs writes during a Python install
+and which is never tracked, so the otherwise Node-only `web` job sets up `uv` before the build. It
+reinstalls the project explicitly because `uv sync` alone is a no-op once the environment already has
+it installed and would not re-run the version hook. A fresh clone needs the same thing before a local
+`npm run build`: `uv sync --group dev`.
 
 ### Deployment example
 
@@ -778,10 +830,10 @@ If later migrating to React/Vue/Svelte:
 
 ## Related Documentation
 
-- **[View System Architecture](view-system-architecture.md)** - UI component structure
-- **[I18n System Architecture](i18n-architecture.md)** - Translation system
-- **[Data Backbone Architecture](data-backbone-architecture.md)** - Data model and persistence
-- **[Node Definition Reference](node-definition-reference.md)** - Node package format
+- **[View System Architecture](../view-system/view-system-architecture.md)** - UI component structure
+- **[I18n System Architecture](../core/i18n-architecture.md)** - Translation system
+- **[Data Backbone Architecture](../core/data-backbone-architecture.md)** - Data model and persistence
+- **[Node Definition Reference](../nodes/node-definition-reference.md)** - Node package format
 
 ---
 

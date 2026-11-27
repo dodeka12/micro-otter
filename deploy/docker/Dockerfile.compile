@@ -1,0 +1,48 @@
+# syntax=docker/dockerfile:1
+# Copyright (c) 2025 Christian Perwass; SPDX-License-Identifier: GPL-3.0-only
+#
+# Compile image: the runtime image plus the pinned ESP-IDF/MicroPython toolchain,
+# installed by `micro-otter toolchain install` (which wraps
+# `deploy/toolchain/bootstrap.sh`) into a fixed prefix under `/opt`. `/opt` is
+# therefore read-only-mountable and `/data` stays the only writable volume.
+#
+# Two build assumptions:
+#   1. The runtime image is built first under the tag in ARG RUNTIME_IMAGE
+#      (see compose.yaml: `docker compose --profile runtime build` first).
+#   2. Toolchain pins come from deploy/toolchain/versions.env only.
+
+ARG RUNTIME_IMAGE=micro-otter:runtime
+
+FROM ${RUNTIME_IMAGE}
+
+# The runtime image runs as the non-root `microotter` user; the toolchain layer
+# needs root to install system packages and write under /opt.
+USER root
+
+ENV MICRO_OTTER_TOOLCHAIN_DIR=/opt/micro-otter/toolchain \
+    IDF_PATH=/opt/micro-otter/toolchain/esp-idf \
+    IDF_TOOLS_PATH=/opt/.espressif \
+    MICROPYTHON_ROOT=/opt/micro-otter/toolchain/micropython \
+    MICRO_OTTER_ENABLE_COMPILE=1 \
+    MICRO_OTTER_BUILD_DIR=/data/build \
+    CCACHE_DIR=/data/ccache
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        build-essential \
+        ca-certificates \
+        ccache \
+        git \
+        libffi-dev \
+        libssl-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install the pinned toolchain through the packaged assets — never a second
+# install path. `micro-otter toolchain install` resolves the backend and
+# delegates to deploy/toolchain/bootstrap.sh.
+RUN micro-otter toolchain install --backend esp-idf
+
+# The runtime image's ENTRYPOINT/CMD/EXPOSE/HEALTHCHECK/VOLUME carry over; the
+# compile image only adds the toolchain. Switch back to the non-root user and do
+# not bake any credential or home-directory git config.
+USER microotter

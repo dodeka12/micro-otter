@@ -19,6 +19,7 @@ import { FirstRunConsentGate } from './first-run-consent-gate.js';
 import { startServerConnectionController } from './server-connection-controller.js';
 import { startDeploymentProgressController } from './deployment-progress-controller.js';
 import { resolveAppVersion } from '../core/app-meta.js';
+import { isHostedBuild } from '../core/build-mode.js';
 import { ServerCapabilitiesStore } from '../firmware/server-capabilities.js';
 import { ServerConnectionMonitor } from '../firmware/server-connection.js';
 import { DeviceConnectionMonitor } from '../serial/device-connection-monitor.js';
@@ -272,9 +273,16 @@ class MicroOtterApp {
         //     this.buildDefaultLayout();
         // }
         // One monitor owns reachability for the badge, the Firmware tab, and the dialog.
-        this.serverConnection = new ServerConnectionMonitor({
-            store: new ServerCapabilitiesStore(),
-        });
+        // A hosted bundle has no server to reach: no capability probe, no title-bar badge, and no
+        // reconnect dialog. `WorkspaceView` already treats a null monitor as "no server", so this
+        // guard is the whole gate — do not add a second one inside the views.
+        if (!isHostedBuild()) {
+            this.serverConnection = new ServerConnectionMonitor({
+                store: new ServerCapabilitiesStore(),
+            });
+        } else {
+            this.serverConnection = null;
+        }
         // One monitor owns device state for the title-bar badge and the connection
         // dialog. Created before the views so `start()` can run exactly once.
         this.deviceConnection = new DeviceConnectionMonitor({

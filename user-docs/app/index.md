@@ -101,3 +101,5 @@ Every graph runs in one execution type, picked in the graph toolbar or Settings 
 
 Both paths use the Deploy tab for the collection. Only the Firmware tab builds images; see the
 [Firmware view](firmware-view.md) and the source-upload rule in the [Deploy view](deploy-view.md).
+If you are using the [hosted web app](hosted.md), it has no build or flash step — install an image by
+hand from its `/firmware/` page once, then deploy as usual.

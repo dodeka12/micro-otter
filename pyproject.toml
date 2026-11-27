@@ -31,12 +31,23 @@ requires = [
 ]
 build-backend = "hatchling.build"
 
+# The wheel is the only supported install artifact (locked decision 1). It ships
+# runtime code only (`src/micro_otter`) plus two copied-in source paths, both
+# produced by `deploy/packaging/build-wheel.sh`:
+#   _dist/webapp      -> src/micro_otter/dist/webapp   the built web app
+#   deploy/toolchain  -> micro_otter/toolchain/assets  the shared toolchain assets
+# `artifacts` (not only `force-include`) is required for the bundle because
+# `.gitignore` ignores `dist/`, and Hatchling's default file selection honours
+# VCS ignores.
 [tool.hatch.build.targets.wheel]
-packages = ["src/micro_otter", "tools"]
+packages = ["src/micro_otter"]
+artifacts = ["src/micro_otter/dist/webapp/**"]
+force-include = { "deploy/toolchain" = "micro_otter/toolchain/assets" }
 
 # Hatchling otherwise packs every VCS-tracked file into the sdist, private
-# `ldev/` included. M7 decides whether an sdist ships at all (a wheel built from
-# it has no `_dist/webapp`).
+# `ldev/` included. The sdist is a source archive for inspectors only: it cannot
+# carry `src/micro_otter/dist/webapp`, so it is not an install path and
+# `deploy/packaging/build-wheel.sh` never builds or ships it (locked decision 1).
 [tool.hatch.build.targets.sdist]
 include = [
     "/src/micro_otter",
@@ -115,9 +126,16 @@ dev = [
     "mpremote>=1.27.0",
     "pre-commit>=4.5.1",
     "pytest>=9.0.2",
+    "pyinstaller>=6.0.0",
     # Linting. Keep the pin in lockstep with .pre-commit-config.yaml
     # (ruff-pre-commit rev) so editor, pre-commit and npm scripts agree.
     "ruff==0.6.9",
     "tomli>=2.0.1",
     "tomli-w>=1.0.0",
 ]
+
+[tool.pytest.ini_options]
+# Tests import the top-level `tools/` development package, which is excluded from
+# the wheel (phase 0). Put the repository root on sys.path so those imports
+# resolve without `tools` being an installed package.
+pythonpath = ["."]

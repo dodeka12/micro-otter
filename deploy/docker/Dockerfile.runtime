@@ -1,0 +1,64 @@
+# syntax=docker/dockerfile:1
+# Copyright (c) 2025 Christian Perwass; SPDX-License-Identifier: GPL-3.0-only
+#
+# Runtime image for `micro-otter serve`: the installed wheel plus the web app it
+# carries, with no toolchain and no developer tooling. The compile image
+# (Dockerfile.compile) layers the pinned ESP-IDF/MicroPython toolchain on top of
+# this image, so this image must never gain ESP-IDF, git, gh, or gpg.
+#
+# The version is a build arg because the build context excludes `.git/`: without
+# VCS metadata hatch-vcs cannot derive the version, so
+# `SETUPTOOLS_SCM_PRETEND_VERSION_FOR_MICRO_OTTER` pins it in the builder. A bare
+# `docker build` (no `--build-arg MICRO_OTTER_VERSION`) therefore yields `0.0.0`
+# and is a development image only.
+
+ARG NODE_VERSION=22
+ARG PYTHON_VERSION=3.12
+ARG MICRO_OTTER_VERSION=0.0.0
+
+# --- builder: build the wheel with the web app inside ---------------------------
+FROM node:${NODE_VERSION}-slim AS builder
+
+ARG MICRO_OTTER_VERSION
+ENV SETUPTOOLS_SCM_PRETEND_VERSION_FOR_MICRO_OTTER=${MICRO_OTTER_VERSION}
+
+# `git` is a hatch-vcs fallback; uv downloads the pinned Python itself.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends ca-certificates git \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
+WORKDIR /src
+COPY . .
+RUN bash deploy/packaging/build-wheel.sh --out-dir /dist
+
+# --- runtime: the wheel, a non-root user, one writable volume -------------------
+FROM python:${PYTHON_VERSION}-slim AS runtime
+
+ENV MICRO_OTTER_HOME=/data \
+    MICRO_OTTER_WORKSPACE=/data/workspace \
+    MICRO_OTTER_FIRMWARE_DIR=/data/firmware \
+    MICRO_OTTER_BUILD_DIR=/data/build \
+    MICRO_OTTER_STATE_DIR=/data/state \
+    MICRO_OTTER_HOST=0.0.0.0 \
+    MICRO_OTTER_PORT=8000 \
+    MICRO_OTTER_OPEN_BROWSER=false
+
+COPY --from=builder /dist/micro_otter-*.whl /tmp/
+RUN pip install --no-cache-dir /tmp/micro_otter-*.whl \
+    && rm -f /tmp/micro_otter-*.whl
+
+RUN useradd --create-home --uid 10001 microotter \
+    && mkdir -p /data \
+    && chown -R microotter:microotter /data
+
+VOLUME ["/data"]
+EXPOSE 8000
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
+    CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/server-capabilities', timeout=4)"
+
+USER microotter
+ENTRYPOINT ["micro-otter", "serve"]
+CMD ["--host", "0.0.0.0", "--port", "8000"]
