@@ -60,7 +60,6 @@ def test_each_missing_required_file_is_reported_once(missing: str) -> None:
         "tools/mod/mod.py",
         "tools/inspect_wheel.py",
         "tests/test_config.py",
-        "ldev/todos/x.md",
         "dev/README.md",
         "node_modules/pkg/index.js",
         "micro_otter/__pycache__/x.pyc",

@@ -1,6 +1,6 @@
 ---
 name: implement-plan
-description: 'Implement a plan from the plan tree (see `AGENTS.md` → Planning for the path in this repository). Use when the user asks to implement a plan, execute a plan, work through a plan, or carry out planned steps. Reads the plan file(s), asks how much to implement (single step, full phase, or all phases), asks for full-plan runs whether to compact context after each phase or run continuously, then implements each step sequentially — marking it complete, committing after each one, and writing the cumulative handoff.md at each phase end.'
+description: 'Implement a plan from the plan tree (see `AGENTS.md` → Planning for the path in this repository). Use when the user asks to implement a plan, execute a plan, work through a plan, or carry out planned steps. Reads the plan file(s), asks how much to implement (single step, full phase, or all phases), asks for full-plan runs whether to compact context after each phase or run continuously, then implements each step sequentially — marking it complete, committing after each one, and writing the cumulative handoff.md at each phase end. Reports each phase to the user as a short plain-language gist, keeping paths, hashes, and commands in the handoff.'
 ---
 
 # Implement Plan
@@ -70,30 +70,40 @@ For each step in scope, follow this loop:
 5. **Verify** — confirm the step's stated goal is met (e.g., run tests, check that the output exists, verify the service starts).
 6. **Mark the step complete** — edit the plan file to mark the step done. See [Completion Marking](./references/completion-marking.md).
 7. **Commit** — stage all changed files (plan file + implementation files) and create a git commit. See [Commit Convention](./references/commit-convention.md).
-8. **Continue** — move to the next step. If a step fails, stop and report the failure; do not mark it complete and do not proceed to subsequent steps.
+8. **Continue** — move to the next step. If a step fails, stop and report the failure in plain
+   language (`AGENTS.md` → *Reporting to the user*): what broke, what it means for the result, and the
+   proposed fix. Command output goes to the handoff, not the chat. Do not mark the step complete and do
+   not proceed to subsequent steps.
 
 When the loop reaches the **end of a phase** and more phases remain in scope, perform the phase
 boundary procedure:
 
 1. Run the phase's **Validation** gate exactly as written.
-2. Write or update the phase section in `handoff.md` (Status, Changed files, Stable contracts, Tests, Deviations, Carry-forward, Open issues).
+2. Write or update the phase section in `handoff.md` (Status, Changed files, Stable contracts, Tests, Deviations, Carry-forward, Open issues). The identifiers live there; the summary you give the user stays plain.
 3. Mark the phase's final `Record phase handoff` step ✓ only after the handoff section is written and committed; mark the overview phase row ✓ only if every step in the phase, including the handoff step, is ✓.
 4. Commit the implementation files, plan files, and `handoff.md` together.
-5. If the chosen strategy is `per-phase-compact`, ask the user to run `/smol` (continue in this task) or `/newtask` (fresh task), then re-read `overview.md`, `handoff.md`, and the next phase file before continuing.
+5. If the chosen strategy is `per-phase-compact`, give the phase summary described in Step 5 first, then ask the user to run `/smol` (continue in this task) or `/newtask` (fresh task), then re-read `overview.md`, `handoff.md`, and the next phase file before continuing.
 6. If the chosen strategy is `continuous`, re-read `overview.md`, `handoff.md`, and the next phase file and continue without stopping.
 
 If a phase **fails** validation, write a `blocked` handoff section recording the failing step and
-command output, do not mark the handoff step or phase complete, and stop before the next phase.
+command output, do not mark the handoff step or phase complete, and stop before the next phase. Tell
+the user what broke and what it means for the plan in plain language, not by quoting the failure.
 
 ### Step 5 — Report
 
-After the loop finishes (or stops on failure), summarise:
+Report in the shape `AGENTS.md` → *Reporting to the user* defines: the verdict first, at most five
+outcome bullets, then what remains. Do not narrate the work while it happens — a finished step needs
+at most one line in chat, and its identifiers belong in its commit message.
 
-- Which steps were completed
-- Which step failed (if any) and why
-- Which phase handoff sections were written and their status
-- Whether context was compacted (`/smol`/`/newtask`) and where the run stopped
-- What remains to be done
+Cover:
+
+- The outcome in one or two sentences: what is now true that was not true before
+- Which steps and phases completed, and any failure as cause → consequence → fix
+- Whether the run stopped for compaction, and where
+- What remains, split into the agent's next step and anything only the user can do
+
+Exact paths, hashes, counts, and commands are already in `handoff.md` and the commit messages. Point
+at that record; give the specifics when the user asks for them.
 
 ---
 

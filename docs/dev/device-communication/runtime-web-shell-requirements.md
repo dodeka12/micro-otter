@@ -139,4 +139,3 @@ When creating a new runtime with web support:
 
 - `docs/dev/device-communication/device-folder-structure.md`
 - `docs/dev/nodes/transpiler-architecture.md`
-- `ldev/todos/2026-03-02_web-view-plan/overview.md`

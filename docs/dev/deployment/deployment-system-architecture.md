@@ -1341,8 +1341,6 @@ try {
 
 ### Manual Testing Checklist
 
-See: `ldev/manual_tests/deployment-phase1-phase2-testing.md`
-
 **Key Test Cases**:
 
 1. **Auto-Detection on Connect**

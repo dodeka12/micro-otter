@@ -2,10 +2,6 @@
 
 ## Build
 
-- **The published devcontainer is a declared publication variant** —
-  `ldev/tools/publish-config.json` maps `.devcontainer/devcontainer.json` to
-  `ldev/devcontainer/devcontainer.public.json`, so `prepare` ships a portable config without the
-  maintainer's public-clone bind mount while the development container keeps it.
-  `tests/test_devcontainer_bootstrap.py` and `ldev/tools/tests/agents-contract.test.mjs` fail when
-  the variant and the development config differ by anything but that mount, or when the declaration
-  disappears.
+- **The devcontainer configuration is one file** — `.devcontainer/devcontainer.json` mounts this
+  workspace plus the `${HOME}/micro_otter/{opt,cline}` host folders, and every other setting is shared.
+  `tests/test_devcontainer_bootstrap.py` fails when the config stops matching those expectations.

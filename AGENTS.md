@@ -4,12 +4,6 @@ Canonical, harness-agnostic instructions for AI coding agents in this repository
 product repository, published as `micro-otter`. GitHub Copilot and Cline adapters link here; do not
 duplicate these rules in harness-specific files.
 
-## Read this file first
-
-This file is published unchanged in both repositories. If `agents-local.md` sits next to it, read that
-too: it carries the maintainer-only rules (the private plan tree and the publication procedure). Those
-rules are excluded from publication, and nothing in this file depends on them.
-
 ## Project purpose and layout
 
 - Micro-Otter pairs a browser-based node editor with MicroPython runtime scaffolding so users can
@@ -44,6 +38,35 @@ rules are excluded from publication, and nothing in this file depends on them.
 - Use git only in the terminal. Commits are signed; never use `--no-gpg-sign` or another signing
   bypass. The first commit of the day may require the user to enter a PGP passphrase. See the
   [git workflow skill](ai/skills/git-terminal-workflow/SKILL.md).
+
+## Reporting to the user
+
+The user wants the gist first and the references on demand. Every report — progress, a problem, a
+design choice — leads with the outcome in plain language, not with the work that produced it.
+
+Shape:
+
+1. **Verdict** — one or two sentences: did it work, and what is the one thing the user must know.
+2. **What happened** — at most five bullets, each an outcome ("the release is published"), never a
+   log of edits and commands.
+3. **What remains** — what is still owed, whether it is the agent's step or the user's, and what is
+   blocked.
+
+Rules:
+
+- No file paths, symbol names, commit hashes, branch names, or command lines in the report. Describe
+  the effect, not the identifier: "the publishing tool refused because it still saw unpublished work",
+  not the revision range that encodes it.
+- Numbers only when they carry a decision ("all tests pass", "two files changed"), never as a
+  scoreboard of counts.
+- Explain a problem as cause → consequence → fix, in that order, with every needed term defined in
+  the same sentence.
+- Present a design choice as a trade-off the user can judge ("keep the old history and odd version
+  numbers, or archive it once and get clean ones"), not as implementation options.
+- Length: a routine report fits on one screen; a problem report adds at most one short paragraph of
+  diagnosis. Never paste logs — say what they showed.
+- The identifiers belong in the durable record: the plan handoff, the commit message, the change
+  description. Point at that record and offer the specifics instead of shipping them unasked.
 
 ## Documentation map
 
@@ -91,7 +114,6 @@ at [.github/copilot-instructions.md](.github/copilot-instructions.md) link to th
 | [git-terminal-workflow](ai/skills/git-terminal-workflow/SKILL.md) | Staging, committing, pushing, or other git operations |
 | [implement-plan](ai/skills/implement-plan/SKILL.md) | Executing steps from a plan in the plan tree, including per-phase handoffs and optional context compaction |
 | [pull-request-workflow](ai/skills/pull-request-workflow/SKILL.md) | Creating or updating a pull request |
-| [two-repository-workflow](ai/skills/two-repository-workflow/SKILL.md) | Routing a change through the private and public repositories: which branch, which PR, when to publish, when to sync down |
 
 ## Planning
 
@@ -105,8 +127,8 @@ at [.github/copilot-instructions.md](.github/copilot-instructions.md) link to th
   phase file before editing. Manual context compaction (`/smol` / `/newtask`) happens only after the
   handoff is committed.
 - Plans are contributed like code: open an issue or a pull request, and expect the plan itself to be
-  reviewed before the implementation. There is no separate planning repository and no publication
-  step — a change is complete when the gates in *Tooling defaults* pass in this repository.
+  reviewed before the implementation. A change is complete when the gates in *Tooling defaults* pass in
+  this repository.
 
 ## Critical rules
 

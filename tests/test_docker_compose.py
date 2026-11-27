@@ -41,7 +41,6 @@ DOCKERIGNORE_EXCLUDES: tuple[str, ...] = (
     ".devcontainer/",
     ".github/",
     ".vscode/",
-    "ldev/",
     "dev/",
     "docs/",
     "user-docs/",
@@ -66,7 +65,7 @@ def _dockerignore_entries() -> list[str]:
     ]
 
 
-def test_dockerignore_excludes_private_and_build_output() -> None:
+def test_dockerignore_excludes_docs_and_build_output() -> None:
     entries = _dockerignore_entries()
     missing = [entry for entry in DOCKERIGNORE_EXCLUDES if entry not in entries]
     assert not missing, f".dockerignore is missing required exclusions: {missing}"

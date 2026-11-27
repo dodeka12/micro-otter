@@ -2,8 +2,8 @@
 // Repository-wide relative-link gate.
 //
 // Scans every markdown tree the repository publishes (README.md, CONTRIBUTING.md,
-// AGENTS.md, docs/, user-docs/, ai/, .cline/, dev/), skips the private plan tree
-// (ldev/) and build output, and fails (exit 2) on a relative link whose target
+// AGENTS.md, docs/, user-docs/, ai/, .cline/, dev/), skips build output, and fails
+// (exit 2) on a relative link whose target
 // does not exist (or whose #fragment names no heading), on a case-mismatched
 // path, and on an allowlist entry that matches nothing. `--root <dir>` and the
 // DOCS_LINK_ROOT environment variable override the repository root, mirroring
@@ -16,7 +16,7 @@ import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 
 const SCAN_ROOTS = ['README.md', 'CONTRIBUTING.md', 'AGENTS.md', 'docs/', 'user-docs/', 'ai/', '.cline/', 'dev/'];
-const EXCLUDED_PREFIXES = ['ldev/', 'site/', '_dist/', 'node_modules/', '.venv/'];
+const EXCLUDED_PREFIXES = ['site/', '_dist/', 'node_modules/', '.venv/'];
 
 function rootOverride() {
     return process.env.DOCS_LINK_ROOT || null;

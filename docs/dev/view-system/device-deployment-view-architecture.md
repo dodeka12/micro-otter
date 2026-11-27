@@ -807,7 +807,7 @@ static deserialize(data = {}, viewFactory = null, context = {}) {
 
 ### Manual Testing
 
-**Checklist** (see `ldev/manual_tests/deployment-phase1-phase2-testing.md`):
+**Checklist**:
 
 - Connect device → UI updates correctly
 - Install runtime → progress shown in the modal dialog, UI reflects changes

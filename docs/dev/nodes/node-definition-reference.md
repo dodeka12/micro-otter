@@ -1393,7 +1393,7 @@ Treated as a class constructor. Instantiated once per node before the main loop.
     - Format: dot-separated module paths (e.g., `"libs.stdmo.servo"`)
     - Automatically converted to file paths during deployment (e.g., `"libs/stdmo/servo.py"`)
     - Transitive dependencies are resolved by scanning imports in the module files
-    - See [Deployment System](../../../ldev/todos/deployment/v2-detailed-implementation-plan.md#node-library-filtering) for details
+    - Deployment filters library files by the same module-path rules
 
 **TypeScript Function Class:**
 

@@ -2,11 +2,6 @@
 
 How to open a pull request for a feature/fix branch.
 
-> **Which repository?** This page is PR A — the pull request in the private development repository, the
-> only one you write by hand. Product changes reach the public `micro-otter` repository through a
-> generated publication commit instead; see
-> [two-repository-workflow.md](two-repository-workflow.md).
-
 ## Overview
 
 1. Run the full validation gate — all must pass.
@@ -82,7 +77,7 @@ Remove-Item $body
   way to pass multi-line text to `gh`.
 - Use a Conventional Commit style title. It is what the changelog and the release notes
   are read from; tagging and publishing are manual
-  (see [release.md](release.md)), and a merge in the private repository is never released.
+  (see [release.md](release.md)).
 
 ### 4. Merge using GitHub's "Squash and merge"
 

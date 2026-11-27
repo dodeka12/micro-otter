@@ -2,7 +2,6 @@
 
 **Status**: Applied and Re-validated in Step 5
 **Applied On**: 2026-04-02
-**Phase Link**: `ldev/todos/2026-03-02_web-view-plan/phase-12-device-connection-command-execution-boundary-and-custom-runtime-api-migration.md`
 
 ## Purpose
 

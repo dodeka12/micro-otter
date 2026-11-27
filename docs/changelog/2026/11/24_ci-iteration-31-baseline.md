@@ -14,8 +14,7 @@
   version check that CI deliberately omits, and `bump-version.yml` is marked as post-merge release
   tagging outside the baseline.
 - **One run per change** — `push` is limited to `main`, so a feature-branch push does not repeat the
-  pull-request run, and `pull_request` is limited to change sets that touch more than `ldev/`, so
-  private planning commits spend no run at all. `main` takes no direct pushes, and the post-merge
+  pull-request run. `main` takes no direct pushes, and the post-merge
   `push` run revalidates the tree when another pull request lands in between.
 - **Contributor docs** — `CONTRIBUTING.md` and `docs/dev/guides/build-and-deployment.md` list the
   jobs, the required status-check names and the local equivalents.

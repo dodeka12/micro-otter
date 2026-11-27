@@ -38,7 +38,7 @@ runtime/compile images, or the Windows `micro-otter.exe` — see the install pag
 | Git hooks and manifest version bumps | [docs/dev/guides/git-hooks.md](docs/dev/guides/git-hooks.md) |
 | CLI (`serve`, `doctor`, `toolchain`, `info`) | [docs/dev/deployment/configuration.md](docs/dev/deployment/configuration.md) |
 | `.mpy` precompilation and deployment | [docs/tools/mpy-runtime-workflow.md](docs/tools/mpy-runtime-workflow.md) |
-| Releases and repository publication | [docs/workflow/release.md](docs/workflow/release.md), [docs/admin/release-sync.md](docs/admin/release-sync.md) |
+| Releases only | [docs/workflow/release.md](docs/workflow/release.md) |
 | Contributing | [CONTRIBUTING.md](CONTRIBUTING.md) |
 
 ## Commands

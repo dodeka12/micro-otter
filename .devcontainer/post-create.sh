@@ -39,7 +39,7 @@ npx playwright install
 
 # Commit/tag signing is dev-opt-in. Default: unsigned. `GIT_SIGNING_ENABLED=1`
 # restores today's signing defaults exactly; the artifacts that must be signed
-# are the publication commit, the release commit, and the `v*` tag, not the
+# are the release commit and the `v*` tag, not the
 # devcontainer's day-to-day commits. Hook installation, identity wiring, and
 # GPG_TTY stay unconditional so flipping the switch is the only step needed.
 if [[ "${GIT_SIGNING_ENABLED:-0}" == "1" ]]; then

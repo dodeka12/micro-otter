@@ -63,4 +63,3 @@ instead of showing up in CI. The gates themselves are documented in
 - [CONTRIBUTING.md](../../../CONTRIBUTING.md) — commit and pull-request conventions
 - [coding-style-guide.md](coding-style-guide.md#tooling) — lint and device-syntax gates
 - [build-and-deployment.md](build-and-deployment.md#repository-ci-baseline) — what CI runs and when
-- [repository-workflow.md](repository-workflow.md) — version producers and the publication tool

@@ -127,3 +127,21 @@ After creating all files, confirm:
   `## Inputs From Previous Phase` section and a final handoff step; the handoff status table lists
   every phase as `Not started` with no invented results; all relative links (including `handoff.md`)
   resolve
+
+---
+
+## Talking to the user about the plan
+
+The plan files are written for the executing agent, so they carry exact paths, names, and commands.
+What you *say* about the plan is not. Ordering rationale, design questions, trade-offs, risks, and the
+"here is what I created" summary follow `AGENTS.md` → *Reporting to the user*.
+
+- Lead with what the plan achieves and how many phases it has, then the one or two decisions that need
+  agreement. Name a choice as a consequence the user can judge, with its alternatives.
+- Put a question to the user as one question with plain-word options — never as file names, module
+  names, or commands.
+- When a step's scope is a judgement call, describe its effect on the outcome, not the code it touches.
+- Ask for a confirmation only when the answer changes the plan; everything else is a decision you
+  record in the plan and report.
+- Keep the plan reference-rich and the chat reference-free. The plan file and `handoff.md` are the
+  durable record; the conversation is the gist.

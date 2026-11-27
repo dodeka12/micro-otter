@@ -21,19 +21,11 @@ The container installs `charliermarsh.ruff`, `dbaeumer.vscode-eslint`, `esbenp.p
 so Python format-on-save, ESLint autofix and Prettier work in a fresh container without any manual
 installation step.
 
-## Development and published configuration
+## Configuration
 
-`.devcontainer/devcontainer.json` is the **development** configuration: it bind-mounts the
-maintainer's public clone at `/workspaces/micro-otter`, which is how `ldev/tools/publish.mjs` reaches
-`../micro-otter` from inside the container.
-
-The published `micro-otter` repository receives a **portable variant** of that file instead:
-`ldev/devcontainer/devcontainer.public.json`, identical except that the clone mount is gone. It is
-declared in `ldev/tools/publish-config.json` and copied into place by `prepare` (see
-[release sync §2](../../admin/release-sync.md#variants)). A public clone therefore mounts only its own
-workspace plus the `${HOME}/micro_otter/{opt,cline}` host folders documented below, and every other
-setting is shared. `tests/test_devcontainer_bootstrap.py` fails when the two files differ by anything
-but that mount.
+`.devcontainer/devcontainer.json` mounts this workspace, plus the `${HOME}/micro_otter/{opt,cline}` host
+folders documented below. Every setting in that file is shared with the repository — there is no second
+configuration to keep in step — so a change to the container is a change to this one file.
 
 ## USB serial access from Windows
 
@@ -51,7 +43,7 @@ Linux hosts see the board as `/dev/ttyUSB*` or `/dev/ttyACM*`; Windows needs one
 ## Git commit signing (opt-in)
 
 Commit and tag signing is **off by default** in the dev container: day-to-day commits are unsigned,
-and only the publication commit, the release commit, and the `v*` tag must be signed. Enable signing
+and only the release commit and the `v*` tag must be signed. Enable signing
 by setting `GIT_SIGNING_ENABLED=1` on the host before the container starts:
 
 1. `export GIT_SIGNING_ENABLED=1` (persist it, for example:

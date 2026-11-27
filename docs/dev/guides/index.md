@@ -14,6 +14,4 @@ This folder contains general development guides including architecture overview,
 
 - **[coding-style-guide.md](coding-style-guide.md)** - Coding standards for Python (PEP 8) and TypeScript, including critical encapsulation rules and naming conventions.
 
-- **[repository-workflow.md](repository-workflow.md)** - The private/public repository pair: the `ldev/` plan tree, the published `dev/` scaffold, the `AGENTS.md` variant, the version producers, the publication tool and its guards, and the sdist/wheel split.
-
 - **[updating-micropython-idf-toolchain.md](updating-micropython-idf-toolchain.md)** - How to check the latest MicroPython version, find the matching ESP-IDF version, update the Dockerfile pins, and refresh the devcontainer toolchain.

@@ -8,8 +8,7 @@ resources, and the registry/checker design decisions.
 
 Authoritative reference for the device-target capability schema and the conventions that all target
 JSON files and capability consumers must follow. This document is the single source of truth for the
-extended model introduced in
-`ldev/todos/2026-10-23-extended-device-target-capabilities/`.
+extended capability model.
 
 ## Canonical Bus / Port / Peripheral Ids
 
