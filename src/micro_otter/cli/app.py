@@ -3,8 +3,8 @@
 This module defines the top-level ``micro-otter`` Typer application. It exposes
 ``serve``, ``info``, ``compile-runtime``/``cr``, ``deploy-runtime``/``dr``,
 ``firmware``/``fw``, ``compile-mpy``/``cmpy``, the ``toolchain`` group
-(``status``/``install``), and ``doctor``; every command resolves configuration
-through :mod:`micro_otter.config`.
+(``status``/``install``), the ``webapp`` group (``build``/``upload``), and ``doctor``;
+every command resolves configuration through :mod:`micro_otter.config`.
 """
 
 from __future__ import annotations
@@ -40,6 +40,7 @@ from micro_otter.cli.state import (
     save_state,
 )
 from micro_otter.cli.toolchain import fail_config, toolchain_app
+from micro_otter.cli.webapp import webapp_app
 from micro_otter.config import (
     SYSTEM_PREFIX,
     Config,
@@ -1815,6 +1816,9 @@ app.add_typer(toolchain_app, name="toolchain")
 
 # Add-on node package inventory and installation (see micro_otter.cli.addons).
 app.add_typer(addons_app, name="addons")
+
+# Hosted web app build and upload (see micro_otter.cli.webapp).
+app.add_typer(webapp_app, name="webapp")
 
 # Firmware build/deploy menu plus package import/export (see micro_otter.cli.app).
 app.add_typer(firmware_app, name="firmware")

@@ -3,11 +3,11 @@
 from __future__ import annotations
 
 import json
-import re
 from pathlib import Path
 from unittest import mock
 
 import pytest
+from tests.helpers.ansi import strip_ansi
 from typer.testing import CliRunner
 
 from micro_otter.cli import app
@@ -16,14 +16,6 @@ from micro_otter.tools.toolchain_install import ToolchainInstallError, install_t
 from micro_otter.tools.toolchain_status import ComponentStatus, ToolchainReport
 
 runner = CliRunner()
-
-_ANSI_ESCAPE = re.compile(r"\x1b\[[0-9;]*m")
-
-
-def _plain(text: str) -> str:
-    """Return *text* without ANSI styling so help assertions survive CI colors."""
-
-    return _ANSI_ESCAPE.sub("", text)
 
 
 def _report(*, ok: bool = True) -> ToolchainReport:
@@ -49,7 +41,7 @@ def test_toolchain_status_help_lists_json_flag() -> None:
     result = runner.invoke(app, ["toolchain", "status", "--help"])
 
     assert result.exit_code == 0
-    output = _plain(result.stdout)
+    output = strip_ansi(result.stdout)
     assert "--json" in output
     assert "--json-output" in output
     assert "micro-otter.toml" in output

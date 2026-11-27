@@ -476,7 +476,7 @@ Behavior notes:
 
 - **Current**: Basic JSON validation
 - **Future**: Schema validation, constraint checking, reference validation
-- See [Future Ideas](../../../ldev/todos/_done/ideas/future-ideas.md)
+- See Future Ideas
 
 ## Connection to UI
 
@@ -663,7 +663,7 @@ const nodeType = collectionManager.getNodeType(typeId);
 
 ## Related Documentation
 
-- [Node UI Implementation Plan](../../../ldev/todos/_done/node-ui-plan/00-overview.md)
-- [Serialization Details](../../../ldev/todos/_done/node-ui-plan/08-serialization.md)
-- [Undo/Redo Planning](../../../ldev/todos/_done/undo-redo-planning.md)
-- [Future Ideas](../../../ldev/todos/_done/ideas/future-ideas.md)
+- Node UI Implementation Plan
+- Serialization Details
+- Undo/Redo Planning
+- Future Ideas

@@ -2,6 +2,11 @@
 
 This guide walks through generating/importing a GPG key and configuring Git to sign commits and tags on Windows. Use the repo's virtualenv if you prefer, but Git + GPG run independently of Python.
 
+> **Dev container note.** The dev container signs commits/tags **only** when
+> `GIT_SIGNING_ENABLED=1` is set on the host before the container starts (default: unsigned). See
+> [docs/dev/guides/devcontainer.md](../dev/guides/devcontainer.md#git-commit-signing-opt-in) for the
+> opt-in steps and the `GIT_SIGNING_KEY_ID` wiring.
+
 ## 1) Install GPG
 
 - Recommended: `winget install GnuPG.GnuPG` (or install Gpg4win from https://gpg4win.org/).

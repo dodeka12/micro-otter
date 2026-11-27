@@ -231,7 +231,7 @@ tabs.addView(new GraphPanelView()); // Tab 3 (no constraint)
 ## Related Documentation
 
 - [View System Overview](view-system-overview.md) - Architecture overview
-- [ViewBase Lifecycle](viewbase-lifecycle.md) - View lifecycle
+- [ViewBase Lifecycle](view-api-reference.md) - View lifecycle
 - [ViewBase Desired Size Guide](viewbase-desired-size-guide.md) - Size preferences
 - [SplitView Sizing Solver](split-view-sizing.md) - The pure pane-size solver and splitter thickness contract
 - [API Reference](view-api-reference.md) - Constraint API details

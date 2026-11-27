@@ -1051,14 +1051,14 @@ async _readLoop() {
 
 ## Related Documentation
 
-- **[DeviceDeployment API](device-deployment-api.md)** - High-level deployment operations API reference
-- **[Deployment System Architecture](deployment-system-architecture.md)** - DeviceDeployment layer overview
-- **[View System Architecture](view-system-architecture.md)** - ViewBase lifecycle and patterns
-- **[Progress Event System](progress-event-system.md)** - Progress reporting integration
-- **[I18n Architecture](i18n-architecture.md)** - Translation system
+- **[DeviceDeployment API](../deployment/device-deployment-api.md)** - High-level deployment operations API reference
+- **[Deployment System Architecture](../deployment/deployment-system-architecture.md)** - DeviceDeployment layer overview
+- **[View System Architecture](../view-system/view-system-architecture.md)** - ViewBase lifecycle and patterns
+- **[Progress Event System](../core/progress-event-system.md)** - Progress reporting integration
+- **[I18n Architecture](../core/i18n-architecture.md)** - Translation system
 - **[MicroPython Protocol](micropython-protocol.md)** - Device communication protocol
 - **[Manual Testing Guide](webserial-manual-testing.md)** - Manual test procedures
-- **[Coding Style Guide](coding-style-guide.md)** - Code standards and conventions
+- **[Coding Style Guide](../guides/coding-style-guide.md)** - Code standards and conventions
 
 ---
 

@@ -1,5 +1,27 @@
 # Changelog
 
+## [Since 1.43.0] — 2026-11-26
+- Releases are cut by hand: `tools/make_release_index.py` writes `index.json` + the GitHub Release body from a directory of exported images · `docs/workflow/release.md` is the full procedure (per-board build, export, exe, tag, upload) · the Firmware tab and install pages say where an official image comes from · the `windows` CI job and `bump-version.yml` are `workflow_dispatch`-only and CI builds no firmware · `tests/test_ci_workflow.py` pins both
+→ [Details](2026/11/26_feat-m8.md)
+- Installable wheel + runtime/compile Docker images + Windows `micro-otter.exe` · devcontainer signs only when `GIT_SIGNING_ENABLED=1` · automatic CI scoped to the published repository
+→ [Details](2026/11/26_feat-wheel-images-windows-exe.md)
+- `npm run check:docs-links` gates every published markdown tree · 72-link `docs/` backlog fixed
+→ [Details](2026/11/26_build-docs-link-gate.md)
+- Published devcontainer is a declared publication variant: `prepare` ships the portable config without the maintainer's public-clone bind mount
+→ [Details](2026/11/26_chore-devcontainer-published-variant.md)
+
+## [Since 1.43.0] — 2026-11-25
+- Stray `v0.0.1` tag deleted, version identity back on the mirrored `v1.43.0` · tagging guarded to the public repository with a hard `v*` baseline check · Node test suite (386 s of the 400 s `web` job) suspended in CI and kept as the local publication gate
+→ [Details](2026/11/25_fix-ci-gates-and-version-tags.md)
+
+## [Since 1.43.0] — 2026-11-24
+- Plans live in the private `ldev/` tree while `dev/` is a published scaffold · `AGENTS.md` is a declared per-repository variant · publication is one command (`ldev/tools/publish.mjs` with eight guards) · `tools/mod` retired · version artifacts are build outputs (`_version.py`, `html/version.json`) with `importlib.metadata` as fallback · new developer guide for the two-tree workflow, the publication loop and the sdist/wheel split
+→ [Details](2026/11/24_feat-repository-workflow.md)
+- README reduced to a 77-line overview with a *Start here* table · dev-container and git-hooks guides split out of it · stale ViewBase lifecycle links and the dead `NODE_SYSTEM_README.md` reference fixed
+→ [Details](2026/11/24_docs-readme-slim.md)
+- Two-repository model on one page (independent repos, merge ≠ publish, split by path) · routing procedure from changed file to PR A, publication and PR B, then sync down · new `two-repository-workflow` skill and links from `AGENTS.md` and the existing publication pages
+→ [Details](2026/11/24_docs-two-repository-workflow.md)
+
 ## [Since 1.42.1] — 2026-11-24
 - Least-privilege `ci.yml` with stable `python`, `web` and `docs` jobs, caching, `contents: read` and no publishing · one run per change: `push` only on `main`, `ldev/**`-only pull requests skipped · `check:ci-local:web` split from the mpy-cross device gate · legacy workflows deduplicated · contributing docs list the jobs and local equivalents
 → [Details](2026/11/24_ci-iteration-31-baseline.md)

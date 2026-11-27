@@ -1035,5 +1035,5 @@ onResized(size) {
 
 ## Related Documentation
 
-- [ResizeObserver Refactoring Plan](../../../ldev/todos/v2/resize-observer-viewbase-refactor.md) - Implementation details and migration plan
+- ResizeObserver Refactoring Plan - Implementation details and migration plan
 - [Standard Theme Styling Guide](./standard-theme-styling-guide.md) - UI/UX styling conventions

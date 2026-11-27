@@ -1,0 +1,48 @@
+#!/bin/sh
+# Fake `sftp` for tests/test_webapp_upload.py: records the invocation and never opens a socket.
+#
+# Contract (all optional):
+#   FAKE_SFTP_LOG           file appended with the argv, the password the child saw, and the batch
+#   FAKE_SFTP_LISTING_FILE  entries of the form `<absolute remote path>|<ls -l line body>`; the
+#                           bodies whose path sits directly in the batch's `-ls -l` directory are
+#                           printed, so each listing pass looks like a real one
+#   FAKE_SFTP_STDERR        text written to stderr, to exercise the failure messages
+#   FAKE_SFTP_EXIT          exit code (default 0; 255 mimics a connection failure)
+set -u
+
+batch=''
+previous=''
+for argument in "$@"; do
+  if [ "$previous" = '-b' ]; then
+    batch="$argument"
+  fi
+  previous="$argument"
+done
+
+if [ -n "${FAKE_SFTP_LOG:-}" ]; then
+  {
+    printf 'ARGS %s\n' "$*"
+    printf 'PASSWORD %s\n' "${MICRO_OTTER_UPLOAD_PASSWORD:-}"
+    cat "$batch" 2>/dev/null
+    printf 'END\n'
+  } >>"$FAKE_SFTP_LOG"
+fi
+
+if [ -n "${FAKE_SFTP_LISTING_FILE:-}" ] && [ -f "$batch" ]; then
+  directory=$(sed -n 's/^-ls -l "\(.*\)"$/\1/p' "$batch" | head -n 1)
+  if [ -n "$directory" ]; then
+    awk -F'|' -v dir="$directory" '
+      {
+        path = $1
+        sub(/\/[^\/]*$/, "", path)
+        if (path == dir) print $2
+      }
+    ' "$FAKE_SFTP_LISTING_FILE"
+  fi
+fi
+
+if [ -n "${FAKE_SFTP_STDERR:-}" ]; then
+  printf '%s\n' "$FAKE_SFTP_STDERR" >&2
+fi
+
+exit "${FAKE_SFTP_EXIT:-0}"

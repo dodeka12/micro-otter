@@ -832,10 +832,10 @@ test('transpiler throws on missing collection', async () => {
 
 ## Related Documentation
 
-- [View System Architecture](view-system-architecture.md) - TranspilerView integration
-- [Data Backbone Architecture](data-backbone-architecture.md) - Collection and graph structure
+- [View System Architecture](../view-system/view-system-architecture.md) - TranspilerView integration
+- [Data Backbone Architecture](../core/data-backbone-architecture.md) - Collection and graph structure
 - [Node Definition Reference](node-definition-reference.md) - Implementation types
-- [Progress Event System](progress-event-system.md) - Progress tracking
+- [Progress Event System](../core/progress-event-system.md) - Progress tracking
 
 ---
 
@@ -955,4 +955,4 @@ if (result.success) {
 }
 ```
 
-**See:** [Deployment System Architecture](deployment-system-architecture.md) for complete deployment workflow.
+**See:** [Deployment System Architecture](../deployment/deployment-system-architecture.md) for complete deployment workflow.

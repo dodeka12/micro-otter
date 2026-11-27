@@ -2,7 +2,8 @@
 
 The Firmware tab builds MicroPython images with the node packages precompiled to `.mpy` and frozen
 into the image, then flashes them. It needs the local server (`uv run micro-otter serve`); without it
-the tab shows a server-unavailable panel while the rest of the editor keeps working.
+the tab shows a server-unavailable panel while the rest of the editor keeps working, and in the
+[hosted web app](hosted.md) that panel explains how to install an image by hand.
 
 Building firmware is optional. A deployed collection also runs from `.py` source uploaded by the
 Deploy tab; the firmware path only lowers RAM use and boot time — see the comparison in [The app](index.md#firmware).
@@ -90,6 +91,17 @@ variants.
 
 Importing an image that already exists asks before replacing it, and an imported image is reported
 with its filename and platform.
+
+### Get an official image
+
+The project publishes a flashable image for each board on its release page, in releases named
+`firmware-v<base>`. Download the `.firmware.zip` for your board and drop it on **Import**, or paste
+its URL into **Import from URL…** and pick the board. Prefer the `.firmware.zip`: it keeps the
+firmware version and the embedded package list, while a bare `.bin` imports as an unknown `imported`
+image whose details are unavailable. Deploy afterwards from the same pane (`Port` → **Deploy**).
+
+The app and its installers ship no firmware image, which is why this step exists. The command-line
+equivalent is `mo fw import --url <url>`.
 
 ## Related
 

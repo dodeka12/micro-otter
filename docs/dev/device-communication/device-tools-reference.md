@@ -1,7 +1,7 @@
 # Device Tools Reference
 
 **Status**: Complete (Phase 2)  
-**Related**: [Device Folder Structure](device-folder-structure.md), [Tools Integration Plan](../../ldev/todos/deployment/tools-folder-integration-plan.md)
+**Related**: [Device Folder Structure](device-folder-structure.md), Tools Integration Plan
 
 ---
 
@@ -1254,8 +1254,8 @@ check_deployment_status()
 ## Related Documentation
 
 - [Device Folder Structure](device-folder-structure.md) - Complete device filesystem layout
-- [Tools Integration Plan](../../ldev/todos/deployment/tools-folder-integration-plan.md) - Implementation plan
-- [Deployment System Architecture](deployment-system-architecture.md) - Overall deployment design
+- Tools Integration Plan - Implementation plan
+- [Deployment System Architecture](../deployment/deployment-system-architecture.md) - Overall deployment design
 - [MicroPython Protocol](micropython-protocol.md) - WebSerial communication patterns
 
 ---

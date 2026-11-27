@@ -37,11 +37,22 @@ uv python install 3.12
 uv sync --all-groups --python 3.12
 npx playwright install
 
-# Configure git commit signing defaults for the container environment.
-git config --global gpg.program /usr/bin/gpg
-git config --global gpg.format openpgp
-git config --global commit.gpgsign true
-git config --global tag.gpgSign true
+# Commit/tag signing is dev-opt-in. Default: unsigned. `GIT_SIGNING_ENABLED=1`
+# restores today's signing defaults exactly; the artifacts that must be signed
+# are the publication commit, the release commit, and the `v*` tag, not the
+# devcontainer's day-to-day commits. Hook installation, identity wiring, and
+# GPG_TTY stay unconditional so flipping the switch is the only step needed.
+if [[ "${GIT_SIGNING_ENABLED:-0}" == "1" ]]; then
+    git config --global gpg.program /usr/bin/gpg
+    git config --global gpg.format openpgp
+    git config --global commit.gpgsign true
+    git config --global tag.gpgSign true
+
+    # Keep signing key user-specific; set via host env var GIT_SIGNING_KEY_ID if present.
+    if [[ -n "${GIT_SIGNING_KEY_ID:-}" ]]; then
+        git config --global user.signingkey "$GIT_SIGNING_KEY_ID"
+    fi
+fi
 
 # Keep git identity user-specific; set via host env vars when present.
 if [[ -n "${GIT_USER_NAME:-}" ]]; then
@@ -50,11 +61,6 @@ fi
 
 if [[ -n "${GIT_USER_EMAIL:-}" ]]; then
     git config --global user.email "$GIT_USER_EMAIL"
-fi
-
-# Keep signing key user-specific; set via host env var GIT_SIGNING_KEY_ID if present.
-if [[ -n "${GIT_SIGNING_KEY_ID:-}" ]]; then
-    git config --global user.signingkey "$GIT_SIGNING_KEY_ID"
 fi
 
 # GPG runs entirely inside the container against the persistent ~/.gnupg keyring
@@ -99,8 +105,6 @@ unset _gpg_tty_block _gpg_tty_marker _gpg_rc
 # (device_version_hook.py) and pre-commit / pre-push scripts run automatically.
 git config core.hooksPath hooks
 chmod +x hooks/commit-msg hooks/pre-commit hooks/pre-push
-git config commit.gpgSign true
-git config tag.gpgSign true
 
 # Bridge git's credential helper to the GitHub CLI so HTTPS git operations use
 # the gh auth token instead of the VS Code-injected credential helper. The gh

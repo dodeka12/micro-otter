@@ -59,6 +59,9 @@ nav:
   - Home: index.md
   - Setup:
       - Install Micro-Otter: setup/index.md
+      - Install on Linux: install-linux.md
+      - Install on macOS: install-macos.md
+      - Install on Windows: install-windows.md
       - Targets: setup/targets.md
       - Connect a device: setup/connect.md
   - App:
@@ -69,6 +72,7 @@ nav:
       - Device view: app/device-view.md
       - Deploy view: app/deploy-view.md
       - Firmware view: app/firmware-view.md
+      - Hosted web app: app/hosted.md
       - Settings view: app/settings-view.md
   - Nodes:
       - Node reference: nodes/index.md

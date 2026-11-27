@@ -6,7 +6,9 @@ re-clone/rebuild decisions can be exercised without a real toolchain or network.
 
 The configuration tests read ``.devcontainer/devcontainer.json`` and
 ``.vscode/settings.json`` and assert that the editor extensions the settings
-rely on are actually installed by the container.
+rely on are actually installed by the container. They also pin the published
+devcontainer variant to the development config minus the maintainer's clone
+bind mount, so the publication can never ship a host-specific path.
 """
 
 import json
@@ -16,10 +18,19 @@ import stat
 import subprocess
 from pathlib import Path
 
+import pytest
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
+# The publication tree exists only in the private development repository.
+PRIVATE_TREE = REPO_ROOT / "ldev"
 BOOTSTRAP = REPO_ROOT / "deploy" / "toolchain" / "esp-idf" / "bootstrap.sh"
 DEVCONTAINER_JSON = REPO_ROOT / ".devcontainer" / "devcontainer.json"
+PUBLISH_CONFIG = REPO_ROOT / "ldev" / "tools" / "publish-config.json"
+PUBLISHED_DEVCONTAINER_JSON = REPO_ROOT / "ldev" / "devcontainer" / "devcontainer.public.json"
 VSCODE_SETTINGS = REPO_ROOT / ".vscode" / "settings.json"
+
+# Container path the development config bind-mounts the maintainer's public clone onto.
+PUBLIC_CLONE_MOUNT_TARGET = "/workspaces/micro-otter"
 
 # Marketplace ids (<publisher>.<extension>). ``charliermarsh.ruff`` is the id the Ruff
 # extension still publishes under after the move to the ``astral-sh`` GitHub org, so the
@@ -334,3 +345,90 @@ def test_python_ruff_code_actions_stay_enabled() -> None:
             f"{action} must stay in [python].editor.codeActionsOnSave, otherwise import "
             f"sorting and ruff autofixes stop running on save: {actions}"
         )
+
+
+# --- the published devcontainer is a declared variant of the development one ----
+
+
+def _mount_target(entry: str) -> str:
+    """Return the container path one ``mounts`` entry targets."""
+    fields = dict(part.split("=", 1) for part in entry.split(",") if "=" in part)
+    return fields.get("target", "")
+
+
+def _require_private_tree() -> None:
+    """Skip in a published clone, which has no ``ldev/``: it *ships* the variant under test."""
+    if not PRIVATE_TREE.is_dir():
+        pytest.skip("ldev/ is the private development tree; a published clone ships the variant")
+
+
+def test_published_devcontainer_drops_only_the_public_clone_mount() -> None:
+    """The published config is the dev config with the maintainer's clone mount removed."""
+    _require_private_tree()
+    dev = json.loads(DEVCONTAINER_JSON.read_text(encoding="utf-8"))
+    published = json.loads(PUBLISHED_DEVCONTAINER_JSON.read_text(encoding="utf-8"))
+    clone_mounts = [
+        entry for entry in dev["mounts"] if _mount_target(entry) == PUBLIC_CLONE_MOUNT_TARGET
+    ]
+    assert clone_mounts, (
+        f"{DEVCONTAINER_JSON.name} no longer bind-mounts the public clone at "
+        f"{PUBLIC_CLONE_MOUNT_TARGET}, so the published variant would strip nothing and this "
+        "test would pass without checking anything"
+    )
+    stripped = {**dev, "mounts": [entry for entry in dev["mounts"] if entry not in clone_mounts]}
+    assert stripped == published, (
+        f"{PUBLISHED_DEVCONTAINER_JSON.relative_to(REPO_ROOT)} must equal "
+        f"{DEVCONTAINER_JSON.relative_to(REPO_ROOT)} with only the public-clone mount removed; "
+        "any other difference means the published container is not the config this suite covers"
+    )
+
+
+def test_publish_config_publishes_the_published_devcontainer_variant() -> None:
+    """The publication config must point the devcontainer target at the portable variant."""
+    _require_private_tree()
+    variants = json.loads(PUBLISH_CONFIG.read_text(encoding="utf-8"))["variants"]
+    entry = variants.get(".devcontainer/devcontainer.json")
+    assert entry is not None, (
+        "without a declared variant the publication would ship the development config with the "
+        f"maintainer's clone mount; declared variants: {sorted(variants)}"
+    )
+    assert entry["source"] == "ldev/devcontainer/devcontainer.public.json", entry
+    assert entry["reason"].strip(), f"a variant carries a reason: {entry}"
+
+
+# --- the devcontainer signs only when GIT_SIGNING_ENABLED=1 ---------------------
+
+POST_CREATE = REPO_ROOT / ".devcontainer" / "post-create.sh"
+
+SIGNING_SETTINGS = ("gpg.program", "gpg.format", "commit.gpgsign", "tag.gpgSign", "user.signingkey")
+
+
+def _post_create_lines() -> list[str]:
+    return POST_CREATE.read_text(encoding="utf-8").splitlines()
+
+
+def _guard_index(lines: list[str]) -> int:
+    return next(
+        i
+        for i, line in enumerate(lines)
+        if "GIT_SIGNING_ENABLED" in line and line.strip().startswith("if")
+    )
+
+
+def test_signing_settings_are_guarded_by_git_signing_enabled() -> None:
+    lines = _post_create_lines()
+    guard = _guard_index(lines)
+    signing = [i for i, line in enumerate(lines) if any(n in line for n in SIGNING_SETTINGS)]
+    assert signing, "signing settings must exist"
+    assert all(i > guard for i in signing), "signing settings must be inside the signing guard"
+    assert not any(
+        "gpgsign" in line or "gpgSign" in line for line in lines[:guard]
+    ), "no signing setting may precede the guard"
+
+
+def test_hooks_path_stays_outside_the_signing_guard() -> None:
+    lines = _post_create_lines()
+    hooks = next(i for i, line in enumerate(lines) if "core.hooksPath hooks" in line)
+    guard = _guard_index(lines)
+    signing_max = max(i for i, line in enumerate(lines) if any(n in line for n in SIGNING_SETTINGS))
+    assert not (guard < hooks < signing_max), "core.hooksPath must stay outside the signing guard"

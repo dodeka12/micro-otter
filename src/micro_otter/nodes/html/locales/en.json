@@ -892,6 +892,10 @@
         },
         "offline": {
             "body": "## Firmware server unavailable\n\nThe Firmware tab needs the local Micro-Otter server, which is not reachable right now.\n\n### What the server adds\n\n- Building and flashing firmware images\n- Importing a package by path or URL\n- Exporting a package into a folder you pick\n- Installing add-on packages\n\n### Start the server\n\n```bash\nuv run micro-otter serve\n```\n\nThe editor's other tabs keep working while the server is down.\n"
+        },
+        "hosted": {
+            "body": "## Hosted editor\n\nThis is the hosted Micro-Otter editor. It runs in your browser without the local Micro-Otter server, so everything that talks to the device directly keeps working:\n\n- editing graphs and collections\n- connecting to a MicroPython board over WebSerial\n- **Deploy**, including the source upload for packages that are not in the firmware\n\nBuilding firmware, flashing images and the image inventory need the desktop install, which bundles the toolchain.\n\nPrebuilt firmware images can be downloaded from `/firmware`.\n",
+            "installLink": "Download Micro-Otter for desktop: {{url}}"
         }
     },
     "form": {

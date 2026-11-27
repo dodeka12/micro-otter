@@ -21,11 +21,13 @@ REQUIRED_PATHS: tuple[str, ...] = (
     "toolchain/doctor.sh",
     "toolchain/esp-idf/bootstrap.sh",
     "docker/README.md",
+    "docker/Dockerfile.runtime",
     "release/README.md",
     "packaging/README.md",
+    "packaging/build-wheel.sh",
 )
 
-PLACEHOLDER_DIRS: tuple[str, ...] = ("docker", "release", "packaging")
+PLACEHOLDER_DIRS: tuple[str, ...] = ("release",)
 
 
 def _normalized(text: str) -> str:

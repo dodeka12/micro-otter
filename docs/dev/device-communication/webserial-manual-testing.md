@@ -571,8 +571,8 @@ When reporting bugs found during manual testing:
 ## Related Documentation
 
 - [WebSerial Testing Guide](webserial-testing.md) - Device-specific testing procedures
-- [View System Architecture](view-system-architecture.md) - ViewBase lifecycle details
-- [Progress Event System](progress-event-system.md) - Event tracking architecture
+- [View System Architecture](../view-system/view-system-architecture.md) - ViewBase lifecycle details
+- [Progress Event System](../core/progress-event-system.md) - Event tracking architecture
 - [MicroPython Protocol](micropython-protocol.md) - Device communication protocol
 
 ---

@@ -1,8 +1,14 @@
 # AGENTS.md
 
-Canonical, harness-agnostic instructions for AI coding agents in this repository — the public
-Micro-Otter product repository. GitHub Copilot and Cline adapters link here; do not duplicate these
-rules in harness-specific files.
+Canonical, harness-agnostic instructions for AI coding agents in this repository — the Micro-Otter
+product repository, published as `micro-otter`. GitHub Copilot and Cline adapters link here; do not
+duplicate these rules in harness-specific files.
+
+## Read this file first
+
+This file is published unchanged in both repositories. If `agents-local.md` sits next to it, read that
+too: it carries the maintainer-only rules (the private plan tree and the publication procedure). Those
+rules are excluded from publication, and nothing in this file depends on them.
 
 ## Project purpose and layout
 
@@ -85,6 +91,7 @@ at [.github/copilot-instructions.md](.github/copilot-instructions.md) link to th
 | [git-terminal-workflow](ai/skills/git-terminal-workflow/SKILL.md) | Staging, committing, pushing, or other git operations |
 | [implement-plan](ai/skills/implement-plan/SKILL.md) | Executing steps from a plan in the plan tree, including per-phase handoffs and optional context compaction |
 | [pull-request-workflow](ai/skills/pull-request-workflow/SKILL.md) | Creating or updating a pull request |
+| [two-repository-workflow](ai/skills/two-repository-workflow/SKILL.md) | Routing a change through the private and public repositories: which branch, which PR, when to publish, when to sync down |
 
 ## Planning
 

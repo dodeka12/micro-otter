@@ -489,7 +489,7 @@ class MyClass extends ViewBase {
   converting them to `unknown` is a per-site type decision, not a mechanical rewrite, and raising
   the rule to `error` first would only invite `eslint-disable` comments. Clearing sites is welcome;
   tightening the rule is a deliberate follow-up once the count reaches zero (tracked in the
-  [lint tooling plan](../../../ldev/todos/_done/lint-tooling/overview.md))
+  lint tooling plan)
 - Type-aware linting (`recommendedTypeChecked` plus `parserOptions.projectService`) is deliberately
   **not** enabled yet: it builds a TypeScript program on every run. It is recorded as a follow-up
 - **Formatting gap (intentional):** `npm run format` formats `src/**/*.js` only. The TypeScript tree

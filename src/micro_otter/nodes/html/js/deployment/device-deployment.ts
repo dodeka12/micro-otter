@@ -493,6 +493,41 @@ export class TargetNotCompatibleError extends Error {
     }
 }
 
+/**
+ * Thrown when a collection's target id does not exactly match the connected
+ * device's target id.
+ *
+ * Its stable `code` discriminator lets the deploy catch block route the error
+ * to the target-mismatch dialog without a fragile substring match on the
+ * message — which would otherwise also match unrelated "does not match"
+ * errors such as the embedded-runtime version guard.
+ */
+export class TargetMismatchError extends Error {
+    /** Stable machine-readable discriminator for UI callers. */
+    code: string;
+    /** The collection target id that was compared. */
+    collectionTargetId: string;
+    /** The device target id it was compared against. */
+    deviceTargetId: string | null | undefined;
+
+    /**
+     * @param {string} collectionTargetId - Collection target id that did not match
+     * @param {string | null | undefined} deviceTargetId - Device target id it was compared against
+     * @param {string} message - Localised mismatch message
+     */
+    constructor(
+        collectionTargetId: string,
+        deviceTargetId: string | null | undefined,
+        message: string
+    ) {
+        super(message);
+        this.name = 'TargetMismatchError';
+        this.code = 'target-mismatch';
+        this.collectionTargetId = collectionTargetId;
+        this.deviceTargetId = deviceTargetId;
+    }
+}
+
 export class EmbeddedSourceOverrideDeclinedError extends Error {
     /** Stable machine-readable discriminator for UI callers. */
     code: string;
@@ -1479,7 +1514,7 @@ print(sys.version)
                 result: 'reject',
             });
 
-            throw new Error(errorMessage);
+            throw new TargetMismatchError(collectionTargetId, deviceTargetId, errorMessage);
         }
 
         // Rule 3: Exact match - allow
@@ -1499,7 +1534,7 @@ print(sys.version)
      * @param {Collection} collection - Collection that failed validation
      */
     async _handleTargetMismatchError(error: any, collection: any): Promise<void> {
-        const collectionTarget = collection.getDeviceRuntimeId?.() || 'unknown';
+        const collectionTarget = collection.getTargetId?.() || 'unknown';
         const deviceTarget = this._deviceState.deviceTargetInfo?.id || 'unknown';
 
         await this._viewManager.showError({
@@ -2304,8 +2339,11 @@ print(sys.version)
 
             return filesUploaded;
         } catch (error: any) {
-            // Show user-friendly error for target mismatch
-            if (error.message.includes('does not match')) {
+            // Show user-friendly error for target mismatch. Use the typed
+            // discriminator rather than matching the message text, so an
+            // unrelated "does not match" error (e.g. the embedded-runtime
+            // version guard) is not misrouted to the target-mismatch dialog.
+            if (error?.code === 'target-mismatch') {
                 await this._handleTargetMismatchError(error, collection);
             }
 

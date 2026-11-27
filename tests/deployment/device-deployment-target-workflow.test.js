@@ -727,4 +727,52 @@ describe('device deployment target workflow migration coverage', () => {
             await deployment.deployCollection(createCollection('esp32_s3'), { force: true });
         }, (error) => error?.code === 'target-not-compatible');
     });
+
+    it('labels the collection target with its target id, not its runtime id', async () => {
+        await deployment._handleTargetMismatchError(
+            new Error('boom'),
+            createCollection('esp32_s3_mini')
+        );
+
+        assert.ok(viewManager.lastError);
+        assert.match(viewManager.lastError.message, /esp32_s3_mini/);
+        assert.doesNotMatch(viewManager.lastError.message, /general/);
+    });
+
+    it('throws a typed target-mismatch error with a stable code', async () => {
+        let caught = null;
+        try {
+            deployment._validateTargetCompatibility('esp32_c3', 'esp32_wroom');
+        } catch (error) {
+            caught = error;
+        }
+
+        assert.ok(caught);
+        assert.equal(caught.code, 'target-mismatch');
+        assert.equal(caught.name, 'TargetMismatchError');
+        assert.match(caught.message, /does not match/);
+    });
+
+    it('does not route a non-target "does not match" error to the target-mismatch dialog', async () => {
+        deviceConnection.enableDeviceInfoTarget();
+        await deployment.refreshDeviceInfo();
+
+        let mismatchDialogShown = false;
+        deployment._handleTargetMismatchError = async () => {
+            mismatchDialogShown = true;
+        };
+        deployment._validateTargetCompatibility = () => {
+            throw new Error(
+                'Embedded runtime metadata mismatch: device runtime version 1.51.1 does not match workspace runtime 1.51.2 for general.'
+            );
+        };
+
+        await assert.rejects(
+            () => deployment.deployCollection(createCollection('esp32_wroom'), {}),
+            /Embedded runtime metadata mismatch/
+        );
+
+        assert.equal(mismatchDialogShown, false);
+    });
+
 });

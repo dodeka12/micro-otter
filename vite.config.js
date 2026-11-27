@@ -7,6 +7,7 @@ import { dirname, relative, resolve } from 'path';
 import fs from 'fs';
 import { createDeviceDataProxy } from './tools/vite-device-backend.mjs';
 import { readProjectVersion } from './tools/project-version.mjs';
+import { hostedCspPlugin } from './tools/vite-hosted-csp.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -62,6 +63,84 @@ function isPathInside(basePath, candidatePath) {
         return true;
     }
     return !rel.startsWith('..') && !rel.includes('..\\') && !rel.includes('../');
+}
+
+/**
+ * True when this `vite build` produces a hosted bundle (`mo webapp build` sets it).
+ *
+ * The single source of the flag: `define` and the CSP plugin both read this const, so a build
+ * can never ship the hosted globals with the local CSP policy or the other way round.
+ */
+const hosted = process.env.MICRO_OTTER_HOSTED === '1';
+
+/** Output directory of `npm run build`: the wheel payload a local install serves. */
+const LOCAL_OUT_DIR = '_dist/webapp';
+
+/** Output directory of a hosted build when `--out` / `MICRO_OTTER_WEBAPP_OUT` is not given. */
+const HOSTED_OUT_DIR = '_dist/webapp-hosted';
+
+/**
+ * Resolve the build output directory from the environment.
+ *
+ * Relative values are taken relative to the repository root — the directory a caller types paths
+ * against — and returned absolute, so the guard below and Vite agree on the target. Vite would
+ * otherwise resolve `outDir` against its own root (`src/micro_otter/nodes`) and write
+ * `MICRO_OTTER_WEBAPP_OUT=_dist/webapp` somewhere else entirely.
+ *
+ * @returns {string} Absolute `build.outDir`.
+ */
+function resolveOutDir() {
+    const requested = (process.env.MICRO_OTTER_WEBAPP_OUT ?? '').trim();
+    return resolve(__dirname, requested || (hosted ? HOSTED_OUT_DIR : LOCAL_OUT_DIR));
+}
+
+/**
+ * The wheel payload directory a hosted build must never touch.
+ *
+ * @returns {string} Absolute path of `_dist/webapp`.
+ */
+function wheelPayloadDir() {
+    return resolve(__dirname, LOCAL_OUT_DIR);
+}
+
+/**
+ * Refuse a hosted build that would overwrite the wheel payload.
+ *
+ * `_dist/webapp` is packed into the wheel and checked by `tools/inspect_wheel.py`; a hosted bundle
+ * there would ship `webapp-build.json` and the `/firmware` page inside every install. Called with
+ * the final, Vite-resolved `build.outDir`, so `--outDir` cannot slip past the config value either.
+ *
+ * @param {string} outDir - Absolute output directory Vite is about to write.
+ * @throws {Error} When a hosted build targets `_dist/webapp` or a path inside it.
+ */
+function assertOutDirIsSafe(outDir) {
+    if (!hosted) {
+        return;
+    }
+    if (isPathInside(wheelPayloadDir(), outDir)) {
+        throw new Error(
+            'Refusing to write a hosted build into _dist/webapp (the wheel payload); ' +
+                'pass MICRO_OTTER_WEBAPP_OUT'
+        );
+    }
+}
+
+/**
+ * Guard the hosted output directory at the last moment before Vite writes.
+ *
+ * `configResolved` receives the merged build config, so the check sees the value from
+ * `MICRO_OTTER_WEBAPP_OUT` and the one from `vite build --outDir` alike.
+ *
+ * @returns {import('vite').Plugin} A build-only plugin that fails the build on an unsafe target.
+ */
+function hostedOutDirGuardPlugin() {
+    return {
+        name: 'micro-otter-hosted-out-dir-guard',
+        apply: 'build',
+        configResolved(config) {
+            assertOutDirIsSafe(resolve(config.root, config.build.outDir));
+        },
+    };
 }
 
 function decodeArtifactContent(encoded) {
@@ -241,6 +320,8 @@ function webappVersionFilePlugin(version) {
 }
 
 const appVersion = readProjectVersion(__dirname);
+const buildOutDir = resolveOutDir();
+assertOutDirIsSafe(buildOutDir);
 
 export default defineConfig({
     root: 'src/micro_otter/nodes',
@@ -280,12 +361,23 @@ export default defineConfig({
             process.env.NODE_ENV === 'production' ? 'warn' : 'debug'
         ),
         'globalThis.__MICRO_OTTER_APP_VERSION__': JSON.stringify(appVersion),
+        // Hosted build mode (see `src/micro_otter/nodes/html/js/core/build-mode.ts`).
+        // `npm run build` leaves both values `false` / `''`: the local bundle keeps probing the
+        // Micro-Otter server. The hosted values arrive from `mo webapp build`, which sets
+        // `MICRO_OTTER_HOSTED=1` and optionally `MICRO_OTTER_WEBAPP_DOCS_URL` — never from a
+        // hand-typed env, and never from `import.meta.env`.
+        'globalThis.__MICRO_OTTER_HOSTED__': JSON.stringify(hosted),
+        'globalThis.__MICRO_OTTER_DOCS_URL__': JSON.stringify(
+            process.env.MICRO_OTTER_WEBAPP_DOCS_URL ?? ''
+        ),
     },
     
     build: {
         // Repo-root build folder, so `npm run build` lands where the local server
         // looks (see `resolve_static_root` in `tools/server_capabilities.py`).
-        outDir: '../../../_dist/webapp',
+        // `mo webapp build` overrides it with `MICRO_OTTER_WEBAPP_OUT`; `_dist/webapp`
+        // is refused for a hosted build (see `assertOutDirIsSafe`).
+        outDir: buildOutDir,
         emptyOutDir: true,
         
         // Enable minification with terser for better dead code elimination
@@ -305,6 +397,11 @@ export default defineConfig({
         },
     },
     plugins: [
+        // First, so the `<meta http-equiv="Content-Security-Policy">` lands at the start of `<head>`,
+        // ahead of the stylesheet links it governs. A no-op unless `MICRO_OTTER_HOSTED=1`.
+        hostedCspPlugin({ hosted }),
+        // Second, so an unsafe hosted `--outDir` fails before any asset is written.
+        hostedOutDirGuardPlugin(),
         transpileDebugDumpPlugin(),
         webappVersionFilePlugin(appVersion),
         // Copy runtime-only static assets into the production build output. Keep only

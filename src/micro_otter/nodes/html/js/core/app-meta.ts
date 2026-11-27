@@ -1,6 +1,7 @@
 // Copyright (c) 2025 Christian Perwass; SPDX-License-Identifier: GPL-3.0-only
 
 import { OPEN_SOURCE_PACKAGES } from './open-source-packages.generated.js';
+import { isHostedBuild } from './build-mode.js';
 
 const FALLBACK_APP_VERSION = '0.0.0-dev';
 
@@ -22,6 +23,12 @@ function getBuildInjectedVersion(): string | null {
 }
 
 async function getRuntimeServedVersion(): Promise<string | null> {
+    // A hosted bundle is served from a static host: there is no `/api/version` to ask, and
+    // `/html/version.json` (step 2 of the resolution order) is the hosted source of truth.
+    if (isHostedBuild()) {
+        return null;
+    }
+
     if (typeof fetch !== 'function') {
         return null;
     }
@@ -75,7 +82,8 @@ async function getStaticVersionFileVersion(): Promise<string | null> {
  * Resolve the current application version in both build and dev environments.
  *
  * Priority:
- * 1) Runtime server endpoint (`/api/version`) — the installed package version
+ * 1) Runtime server endpoint (`/api/version`) — the installed package version. Skipped in a
+ *    hosted bundle, which has no server to ask.
  * 2) Static version file (`/html/version.json`) — the stamp `vite build` wrote into the bundle
  * 3) Vite build-time injected version
  * 4) Fallback placeholder

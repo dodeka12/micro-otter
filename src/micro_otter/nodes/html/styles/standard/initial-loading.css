@@ -1,0 +1,82 @@
+/**
+ * Initial Loading Styles
+ *
+ * The reset and the `#initial-loading` splash rules.
+ *
+ * These rules used to live in an inline `<style>` block in `index.html`. They are a stylesheet so
+ * the hosted build can ship `style-src 'self'` without `'unsafe-inline'`; the rules themselves are
+ * unchanged, and the markup they style is still the static `#initial-loading` element.
+ */
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Initial loading screen with micro-otter icon */
+#initial-loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at top, #182033, #0e111b 70%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    color: var(--mo-text, #e5eaf3);
+    z-index: 9999;
+}
+
+#initial-loading img {
+    width: 40vmin;
+    height: 40vmin;
+    max-width: 512px;
+    max-height: 512px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 180ms ease;
+}
+
+#initial-loading img.is-loaded {
+    opacity: 0.9;
+    visibility: visible;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+#initial-loading-text {
+    margin: 0;
+    font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: inherit;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+#initial-loading-text .loading-dots {
+    display: inline-block;
+    width: 3ch;
+    text-align: left;
+    white-space: nowrap;
+}
+
+#initial-loading.is-icon-loading #initial-loading-text .loading-dots {
+    width: 0;
+    overflow: hidden;
+    animation: loading-dots 1.1s steps(4, end) infinite;
+}
+
+@keyframes loading-dots {
+    from { width: 0; }
+    to { width: 3ch; }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.9; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(0.98); }
+}

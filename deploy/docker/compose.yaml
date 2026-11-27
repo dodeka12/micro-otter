@@ -1,0 +1,46 @@
+# Compose profiles for the runtime and compile images.
+#
+# The compile image's Dockerfile does `FROM micro-otter-runtime:<tag>`, so build
+# the runtime image first:
+#   docker compose --profile runtime build
+#   docker compose --profile compile build
+
+name: micro-otter
+
+services:
+  micro-otter:
+    profiles: ["runtime"]
+    image: micro-otter-runtime:${MICRO_OTTER_VERSION:-dev}
+    build:
+      context: ../..
+      dockerfile: deploy/docker/Dockerfile.runtime
+      args:
+        MICRO_OTTER_VERSION: "${MICRO_OTTER_VERSION:-0.0.0}"
+    ports:
+      - "${MICRO_OTTER_PORT:-8000}:8000"
+    volumes:
+      - micro-otter-data:/data
+    restart: unless-stopped
+
+  micro-otter-compile:
+    profiles: ["compile"]
+    image: micro-otter-compile:${MICRO_OTTER_VERSION:-dev}
+    build:
+      context: ../..
+      dockerfile: deploy/docker/Dockerfile.compile
+      args:
+        RUNTIME_IMAGE: "micro-otter-runtime:${MICRO_OTTER_VERSION:-dev}"
+    ports:
+      - "${MICRO_OTTER_PORT:-8000}:8000"
+    volumes:
+      - micro-otter-data:/data
+    environment:
+      MICRO_OTTER_ENABLE_COMPILE: "${MICRO_OTTER_ENABLE_COMPILE:-1}"
+      MICRO_OTTER_ENABLE_DEPLOY: "${MICRO_OTTER_ENABLE_DEPLOY:-1}"
+      MICRO_OTTER_BUILD_BACKEND: "${MICRO_OTTER_BUILD_BACKEND:-esp-idf}"
+      MICRO_OTTER_MAX_BUILD_JOBS: "${MICRO_OTTER_MAX_BUILD_JOBS:-4}"
+      MICRO_OTTER_BUILD_TIMEOUT: "${MICRO_OTTER_BUILD_TIMEOUT:-3600}"
+    restart: unless-stopped
+
+volumes:
+  micro-otter-data: {}
