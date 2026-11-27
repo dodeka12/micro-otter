@@ -91,6 +91,8 @@ The last numbered step under `## Steps`, immediately before the `## Validation` 
 2. Write or update the phase section in `handoff.md` with every field above.
 3. Be marked ✓ only after the handoff section is written and committed.
 4. Be left unmarked and the phase marked `blocked` if any validation command fails.
+5. End with the plain-language phase summary `AGENTS.md` → *Reporting to the user* requires — the
+   outcome first, then what remains — before the user is asked to compact or continue.
 
 ## Writing rules
 
@@ -103,3 +105,5 @@ The last numbered step under `## Steps`, immediately before the `## Validation` 
 - Do not paste full diffs or logs; link to files and commits.
 - Corrections to an earlier section are recorded in the current phase section, not by silently
   editing history.
+- This file is the durable record for identifiers — paths, hashes, commands, counts. The summary given
+  in chat is its plain-language counterpart (`AGENTS.md` → *Reporting to the user*); never swap the two.

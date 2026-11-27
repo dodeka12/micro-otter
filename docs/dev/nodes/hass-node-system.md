@@ -233,7 +233,7 @@ log and an empty Home Assistant are the same picture.
 
 ## Related
 
-- `ldev/ideas/2026-11-04-homeassistant-mqtt-entities.md` — the HA analysis behind this package.
+- The Home Assistant analysis behind this package lives with the node design documents under `dev/nodes/`.
 - `docs/dev/nodes/mqtt-node-system.md` — the runtime primitives
   (`configure_will`, `publish_deferred`, `on_connect`, `json_payload`).
 - `docs/dev/nodes/node-validation-architecture.md` — where a check belongs (graph rules, L3);

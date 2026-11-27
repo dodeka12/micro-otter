@@ -76,11 +76,10 @@ npm run test:all
 
 `ci.yml` does not run the Node suite for now. `npm run test:node` is 6,100+ assertions and was 386 s of
 the ~400 s `web` job, so it ran twice per merge — on the pull request and again in the post-merge `push`
-run of `main` — and four times for a change that went out through a publication and came back with the
-sync-down. That made the release round trip wait on the suite instead of on the change.
+run of `main` — which made the release round trip wait on the suite instead of on the change.
 
 Automatic CI is also scoped to the published repository (`github.repository ==
-'dodeka12/micro-otter'`, or a manual `workflow_dispatch`), so a development pull request runs no CI
+'dodeka12/micro-otter'`, or a manual `workflow_dispatch`), so a fork's pull request runs no CI
 job at all — neither this suite nor the packaging, Docker, or Windows gates.
 
 Until the packaging infrastructure is stable and the remaining milestones have landed, the `web` job
@@ -118,7 +117,7 @@ against a temporary tree.
 
 `npm run check:docs-links` runs `tools/check_docs_links.mjs` over every published markdown tree
 (`README.md`, `CONTRIBUTING.md`, `AGENTS.md`, `docs/**`, `user-docs/**`, `ai/**`, `.cline/**`,
-`dev/**`), skipping `ldev/**` and build output. It fails (exit 2) on a relative link whose target
+`dev/**`), skipping build output. It fails (exit 2) on a relative link whose target
 does not exist or whose `#fragment` names no heading, on a case-mismatched path, and on an allowlist
 entry that matches nothing. `tools/docs-link-allowlist.json` is the fail-closed allowlist
 (`{path, target, reason}`); `mkdocs build --strict` cannot replace this gate because it never renders

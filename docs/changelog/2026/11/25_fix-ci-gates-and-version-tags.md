@@ -12,18 +12,14 @@
   repository, because a merge here releases nothing, and a new `Require a version baseline` step fails
   the run when the checkout has no `v*` tag instead of letting the action fall back to `0.0.0`.
 - **The Node test suite no longer gates CI** — `npm run test:node` was 386 s of the ~400 s `web` job,
-  so every merge paid it twice (pull request plus the post-merge `push` run) and a publication round
-  trip paid it four times. The `web` job keeps the generated-file and payload gates, lint, typecheck,
-  Vitest and the build; `test:node` stays the developer gate before a publication and before touching
+  so every merge paid it twice (pull request plus the post-merge `push` run). The `web` job keeps the
+  generated-file and payload gates, lint, typecheck,
+  Vitest and the build; `test:node` stays the developer gate before merging anything that touches
   `tools/`, `tests/`, `src/micro_otter/` or `deploy/`, which is the only remaining coverage for
   `tests/deployment/`.
 
 ## Refactor
 
-- **Tagging and CI docs match the workflows** — `docs/admin/release-sync.md` (§6 and the first
-  publication record), `docs/dev/guides/repository-workflow.md`,
-  `docs/workflow/two-repository-workflow.md` and `docs/workflow/pull-request.md` state that the tag is
-  created by the guarded job in the public repository, record the `v0.0.1` incident, and drop the
-  manual tag step; `CONTRIBUTING.md`, `docs/admin/GITHUB_SETUP.md`,
-  `docs/dev/guides/build-and-deployment.md` and `docs/dev/guides/testing-architecture.md` document the
-  suspended Node suite, and the sync-down troubleshooting no longer suggests `git merge -X ours`.
+- **Tagging and CI docs match the workflows** — the release and CI pages state that the tag is created
+  by the guarded job, record the `v0.0.1` incident, and drop the manual tag step; `CONTRIBUTING.md`
+  and `docs/dev/guides/build-and-deployment.md` document the suspended Node suite and its local gate.

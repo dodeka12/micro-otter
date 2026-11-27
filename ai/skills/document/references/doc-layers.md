@@ -185,7 +185,6 @@ Outside the three layers, the repository also keeps:
 | Folder | Purpose |
 |--------|---------|
 | `docs/general/` | Repo/contributor setup (e.g. Git GPG signing) |
-| `docs/admin/` | Admin guides |
 | `docs/tools/` | Tooling reference and workflows |
 | `docs/workflow/` | Step-by-step how-tos |
 

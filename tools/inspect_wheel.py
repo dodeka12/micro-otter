@@ -7,8 +7,8 @@ that contract as data: which files a correct wheel must contain and which paths
 must never appear in one. ``deploy/packaging/build-wheel.sh`` runs it against the
 wheel it just built, and ``tests/test_inspect_wheel.py`` pins the same contract.
 
-The process exit code follows the publication tool's convention: ``0`` means the
-wheel is valid, ``2`` means one or more ``violation`` lines were printed.
+The exit code is a contract: ``0`` means the wheel is valid, ``2`` means one or more ``violation``
+lines were printed.
 """
 
 from __future__ import annotations
@@ -35,7 +35,6 @@ REQUIRED_FILES: tuple[str, ...] = (
 FORBIDDEN_PREFIXES: tuple[str, ...] = (
     "tools/",
     "tests/",
-    "ldev/",
     "dev/",
     "node_modules/",
 )

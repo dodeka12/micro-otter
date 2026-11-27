@@ -62,32 +62,25 @@ If a PR mixes multiple types, the highest priority wins: `major > minor > patch`
 Following these conventions keeps the changelog, the release notes and the manual release procedure
 consistent. Happy hacking!
 
-## Repository layout and publication
+## Repository layout
 
-Development happens in the private repository; `micro-otter` is the published repository. Three paths
-need care:
+| Path | Holds |
+|---|---|
+| `src/micro_otter/` | The application: the Python CLI and server, the node system, and the browser editor under `nodes/html/` |
+| `user-docs/` | The published documentation site (MkDocs + Material) |
+| `docs/dev/` | Developer documentation — architecture, guides, node and deployment references, indexed from [docs/dev/README.md](docs/dev/README.md) |
+| `docs/workflow/` | The release, changelog, pull-request and icon workflows |
+| `tests/` | The Python, Node and browser test suites |
+| `dev/` | The plan scaffold: `dev/todos/` for proposals, `dev/todos/_done/` for finished plans, plus empty `ideas/`, `nodes/`, `manual_tests/` and `tools/` folders |
 
-- **Plans** live in the plan tree: `ldev/todos/` here, `todos/` in the published `dev/` scaffold. To
-  propose a plan, add a folder under `ldev/todos/` with the usual `overview.md` plus phase files; see
-  `agents-local.md` → **Private plan tree** for the structure.
-- **`dev/`** is published verbatim and holds only its `README.md` and empty folders — never put a plan
-  file there.
-- **`agents-local.md`** holds the maintainer-only rules (the private plan tree and the publication
-  procedure). It is listed in `excludedPaths`, so it never publishes and `AGENTS.md` is identical in
-  both repositories.
+Plans are proposed like code: add a folder under `dev/todos/` with an `overview.md` plus one file per
+phase, and open a pull request — or an issue first if you want to agree on the shape. The plan format,
+the completion markers and the phase-handoff rules are in [AGENTS.md](AGENTS.md) → **Planning**, and the
+[create-plan](ai/skills/create-plan/SKILL.md) and [implement-plan](ai/skills/implement-plan/SKILL.md)
+skills describe how to write and execute one. Finished plans move to `dev/todos/_done/`.
 
-Everything else is byte-identical apart from the declared devcontainer variant
-(`ldev/devcontainer/devcontainer.public.json` drops the maintainer's public-clone bind mount), and
-public changes reach `micro-otter` only through a publication pull request:
-`node ldev/tools/publish.mjs status` → `prepare` → `publish --create-pr`, followed by
-the merge and the release tag. The commands, flags, guards and the sync-down merge are documented in
-[docs/dev/guides/repository-workflow.md](docs/dev/guides/repository-workflow.md); the guard suite runs
-with `node --test 'ldev/tools/tests/**/*.test.mjs'`.
-
-In the published repository the required checks are the three CI jobs below (`python`, `web`,
-`docs`); in this development repository every job is skipped (see *Continuous Integration*). Run
-`npm run check:ci-local`, `npm run test:node`, `npm run typecheck`, and `uv run pytest -q` before
-considering a change complete.
+A change is complete when the gates below pass: `npm run check:ci-local`, `npm run test:node`,
+`npm run typecheck`, and `uv run pytest -q`.
 
 ## User documentation
 
@@ -146,18 +139,16 @@ With `core.hooksPath=hooks`, [hooks/pre-commit](hooks/pre-commit) stays fast (me
 ## Continuous Integration
 
 [.github/workflows/ci.yml](.github/workflows/ci.yml) validates every pull request and every merge
-to `main`, skips pull requests whose change set touches only `ldev/`, and can be started on demand
-with **Run workflow**. A feature-branch push starts no second run, because the pull request already
-covers it; the `push` trigger exists for the post-merge check of `main`, which takes no direct
-pushes. It holds `contents: read` only, cancels superseded runs on the same ref, caches
-dependencies, and publishes nothing: no tag, package, release or site.
+to `main`, and can be started on demand with **Run workflow**. A feature-branch push starts no second
+run, because the pull request already covers it; the `push` trigger exists for the post-merge check of
+`main`, which takes no direct pushes. It holds `contents: read` only, cancels superseded runs on the
+same ref, caches dependencies, and publishes nothing: no tag, package, release or site.
 
-Automatic runs are scoped to the published repository: every job carries
-`if: github.repository == 'dodeka12/micro-otter' || github.event_name == 'workflow_dispatch'`. A pull
-request or merge in this development repository therefore creates the run but skips every job, so no
-wheel, Docker image, or Windows exe is built and no runner minutes are spent; the full gate is one
-**Run workflow** click away, e.g. before a publication. In `micro-otter` the guard is always true, so
-CI runs exactly as the table describes, and `tests/test_ci_workflow.py` pins the guard on every job.
+Every job carries a repository guard,
+`if: github.repository == 'dodeka12/micro-otter' || github.event_name == 'workflow_dispatch'`, so a run
+only does work where a release artifact would be wanted: in `micro-otter` the guard is always true and
+CI runs exactly as the table describes, while a fork's pull request skips the jobs until someone starts
+a run by hand. `tests/test_ci_workflow.py` pins the guard on every job.
 
 | Job | What it runs | Local equivalent |
 | --- | --- | --- |
@@ -168,11 +159,10 @@ CI runs exactly as the table describes, and `tests/test_ci_workflow.py` pins the
 | `docker` | build `deploy/docker/Dockerfile.runtime`, start + smoke (uid `10001`, no idf.py/git/gh/gpg, `healthy`), `docker compose … config` | a host with a Docker daemon |
 | `windows` | `pwsh -File deploy/packaging/build-exe.ps1`, smoke `--help` + `serve`, upload `dist/micro-otter.exe` | a Windows host |
 
-The job ids are the required status-check names and are identical in the public repository
-`micro-otter`. The Node suite (`npm run test:node`) is suspended in CI for now: it was 386 s of the
-~400 s `web` job. Run it locally before a publication and before merging anything that touches `tools/`,
-`tests/`, `src/micro_otter/` or `deploy/`; it includes `tests/deployment/`, so a firmware or packaging
-regression is caught there. See
+The job ids are the required status-check names. The Node suite (`npm run test:node`) is suspended in
+CI for now: it was 386 s of the ~400 s `web` job. Run it locally before merging anything that touches
+`tools/`, `tests/`, `src/micro_otter/` or `deploy/`; it includes `tests/deployment/`, so a firmware or
+packaging regression is caught there. See
 [testing-architecture.md](docs/dev/guides/testing-architecture.md#temporary-ci-split). There is no
 `device-syntax` CI job:
 mpy-cross is a local toolchain build, so that gate stays in `npm run check:ci-local` and runs in the

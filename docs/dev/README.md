@@ -125,9 +125,9 @@ Developer documentation for firmware-embedded runtime compile contracts, packagi
 
 ### Development Planning
 
-- The plan tree - Implementation plans and roadmaps; see `AGENTS.md` → **Planning** for its path
-  in this repository
-- The node-design tree - Node type design documents; same path rule as the plan tree
+- `dev/todos/` - Implementation plans and roadmaps: one folder per plan with an `overview.md` plus one
+  file per phase, and finished plans under `dev/todos/_done/`
+- `dev/nodes/` - Node type design documents
 
 ### AI Guidance
 
@@ -142,18 +142,6 @@ Developer documentation for firmware-embedded runtime compile contracts, packagi
 
 ### Tools
 
-- [../admin/two-repository-model.md](../admin/two-repository-model.md) - The one-page mental model:
-  two independent repositories, why a private merge changes nothing public, and what "product" means
-  by path
-- [../workflow/two-repository-workflow.md](../workflow/two-repository-workflow.md) - The routing
-  procedure: classify the changed paths, branch, PR A, publish (`status`/`prepare`/`publish`), PR B,
-  sync down, and the guard-to-fix troubleshooting table
-- [../admin/release-sync.md](../admin/release-sync.md) - Repository administration guide: the
-  two-repository topology, the `dev/` vs `ldev/` split, `node ldev/tools/publish.mjs`
-  `status`/`prepare`/`publish`, the guard list, the sync-down rule, and tag/artifact expectations
-- [guides/repository-workflow.md](guides/repository-workflow.md) - The developer-facing view of the
-  same workflow: tree roles, the private `agents-local.md`, the version producers, the tool's flags and
-  guards, and what the sdist and the wheel contain
 - [../tools/mpy-runtime-workflow.md](../tools/mpy-runtime-workflow.md) - MPY tooling workflow for probing device ABI, compiling runtime profiles, and deploying .mpy files.
 - [mpy-precompilation/hash-spec.md](mpy-precompilation/hash-spec.md) - Canonical compile-profile hash specification for Python and JavaScript parity.
 - [../workflow/release.md](../workflow/release.md) - The manual release procedure: bump `release.json`, build and export per board in the compile image, generate the index and release body, tag `firmware-v<base>` (never move it), and upload with `gh release create --verify-tag`.
@@ -178,5 +166,4 @@ When adding new documentation:
 - Explain **why** not just **what**
 - Document design decisions and trade-offs
 
-For general documentation, see `docs/general/`.  
-For admin guides, see `docs/admin/`.
+For general documentation, see `docs/general/`.

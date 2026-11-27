@@ -44,10 +44,10 @@ packages = ["src/micro_otter"]
 artifacts = ["src/micro_otter/dist/webapp/**"]
 force-include = { "deploy/toolchain" = "micro_otter/toolchain/assets" }
 
-# Hatchling otherwise packs every VCS-tracked file into the sdist, private
-# `ldev/` included. The sdist is a source archive for inspectors only: it cannot
-# carry `src/micro_otter/dist/webapp`, so it is not an install path and
-# `deploy/packaging/build-wheel.sh` never builds or ships it (locked decision 1).
+# Hatchling otherwise packs every VCS-tracked file into the sdist. The allowlist
+# keeps the archive to the product. The sdist is a source archive for inspectors
+# only: it cannot carry `src/micro_otter/dist/webapp`, so it is not an install path
+# and `deploy/packaging/build-wheel.sh` never builds or ships it (locked decision 1).
 [tool.hatch.build.targets.sdist]
 include = [
     "/src/micro_otter",

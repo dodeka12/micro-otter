@@ -10,7 +10,6 @@ src/micro_otter/_version.py
 src/micro_otter/nodes/html/version.json
 
 node_modules/
-ldev/debug-dumps/
 micropython/
 
 # Byte-compiled / optimized / DLL files

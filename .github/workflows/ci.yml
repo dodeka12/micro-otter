@@ -1,16 +1,14 @@
 name: CI
 
-# Baseline validation for every pull request and every merge to `main` in the
-# published repository. This workflow is published verbatim into both
-# repositories, so it has to stay harmless in the development repository: every
-# job carries the public-repository guard below and reports `skipped` there, which
-# costs no runner minutes. `workflow_dispatch` (**Run workflow**) bypasses the
-# guard so the full gate can be started on demand in this repository, e.g. before
-# a publication. Nothing is published (no branch/tag push, no package, no site, no
-# firmware, no installer): releases are cut by hand, see docs/workflow/release.md.
+# Baseline validation for every pull request and every merge to `main`. Every job
+# carries the repository guard below, so a fork's pull request runs the workflow
+# but reports `skipped` and costs no runner minutes. `workflow_dispatch`
+# (**Run workflow**) bypasses the guard and runs the full gate on demand. Nothing
+# is published (no branch/tag push, no package, no site, no firmware, no
+# installer): releases are cut by hand, see docs/workflow/release.md.
 #
-# Job ids are the stable required status-check names, identical in both
-# repositories: `python`, `web`, `docs`, `packaging`, `docker`, `windows`. `windows`
+# Job ids are the stable required status-check names: `python`, `web`, `docs`,
+# `packaging`, `docker`, `windows`. `windows`
 # is manual-only (see its job): the Windows exe and the firmware images are built by
 # the maintainer for a release, never on a pull request or merge. There is no
 # `device-syntax` job: mpy-cross is a local toolchain build, so that gate stays in
@@ -25,10 +23,6 @@ on:
     branches:
       - main
   pull_request:
-    # A planning-only pull request in the private repository never spends a run.
-    # The filter is a no-op in the public repository, which never tracks `ldev/`.
-    paths-ignore:
-      - 'ldev/**'
   workflow_dispatch:
 
 # Least privilege: every job only reads the checkout. No job writes a tag,
@@ -41,11 +35,11 @@ concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
-# Automatic CI runs in the published repository only. A pull request or merge in
-# the development repository creates the run but skips every job, so it spends no
-# runner minutes; `workflow_dispatch` keeps the full gate available on demand.
-# `windows` is manual-only in both repositories, so the automatic gate is the five
-# remaining jobs. `tests/test_ci_workflow.py` pins the guards.
+# Automatic CI builds artifacts for this repository only. A fork's pull request
+# creates the run but skips every job, so it spends no runner minutes;
+# `workflow_dispatch` keeps the full gate available on demand. `windows` is
+# manual-only, so the automatic gate is the five remaining jobs.
+# `tests/test_ci_workflow.py` pins the guards.
 jobs:
   python:
     name: python
@@ -116,11 +110,10 @@ jobs:
         run: npm run typecheck
 
       # The Node suite (`npm run test:node`, 6,100+ assertions) is suspended in CI: it is 386 s of
-      # the ~400 s `web` job, so it doubles the round trip through a publication and the sync-down
-      # in both the pull-request and the post-merge run. Run it locally before a publication and
-      # before merging anything that touches `tools/`, `tests/`, `src/micro_otter/` or `deploy/`
-      # (`npm run test:node`). Restore the gate by replacing the `Node tests (suspended)` step with
-      # these two steps:
+      # the ~400 s `web` job, so it doubles the runtime of both the pull-request and the post-merge
+      # run. Run it locally before merging anything that touches `tools/`, `tests/`,
+      # `src/micro_otter/` or `deploy/` (`npm run test:node`). Restore the gate by replacing the
+      # `Node tests (suspended)` step with these two steps:
       #
       #   - name: Node tests
       #     run: npm run test:node
@@ -131,7 +124,7 @@ jobs:
         # Keeps the suspension visible in the run log and on the pull request, where the YAML comment
         # is never read.
         run: |
-          echo "::warning::npm run test:node is suspended in CI. Run it locally before a publication;" \
+          echo "::warning::npm run test:node is suspended in CI. Run it locally before merging;" \
                "see docs/dev/guides/testing-architecture.md#temporary-ci-split."
       - name: Vitest
         run: npm run test:vitest

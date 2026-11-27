@@ -9,8 +9,9 @@ name: Tag Version (manual)
 #
 # This file is published verbatim, and a run in a tree without `v*` tags rests on
 # the action's `0.0.0` baseline instead: it would mint `v0.0.1` on a merge that
-# releases nothing (twice so far, 2026-11-24 and 2026-11-25). A `v*` tag shared by
-# both repositories also makes the sync-down fail with `would clobber existing tag`.
+# releases nothing (twice so far, 2026-11-24 and 2026-11-25). A `v*` tag that
+# exists in two clones of this repository also makes fetching tags fail with
+# `would clobber existing tag`.
 # The guard names the public repository, so moving or renaming it needs this line
 # updated.
 

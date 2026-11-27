@@ -1,6 +1,6 @@
 ---
 name: code
-description: 'Write or modify code in this project. Use when the user asks to implement a feature, write code, add a function, fix a bug, or make any code change. Ensures developer and reference documentation are consulted before coding, that existing components and their exact variants are reused instead of redesigned, and that in-code reference docs are created or updated after. Also flags when developer docs need updating after structural changes.'
+description: 'Write or modify code in this project. Use when the user asks to implement a feature, write code, add a function, fix a bug, or make any code change. Ensures developer and reference documentation are consulted before coding, that existing components and their exact variants are reused instead of redesigned, and that in-code reference docs are created or updated after. Also flags when developer docs need updating after structural changes. Reports the outcome to the user as a short plain-language gist, keeping file and symbol references in the code and the change description.'
 ---
 
 # Code
@@ -16,6 +16,7 @@ This skill ensures that every coding task in this project:
    an existence check against the pinned MicroPython implementation)
 5. Produces in-code reference documentation for every public symbol
 6. Flags (or updates) developer docs when structural changes are made
+7. Reports the outcome to the user as a short, plain-language gist (see [Report to the user](#step-7--report-to-the-user))
 
 ---
 
@@ -38,8 +39,10 @@ Additional obligations:
   Preserving the drift and documenting it is the defect, not the fix.
 - **Check parity, then encode it.** When two call sites must render identically, assert it in a test
   (for example comparing the rendered `classList` of both controls) so the next edit cannot drift.
-- **Name the reuse target.** In the final report, say which component and variant you reused, so a
-  reviewer can confirm it without diffing pixels.
+- **Name the reuse target.** Say which existing component and variant the change reuses, in plain
+  words ("the same secondary toolbar button as its neighbours"), so a reviewer can confirm it without
+  diffing pixels. The component name belongs in the change description and in the code; add it to the
+  chat only when the user asks.
 
 ---
 
@@ -160,3 +163,10 @@ Before marking work done:
 - No unrequested redesign: approved layout, APIs, and visual treatment are unchanged, and no one-off
   variant or view-scoped override of a shared class was introduced
 - If structural changes were made, developer docs are either updated or a follow-up is clearly noted
+
+### Step 7 — Report to the user
+
+Answer in the shape `AGENTS.md` → *Reporting to the user* defines: does it work, what changed in
+effect, what remains. File names, function names, test names, and commands stay in the code, the commit
+message, and the change description — mention one only when the user asks for it. A bug or a
+regression is the same shape: cause → consequence → fix, in plain words, before any detail.

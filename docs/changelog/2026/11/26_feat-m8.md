@@ -35,11 +35,9 @@
   fails if a `compile-runtime`, `esptool`, `firmware.bin` or `firmware.import` step ever appears in
   `ci.yml`.
 - **The tagging documentation matches** — `docs/dev/guides/build-and-deployment.md`,
-  `docs/dev/guides/repository-workflow.md`, `docs/admin/GITHUB_SETUP.md`,
-  `docs/admin/release-sync.md`, `docs/workflow/{two-repository-workflow,pull-request,changelog}.md`,
-  `CONTRIBUTING.md` and `agents-local.md` no longer say a merge is tagged automatically; they point at
-  the manual procedure in `docs/workflow/release.md`. The packaging section also states that no
-  installable artifact carries a firmware image.
+  `docs/workflow/{pull-request,changelog}.md` and `CONTRIBUTING.md` no longer say a merge is tagged
+  automatically; they point at the manual procedure in `docs/workflow/release.md`. The packaging
+  section also states that no installable artifact carries a firmware image.
 
 Nothing in `src/micro_otter/` changes: importing a firmware package from disk or from a URL
 (`firmware.import` / `firmware.import-binary`, `mo fw import --url`) and the collection

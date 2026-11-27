@@ -1,9 +1,9 @@
 """Contract tests for the CI workflow.
 
 These assertions pin the shape of ``.github/workflows/ci.yml`` so the stable job
-ids (the required status-check names shared by both repositories), the
-public-repository guard that keeps the development repository from spending
-runner minutes, the least-privilege permissions, and the packaging/docker gates
+ids (the required status-check names), the repository guard that keeps a fork's
+pull request from spending runner minutes, the least-privilege permissions, and
+the packaging/docker gates
 cannot drift silently. The ``windows`` job is pinned separately: it builds the exe
 on demand only, because releases are assembled by hand.
 """
@@ -19,9 +19,8 @@ CI = REPO_ROOT / ".github" / "workflows" / "ci.yml"
 
 JOB_IDS = ("python", "web", "docs", "packaging", "docker", "windows")
 
-# Automatic CI belongs to the published repository. The development repository
-# only runs the workflow through `workflow_dispatch`, so a development pull
-# request skips every job and builds no wheel or image.
+# Automatic CI builds artifacts for this repository only. A fork's pull request
+# runs the workflow but skips every job; `workflow_dispatch` runs them on demand.
 PUBLIC_REPOSITORY = "dodeka12/micro-otter"
 PUBLIC_REPO_GUARD = (
     f"github.repository == '{PUBLIC_REPOSITORY}' || github.event_name == 'workflow_dispatch'"
@@ -57,7 +56,7 @@ def test_job_ids_and_names_are_the_stable_set() -> None:
 
 
 def test_every_automatic_job_is_scoped_to_the_published_repository() -> None:
-    """A pull request in the development repository must cost no runner minutes."""
+    """A pull request from a fork must cost no runner minutes."""
     for job_id, job in _jobs().items():
         if job_id in MANUAL_ONLY_JOB_IDS:
             continue
@@ -91,7 +90,9 @@ def test_workflow_is_least_privilege_and_publishes_nothing() -> None:
 def test_push_and_pull_request_scoping() -> None:
     workflow = _workflow()
     assert workflow["on"]["push"]["branches"] == ["main"]
-    assert workflow["on"]["pull_request"]["paths-ignore"] == ["ldev/**"]
+    assert "paths-ignore" not in workflow["on"]["pull_request"], (
+        "every pull request runs the jobs; a paths filter would skip a change set silently"
+    )
 
 
 def _step_runs(job_id: str) -> list[str]:

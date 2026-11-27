@@ -13,7 +13,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const DEVICE_NODE_PKGS_DIR = resolve(__dirname, 'src/micro_otter/nodes/device/node_pkgs');
 const TRANSPILE_DEBUG_DUMP_ROUTE = '/__debug/transpile-dump';
-const TRANSPILE_DEBUG_DUMP_ROOT = resolve(__dirname, 'ldev/debug-dumps');
+const TRANSPILE_DEBUG_DUMP_ROOT = resolve(
+    __dirname,
+    process.env.MO_TRANSPILE_DEBUG_DUMP_ROOT || '_tmp/transpile-dumps'
+);
 const MAX_DEBUG_DUMP_BYTES = 10 * 1024 * 1024;
 
 function toPosixPath(value) {

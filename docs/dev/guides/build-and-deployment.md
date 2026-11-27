@@ -551,17 +551,17 @@ nor firmware automatically.
 ### Repository CI baseline
 
 [`.github/workflows/ci.yml`](../../../.github/workflows/ci.yml) validates every pull request and
-every merge to `main`, skips pull requests whose change set touches only `ldev/`, and can be started
-on demand with **Run workflow**. A feature-branch push starts no second run; the `push` trigger is
+every merge to `main`, and can be started on demand with **Run workflow**. A feature-branch push
+starts no second run; the `push` trigger is
 the post-merge check of `main`, which takes no direct pushes. It holds `contents: read` only,
 cancels superseded runs on the same ref, caches `uv.lock` and `package-lock.json`, and publishes
 nothing; the deployment example below is not wired into it.
 
-Automatic runs are scoped to the published repository: every automatic job carries
-`if: github.repository == 'dodeka12/micro-otter' || github.event_name == 'workflow_dispatch'`, so a
-pull request or merge in the development repository skips all five of them — no wheel or image is
-built and no runner minutes are spent. `workflow_dispatch` (**Run workflow**) runs the full gate
-there on demand, e.g. before a publication, and `tests/test_ci_workflow.py` pins the guard.
+Automatic runs carry a repository guard: every automatic job asserts
+`if: github.repository == 'dodeka12/micro-otter' || github.event_name == 'workflow_dispatch'`, so the
+jobs only build artifacts in that repository. A fork's pull request therefore runs the workflow but
+skips every job; `workflow_dispatch` (**Run workflow**) runs the full gate on demand, and
+`tests/test_ci_workflow.py` pins the guard.
 
 The `windows` job is the one manual-only job: it builds the exe when someone asks for it
 (`if: github.event_name == 'workflow_dispatch'`), because a Windows release is assembled by hand.
@@ -578,9 +578,8 @@ applies to `bump-version.yml`, which no longer tags on a merge: it is a manual h
 | `windows` | **manual only**: `pwsh -File deploy/packaging/build-exe.ps1`, smoke `--help` + `serve`, upload `dist/micro-otter.exe` | a Windows host (see [release.md](../../workflow/release.md)) |
 
 The Node suite (`npm run test:node`) is **suspended in CI**, temporarily: it was 386 s of the ~400 s
-`web` job, so every merge paid it twice — once on the pull request, once in the post-merge `push` run —
-and a change that came back through a publication and the sync-down paid it four times before the work
-could continue. Run it locally before a publication and before merging anything that touches `tools/`,
+`web` job, so every merge paid it twice — once on the pull request, once in the post-merge `push` run.
+Run it locally before merging anything that touches `tools/`,
 `tests/`, `src/micro_otter/` or `deploy/`. It is the only coverage for `tests/deployment/`, so a
 firmware or packaging regression is now caught by that local run instead of the pull request. The exit
 condition is recorded in

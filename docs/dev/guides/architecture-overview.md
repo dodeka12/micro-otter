@@ -211,4 +211,4 @@ For detailed information on specific subsystems, see the [Documentation Index](.
 - Touch gesture support for tablets
 - Accessibility features (keyboard navigation, screen readers)
 
-See ldev/todos/future-ideas.md for complete roadmap.
+Ideas for larger changes are collected in the plan scaffold, `dev/ideas/` and `dev/todos/`.

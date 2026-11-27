@@ -17,7 +17,7 @@ The project has three documentation layers. Each serves a distinct audience and 
 
 See [Doc Layers](./references/doc-layers.md) for detailed rules per layer and the `docs/dev/` folder map.
 
-> Adjacent top-level doc folders: `docs/general/` (repo/contributor setup), `docs/admin/` (admin guides), `docs/tools/` (tooling reference), and `docs/workflow/` (step-by-step how-tos). Use these only when a change is neither developer nor user documentation.
+> Adjacent top-level doc folders: `docs/general/` (repo/contributor setup), `docs/tools/` (tooling reference), and `docs/workflow/` (step-by-step how-tos). Use these only when a change is neither developer nor user documentation.
 
 ---
 

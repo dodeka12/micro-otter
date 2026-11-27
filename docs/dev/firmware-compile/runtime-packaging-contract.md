@@ -181,7 +181,3 @@ This document satisfies phase-1 contract deliverables for:
 - Mapping rules to MicroPython modules tree
 - Manifest/schema extension proposal for embedded mode
 - Immutable inventory/hash schema and merge contract with dynamic metadata
-
-## Related
-
-- Plan reference: `ldev/todos/2026-04-09-micropython-precompiled-runtime-plan/phase-1-runtime-packaging-contract-and-manifest-model.md`

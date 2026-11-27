@@ -210,6 +210,10 @@ Run the [Validation](#validation) gate below, then update [handoff.md](./handoff
 phase's section. Do not mark this step complete until the handoff section is written and committed.
 If any validation command fails, record the failure and mark the phase `blocked` instead.
 
+Then report the phase to the user in plain language, as `AGENTS.md` → *Reporting to the user*
+requires: the outcome first, then what remains. Paths, hashes, and command results stay in the
+handoff section.
+
 ---
 
 ## Validation

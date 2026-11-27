@@ -4,8 +4,8 @@
 
 - **The local server is an installable wheel** — `deploy/packaging/build-wheel.sh` builds a
   self-contained wheel that carries the built web app (`micro_otter/dist/webapp`) and the toolchain
-  assets (`micro_otter/toolchain/assets`), and `tools/inspect_wheel.py` proves it ships no `tools/`,
-  `tests/`, or `ldev/` path. `uv tool install micro-otter` (or `pipx install micro-otter`) yields a
+  assets (`micro_otter/toolchain/assets`), and `tools/inspect_wheel.py` proves it ships no `tools/` or
+  `tests/` path. `uv tool install micro-otter` (or `pipx install micro-otter`) yields a
   server that serves the app and runs `micro-otter toolchain install` without a checkout.
 - **Runtime and compile Docker images with compose profiles** — `Dockerfile.runtime` (non-root
   `microotter`, one `/data` volume, a `HEALTHCHECK`, no ESP-IDF/git/gh/gpg) and `Dockerfile.compile`

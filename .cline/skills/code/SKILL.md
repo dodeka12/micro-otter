@@ -1,6 +1,6 @@
 ---
 name: code
-description: 'Write or modify code in this project. Use when the user asks to implement a feature, write code, add a function, fix a bug, or make any code change. Ensures developer and reference documentation are consulted before coding, that existing components and their exact variants are reused instead of redesigned, and that in-code reference docs are created or updated after. Also flags when developer docs need updating after structural changes.'
+description: 'Write or modify code in this project. Use when the user asks to implement a feature, write code, add a function, fix a bug, or make any code change. Ensures developer and reference documentation are consulted before coding, that existing components and their exact variants are reused instead of redesigned, and that in-code reference docs are created or updated after. Also flags when developer docs need updating after structural changes. Reports the outcome to the user as a short plain-language gist, keeping file and symbol references in the code and the change description.'
 ---
 
 # Code

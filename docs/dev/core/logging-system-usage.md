@@ -517,7 +517,6 @@ this._log('message', 'debug', data);
 
 ## See Also
 
-- ldev/todos/v2/node-ui-plan/09-viewbase-logging-system.md - Full implementation plan
 - [src/micro_otter/nodes/html/js/core/log.ts](../../../src/micro_otter/nodes/html/js/core/log.ts) - Implementation
 - [tests/core/log.test.js](../../../tests/core/log.test.js) - Unit tests
 - [../device-communication/log-prefix-conventions.md](../device-communication/log-prefix-conventions.md) - The **device** log prefix taxonomy (`[info]`, `[error]`, `[data]`, ...). This page is about the browser-side `logger`; device lines are tagged by the runtime before they ever reach the browser, and that taxonomy is what the device console filters on.

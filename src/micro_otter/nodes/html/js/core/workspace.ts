@@ -602,9 +602,8 @@ class Workspace extends AppEventEmitter {
 
             // View layout restore is intentionally disabled. The app rebuilds the
             // layout from code on every load (main.ts buildDefaultLayout()), so a
-            // restored serialized tree here was only a throwaway layout that got
-            // replaced immediately. See
-            // ldev/ideas/2026-11-18-view-state-vs-config-cleanup.md.
+            // restored serialized tree here would only be a throwaway layout that
+            // gets replaced immediately.
 
             progress.complete('Workspace ready');
         } catch (error) {
@@ -687,9 +686,8 @@ class Workspace extends AppEventEmitter {
      */
     async #persistConfig(): Promise<void> {
         // View layout is intentionally not persisted: the layout is rebuilt from
-        // code on every load, so persisting the serialized tree only captured
-        // design constants that were never actually restored. See
-        // ldev/ideas/2026-11-18-view-state-vs-config-cleanup.md.
+        // code on every load, so persisting the serialized tree would only capture
+        // design constants that are never actually restored.
         this.config.collectionManager = this.collectionManager.serialize();
         await this.configStore.saveConfig(this.config);
     }
